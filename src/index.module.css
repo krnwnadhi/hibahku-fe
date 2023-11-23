@@ -1,0 +1,14 @@
+:root {
+    color-scheme: var(--mantine-color-scheme);
+}
+
+body {
+    font-family: var(--mantine-font-family);
+    font-size: var(--mantine-font-size-md);
+    line-height: var(--mantine-line-height);
+    background-color: var(--mantine-color-gray-light);
+    color: var(--mantine-color-text);
+
+    -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
+    -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);
+}

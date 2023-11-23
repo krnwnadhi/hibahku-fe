@@ -1,0 +1,9 @@
+.link {
+    @mixin light {
+        color: blue;
+    }
+
+    @mixin dark {
+        color: blue;
+    }
+}
