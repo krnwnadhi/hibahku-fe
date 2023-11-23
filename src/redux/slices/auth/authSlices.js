@@ -20,7 +20,7 @@ export const registerUserAction = createAsyncThunk(
                 },
             };
 
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            await new Promise((resolve) => setTimeout(resolve, 2000));
 
             const { data } = await axios.post(
                 `${baseAuthURL}/register`,
@@ -52,8 +52,8 @@ export const loginUserAction = createAsyncThunk(
                 },
             };
 
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-            // 1571020410949999
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
             const { data } = await axios.post(
                 `${baseAuthURL}/login`,
                 userData,
@@ -84,6 +84,7 @@ export const logoutUserAction = createAsyncThunk(
     async (userData, { rejectWithValue, getState, dispatch }) => {
         try {
             secureLocalStorage.removeItem("logInfo");
+
             dispatch(resetLogoutAction());
         } catch (error) {
             if (!error?.response) {

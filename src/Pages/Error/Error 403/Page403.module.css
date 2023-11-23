@@ -16,6 +16,11 @@
     }
 }
 
+.icon {
+    text-align: center;
+    height: 10px;
+}
+
 .description {
     max-width: rem(500px);
     margin: auto;

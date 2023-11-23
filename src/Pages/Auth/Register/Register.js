@@ -3,11 +3,11 @@ import {
     Button,
     Container,
     Group,
+    LoadingOverlay,
     Paper,
     PasswordInput,
     Stack,
     TextInput,
-    Title,
 } from "@mantine/core";
 import { Link, Navigate } from "react-router-dom";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
@@ -62,19 +62,23 @@ export default function Register(props) {
         toast.success(
             "Register berhasil, Silahkan login menggunakan NIK yang telah terdaftar"
         );
-        return <Navigate to="/signin" />;
+        return <Navigate to="/signin" replace={false} />;
     }
 
     return (
-        <Container size={420} pt={150}>
+        <Container size={450} pt={150}>
+            <LoadingOverlay
+                visible={loading}
+                zIndex={1000}
+                overlayProps={{ radius: "sm", blur: 1 }}
+            />
             {/* <Title ta="center">HIBAHKU</Title> */}
             <Paper radius="md" mt={20} p="xl" withBorder shadow="lg" {...props}>
                 <form
                     onSubmit={form.onSubmit((values) => {
-                        console.log(values);
                         dispatch(registerUserAction(values));
+                        form.reset();
                         form.clearErrors();
-                        // form.reset();
                     })}
                 >
                     <Stack>
@@ -178,7 +182,9 @@ export default function Register(props) {
                             NIK Sudah Terdaftar? Login disini.
                         </Anchor>
                         {loading ? (
-                            <Button radius="xl">Loading...</Button>
+                            <Button radius="xl" disabled={loading}>
+                                Loading...
+                            </Button>
                         ) : (
                             <Button
                                 type="submit"

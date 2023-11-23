@@ -1,4 +1,5 @@
 import {
+    IconError404,
     IconLogin,
     IconLogout,
     IconUserShield,
@@ -14,7 +15,7 @@ const data = [
     { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
     { link: "/dashboard/admin", label: "Admin", icon: IconUserShield },
     { link: "/dashboard/user", label: "User", icon: IconUserSquare },
-    // { link: "/signin", label: "Sign In", icon: IconLogin },
+    { link: "/error", label: "Error", icon: IconError404 },
     // { link: "/register", label: "Sign Out", icon: IconLogout },
 ];
 

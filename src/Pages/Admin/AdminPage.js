@@ -19,15 +19,10 @@
 
 import "react-toastify/dist/ReactToastify.css";
 
-import { Alert, Button, Container, Divider, Group, Text } from "@mantine/core";
-import { useEffect, useRef, useState } from "react";
+import { Button, Divider, Group } from "@mantine/core";
+import { useRef, useState } from "react";
 
-import { IconInfoCircle } from "@tabler/icons-react";
-import { Paper } from "@mantine/core";
-import { getAllUsersAction } from "../../redux/slices/user/userSlices";
-import { notifications } from "@mantine/notifications";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { useNetwork } from "@mantine/hooks";
 
 // import classes from "./AdminPage.module.css";

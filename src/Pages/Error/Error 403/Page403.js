@@ -1,15 +1,25 @@
 import { Button, Container, Group, Text, Title } from "@mantine/core";
 
 import { Link } from "react-router-dom";
+import { Player } from "@lottiefiles/react-lottie-player";
 import classes from "./Page403.module.css";
 
 export default function Page403() {
     return (
         <Container
             // className={classes.root}
-            style={{ height: 300, paddingTop: 200, fontSize: "48px" }}
+            style={{ height: 300, paddingTop: "50px", fontSize: "48px" }}
         >
-            <div className={classes.label}>404</div>
+            {/* <div className={classes.label}>404</div> */}
+
+            <Player
+                src="https://lottie.host/11e4395a-c697-4b5b-8d45-8184de180521/v5Pcbyr6A1.json"
+                loop
+                autoplay
+                style={{ height: "300px" }}
+                // background="red"
+            />
+
             <Title className={classes.title}>
                 Oops! Halaman tidak ditemukan.
             </Title>

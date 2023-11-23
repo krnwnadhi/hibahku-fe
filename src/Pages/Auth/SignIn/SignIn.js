@@ -3,15 +3,14 @@ import {
     Button,
     Container,
     Group,
+    LoadingOverlay,
     Paper,
     PasswordInput,
     Stack,
     TextInput,
-    Title,
 } from "@mantine/core";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { hasLength, useForm } from "@mantine/form";
-import { useDidUpdate, useShallowEffect } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -19,7 +18,7 @@ import { loginUserAction } from "../../../redux/slices/auth/authSlices";
 import { toast } from "react-toastify";
 
 export default function SignIn(props) {
-    const [loadingApp, setLoadingApp] = useState(false);
+    // const [loadingApp, setLoadingApp] = useState(false);
 
     const navigate = useNavigate();
 
@@ -42,12 +41,15 @@ export default function SignIn(props) {
     const dispatch = useDispatch();
 
     //select state from store
-    const storeDataLogin = useSelector((store) => store.auth);
+    const storeDataLogin = useSelector((store) => store?.auth);
 
     // console.log(JSON.stringify(storeDataLogin, undefined, 2));
 
+    useEffect(() => {
+        console.log(storeDataLogin);
+    }, [storeDataLogin]);
+
     const { appError, serverError, loading, userAuth } = storeDataLogin;
-    // console.log(appError);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -67,14 +69,17 @@ export default function SignIn(props) {
     }
 
     const formOnSubmit = form.onSubmit((values) => {
-        // console.log(values);
         dispatch(loginUserAction(values));
         form.clearErrors();
-        // form.reset();
     });
 
     return (
-        <Container size={420} pt={150}>
+        <Container size={450} pt={150}>
+            <LoadingOverlay
+                visible={loading}
+                zIndex={1000}
+                overlayProps={{ radius: "sm", blur: 1 }}
+            />
             {/* <Title ta="center">HIBAHKU</Title> */}
             <Paper radius="md" mt={20} p="xl" withBorder shadow="lg" {...props}>
                 <form onSubmit={formOnSubmit}>
@@ -125,9 +130,9 @@ export default function SignIn(props) {
 
                         {loading ? (
                             <Button
-                                loading={loading}
+                                // loading={loading}
+                                disabled={loading}
                                 radius="xl"
-                                // onClick={error}
                             >
                                 Loading...
                             </Button>
@@ -136,7 +141,6 @@ export default function SignIn(props) {
                                 disabled={!form.isValid()}
                                 type="submit"
                                 radius="xl"
-                                // onClick={error}
                             >
                                 Login
                             </Button>

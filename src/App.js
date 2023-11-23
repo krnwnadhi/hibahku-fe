@@ -2,7 +2,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Slide, ToastContainer, toast } from "react-toastify";
-import { useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 import AdminPage from "./Pages/Admin/AdminPage";
@@ -15,10 +14,10 @@ import Register from "./Pages/Auth/Register/Register";
 import RootLayout from "./components/Layout/RootLayout";
 import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/UserPage";
+import { useComputedColorScheme } from "@mantine/core";
 import { useNetwork } from "@mantine/hooks";
 
 function App() {
-    // const { setColorScheme } = useMantineColorScheme();
     const computedColorScheme = useComputedColorScheme("light", {
         getInitialValueInEffect: true,
     });
@@ -70,8 +69,9 @@ function App() {
             />
             <Routes>
                 <Route element={<Anonymous />}>
-                    <Route path="signin" element={<SignIn />} />
-                    <Route path="register" element={<Register />} />
+                    <Route path="/" element={<SignIn />} />
+                    <Route path="/signin" element={<SignIn />} />
+                    <Route path="/register" element={<Register />} />
                 </Route>
                 <Route element={<ProtectedRoute />}>
                     <Route path="/dashboard" element={<RootLayout />}>
@@ -87,8 +87,8 @@ function App() {
                     <Route index element={<Dashboard />} />
                     <Route path="admin" element={<AdminPage />} />
                 </Route> */}
-                <Route path="/404" element={<Page403 />} />
                 <Route path="*" element={<Navigate to="/404" />} />
+                <Route path="/404" element={<Page403 />} />
             </Routes>
         </>
     );

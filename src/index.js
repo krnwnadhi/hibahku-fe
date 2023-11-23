@@ -4,6 +4,7 @@ import "@mantine/dates/styles.css";
 import "./index.module.css";
 
 import {
+    Loader,
     MantineProvider,
     createTheme,
     localStorageColorSchemeManager,
@@ -11,7 +12,6 @@ import {
 
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { Notifications } from "@mantine/notifications";
 import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -23,22 +23,22 @@ const colorSchemeManager = localStorageColorSchemeManager({
 
 const theme = createTheme({
     defaultColorScheme: "dark",
-    fontFamily: "Open Sans, sans-serif",
-    // primaryColor: "cyan",
+    fontFamily: "Verdana, sans-serif",
+    fontFamilyMonospace: "Monaco, Courier, monospace",
+    headings: { fontFamily: "Greycliff CF, sans-serif" },
     primaryShade: { light: 7 },
+    // components: {
+    //     Loader,
+    // },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    // <React.StrictMode>
     <MantineProvider theme={theme} colorSchemeManager={colorSchemeManager}>
         <Provider store={store}>
             <BrowserRouter>
-                {/* <Notifications autoClose={3000} containerWidth={100} /> */}
-
                 <App />
             </BrowserRouter>
         </Provider>
     </MantineProvider>
-    // </React.StrictMode>
 );
