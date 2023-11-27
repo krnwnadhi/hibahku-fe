@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import AdminPage from "./Pages/Admin/AdminPage";
 import Anonymous from "./Navigation/Anonymous";
 import Dashboard from "./Pages/Dashboard/Dashboard";
-// import NoPage from "./Pages/Error/NoPage";
 import Page403 from "./Pages/Error/Error 403/Page403";
 import ProtectedRoute from "./Navigation/ProtectedRoute";
 import Register from "./Pages/Auth/Register/Register";
@@ -16,6 +15,8 @@ import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/UserPage";
 import { useComputedColorScheme } from "@mantine/core";
 import { useNetwork } from "@mantine/hooks";
+
+// import NoPage from "./Pages/Error/NoPage";
 
 function App() {
     const computedColorScheme = useComputedColorScheme("light", {

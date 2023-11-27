@@ -9,20 +9,46 @@ import {
 import { IconHome2 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import classes from "./SideNav.module.css";
+import { useSelector } from "react-redux";
 import { useState } from "react";
-
-const data = [
-    { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
-    { link: "/dashboard/admin", label: "Admin", icon: IconUserShield },
-    { link: "/dashboard/user", label: "User", icon: IconUserSquare },
-    { link: "/error", label: "Error", icon: IconError404 },
-    // { link: "/register", label: "Sign Out", icon: IconLogout },
-];
 
 export default function SideNav() {
     const [active, setActive] = useState("Dashboard");
 
-    const links = data.map((item) => (
+    const userRole = useSelector((state) => state?.auth?.userAuth);
+
+    const dataUser = [
+        { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
+        { link: "/dashboard/user", label: "User", icon: IconUserSquare },
+        { link: "/error", label: "Error", icon: IconError404 },
+        // { link: "/register", label: "Sign Out", icon: IconLogout },
+    ];
+
+    const dataAdmin = [
+        { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
+        { link: "/dashboard/admin", label: "Admin", icon: IconUserShield },
+        { link: "/dashboard/user", label: "User", icon: IconUserSquare },
+        { link: "/error", label: "Error", icon: IconError404 },
+        // { link: "/register", label: "Sign Out", icon: IconLogout },
+    ];
+
+    const linksUser = dataUser.map((item) => (
+        <Link
+            className={classes.link}
+            data-active={item.label === active || undefined}
+            to={item.link}
+            key={item.label}
+            onClick={(event) => {
+                // event.preventDefault();
+                setActive(item.label);
+            }}
+        >
+            <item.icon className={classes.linkIcon} stroke={1.5} />
+            <span>{item.label}</span>
+        </Link>
+    ));
+
+    const linksAdmin = dataAdmin.map((item) => (
         <Link
             className={classes.link}
             data-active={item.label === active || undefined}
@@ -40,7 +66,11 @@ export default function SideNav() {
 
     return (
         <nav className={classes.navbar}>
-            <div className={classes.navbarMain}>{links}</div>
+            {userRole?.role === 1 ? (
+                <div className={classes.navbarMain}>{linksAdmin}</div>
+            ) : (
+                <div className={classes.navbarMain}>{linksUser}</div>
+            )}
 
             {/* <div className={classes.footer}>
                 <a

@@ -6,12 +6,16 @@ import DarkButton from "../DarkButton/DarkButton";
 import Footer from "../Footer/Footer";
 import MenuMantine from "../Menu/MenuMantine";
 import SideNav from "../SideNav/SideNav";
+import { useSelector } from "react-redux";
 
 export default function RootLayout() {
     const [opened, { toggle }] = useDisclosure();
     const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
 
     const { pathname } = useLocation();
+
+    const user = useSelector((state) => state?.auth?.userAuth);
+    // console.log(user);
 
     return (
         <AppShell
@@ -36,7 +40,7 @@ export default function RootLayout() {
                         hiddenFrom="sm"
                         size="sm"
                     />
-                    <Title order={4}>Selamat Datang, Admin!</Title>
+                    <Title order={4}>Selamat Datang, {user?.nama}!</Title>
                     <Group h="100%" px="md" justify="space-between">
                         <DarkButton />
                         <MenuMantine />
