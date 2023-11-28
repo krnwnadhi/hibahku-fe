@@ -1,7 +1,5 @@
 import {
     IconError404,
-    IconLogin,
-    IconLogout,
     IconUserShield,
     IconUserSquare,
 } from "@tabler/icons-react";

@@ -4,7 +4,6 @@ import "@mantine/dates/styles.css";
 import "./index.module.css";
 
 import {
-    Loader,
     MantineProvider,
     createTheme,
     localStorageColorSchemeManager,

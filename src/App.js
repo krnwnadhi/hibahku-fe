@@ -7,14 +7,18 @@ import { useEffect, useState } from "react";
 import AdminPage from "./Pages/Admin/AdminPage";
 import Anonymous from "./Navigation/Anonymous";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import DashboardUser from "./Pages/Dashboard/DashboardUser";
 import Page403 from "./Pages/Error/Error 403/Page403";
 import ProtectedRoute from "./Navigation/ProtectedRoute";
+import ProtectedRouteUser from "./Navigation/ProtectedRouteUser";
 import Register from "./Pages/Auth/Register/Register";
 import RootLayout from "./components/Layout/RootLayout";
+import RootLayoutUser from "./components/Layout/RootLayoutUser";
 import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/UserPage";
 import { useComputedColorScheme } from "@mantine/core";
 import { useNetwork } from "@mantine/hooks";
+import { useSelector } from "react-redux";
 
 // import NoPage from "./Pages/Error/NoPage";
 
@@ -52,6 +56,12 @@ function App() {
         };
     }, [networkStatus.online]);
 
+    // const user = useSelector((state) => state?.auth);
+    // const { userAuth } = user;
+    // const { role } = userAuth;
+
+    // console.log(role);
+
     return (
         <>
             <ToastContainer
@@ -81,13 +91,22 @@ function App() {
                             path="/dashboard/admin"
                             element={<AdminPage />}
                         />
+                        {/* <Route element={<RootLayoutUser />}> */}
                         <Route path="/dashboard/user" element={<UserPage />} />
+                        {/* </Route> */}
                     </Route>
                 </Route>
-                {/* <Route path="/user" element={<RootLayout />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path="admin" element={<AdminPage />} />
+                {/* <Route element={<ProtectedRouteUser />}>
+                    <Route path="/dashboard/user" element={<RootLayoutUser />}>
+                        <Route index element={<DashboardUser />} />
+
+                        <Route
+                            path="/dashboard/user-dashboard"
+                            element={<UserPage />}
+                        />
+                    </Route>
                 </Route> */}
+
                 <Route path="*" element={<Navigate to="/404" />} />
                 <Route path="/404" element={<Page403 />} />
             </Routes>

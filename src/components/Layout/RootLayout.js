@@ -12,14 +12,18 @@ export default function RootLayout() {
     const [opened, { toggle }] = useDisclosure();
     const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
 
-    const { pathname } = useLocation();
-
     const user = useSelector((state) => state?.auth?.userAuth);
     // console.log(user);
 
+    // const withouSidebarRoutess = ["/dashboard/user"];
+
+    const { pathname } = useLocation();
+    // if (withouSidebarRoutes.some((item) => pathname.includes(item)))
+    //     return null;
+
     return (
         <AppShell
-            // disabled={pathname.includes("admin")}
+            disabled={pathname.includes("user")}
             layout="alt"
             header={{ height: 60 }}
             footer={{ height: 50 }}

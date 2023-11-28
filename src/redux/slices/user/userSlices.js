@@ -8,7 +8,7 @@ export const getAllUsersAction = createAsyncThunk(
     "user/getAll",
     async (data, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
-        console.log(user);
+        // console.log(user);
 
         const config = {
             headers: {
@@ -29,6 +29,35 @@ export const getAllUsersAction = createAsyncThunk(
     }
 );
 
+//get single User
+export const getSingleUsersAction = createAsyncThunk(
+    "user/getSingle",
+    async (id, { rejectWithValue, getState, dispatch }) => {
+        const user = getState()?.auth?.userAuth;
+        // console.log(user);
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user?.token}`,
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+
+        try {
+            const { data } = await axios.get(
+                `${baseUserURL}/getusers/${id}`,
+                config
+            );
+            return data;
+        } catch (error) {
+            if (!error?.response) {
+                throw error;
+            }
+            return rejectWithValue(error?.response?.data);
+        }
+    }
+);
+
 const userSlices = createSlice({
     name: {},
     initialState: {},
@@ -38,12 +67,28 @@ const userSlices = createSlice({
             state.loading = true;
         });
         builder.addCase(getAllUsersAction.fulfilled, (state, action) => {
-            state.userList = action?.payload;
+            state.userList = action?.payload?.data;
             state.loading = false;
             state.appError = undefined;
             state.serverError = undefined;
         });
         builder.addCase(getAllUsersAction.rejected, (state, action) => {
+            state.loading = false;
+            state.appError = action?.payload?.message;
+            state.serverError = action?.error?.message;
+        });
+
+        //fetch single user
+        builder.addCase(getSingleUsersAction.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(getSingleUsersAction.fulfilled, (state, action) => {
+            state.userDetail = action?.payload;
+            state.loading = false;
+            state.appError = undefined;
+            state.serverError = undefined;
+        });
+        builder.addCase(getSingleUsersAction.rejected, (state, action) => {
             state.loading = false;
             state.appError = action?.payload?.message;
             state.serverError = action?.error?.message;
