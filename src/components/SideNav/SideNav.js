@@ -3,34 +3,36 @@ import {
     IconUserShield,
     IconUserSquare,
 } from "@tabler/icons-react";
+import { Link, useLocation, useParams } from "react-router-dom";
 
+import { IconBuildingMosque } from "@tabler/icons-react";
 import { IconHome2 } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
 import classes from "./SideNav.module.css";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
 export default function SideNav() {
+    const url = window.location.pathname;
+    const location = useLocation();
+    console.log(location.pathname);
+
     const [active, setActive] = useState("Dashboard");
 
     const userRole = useSelector((state) => state?.auth?.userAuth);
-
-    const dataUser = [
-        { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
-        { link: "/dashboard/user", label: "User", icon: IconUserSquare },
-        { link: "/error", label: "Error", icon: IconError404 },
-        // { link: "/register", label: "Sign Out", icon: IconLogout },
-    ];
 
     const dataAdmin = [
         { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
         { link: "/dashboard/admin", label: "Admin", icon: IconUserShield },
         { link: "/dashboard/user", label: "User", icon: IconUserSquare },
+        {
+            link: "/dashboard/rumah-ibadah/list",
+            label: "Rumah Ibadah",
+            icon: IconBuildingMosque,
+        },
         { link: "/error", label: "Error", icon: IconError404 },
-        // { link: "/register", label: "Sign Out", icon: IconLogout },
     ];
 
-    const linksUser = dataUser.map((item) => (
+    const linksAdmin = dataAdmin.map((item) => (
         <Link
             className={classes.link}
             data-active={item.label === active || undefined}
@@ -46,7 +48,13 @@ export default function SideNav() {
         </Link>
     ));
 
-    const linksAdmin = dataAdmin.map((item) => (
+    const dataUser = [
+        { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
+        { link: "/dashboard/user", label: "User", icon: IconUserSquare },
+        { link: "/error", label: "Error", icon: IconError404 },
+    ];
+
+    const linksUser = dataUser.map((item) => (
         <Link
             className={classes.link}
             data-active={item.label === active || undefined}

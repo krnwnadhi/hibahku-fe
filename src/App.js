@@ -14,6 +14,7 @@ import ProtectedRouteUser from "./Navigation/ProtectedRouteUser";
 import Register from "./Pages/Auth/Register/Register";
 import RootLayout from "./components/Layout/RootLayout";
 import RootLayoutUser from "./components/Layout/RootLayoutUser";
+import RumahIbadah from "./Pages/Rumah Ibadah/RumahIbadah";
 import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/UserPage";
 import { useComputedColorScheme } from "@mantine/core";
@@ -90,6 +91,10 @@ function App() {
                         <Route
                             path="/dashboard/admin"
                             element={<AdminPage />}
+                        />
+                        <Route
+                            path="/dashboard/rumah-ibadah/list"
+                            element={<RumahIbadah />}
                         />
                         {/* <Route element={<RootLayoutUser />}> */}
                         <Route path="/dashboard/user" element={<UserPage />} />

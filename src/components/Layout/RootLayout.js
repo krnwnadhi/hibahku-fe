@@ -1,4 +1,12 @@
-import { AppShell, Burger, Group, Text, Title, em } from "@mantine/core";
+import {
+    AppShell,
+    Burger,
+    Group,
+    ScrollArea,
+    Text,
+    Title,
+    em,
+} from "@mantine/core";
 import { Outlet, useLocation } from "react-router-dom";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
@@ -23,7 +31,7 @@ export default function RootLayout() {
 
     return (
         <AppShell
-            disabled={pathname.includes("user")}
+            // disabled={pathname.includes("user")}
             layout="alt"
             header={{ height: 60 }}
             footer={{ height: 50 }}
@@ -62,9 +70,9 @@ export default function RootLayout() {
                     <Text>HIBAHKU</Text>
                 </Group>
 
-                {/* <AppShell.Section component={ScrollArea}> */}
-                <SideNav />
-                {/* </AppShell.Section> */}
+                <AppShell.Section component={ScrollArea}>
+                    <SideNav />
+                </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
                 <Outlet />
