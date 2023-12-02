@@ -5,7 +5,7 @@ import React from "react";
 
 const DateFormatter = ({ date }) => {
     return (
-        <Moment locale="id" format="DD MMMM YYYY">
+        <Moment locale="id" format="DD/MM/YYYY">
             {date}
         </Moment>
     );

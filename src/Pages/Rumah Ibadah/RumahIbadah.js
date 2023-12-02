@@ -1,26 +1,39 @@
 import {
     ActionIcon,
     Button,
+    Center,
     Container,
     Group,
     Loader,
+    LoadingOverlay,
     Pagination,
+    Paper,
     Space,
     Table,
     Text,
     TextInput,
+    rem,
+    useMantineTheme,
 } from "@mantine/core";
+import {
+    IconArrowRight,
+    IconPlus,
+    IconSearch,
+    IconTrash,
+    IconX,
+} from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DateFormatter from "../../utils/DateFormatter";
-import { IconTrash } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { baseRumahIbadahURL } from "../../utils/baseURL";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 
 export default function RumahIbadah() {
     const dispatch = useDispatch();
+    const theme = useMantineTheme();
 
     useEffect(() => {
         dispatch(getAllRumahIbadahAction());
@@ -72,7 +85,7 @@ export default function RumahIbadah() {
         window.scrollTo(0, 0);
     }, [pages, keyword]);
 
-    const handlePageChange = (event) => {
+    const handlePageChange = async (event) => {
         setPages(event);
         // if (event === 2) {
         //     setMsg(
@@ -96,6 +109,7 @@ export default function RumahIbadah() {
 
     const resetData = (e) => {
         e.preventDefault();
+        setKeyword("");
         setQuery("");
     };
 
@@ -106,6 +120,7 @@ export default function RumahIbadah() {
 
     const rowsList = rumahIbadahState?.map((item) => (
         <Table.Tr key={item.id}>
+            <Table.Td>{item.id}</Table.Td>
             <Table.Td>{item.nama}</Table.Td>
             <Table.Td>{item.alamat}</Table.Td>
             <Table.Td>{item.wilayah}</Table.Td>
@@ -114,70 +129,144 @@ export default function RumahIbadah() {
                     ? "Masjid"
                     : "Lembaga Pendidikan Keagamaan"}
             </Table.Td>
-            <Table.Td>
+            {/* <Table.Td>
                 <DateFormatter date={item?.createdAt} />
-            </Table.Td>
+            </Table.Td> */}
         </Table.Tr>
     ));
 
     return (
         <>
-            <Container size="lg">
-                <Group mb={30} position="center">
-                    <TextInput
-                        placeholder="Cari Berdasarkan Nama"
-                        value={query}
-                        onChange={handleTextInput}
-                        sx={!query ? { width: "54%" } : { width: "50%" }}
-                    />
-                    {load ? (
-                        <Button
-                            loading={
-                                load ? (
-                                    <Loader size="md" variant="dots" />
-                                ) : null
+            <Container size="xl">
+                <Paper withBorder shadow="sm" p="xs">
+                    <Group
+                        justify="center"
+                        // bg="var(--mantine-color-blue-light)"
+                        p={5}
+                    >
+                        <LoadingOverlay
+                            visible={load}
+                            zIndex={1000}
+                            overlayProps={{ radius: "sm", blur: 1 }}
+                        />
+                        {/* <Button component={Link} to="/dashboard/admin">
+                            Tambah
+                        </Button> */}
+
+                        <TextInput
+                            value={query}
+                            onChange={handleTextInput}
+                            radius="xl"
+                            size="sm"
+                            placeholder="Cari Berdasarkan Nama"
+                            // rightSectionWidth={40}
+                            leftSection={
+                                <IconSearch
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            rightSection={
+                                <ActionIcon
+                                    size={32}
+                                    radius="xl"
+                                    color={theme.primaryColor}
+                                    variant="filled"
+                                    onClick={searchData}
+                                    disabled={!query}
+                                >
+                                    <IconArrowRight
+                                        style={{
+                                            width: rem(18),
+                                            height: rem(18),
+                                        }}
+                                        stroke={1.5}
+                                    />
+                                </ActionIcon>
                             }
                         />
-                    ) : (
-                        <Button onClick={searchData}>Cari </Button>
-                    )}
+
+                        {query && (
+                            <ActionIcon
+                                onClick={resetData}
+                                disabled={!query}
+                                variant="subtle"
+                                color="red"
+                                ml={-10}
+                            >
+                                <IconX size={14} />
+                            </ActionIcon>
+                        )}
+                    </Group>
+                </Paper>
+
+                <Space h="sm" />
+
+                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
                     <ActionIcon
-                        onClick={resetData}
-                        disabled={!query}
-                        variant="subtle"
-                        color="red"
-                        sx={!query ? { display: "none" } : null}
+                        component={Link}
+                        to="/dashboard/rumah-ibadah/create"
+                        variant="filled"
+                        aria-label="Add"
                     >
-                        <IconTrash size={14} />
+                        <IconPlus
+                            style={{ width: "70%", height: "70%" }}
+                            stroke={1.5}
+                        />
                     </ActionIcon>
-                </Group>
-                <Table withColumnBorders withTableBorder>
-                    <Table.Thead>
-                        <Table.Tr>
-                            <Table.Th>Nama</Table.Th>
-                            <Table.Th>Alamat</Table.Th>
-                            <Table.Th>Wilayah</Table.Th>
-                            <Table.Th>Kategori</Table.Th>
-                            <Table.Th>Dibuat</Table.Th>
-                        </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>{rowsList}</Table.Tbody>
-                </Table>
 
-                {/* <Text>{msg}</Text> */}
+                    <Space h="sm" />
 
-                <Text size="sm">
-                    Halaman {pages} dari {totalPage}
-                    <Space h="xs" />
-                    Total : {totalItems} Item
-                </Text>
-                <Pagination
-                    onChange={handlePageChange}
-                    total={totalPage}
-                    // total={Math.min(2, totalPage)}
-                    withControls
-                    withEdges
-                />
+                    <Table.ScrollContainer minWidth={500}>
+                        <Table
+                            withColumnBorders
+                            withTableBorder
+                            horizontalSpacing="md"
+                            verticalSpacing="sm"
+                            striped
+                            highlightOnHover
+                        >
+                            <Table.Thead>
+                                <Table.Tr key={pages}>
+                                    <Table.Th>ID</Table.Th>
+                                    <Table.Th>Nama</Table.Th>
+                                    <Table.Th>Alamat</Table.Th>
+                                    <Table.Th>Kabupaten/Kota</Table.Th>
+                                    <Table.Th>Kategori</Table.Th>
+                                    {/* <Table.Th>Dibuat</Table.Th> */}
+                                </Table.Tr>
+                            </Table.Thead>
+                            <Table.Tbody>
+                                {rumahIbadahState.length === 0 ? (
+                                    <Text>Data tidak ditemukan</Text>
+                                ) : (
+                                    rowsList
+                                )}
+                            </Table.Tbody>
+                        </Table>
+                    </Table.ScrollContainer>
+
+                    {/* <Text>{msg}</Text> */}
+
+                    <Space h="sm" />
+
+                    <Text size="sm">
+                        Halaman {pages} dari {totalPage} total : {totalItems}{" "}
+                        data
+                    </Text>
+
+                    <Space h="xl" />
+
+                    <Center>
+                        <Pagination
+                            onChange={handlePageChange}
+                            total={totalPage}
+                            // total={Math.min(2, totalPage)}
+                            withControls
+                            withEdges
+                        />
+                    </Center>
+                </Paper>
             </Container>
         </>
     );

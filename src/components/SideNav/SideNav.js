@@ -14,7 +14,7 @@ import { useState } from "react";
 export default function SideNav() {
     const url = window.location.pathname;
     const location = useLocation();
-    console.log(location.pathname);
+    // console.log(location.pathname);
 
     const [active, setActive] = useState("Dashboard");
 

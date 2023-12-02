@@ -32,7 +32,7 @@ export default function SignIn(props) {
         validate: {
             nik: hasLength(
                 { min: 15, max: 16 },
-                "Nik berupa angka yang terdiri dari 16 Karakter"
+                "Nik berupa angka yang terdiri dari 15-16 Karakter"
             ),
             password: hasLength({ min: 8 }, "Password minimal 8 karakter"),
         },

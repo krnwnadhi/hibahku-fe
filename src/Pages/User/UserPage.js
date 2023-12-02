@@ -1,77 +1,105 @@
-import {
-    Group,
-    Paper,
-    SegmentedControl,
-    SimpleGrid,
-    Text,
-    ThemeIcon,
-} from "@mantine/core";
-import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
+// import {
+//     Group,
+//     Paper,
+//     SegmentedControl,
+//     SimpleGrid,
+//     Text,
+//     ThemeIcon,
+// } from "@mantine/core";
+// import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
 
-// import classes from "./StatsGridIcons.module.css";
+// // import classes from "./StatsGridIcons.module.css";
 
-const data = [
-    { title: "Revenue", value: "$13,456", diff: 34 },
-    { title: "Profit", value: "$4,145", diff: -13 },
-    { title: "Coupons usage", value: "745", diff: 7 },
-];
+// const data = [
+//     { title: "Revenue", value: "$13,456", diff: 34 },
+//     { title: "Profit", value: "$4,145", diff: -13 },
+//     { title: "Coupons usage", value: "745", diff: 7 },
+// ];
+
+// export default function UserPage() {
+//     const stats = data.map((stat) => {
+//         const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
+
+//         return (
+//             <Paper withBorder p="md" radius="md" key={stat.title}>
+//                 <Group justify="apart">
+//                     <div>
+//                         <Text
+//                             c="dimmed"
+//                             tt="uppercase"
+//                             fw={700}
+//                             fz="xs"
+//                             // className={classes.label}
+//                         >
+//                             {stat.title}
+//                         </Text>
+//                         <Text fw={700} fz="xl">
+//                             {stat.value}
+//                         </Text>
+//                     </div>
+//                     <ThemeIcon
+//                         color="gray"
+//                         variant="light"
+//                         style={{
+//                             color:
+//                                 stat.diff > 0
+//                                     ? "var(--mantine-color-teal-6)"
+//                                     : "var(--mantine-color-red-6)",
+//                         }}
+//                         size={38}
+//                         radius="md"
+//                     >
+//                         <DiffIcon size="1.8rem" stroke={1.5} />
+//                     </ThemeIcon>
+//                 </Group>
+//                 <Text c="dimmed" fz="sm" mt="md">
+//                     <Text
+//                         component="span"
+//                         c={stat.diff > 0 ? "teal" : "red"}
+//                         fw={700}
+//                     >
+//                         {stat.diff}%
+//                     </Text>{" "}
+//                     {stat.diff > 0 ? "increase" : "decrease"} compared to last
+//                     month
+//                 </Text>
+//             </Paper>
+//         );
+//     });
+
+//     return (
+//         <div
+//         // className={classes.root}
+//         >
+//             <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>{stats}</SimpleGrid>
+//         </div>
+//     );
+// }
+
+import { Radio } from "@mantine/core";
+import { useState } from "react";
 
 export default function UserPage() {
-    const stats = data.map((stat) => {
-        const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
+    const [value, setValue] = useState("react");
 
-        return (
-            <Paper withBorder p="md" radius="md" key={stat.title}>
-                <Group justify="apart">
-                    <div>
-                        <Text
-                            c="dimmed"
-                            tt="uppercase"
-                            fw={700}
-                            fz="xs"
-                            // className={classes.label}
-                        >
-                            {stat.title}
-                        </Text>
-                        <Text fw={700} fz="xl">
-                            {stat.value}
-                        </Text>
-                    </div>
-                    <ThemeIcon
-                        color="gray"
-                        variant="light"
-                        style={{
-                            color:
-                                stat.diff > 0
-                                    ? "var(--mantine-color-teal-6)"
-                                    : "var(--mantine-color-red-6)",
-                        }}
-                        size={38}
-                        radius="md"
-                    >
-                        <DiffIcon size="1.8rem" stroke={1.5} />
-                    </ThemeIcon>
-                </Group>
-                <Text c="dimmed" fz="sm" mt="md">
-                    <Text
-                        component="span"
-                        c={stat.diff > 0 ? "teal" : "red"}
-                        fw={700}
-                    >
-                        {stat.diff}%
-                    </Text>{" "}
-                    {stat.diff > 0 ? "increase" : "decrease"} compared to last
-                    month
-                </Text>
-            </Paper>
-        );
-    });
+    const handleChange = (event) => {
+        setValue(event);
+        console.log(event);
+    };
 
     return (
-        <div
-        // className={classes.root}
+        <Radio.Group
+            value={value}
+            onChange={handleChange}
+            name="favoriteFramework"
+            label="Select your favorite framework/library"
+            description="This is anonymous"
+            withAsterisk
         >
-            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>{stats}</SimpleGrid>
-        </div>
+            <Radio value="react" label="React" />
+            <Radio value="svelte" label="Svelte" />
+            <Radio value="ng" label="Angular" />
+            <Radio value="vue" label="Vue" />
+        </Radio.Group>
     );
 }

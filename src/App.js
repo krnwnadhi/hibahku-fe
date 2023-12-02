@@ -15,8 +15,10 @@ import Register from "./Pages/Auth/Register/Register";
 import RootLayout from "./components/Layout/RootLayout";
 import RootLayoutUser from "./components/Layout/RootLayoutUser";
 import RumahIbadah from "./Pages/Rumah Ibadah/RumahIbadah";
+import RumahIbadahCreate from "./Pages/Rumah Ibadah/RumahIbadahCreate";
 import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/UserPage";
+import secureLocalStorage from "react-secure-storage";
 import { useComputedColorScheme } from "@mantine/core";
 import { useNetwork } from "@mantine/hooks";
 import { useSelector } from "react-redux";
@@ -63,6 +65,17 @@ function App() {
 
     // console.log(role);
 
+    useEffect(() => {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        // console.log(hour, minute);
+        // if (hour >= 20 && minute >= 39) {
+        //     secureLocalStorage.removeItem("logInfo");
+        //     // window.location.reload();
+        // }
+    }, []);
+
     return (
         <>
             <ToastContainer
@@ -96,6 +109,11 @@ function App() {
                             path="/dashboard/rumah-ibadah/list"
                             element={<RumahIbadah />}
                         />
+                        <Route
+                            path="/dashboard/rumah-ibadah/create"
+                            element={<RumahIbadahCreate />}
+                        />
+
                         {/* <Route element={<RootLayoutUser />}> */}
                         <Route path="/dashboard/user" element={<UserPage />} />
                         {/* </Route> */}

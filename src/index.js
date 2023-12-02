@@ -4,6 +4,7 @@ import "@mantine/dates/styles.css";
 import "./index.module.css";
 
 import {
+    Loader,
     MantineProvider,
     createTheme,
     localStorageColorSchemeManager,
@@ -26,9 +27,13 @@ const theme = createTheme({
     fontFamilyMonospace: "Monaco, Courier, monospace",
     headings: { fontFamily: "Greycliff CF, sans-serif" },
     primaryShade: { light: 7 },
-    // components: {
-    //     Loader,
-    // },
+    components: {
+        Loader: Loader.extend({
+            defaultProps: {
+                type: "bars",
+            },
+        }),
+    },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

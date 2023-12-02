@@ -7,7 +7,6 @@ import {
 
 import { Link } from "react-router-dom";
 import { logoutUserAction } from "../../redux/slices/auth/authSlices";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
 // import classes from "./MenuMantine.module.css";
