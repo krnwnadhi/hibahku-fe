@@ -2,10 +2,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Slide, ToastContainer, toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import AdminPage from "./Pages/Admin/AdminPage";
 import Anonymous from "./Navigation/Anonymous";
+import AuthVerify from "./utils/AuthVerify";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import DashboardUser from "./Pages/Dashboard/DashboardUser";
 import Page403 from "./Pages/Error/Error 403/Page403";
@@ -18,10 +20,10 @@ import RumahIbadah from "./Pages/Rumah Ibadah/RumahIbadah";
 import RumahIbadahCreate from "./Pages/Rumah Ibadah/RumahIbadahCreate";
 import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/UserPage";
+import { logoutUserAction } from "./redux/slices/auth/authSlices";
 import secureLocalStorage from "react-secure-storage";
 import { useComputedColorScheme } from "@mantine/core";
 import { useNetwork } from "@mantine/hooks";
-import { useSelector } from "react-redux";
 
 // import NoPage from "./Pages/Error/NoPage";
 
@@ -31,6 +33,8 @@ function App() {
     });
 
     const [loading, setLoading] = useState(false);
+
+    const dispatch = useDispatch();
 
     const networkStatus = useNetwork();
 
@@ -65,16 +69,9 @@ function App() {
 
     // console.log(role);
 
-    useEffect(() => {
-        const now = new Date();
-        const hour = now.getHours();
-        const minute = now.getMinutes();
-        // console.log(hour, minute);
-        // if (hour >= 20 && minute >= 39) {
-        //     secureLocalStorage.removeItem("logInfo");
-        //     // window.location.reload();
-        // }
-    }, []);
+    const logOut = useCallback(() => {
+        dispatch(logoutUserAction());
+    }, [dispatch]);
 
     return (
         <>
@@ -133,6 +130,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/404" />} />
                 <Route path="/404" element={<Page403 />} />
             </Routes>
+            <AuthVerify logOut={logOut} />
         </>
     );
 }
