@@ -21,14 +21,14 @@ const DarkButton = () => {
                         computedColorScheme === "light" ? "dark" : "light"
                     )
                 }
-                variant="filled"
+                variant="subtle"
                 // size="xl"
                 aria-label="Toggle color scheme"
             >
                 {computedColorScheme === "light" ? (
-                    <IconMoon stroke={1.5} size={16} />
+                    <IconMoon stroke={1.5} size={18} />
                 ) : (
-                    <IconSun stroke={1.5} size={16} />
+                    <IconSun stroke={1.5} size={18} />
                 )}
             </ActionIcon>
         </>

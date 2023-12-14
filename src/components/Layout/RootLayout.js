@@ -31,7 +31,7 @@ export default function RootLayout() {
 
     return (
         <AppShell
-            // disabled={pathname.includes("user")}
+            disabled={pathname.includes("user")}
             layout="alt"
             header={{ height: 60 }}
             footer={{ height: 50 }}

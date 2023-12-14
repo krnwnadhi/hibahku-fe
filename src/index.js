@@ -34,6 +34,32 @@ const theme = createTheme({
             },
         }),
     },
+    colors: {
+        dark: [
+            "#C1C2C5",
+            "#A6A7AB",
+            "#909296",
+            "#5c5f66",
+            "#373A40",
+            "#2C2E33",
+            "#25262b",
+            "#1A1B1E",
+            "#141517",
+            "#101113",
+        ],
+        blueGray: [
+            "#f3f3fe",
+            "#e4e6ed",
+            "#c8cad3",
+            "#a9adb9",
+            "#9093a4",
+            "#808496",
+            "#767c91",
+            "#656a7e",
+            "#585e72",
+            "#4a5167",
+        ],
+    },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

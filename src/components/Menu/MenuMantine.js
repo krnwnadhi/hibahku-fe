@@ -22,6 +22,7 @@ export default function MenuMantine() {
     return (
         <Group justify="center">
             <Menu
+                trigger="hover"
                 withArrow
                 width={300}
                 position="bottom"

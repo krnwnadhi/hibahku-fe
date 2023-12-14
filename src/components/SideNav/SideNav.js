@@ -23,7 +23,11 @@ export default function SideNav() {
     const dataAdmin = [
         { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
         { link: "/dashboard/admin", label: "Admin", icon: IconUserShield },
-        { link: "/dashboard/user", label: "User", icon: IconUserSquare },
+        {
+            link: "/dashboard/user/beranda",
+            label: "User",
+            icon: IconUserSquare,
+        },
         {
             link: "/dashboard/rumah-ibadah/list",
             label: "Rumah Ibadah",
@@ -49,9 +53,13 @@ export default function SideNav() {
     ));
 
     const dataUser = [
-        { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
-        { link: "/dashboard/user", label: "User", icon: IconUserSquare },
-        { link: "/error", label: "Error", icon: IconError404 },
+        // { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
+        {
+            link: "/dashboard/user/beranda",
+            label: "User",
+            icon: IconUserSquare,
+        },
+        // { link: "/error", label: "Error", icon: IconError404 },
     ];
 
     const linksUser = dataUser.map((item) => (

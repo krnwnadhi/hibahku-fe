@@ -19,7 +19,8 @@ import RootLayoutUser from "./components/Layout/RootLayoutUser";
 import RumahIbadah from "./Pages/Rumah Ibadah/RumahIbadah";
 import RumahIbadahCreate from "./Pages/Rumah Ibadah/RumahIbadahCreate";
 import SignIn from "./Pages/Auth/SignIn/SignIn";
-import UserPage from "./Pages/User/UserPage";
+import UserPage from "./Pages/User/Page/UserPage";
+import UserPermohonan from "./Pages/User/Page/UserPermohonan";
 import { logoutUserAction } from "./redux/slices/auth/authSlices";
 import secureLocalStorage from "react-secure-storage";
 import { useComputedColorScheme } from "@mantine/core";
@@ -112,7 +113,15 @@ function App() {
                         />
 
                         {/* <Route element={<RootLayoutUser />}> */}
-                        <Route path="/dashboard/user" element={<UserPage />} />
+                        <Route
+                            path="/dashboard/user/beranda"
+                            element={<UserPage />}
+                        />
+
+                        <Route
+                            path="/dashboard/user/permohonan"
+                            element={<UserPermohonan />}
+                        />
                         {/* </Route> */}
                     </Route>
                 </Route>

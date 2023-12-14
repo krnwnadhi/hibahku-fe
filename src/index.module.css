@@ -6,8 +6,8 @@ body {
     font-family: var(--mantine-font-family);
     font-size: var(--mantine-font-size-md);
     line-height: var(--mantine-line-height);
-    background-color: var(--mantine-color-gray-light);
-    color: var(--mantine-color-text);
+    background-color: var(--mantine-color-body);
+    color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
 
     -webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
     -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);

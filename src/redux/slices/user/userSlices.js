@@ -17,6 +17,8 @@ export const getAllUsersAction = createAsyncThunk(
             },
         };
 
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
         try {
             const { data } = await axios.get(`${baseUserURL}/getusers`, config);
             return data;
@@ -42,6 +44,8 @@ export const getSingleUsersAction = createAsyncThunk(
                 "Access-Control-Allow-Origin": "*",
             },
         };
+
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
             const { data } = await axios.get(
