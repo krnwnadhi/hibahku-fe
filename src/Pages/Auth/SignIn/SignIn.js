@@ -8,6 +8,7 @@ import {
     PasswordInput,
     Stack,
     TextInput,
+    Title,
 } from "@mantine/core";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { hasLength, useForm } from "@mantine/form";
@@ -80,7 +81,7 @@ export default function SignIn(props) {
                 zIndex={1000}
                 overlayProps={{ radius: "sm", blur: 1 }}
             />
-            {/* <Title ta="center">HIBAHKU</Title> */}
+            <Title ta="center">TITLE HERE...</Title>
             <Paper radius="md" mt={20} p="xl" withBorder shadow="lg" {...props}>
                 <form onSubmit={formOnSubmit}>
                     <Stack>

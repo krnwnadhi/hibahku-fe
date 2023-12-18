@@ -1,18 +1,24 @@
 import {
+    Anchor,
+    Avatar,
     Button,
     Center,
     Container,
     Divider,
     Group,
+    LoadingOverlay,
     Modal,
     Paper,
+    ScrollArea,
     SegmentedControl,
     Space,
     Stack,
     Tabs,
+    Text,
     TextInput,
     Title,
     VisuallyHidden,
+    darken,
     rem,
 } from "@mantine/core";
 import {
@@ -63,7 +69,7 @@ export default function UserPage() {
     // const { nama } = user;
 
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
-    const { loading, cekStatus } = rumahIbadah;
+    const { loading, cekStatus, appError } = rumahIbadah;
     // const { message, isUpload } = cekStatus;
 
     const form = useForm({
@@ -83,16 +89,215 @@ export default function UserPage() {
         // form.clearErrors();
     });
 
+    const dataSegmentedControl = [
+        {
+            value: "home",
+            label: (
+                <Link
+                    to={"/dashboard/user/beranda"}
+                    style={{
+                        textDecoration: "none",
+                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
+                    }}
+                >
+                    <Text>Beranda</Text>
+                </Link>
+            ),
+        },
+        {
+            value: "dokumen",
+            label: (
+                <Link
+                    to={"/dashboard/user/dokumen"}
+                    style={{
+                        textDecoration: "none",
+                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
+                    }}
+                >
+                    <Text>Dokumen</Text>
+                </Link>
+            ),
+        },
+        {
+            value: "status",
+            label: (
+                <Link
+                    to={"/dashboard/user/status"}
+                    style={{
+                        textDecoration: "none",
+                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
+                    }}
+                >
+                    <Text>Status</Text>
+                </Link>
+            ),
+        },
+    ];
+
+    const hibahkuSuccessModalNotification = (
+        <>
+            <Avatar
+                src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png`}
+                size={60}
+                radius={120}
+                mx="auto"
+            />
+
+            <Space h="xl" />
+
+            <Title ta="center" order={4}>
+                BIRO KESRA SETDA PROVINSI JAMBI
+            </Title>
+
+            <Space h="xl" />
+
+            <Text ta="center" c="green" inherit>
+                SELAMAT
+            </Text>
+            <Text ta="center">Permohonan Anda DAPAT DILANJUTKAN</Text>
+
+            <Space h="xl" />
+
+            <Text ta="center">
+                Selanjutnya silahkan klik link dokumen berikut{" "}
+                <Anchor href="/dashboard/user/dokumen">
+                    <Text span c="blue" fs="italic">
+                        "DOKUMEN"
+                    </Text>{" "}
+                </Anchor>
+                untuk melengkapi dan meng-
+                <Text span fs="italic">
+                    upload
+                </Text>{" "}
+                dokumen administrasi persyaratan.
+            </Text>
+
+            <Space h="xl" />
+
+            <Text ta="center">Terima Kasih</Text>
+        </>
+    );
+
+    const hibahkuFailedModalNotification = (
+        <>
+            <Avatar
+                src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png`}
+                size={60}
+                radius={120}
+                mx="auto"
+            />
+
+            <Space h="xl" />
+
+            <Title order={4} ta="center">
+                BIRO KESRA SETDA PROVINSI JAMBI
+            </Title>
+
+            <Space h="xl" />
+
+            <Text ta="center" c="red" fw={700}>
+                MAAF
+            </Text>
+            <Text ta="center">
+                Permohonan Anda{" "}
+                <Text span c="red" fw={700}>
+                    {" "}
+                    TIDAK DAPAT DILANJUTKAN{" "}
+                </Text>
+                karena:
+            </Text>
+
+            <Space h="xl" />
+
+            <Text ta="center">
+                1. Periodesasi pengusulan permohonan bantuan hibah tahun ini{" "}
+                <Text span c="red" fw={700}>
+                    TELAH DITUTUP.
+                </Text>
+            </Text>
+            <Text ta="center">
+                2. ID Rumah Ibadah/Nomor Statistik Lembaga Pendidikan Keagamaan
+                yang anda usulkan{" "}
+                <Text span c="red" fw={700}>
+                    TELAH MENERIMA
+                </Text>{" "}
+                bantuan hibah serupa pada tahun sebelumnya.
+            </Text>
+
+            <Space h="xl" />
+
+            <Text ta="center">{appError && appError}</Text>
+
+            <Space h="xl" />
+
+            <Text ta="center">Terima Kasih</Text>
+        </>
+    );
+
+    const hibahkuNotFoundModalNotification = (
+        <>
+            <Avatar
+                src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png`}
+                size={60}
+                radius={120}
+                mx="auto"
+            />
+
+            <Space h="xl" />
+
+            <Title order={4} ta="center">
+                BIRO KESRA SETDA PROVINSI JAMBI
+            </Title>
+
+            <Space h="xl" />
+
+            <Text ta="center" c="red" inherit fw={700}>
+                MAAF
+            </Text>
+
+            <Space h="md" />
+
+            <Text ta="center">
+                <Text span c="red" inherit fw={700}>
+                    Data Tidak Ditemukan!
+                </Text>{" "}
+                Harap mendaftarkan Rumah Ibadah / Lembaga Pendidikan Keagamaan
+                terlebih dahulu.
+            </Text>
+
+            <Space h="xl" />
+
+            <Text ta="center">
+                Klik link dibawah ini untuk mendaftarkan Rumah Ibadah / Lembaga
+                Pendidikan Keagamaan{" "}
+            </Text>
+
+            <Text ta="center" fs="italic">
+                <Anchor href="/dashboard/rumah-ibadah/user/create">
+                    "KLIK DISINI"
+                </Anchor>
+            </Text>
+
+            <Space h="xl" />
+
+            <Text ta="center">Terima Kasih</Text>
+        </>
+    );
+
     return (
         <>
             <Container size="xs" mt={-15} mb={-65}>
+                <LoadingOverlay
+                    visible={loading}
+                    zIndex={1000}
+                    overlayProps={{ radius: "sm", blur: 1 }}
+                />
                 <Paper
                     // bg="#25262B"
-                    // shadow="lg"
-                    // radius="sm"
-                    // bg="var(--mantine-color-blueGray-light)"
+                    // bg="var(--mantine-color-scheme)"
                     p={25}
                     withBorder
+                    // c="dimmed"
                 >
                     <Group justify="space-between" gap="xl">
                         <Title
@@ -127,15 +332,14 @@ export default function UserPage() {
                     <form onSubmit={formOnSubmit}>
                         <Paper
                             radius="md"
-                            withBorder
-                            p="xl"
+                            p={50}
                             bg="var(--mantine-color-body)"
                         >
                             <Stack>
                                 <TextInput
                                     type="number"
-                                    label="ID SIMAS"
-                                    placeholder="ID SIMAS Min. 16 angka"
+                                    label="ID/NSPP"
+                                    placeholder="ID/NSPP Min. 10 angka"
                                     value={form.values.id}
                                     onChange={(event) =>
                                         form.setFieldValue(
@@ -164,20 +368,29 @@ export default function UserPage() {
                     <Modal
                         opened={show}
                         onClose={handleClose}
-                        // title="Authentication"
+                        title="HIBAHKU"
                         centered
-                        withCloseButton={false}
+                        overlayProps={{
+                            backgroundOpacity: 0.55,
+                            blur: 3,
+                        }}
+                        yOffset="15vh"
+                        xOffset={0}
+                        scrollAreaComponent={ScrollArea.Autosize}
                     >
-                        {cekStatus?.message}
+                        {appError
+                            ? hibahkuFailedModalNotification
+                            : cekStatus?.isUpload === true
+                            ? hibahkuSuccessModalNotification
+                            : hibahkuNotFoundModalNotification}
+                        <Group mt="xl">
+                            <Button fullWidth onClick={handleClose}>
+                                Saya Mengerti
+                            </Button>
+                        </Group>
                     </Modal>
                 </Paper>
-                {/* <Paper
-                    bg="var(--mantine-color-blueGray-light)"
-                    // radius="xl"
-                    // mih="87vh"
-                    p={25}
-                    withBorder
-                > */}
+
                 <Center>
                     <SegmentedControl
                         radius="xl"
@@ -185,61 +398,9 @@ export default function UserPage() {
                         classNames={classes}
                         value={value}
                         onChange={setValue}
-                        data={[
-                            {
-                                value: "home",
-                                label: (
-                                    <>
-                                        <Center style={{ gap: 10 }}>
-                                            <Link
-                                                to={"/dashboard/user/beranda"}
-                                                style={{
-                                                    textDecoration: "none",
-                                                    color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                                                }}
-                                            >
-                                                <span>Beranda</span>
-                                            </Link>
-                                        </Center>
-                                    </>
-                                ),
-                            },
-                            {
-                                value: "permohonan",
-                                label: (
-                                    <>
-                                        <Center style={{ gap: 10 }}>
-                                            <Link
-                                                to={
-                                                    "/dashboard/user/permohonan"
-                                                }
-                                                style={{
-                                                    textDecoration: "none",
-                                                    color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                                                }}
-                                            >
-                                                <span>Permohonan</span>
-                                            </Link>
-                                        </Center>
-                                    </>
-                                ),
-                            },
-                        ]}
+                        data={dataSegmentedControl}
                     />
                 </Center>
-
-                {/* <Tabs
-                    value={tabValue}
-                    onChange={(value) => navigate(`/dashboard/user/${value}`)}
-                    classNames={classes}
-                >
-                    <Tabs.List>
-                        <Tabs.Tab value="home">Home</Tabs.Tab>
-                        <Tabs.Tab value="cek-status">Cek Status</Tabs.Tab>
-                        <Tabs.Tab value="profil">Profile</Tabs.Tab>
-                    </Tabs.List>
-                </Tabs> */}
-                {/* </Paper> */}
             </Container>
         </>
     );

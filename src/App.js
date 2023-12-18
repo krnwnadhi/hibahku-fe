@@ -21,6 +21,7 @@ import RumahIbadahCreate from "./Pages/Rumah Ibadah/RumahIbadahCreate";
 import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/Page/UserPage";
 import UserPermohonan from "./Pages/User/Page/UserPermohonan";
+import UserStatus from "./Pages/User/Page/UserStatus";
 import { logoutUserAction } from "./redux/slices/auth/authSlices";
 import secureLocalStorage from "react-secure-storage";
 import { useComputedColorScheme } from "@mantine/core";
@@ -39,30 +40,30 @@ function App() {
 
     const networkStatus = useNetwork();
 
-    useEffect(() => {
-        const abortController = new AbortController();
+    // useEffect(() => {
+    //     const abortController = new AbortController();
 
-        if (networkStatus.online) {
-            toast("Memeriksa jaringan...", {
-                isLoading: true,
-                autoClose: false,
-            });
+    //     if (networkStatus.online) {
+    //         toast("Memeriksa jaringan...", {
+    //             isLoading: true,
+    //             autoClose: false,
+    //         });
 
-            // Simulate a loading process
-            setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-                toast.dismiss(); // Dismiss the loading toast
-                toast.success("Online!");
-            }, 1500);
-        } else {
-            toast.error("Offline!");
-        }
+    //         // Simulate a loading process
+    //         setLoading(true);
+    //         setTimeout(() => {
+    //             setLoading(false);
+    //             toast.dismiss(); // Dismiss the loading toast
+    //             toast.success("Online!");
+    //         }, 1500);
+    //     } else {
+    //         toast.error("Offline!");
+    //     }
 
-        return () => {
-            abortController.abort();
-        };
-    }, [networkStatus.online]);
+    //     return () => {
+    //         abortController.abort();
+    //     };
+    // }, [networkStatus.online]);
 
     // const user = useSelector((state) => state?.auth);
     // const { userAuth } = user;
@@ -108,7 +109,7 @@ function App() {
                             element={<RumahIbadah />}
                         />
                         <Route
-                            path="/dashboard/rumah-ibadah/create"
+                            path="/dashboard/rumah-ibadah/user/create"
                             element={<RumahIbadahCreate />}
                         />
 
@@ -119,8 +120,13 @@ function App() {
                         />
 
                         <Route
-                            path="/dashboard/user/permohonan"
+                            path="/dashboard/user/dokumen"
                             element={<UserPermohonan />}
+                        />
+
+                        <Route
+                            path="/dashboard/user/status"
+                            element={<UserStatus />}
                         />
                         {/* </Route> */}
                     </Route>

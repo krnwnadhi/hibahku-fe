@@ -22,17 +22,18 @@ import {
     IconTrash,
     IconX,
 } from "@tabler/icons-react";
+import { Link, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DateFormatter from "../../utils/DateFormatter";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { baseRumahIbadahURL } from "../../utils/baseURL";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 
 export default function RumahIbadah() {
     const dispatch = useDispatch();
+    const [searchParams, setSearchParams] = useSearchParams();
     const theme = useMantineTheme();
 
     useEffect(() => {
@@ -98,19 +99,22 @@ export default function RumahIbadah() {
     };
 
     const searchData = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         setLoad(true);
         setTimeout(() => {
             setPages(1);
             setKeyword(query);
             setLoad(false);
         }, 1000);
+        searchParams.set("nama", query);
+        setSearchParams(searchParams);
     };
 
     const resetData = (e) => {
         e.preventDefault();
         setKeyword("");
         setQuery("");
+        setSearchParams("");
     };
 
     const handleTextInput = (e) => {
@@ -154,6 +158,11 @@ export default function RumahIbadah() {
                         </Button> */}
 
                         <TextInput
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    searchData();
+                                }
+                            }}
                             value={query}
                             onChange={handleTextInput}
                             radius="xl"
@@ -205,7 +214,7 @@ export default function RumahIbadah() {
                 <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
                     <ActionIcon
                         component={Link}
-                        to="/dashboard/rumah-ibadah/create"
+                        to="/dashboard/rumah-ibadah/user/create"
                         variant="filled"
                         aria-label="Add"
                     >

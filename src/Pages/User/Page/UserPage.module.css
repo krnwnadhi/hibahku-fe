@@ -3,7 +3,8 @@
     left: initial;
     right: initial;
     bottom: 1.25rem;
-    z-index: 1200000;
+    height: 3rem;
+    z-index: 120;
     /* width: 100%; */
     box-shadow: var(--mantine-shadow-md);
     border: rem(1px) solid
@@ -16,6 +17,8 @@
         var(--mantine-color-blue-filled),
         var(--mantine-color-blue-filled)
     );
+    /* outline-offset: -10px; */
+    /* display: none; */
 }
 
 .control {
@@ -33,11 +36,11 @@
     }
 }
 
-.bottomLink {
+/* .bottomLink {
     text-decoration: none;
     font-size: var(--mantine-font-size-sm);
     color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
     padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
     border-radius: var(--mantine-radius-sm);
     font-weight: 500;
-}
+} */

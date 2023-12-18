@@ -74,11 +74,10 @@ export default function UserInfo() {
 
     return (
         <>
-            <Paper radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
+            <Paper radius="md" p={40} bg="var(--mantine-color-body)">
                 <Avatar
-                    // src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-                    src="https://xsgames.co/randomusers/avatar.php?g=pixel"
-                    size={120}
+                    src={`https://ui-avatars.com/api/?name=${nama}&background=random`}
+                    size={60}
                     radius={120}
                     mx="auto"
                 />

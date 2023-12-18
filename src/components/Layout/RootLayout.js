@@ -42,7 +42,7 @@ export default function RootLayout() {
             }}
             padding="md"
             // zIndex={1}
-            withBorder={false}
+            // withBorder={false}
         >
             <AppShell.Header>
                 <Group h="100%" px="md" justify="space-between">

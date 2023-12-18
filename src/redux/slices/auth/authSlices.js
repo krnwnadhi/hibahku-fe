@@ -85,6 +85,8 @@ export const logoutUserAction = createAsyncThunk(
         try {
             secureLocalStorage.removeItem("logInfo");
 
+            // await new Promise((resolve) => setTimeout(resolve, 2000));
+
             dispatch(resetLogoutAction());
         } catch (error) {
             if (!error?.response) {

@@ -1,5 +1,7 @@
 import {
+    IconClockHour4,
     IconError404,
+    IconFileTypePdf,
     IconUserShield,
     IconUserSquare,
 } from "@tabler/icons-react";
@@ -33,13 +35,23 @@ export default function SideNav() {
             label: "Rumah Ibadah",
             icon: IconBuildingMosque,
         },
+        {
+            link: "/dashboard/rekap",
+            label: "Rekap Permohonan",
+            icon: IconFileTypePdf,
+        },
+        {
+            link: "/dashboard/waktu",
+            label: "Periodisasi",
+            icon: IconClockHour4,
+        },
         { link: "/error", label: "Error", icon: IconError404 },
     ];
 
     const linksAdmin = dataAdmin.map((item) => (
         <Link
             className={classes.link}
-            data-active={item.label === active || undefined}
+            // data-active={item.label === active || undefined}
             to={item.link}
             key={item.label}
             onClick={(event) => {
@@ -65,7 +77,7 @@ export default function SideNav() {
     const linksUser = dataUser.map((item) => (
         <Link
             className={classes.link}
-            data-active={item.label === active || undefined}
+            // data-active={item.label === active || undefined}
             to={item.link}
             key={item.label}
             onClick={(event) => {

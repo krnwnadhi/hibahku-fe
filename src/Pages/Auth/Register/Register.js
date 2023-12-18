@@ -36,8 +36,8 @@ export default function Register(props) {
             nama: isNotEmpty("Nama tidak boleh kosong"),
             password: hasLength({ min: 8 }, "Password minimal 8 karakter"),
             notelpon: hasLength(
-                { min: 11, max: 13 },
-                "No Handphone Min. 11 Angka & Maks. 13 Angka"
+                { min: 6, max: 14 },
+                "No Handphone Min. 6 Angka & Maks. 14 Angka"
             ),
             // terms: isNotEmpty("You must accept terms of use"),
         },
@@ -126,7 +126,7 @@ export default function Register(props) {
                             }
                             error={
                                 form.errors.notelpon &&
-                                "No Handphone Min. 11 Angka & Maks. 13 Angka"
+                                "No Handphone Min. 6 Angka & Maks. 14 Angka"
                             }
                             radius="md"
                         />

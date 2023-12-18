@@ -2,6 +2,7 @@ import {
     Button,
     Center,
     Container,
+    Divider,
     Group,
     Modal,
     Paper,
@@ -10,6 +11,7 @@ import {
     Stack,
     Text,
     TextInput,
+    Timeline,
     Title,
     VisuallyHidden,
     rem,
@@ -27,11 +29,11 @@ import classes from "./UserPage.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 
-export default function UserPermohonan() {
+export default function UserStatus() {
     const [opened, { open, close }] = useDisclosure(false);
     const [show, setShow] = useState(false);
 
-    const [value, setValue] = useState("dokumen");
+    const [value, setValue] = useState("status");
 
     const handleClose = () => setShow(false);
     const handleShow = () => {
@@ -133,20 +135,85 @@ export default function UserPermohonan() {
 
                 <Paper
                     bg="var(--mantine-color-blueGray-light)"
-                    // radius="xl"
-                    // mih="87vh"
                     style={{ minHeight: "calc(110vh - 90px)" }}
                     p={25}
                     withBorder
                 >
                     <Paper p={50} radius="md">
                         <Title order={3} ta="center" mt="md" mb={30}>
-                            Ajukan Permohonan
+                            Timeline Status Permohonan
                         </Title>
-                        <Stack gap="lg">
-                            <TextInput label="Nama" />
-                            <TextInput label="Alamat" />
-                        </Stack>
+                        <Divider h="xl" />
+                        <Timeline active={3} bulletSize={18} lineWidth={2}>
+                            <Timeline.Item title="New branch">
+                                <Text c="dimmed" size="sm">
+                                    You&apos;ve created new branch{" "}
+                                    <Text
+                                        variant="link"
+                                        component="span"
+                                        inherit
+                                    >
+                                        fix-notifications
+                                    </Text>{" "}
+                                    from master
+                                </Text>
+                                <Text size="xs" mt={4}>
+                                    2 hours ago
+                                </Text>
+                            </Timeline.Item>
+
+                            <Timeline.Item title="Commits">
+                                <Text c="dimmed" size="sm">
+                                    You&apos;ve pushed 23 commits to
+                                    <Text
+                                        variant="link"
+                                        component="span"
+                                        inherit
+                                    >
+                                        fix-notifications branch
+                                    </Text>
+                                </Text>
+                                <Text size="xs" mt={4}>
+                                    52 minutes ago
+                                </Text>
+                            </Timeline.Item>
+
+                            <Timeline.Item
+                                title="Pull request"
+                                lineVariant="dashed"
+                            >
+                                <Text c="dimmed" size="sm">
+                                    You&apos;ve submitted a pull request
+                                    <Text
+                                        variant="link"
+                                        component="span"
+                                        inherit
+                                    >
+                                        Fix incorrect notification message
+                                        (#187)
+                                    </Text>
+                                </Text>
+                                <Text size="xs" mt={4}>
+                                    34 minutes ago
+                                </Text>
+                            </Timeline.Item>
+
+                            <Timeline.Item title="Code review">
+                                <Text c="dimmed" size="sm">
+                                    <Text
+                                        variant="link"
+                                        component="span"
+                                        inherit
+                                    >
+                                        Robert Gluesticker
+                                    </Text>{" "}
+                                    left a code review on your pull request
+                                </Text>
+                                <Text size="xs" mt={4}>
+                                    12 minutes ago
+                                </Text>
+                            </Timeline.Item>
+                        </Timeline>
                     </Paper>
                 </Paper>
 
@@ -158,6 +225,7 @@ export default function UserPermohonan() {
                         value={value}
                         onChange={setValue}
                         data={dataSegmentedControl}
+                        fullWidth
                     />
                 </Center>
             </Container>

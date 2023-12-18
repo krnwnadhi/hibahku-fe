@@ -4,10 +4,10 @@ import {
     IconLogout,
     IconSettings,
 } from "@tabler/icons-react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import { logoutUserAction } from "../../redux/slices/auth/authSlices";
-import { useDispatch } from "react-redux";
 
 // import classes from "./MenuMantine.module.css";
 
@@ -18,6 +18,9 @@ export default function MenuMantine() {
     const logOut = () => {
         dispatch(logoutUserAction());
     };
+
+    const user = useSelector((state) => state?.auth?.userAuth);
+    const { nama, nik, role } = user;
 
     return (
         <Group justify="center">
@@ -43,13 +46,12 @@ export default function MenuMantine() {
                         <Group>
                             <Avatar
                                 radius="xl"
-                                src="https://xsgames.co/randomusers/avatar.php?g=pixel"
+                                src={`https://ui-avatars.com/api/?name=${nama}&background=random`}
                             />
-
                             <div>
-                                <Text fw={500}>Admin</Text>
+                                <Text fw={500}>{nama}</Text>
                                 <Text size="xs" c="dimmed">
-                                    admin@mail.com
+                                    {nik}
                                 </Text>
                             </div>
                         </Group>
@@ -57,19 +59,26 @@ export default function MenuMantine() {
 
                     <Menu.Divider />
 
-                    <Menu.Label>Settings</Menu.Label>
-                    <Menu.Item
-                        leftSection={
-                            <IconSettings
-                                style={{ width: rem(16), height: rem(16) }}
-                                stroke={1.5}
-                            />
-                        }
-                        component={Link}
-                        to="/dashboard/admin"
-                    >
-                        Account settings
-                    </Menu.Item>
+                    {role === 1 && (
+                        <>
+                            <Menu.Label>Settings</Menu.Label>
+                            <Menu.Item
+                                leftSection={
+                                    <IconSettings
+                                        style={{
+                                            width: rem(16),
+                                            height: rem(16),
+                                        }}
+                                        stroke={1.5}
+                                    />
+                                }
+                                component={Link}
+                                to="/dashboard/admin"
+                            >
+                                Account settings
+                            </Menu.Item>
+                        </>
+                    )}
 
                     <Menu.Item
                         leftSection={

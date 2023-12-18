@@ -184,7 +184,7 @@ const RumahIbadahCreate = () => {
 
     return (
         <>
-            <Container size="xl">
+            <Container size="xs">
                 <LoadingOverlay
                     visible={loading}
                     zIndex={1000}
