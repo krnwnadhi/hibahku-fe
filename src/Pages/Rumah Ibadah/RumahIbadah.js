@@ -212,7 +212,7 @@ export default function RumahIbadah() {
                 <Space h="sm" />
 
                 <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
-                    <ActionIcon
+                    {/* <ActionIcon
                         component={Link}
                         to="/dashboard/rumah-ibadah/user/create"
                         variant="filled"
@@ -224,7 +224,7 @@ export default function RumahIbadah() {
                         />
                     </ActionIcon>
 
-                    <Space h="sm" />
+                    <Space h="sm" /> */}
 
                     <Table.ScrollContainer minWidth={500}>
                         <Table

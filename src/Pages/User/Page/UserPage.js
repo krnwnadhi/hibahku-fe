@@ -1,10 +1,10 @@
 import {
     Anchor,
     Avatar,
+    Blockquote,
     Button,
     Center,
     Container,
-    Divider,
     Group,
     LoadingOverlay,
     Modal,
@@ -13,38 +13,31 @@ import {
     SegmentedControl,
     Space,
     Stack,
-    Tabs,
     Text,
     TextInput,
     Title,
-    VisuallyHidden,
-    darken,
-    rem,
+    useComputedColorScheme,
 } from "@mantine/core";
-import {
-    IconCode,
-    IconExternalLink,
-    IconEye,
-    IconHome,
-    IconMailPlus,
-    IconMessageCircle,
-    IconPhoto,
-    IconSettings,
-} from "@tabler/icons-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { hasLength, useForm } from "@mantine/form";
+import { useDisclosure, useFocusTrap } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
+import { IconInfoCircle } from "@tabler/icons-react";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import UserInfo from "../components/UserInfo/UserInfo";
 import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import classes from "./UserPage.module.css";
-import { useDisclosure } from "@mantine/hooks";
+import { useState } from "react";
 
 export default function UserPage() {
     const dispatch = useDispatch();
+    const focusTrapRef = useFocusTrap();
+
+    const computedColorScheme = useComputedColorScheme("light", {
+        getInitialValueInEffect: true,
+    });
 
     const [opened, { open, close }] = useDisclosure(false);
     const [show, setShow] = useState(false);
@@ -86,7 +79,8 @@ export default function UserPage() {
     const formOnSubmit = form.onSubmit((values) => {
         // console.log(values);
         dispatch(cekStatusRumahIbadahAction(values));
-        // form.clearErrors();
+        // form.reset()
+        form.clearErrors();
     });
 
     const dataSegmentedControl = [
@@ -101,20 +95,6 @@ export default function UserPage() {
                     }}
                 >
                     <Text>Beranda</Text>
-                </Link>
-            ),
-        },
-        {
-            value: "dokumen",
-            label: (
-                <Link
-                    to={"/dashboard/user/dokumen"}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Dokumen</Text>
                 </Link>
             ),
         },
@@ -159,9 +139,9 @@ export default function UserPage() {
             <Space h="xl" />
 
             <Text ta="center">
-                Selanjutnya silahkan klik link dokumen berikut{" "}
+                Selanjutnya silahkan klik link dokumen berikut:{" "}
                 <Anchor href="/dashboard/user/dokumen">
-                    <Text span c="blue" fs="italic">
+                    <Text c="blue" fs="italic">
                         "DOKUMEN"
                     </Text>{" "}
                 </Anchor>
@@ -175,6 +155,12 @@ export default function UserPage() {
             <Space h="xl" />
 
             <Text ta="center">Terima Kasih</Text>
+
+            <Space h="xl" />
+
+            {/* <Button component={Link} to="/dashboard/user/dokumen" fullWidth>
+                Ke Dokumen
+            </Button> */}
         </>
     );
 
@@ -207,7 +193,7 @@ export default function UserPage() {
                 karena:
             </Text>
 
-            <Space h="xl" />
+            <Space h="sm" />
 
             <Text ta="center">
                 1. Periodesasi pengusulan permohonan bantuan hibah tahun ini{" "}
@@ -231,6 +217,12 @@ export default function UserPage() {
             <Space h="xl" />
 
             <Text ta="center">Terima Kasih</Text>
+
+            <Space h="xl" />
+
+            <Button onClick={handleClose} fullWidth>
+                Saya Mengerti
+            </Button>
         </>
     );
 
@@ -281,23 +273,27 @@ export default function UserPage() {
             <Space h="xl" />
 
             <Text ta="center">Terima Kasih</Text>
+
+            <Space h="xl" />
         </>
     );
 
     return (
         <>
             <Container size="xs" mt={-15} mb={-65}>
-                <LoadingOverlay
+                {/* <LoadingOverlay
                     visible={loading}
                     zIndex={1000}
                     overlayProps={{ radius: "sm", blur: 1 }}
-                />
+                /> */}
                 <Paper
-                    // bg="#25262B"
-                    // bg="var(--mantine-color-scheme)"
-                    p={25}
+                    bg={
+                        computedColorScheme === "dark"
+                            ? "var(--mantine-color-gray-9)"
+                            : "var(--mantine-color-blueGray-light)"
+                    }
+                    p="lg"
                     withBorder
-                    // c="dimmed"
                 >
                     <Group justify="space-between" gap="xl">
                         <Title
@@ -321,24 +317,28 @@ export default function UserPage() {
 
                 <Paper
                     bg="var(--mantine-color-blueGray-light)"
-                    style={{ minHeight: "calc(110vh - 90px)" }}
-                    p={25}
+                    // style={{ minHeight: "calc(110vh - 90px)" }}
+                    p="xl"
                     withBorder
                 >
                     <UserInfo />
 
-                    <Space h="xs" />
+                    <Space h="md" />
 
                     <form onSubmit={formOnSubmit}>
                         <Paper
                             radius="md"
-                            p={50}
+                            p="xl"
                             bg="var(--mantine-color-body)"
+                            withBorder
+                            shadow="md"
                         >
                             <Stack>
                                 <TextInput
+                                    ref={focusTrapRef}
                                     type="number"
                                     label="ID/NSPP"
+                                    description="ID SIMAS/No. NSPP Lembaga Pendidikan Keagamaan"
                                     placeholder="ID/NSPP Min. 10 angka"
                                     value={form.values.id}
                                     onChange={(event) =>
@@ -352,23 +352,54 @@ export default function UserPage() {
                                     disabled={loading}
                                 />
                             </Stack>
+                            <Button
+                                type="submit"
+                                variant="subtle"
+                                fullWidth
+                                radius="md"
+                                mt="md"
+                                loading={loading}
+                                onClick={handleShow}
+                                disabled={!form.isValid()}
+                            >
+                                Cek Status
+                            </Button>
                         </Paper>
-                        <Button
-                            type="submit"
-                            variant="subtle"
-                            fullWidth
-                            mt="md"
-                            loading={loading}
-                            onClick={handleShow}
-                            disabled={!form.isValid()}
-                        >
-                            Cek Status
-                        </Button>
                     </form>
+
+                    <Space h="md" />
+
+                    <Paper
+                        radius="md"
+                        p="xl"
+                        bg="var(--mantine-color-body)"
+                        withBorder
+                    >
+                        <Blockquote
+                            color="blue"
+                            cite="– Admin"
+                            icon={<IconInfoCircle />}
+                            // mt="xl"
+                        >
+                            <Text fs="italic" size="sm">
+                                Contoh File/Dokumen dapat anda download pada
+                                link berikut:
+                                <Anchor
+                                    href="https://www.google.com/"
+                                    target="_blank"
+                                >
+                                    <Text c="blue" fs="italic">
+                                        "CONTOH DOKUMEN"
+                                    </Text>
+                                </Anchor>
+                            </Text>
+                        </Blockquote>
+                    </Paper>
                     <Modal
                         opened={show}
-                        onClose={handleClose}
-                        title="HIBAHKU"
+                        closeOnEscape={false}
+                        closeOnClickOutside={false}
+                        withCloseButton={false}
                         centered
                         overlayProps={{
                             backgroundOpacity: 0.55,
@@ -383,11 +414,11 @@ export default function UserPage() {
                             : cekStatus?.isUpload === true
                             ? hibahkuSuccessModalNotification
                             : hibahkuNotFoundModalNotification}
-                        <Group mt="xl">
-                            <Button fullWidth onClick={handleClose}>
-                                Saya Mengerti
-                            </Button>
-                        </Group>
+                        {/* <Group mt="xl"> */}
+                        {/* <Button mt="xl" fullWidth onClick={handleClose}>
+                            Saya Mengerti
+                        </Button> */}
+                        {/* </Group> */}
                     </Modal>
                 </Paper>
 

@@ -1,30 +1,19 @@
 import {
-    Button,
     Center,
     Container,
     Divider,
     Group,
-    Modal,
     Paper,
     SegmentedControl,
-    Space,
-    Stack,
     Text,
-    TextInput,
     Timeline,
     Title,
-    VisuallyHidden,
-    rem,
+    useComputedColorScheme,
 } from "@mantine/core";
-import { IconExternalLink, IconHome, IconMailPlus } from "@tabler/icons-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { hasLength, useForm } from "@mantine/form";
-import { useDispatch, useSelector } from "react-redux";
 
 import DarkButton from "../components/DarkButton/DarkButton";
+import { Link } from "react-router-dom";
 import MenuMantine from "../../../components/Menu/MenuMantine";
-import UserInfo from "../components/UserInfo/UserInfo";
-import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import classes from "./UserPage.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
@@ -32,6 +21,10 @@ import { useState } from "react";
 export default function UserStatus() {
     const [opened, { open, close }] = useDisclosure(false);
     const [show, setShow] = useState(false);
+
+    const computedColorScheme = useComputedColorScheme("light", {
+        getInitialValueInEffect: true,
+    });
 
     const [value, setValue] = useState("status");
 
@@ -75,20 +68,6 @@ export default function UserStatus() {
             ),
         },
         {
-            value: "dokumen",
-            label: (
-                <Link
-                    to={"/dashboard/user/dokumen"}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Dokumen</Text>
-                </Link>
-            ),
-        },
-        {
             value: "status",
             label: (
                 <Link
@@ -112,8 +91,13 @@ export default function UserStatus() {
                     // shadow="lg"
                     // radius="sm"
                     // bg="var(--mantine-color-blueGray-light)"
-                    p={25}
+                    p="lg"
                     withBorder
+                    bg={
+                        computedColorScheme === "dark"
+                            ? "var(--mantine-color-gray-9)"
+                            : "var(--mantine-color-blueGray-light)"
+                    }
                 >
                     <Group justify="space-between" gap="xl">
                         <Title

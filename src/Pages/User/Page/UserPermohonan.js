@@ -1,33 +1,31 @@
 import {
     Button,
-    Center,
     Container,
     Group,
-    Modal,
+    LoadingOverlay,
     Paper,
-    SegmentedControl,
-    Space,
     Stack,
     Text,
     TextInput,
     Title,
-    VisuallyHidden,
-    rem,
+    useComputedColorScheme,
 } from "@mantine/core";
-import { IconExternalLink, IconHome, IconMailPlus } from "@tabler/icons-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { hasLength, useForm } from "@mantine/form";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDisclosure, useFocusTrap } from "@mantine/hooks";
 
 import DarkButton from "../components/DarkButton/DarkButton";
+import { IconArrowLeft } from "@tabler/icons-react";
 import MenuMantine from "../../../components/Menu/MenuMantine";
-import UserInfo from "../components/UserInfo/UserInfo";
-import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
-import classes from "./UserPage.module.css";
-import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 
 export default function UserPermohonan() {
+    const computedColorScheme = useComputedColorScheme("light", {
+        getInitialValueInEffect: true,
+    });
+
+    const navigate = useNavigate();
+    const focusTrapRef = useFocusTrap();
+
     const [opened, { open, close }] = useDisclosure(false);
     const [show, setShow] = useState(false);
 
@@ -57,73 +55,31 @@ export default function UserPermohonan() {
     //     // form.clearErrors();
     // });
 
-    const dataSegmentedControl = [
-        {
-            value: "home",
-            label: (
-                <Link
-                    to={"/dashboard/user/beranda"}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Beranda</Text>
-                </Link>
-            ),
-        },
-        {
-            value: "dokumen",
-            label: (
-                <Link
-                    to={"/dashboard/user/dokumen"}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Dokumen</Text>
-                </Link>
-            ),
-        },
-        {
-            value: "status",
-            label: (
-                <Link
-                    to={"/dashboard/user/status"}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Status</Text>
-                </Link>
-            ),
-        },
-    ];
-
     return (
         <>
             <Container size="xs" mt={-15} mb={-65}>
+                {/* <LoadingOverlay
+                    visible={loading}
+                    zIndex={1000}
+                    overlayProps={{ radius: "sm", blur: 1 }}
+                /> */}
                 <Paper
-                    // bg="#25262B"
-                    // shadow="lg"
-                    // radius="sm"
-                    // bg="var(--mantine-color-blueGray-light)"
-                    p={25}
+                    p="lg"
                     withBorder
+                    bg={
+                        computedColorScheme === "dark"
+                            ? "var(--mantine-color-gray-9)"
+                            : "var(--mantine-color-blueGray-light)"
+                    }
                 >
                     <Group justify="space-between" gap="xl">
-                        <Title
-                            order={2}
-                            size="h3"
-                            // component={Link}
-                            // to="/dashboard/user"
-                            weight="bold"
-                            // style={{ textDecoration: "none" }}
+                        <Button
+                            variant="subtle"
+                            leftSection={<IconArrowLeft size={14} />}
+                            onClick={() => navigate(-1)}
                         >
-                            TITLE LOGO
-                        </Title>
+                            Kembali
+                        </Button>
                         <Group gap="xs">
                             <DarkButton />
                             <MenuMantine />
@@ -133,33 +89,17 @@ export default function UserPermohonan() {
 
                 <Paper
                     bg="var(--mantine-color-blueGray-light)"
-                    // radius="xl"
-                    // mih="87vh"
                     style={{ minHeight: "calc(110vh - 90px)" }}
-                    p={25}
+                    p="xl"
                     withBorder
                 >
-                    <Paper p={50} radius="md">
-                        <Title order={3} ta="center" mt="md" mb={30}>
-                            Ajukan Permohonan
-                        </Title>
+                    <Paper radius="md" p="md" bg="var(--mantine-color-body)">
                         <Stack gap="lg">
                             <TextInput label="Nama" />
                             <TextInput label="Alamat" />
                         </Stack>
                     </Paper>
                 </Paper>
-
-                <Center>
-                    <SegmentedControl
-                        radius="xl"
-                        size="md"
-                        classNames={classes}
-                        value={value}
-                        onChange={setValue}
-                        data={dataSegmentedControl}
-                    />
-                </Center>
             </Container>
         </>
     );

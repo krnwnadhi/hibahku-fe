@@ -74,7 +74,13 @@ export default function UserInfo() {
 
     return (
         <>
-            <Paper radius="md" p={40} bg="var(--mantine-color-body)">
+            <Paper
+                radius="md"
+                withBorder
+                p="xl"
+                bg="var(--mantine-color-body)"
+                shadow="md"
+            >
                 <Avatar
                     src={`https://ui-avatars.com/api/?name=${nama}&background=random`}
                     size={60}

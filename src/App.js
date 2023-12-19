@@ -76,10 +76,10 @@ function App() {
     }, [dispatch]);
 
     return (
-        <>
+        <div>
             <ToastContainer
                 position="top-right"
-                limit={3}
+                limit={5}
                 autoClose={1500}
                 hideProgressBar={false}
                 newestOnTop
@@ -146,7 +146,7 @@ function App() {
                 <Route path="/404" element={<Page403 />} />
             </Routes>
             <AuthVerify logOut={logOut} />
-        </>
+        </div>
     );
 }
 
