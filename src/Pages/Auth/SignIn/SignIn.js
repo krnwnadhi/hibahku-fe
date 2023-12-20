@@ -93,7 +93,9 @@ export default function SignIn(props) {
                                     event.currentTarget.value
                                 )
                             }
-                            error={form.errors.nik && "Maks. 16 Karakter"}
+                            error={
+                                form.errors.nik && "Min 15 & Maks. 16 Karakter"
+                            }
                             radius="md"
                         />
 

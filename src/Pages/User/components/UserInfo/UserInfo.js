@@ -58,7 +58,7 @@
 //     );
 // }
 
-import { Avatar, Paper, Text } from "@mantine/core";
+import { Avatar, Paper, Text, Tooltip } from "@mantine/core";
 
 import { useSelector } from "react-redux";
 
@@ -81,12 +81,18 @@ export default function UserInfo() {
                 bg="var(--mantine-color-body)"
                 shadow="md"
             >
-                <Avatar
-                    src={`https://ui-avatars.com/api/?name=${nama}&background=random`}
-                    size={60}
-                    radius={120}
-                    mx="auto"
-                />
+                <Tooltip
+                    label={nama}
+                    withArrow
+                    transitionProps={{ transition: "pop", duration: 500 }}
+                >
+                    <Avatar
+                        src={`https://ui-avatars.com/api/?name=${nama}&background=random`}
+                        size={60}
+                        radius={120}
+                        mx="auto"
+                    />
+                </Tooltip>
                 <Text ta="center" fz="lg" fw={500} mt="md">
                     {nama}
                 </Text>

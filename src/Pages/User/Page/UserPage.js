@@ -6,6 +6,7 @@ import {
     Center,
     Container,
     Group,
+    Image,
     LoadingOverlay,
     Modal,
     Paper,
@@ -116,27 +117,28 @@ export default function UserPage() {
 
     const hibahkuSuccessModalNotification = (
         <>
-            <Avatar
-                src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png`}
-                size={60}
-                radius={120}
+            <Image
+                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1703043173/Coat_of_arms_of_Jambi.svg_iultjk.png"
+                h={60}
+                w="auto"
+                fit="contain"
                 mx="auto"
             />
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Title ta="center" order={4}>
                 BIRO KESRA SETDA PROVINSI JAMBI
             </Title>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center" c="green" inherit>
                 SELAMAT
             </Text>
             <Text ta="center">Permohonan Anda DAPAT DILANJUTKAN</Text>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center">
                 Selanjutnya silahkan klik link dokumen berikut:{" "}
@@ -155,31 +157,27 @@ export default function UserPage() {
             <Space h="xl" />
 
             <Text ta="center">Terima Kasih</Text>
-
-            <Space h="xl" />
-
-            {/* <Button component={Link} to="/dashboard/user/dokumen" fullWidth>
-                Ke Dokumen
-            </Button> */}
         </>
     );
 
     const hibahkuFailedModalNotification = (
         <>
-            <Avatar
-                src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png`}
-                size={60}
-                radius={120}
+            <Image
+                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1703043173/Coat_of_arms_of_Jambi.svg_iultjk.png"
+                h={60}
+                w="auto"
+                fit="contain"
                 mx="auto"
+                fallbackSrc="https://placehold.co/800?text=Logo+Jambi&font=roboto"
             />
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Title order={4} ta="center">
                 BIRO KESRA SETDA PROVINSI JAMBI
             </Title>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center" c="red" fw={700}>
                 MAAF
@@ -210,15 +208,15 @@ export default function UserPage() {
                 bantuan hibah serupa pada tahun sebelumnya.
             </Text>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center">{appError && appError}</Text>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center">Terima Kasih</Text>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Button onClick={handleClose} fullWidth>
                 Saya Mengerti
@@ -228,36 +226,38 @@ export default function UserPage() {
 
     const hibahkuNotFoundModalNotification = (
         <>
-            <Avatar
-                src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png`}
-                size={60}
-                radius={120}
+            <Image
+                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1703043173/Coat_of_arms_of_Jambi.svg_iultjk.png"
+                h={60}
+                w="auto"
+                fit="contain"
                 mx="auto"
+                fallbackSrc="https://placehold.co/800?text=Logo+Jambi&font=roboto"
             />
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Title order={4} ta="center">
                 BIRO KESRA SETDA PROVINSI JAMBI
             </Title>
 
-            <Space h="xl" />
+            <Space h="sm" />
 
             <Text ta="center" c="red" inherit fw={700}>
                 MAAF
             </Text>
 
-            <Space h="md" />
-
             <Text ta="center">
-                <Text span c="red" inherit fw={700}>
-                    Data Tidak Ditemukan!
+                <Text c="red" inherit fw={700}>
+                    DATA TIDAK DITEMUKAN!
                 </Text>{" "}
-                Harap mendaftarkan Rumah Ibadah / Lembaga Pendidikan Keagamaan
-                terlebih dahulu.
+                <Space h="sm" />
+                Silahkan cek kembali ID SIMAS/NSPP yang ingin menerima bantuan
+                HIBAH & Harap mendaftarkan Rumah Ibadah / Lembaga Pendidikan
+                Keagamaan terlebih dahulu.
             </Text>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center">
                 Klik link dibawah ini untuk mendaftarkan Rumah Ibadah / Lembaga
@@ -270,22 +270,21 @@ export default function UserPage() {
                 </Anchor>
             </Text>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center">Terima Kasih</Text>
 
-            <Space h="xl" />
+            <Space h="md" />
+
+            <Button onClick={handleClose} fullWidth>
+                Saya Mengerti
+            </Button>
         </>
     );
 
     return (
         <>
             <Container size="xs" mt={-15} mb={-65}>
-                {/* <LoadingOverlay
-                    visible={loading}
-                    zIndex={1000}
-                    overlayProps={{ radius: "sm", blur: 1 }}
-                /> */}
                 <Paper
                     bg={
                         computedColorScheme === "dark"
@@ -313,11 +312,8 @@ export default function UserPage() {
                     </Group>
                 </Paper>
 
-                {/* <Space h="xs" /> */}
-
                 <Paper
                     bg="var(--mantine-color-blueGray-light)"
-                    // style={{ minHeight: "calc(110vh - 90px)" }}
                     p="xl"
                     withBorder
                 >
@@ -333,6 +329,14 @@ export default function UserPage() {
                             withBorder
                             shadow="md"
                         >
+                            <Text ta="center" c="dimmed" size="xs">
+                                Silahkan mengisi data ID SIMAS/NSPP yang akan
+                                menerima bantuan HIBAH dibawah ini terlebih
+                                dahulu:
+                            </Text>
+
+                            <Space h="md" />
+
                             <Stack>
                                 <TextInput
                                     ref={focusTrapRef}

@@ -3,22 +3,19 @@ import {
     Center,
     Container,
     Group,
-    LoadingOverlay,
     Paper,
     Stack,
-    Text,
     TextInput,
-    Title,
     useComputedColorScheme,
 } from "@mantine/core";
-import { Link, useNavigate } from "react-router-dom";
 import { hasLength, useForm } from "@mantine/form";
-import { useDisclosure, useFocusTrap, useToggle } from "@mantine/hooks";
 
 import DarkButton from "../components/DarkButton/DarkButton";
 import { IconArrowLeft } from "@tabler/icons-react";
 import MenuMantine from "../../../components/Menu/MenuMantine";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useToggle } from "@mantine/hooks";
 
 export default function UserPermohonan() {
     const computedColorScheme = useComputedColorScheme("light", {

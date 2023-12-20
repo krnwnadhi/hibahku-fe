@@ -1,5 +1,4 @@
 import {
-    Anchor,
     Avatar,
     Button,
     Center,
@@ -8,9 +7,9 @@ import {
     Container,
     Fieldset,
     Group,
+    Image,
     Input,
     InputBase,
-    LoadingOverlay,
     Modal,
     Paper,
     ScrollArea,
@@ -22,8 +21,8 @@ import {
     useCombobox,
     useComputedColorScheme,
 } from "@mantine/core";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import React, { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure, useFocusTrap } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +31,6 @@ import DarkButton from "../User/components/DarkButton/DarkButton";
 import { IconArrowLeft } from "@tabler/icons-react";
 import MenuMantine from "../../components/Menu/MenuMantine";
 import { createRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
-import { toast } from "react-toastify";
 
 const RumahIbadahCreate = () => {
     const navigate = useNavigate();
@@ -196,8 +194,6 @@ const RumahIbadahCreate = () => {
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
     const { appError, serverError, loading, createRumahIbadah } = rumahIbadah;
 
-    // console.log(createRumahIbadah.message);
-
     const formOnSubmit = form.onSubmit(async (values) => {
         try {
             // console.log(values);
@@ -221,26 +217,33 @@ const RumahIbadahCreate = () => {
 
     const hibahkuErrorModalNotification = (
         <>
-            <Avatar
-                src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png`}
-                size={60}
-                radius={120}
+            <Image
+                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1703043173/Coat_of_arms_of_Jambi.svg_iultjk.png"
+                h={60}
+                w="auto"
+                fit="contain"
                 mx="auto"
+                fallbackSrc="https://placehold.co/800?text=Logo+Jambi&font=roboto"
             />
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Title order={4} ta="center">
                 BIRO KESRA SETDA PROVINSI JAMBI
             </Title>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center" c="red" fw={700}>
                 MAAF
             </Text>
 
+            <Space h="md" />
+
             <Text ta="center">{appError && appError}</Text>
+
+            <Space h="md" />
+
             <Text ta="center">
                 Silahkan menggunakan ID SIMAS/NSPP lainnya yang belum terdaftar
                 di database kami.
@@ -256,30 +259,35 @@ const RumahIbadahCreate = () => {
 
     const hibahkuSuccessModalNotification = (
         <>
-            <Avatar
-                src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png`}
-                size={60}
-                radius={120}
+            <Image
+                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1703043173/Coat_of_arms_of_Jambi.svg_iultjk.png"
+                h={60}
+                w="auto"
+                fit="contain"
                 mx="auto"
+                fallbackSrc="https://placehold.co/800?text=Logo+Jambi&font=roboto"
             />
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Title order={4} ta="center">
                 BIRO KESRA SETDA PROVINSI JAMBI
             </Title>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center" c="green" fw={700}>
                 SELAMAT
             </Text>
 
-            <Space h="xl" />
+            <Space h="md" />
 
             <Text ta="center">{createRumahIbadah?.message}</Text>
+
+            <Space h="md" />
+
             <Text ta="center">
-                Selanjutnya silahkan kembali ke beranda dan silahkan input
+                Selanjutnya, silahkan kembali ke beranda dan silahkan input
                 kembali ID SIMAS/NSPP yang telah terdaftar untuk cek status.
             </Text>
 

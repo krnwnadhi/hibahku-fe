@@ -95,7 +95,9 @@ export default function Register(props) {
                                     event.currentTarget.value
                                 )
                             }
-                            error={form.errors.nik && "Maks. 16 Karakter"}
+                            error={
+                                form.errors.nik && "Min 15 & Maks. 16 Karakter"
+                            }
                             radius="md"
                         />
 
@@ -168,14 +170,14 @@ export default function Register(props) {
                     <Space h="md" />
 
                     {loading ? (
-                        <Button radius="xl" disabled={loading}>
+                        <Button radius="md" disabled={loading}>
                             Loading...
                         </Button>
                     ) : (
                         <Button
                             fullWidth
                             type="submit"
-                            radius="xl"
+                            radius="md"
                             disabled={!form.isValid()}
                         >
                             Register
