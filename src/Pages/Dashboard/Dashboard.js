@@ -10,6 +10,10 @@ import {
 } from "@mantine/core";
 import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
 
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const icons = {
     up: IconArrowUpRight,
     down: IconArrowDownRight,
@@ -40,6 +44,18 @@ const data = [
 ];
 
 export default function Dashboard() {
+    const navigate = useNavigate();
+    const user = useSelector((state) => state?.auth?.userAuth);
+    console.log(user);
+
+    useEffect(() => {
+        if (user?.role === 2) {
+            navigate("/dashboard/user/beranda");
+        } else {
+            navigate("/dashboard/");
+        }
+    }, [user, navigate]);
+
     const stats = data.map((stat) => {
         const Icon = icons[stat.icon];
         return (

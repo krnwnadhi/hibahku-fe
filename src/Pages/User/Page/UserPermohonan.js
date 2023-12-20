@@ -1,5 +1,6 @@
 import {
     Button,
+    Center,
     Container,
     Group,
     LoadingOverlay,
@@ -11,7 +12,8 @@ import {
     useComputedColorScheme,
 } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
-import { useDisclosure, useFocusTrap } from "@mantine/hooks";
+import { hasLength, useForm } from "@mantine/form";
+import { useDisclosure, useFocusTrap, useToggle } from "@mantine/hooks";
 
 import DarkButton from "../components/DarkButton/DarkButton";
 import { IconArrowLeft } from "@tabler/icons-react";
@@ -24,45 +26,41 @@ export default function UserPermohonan() {
     });
 
     const navigate = useNavigate();
-    const focusTrapRef = useFocusTrap();
+    // const focusTrapRef = useFocusTrap();
 
-    const [opened, { open, close }] = useDisclosure(false);
+    // const [opened, { open, close }] = useDisclosure(false);
+    const [type, toggle] = useToggle(["masjid", "pesantren"]);
+
     const [show, setShow] = useState(false);
 
-    const [value, setValue] = useState("dokumen");
-
     const handleClose = () => setShow(false);
+
     const handleShow = () => {
         setTimeout(() => {
             setShow(true);
         }, 2000);
     };
 
-    // const form = useForm({
-    //     validateInputOnChange: true,
-    //     initialValues: {
-    //         id: "",
-    //     },
+    const form = useForm({
+        validateInputOnChange: true,
+        initialValues: {
+            id: "",
+        },
 
-    //     validate: {
-    //         id: hasLength({ min: 10, max: 20 }, "ID SIMAS berupa angka yang"),
-    //     },
-    // });
+        validate: {
+            id: hasLength({ min: 10, max: 20 }, "ID SIMAS berupa angka yang"),
+        },
+    });
 
-    // const formOnSubmit = form.onSubmit((values) => {
-    //     // console.log(values);
-    //     dispatch(cekStatusRumahIbadahAction(values));
-    //     // form.clearErrors();
-    // });
+    const formOnSubmit = form.onSubmit((values) => {
+        console.log(values);
+        // dispatch(cekStatusRumahIbadahAction(values));
+        // form.clearErrors();
+    });
 
     return (
         <>
             <Container size="xs" mt={-15} mb={-65}>
-                {/* <LoadingOverlay
-                    visible={loading}
-                    zIndex={1000}
-                    overlayProps={{ radius: "sm", blur: 1 }}
-                /> */}
                 <Paper
                     p="lg"
                     withBorder
@@ -94,10 +92,25 @@ export default function UserPermohonan() {
                     withBorder
                 >
                     <Paper radius="md" p="md" bg="var(--mantine-color-body)">
-                        <Stack gap="lg">
-                            <TextInput label="Nama" />
-                            <TextInput label="Alamat" />
-                        </Stack>
+                        <form onSubmit={formOnSubmit}>
+                            <Stack gap="lg">
+                                <TextInput
+                                    label="id"
+                                    value={form.values.id}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "id",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                />
+                            </Stack>
+                            <Center my={20}>
+                                <Button fullWidth type="submit" radius="md">
+                                    Submit
+                                </Button>
+                            </Center>
+                        </form>
                     </Paper>
                 </Paper>
             </Container>

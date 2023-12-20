@@ -6,13 +6,17 @@ import {
     LoadingOverlay,
     Paper,
     PasswordInput,
+    Space,
     Stack,
+    Text,
     TextInput,
+    Title,
 } from "@mantine/core";
 import { Link, Navigate } from "react-router-dom";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
+import DarkButton from "../../User/components/DarkButton/DarkButton";
 import { registerUserAction } from "../../../redux/slices/auth/authSlices";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -25,7 +29,6 @@ export default function Register(props) {
             nama: "",
             password: "",
             notelpon: "",
-            // terms: false,
         },
 
         validate: {
@@ -39,7 +42,6 @@ export default function Register(props) {
                 { min: 6, max: 14 },
                 "No Handphone Min. 6 Angka & Maks. 14 Angka"
             ),
-            // terms: isNotEmpty("You must accept terms of use"),
         },
     });
 
@@ -66,13 +68,13 @@ export default function Register(props) {
     }
 
     return (
-        <Container size={450} pt={150}>
+        <Container size={450} pt={100}>
             <LoadingOverlay
                 visible={loading}
                 zIndex={1000}
                 overlayProps={{ radius: "sm", blur: 1 }}
             />
-            {/* <Title ta="center">HIBAHKU</Title> */}
+            <Title ta="center">TITLE HERE...</Title>
             <Paper radius="md" mt={20} p="xl" withBorder shadow="lg" {...props}>
                 <form
                     onSubmit={form.onSubmit((values) => {
@@ -147,31 +149,9 @@ export default function Register(props) {
                             }
                             radius="md"
                         />
-
-                        {/* <Checkbox
-                            label={
-                                <>
-                                    I accept{" "}
-                                    <Anchor
-                                        href="https://diskominfo.jambiprov.go.id"
-                                        target="_blank"
-                                        inherit
-                                    >
-                                        terms and conditions
-                                    </Anchor>
-                                </>
-                            }
-                            checked={form.values.terms}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "terms",
-                                    event.currentTarget.checked
-                                )
-                            }
-                        /> */}
                     </Stack>
 
-                    <Group justify="space-between" mt="xl">
+                    <Group justify="space-between" mt="md">
                         <Anchor
                             component={Link}
                             type="button"
@@ -181,22 +161,55 @@ export default function Register(props) {
                         >
                             NIK Sudah Terdaftar? Login disini.
                         </Anchor>
-                        {loading ? (
-                            <Button radius="xl" disabled={loading}>
-                                Loading...
-                            </Button>
-                        ) : (
-                            <Button
-                                type="submit"
-                                radius="xl"
-                                disabled={!form.isValid()}
-                            >
-                                Register
-                            </Button>
-                        )}
+
+                        <DarkButton />
                     </Group>
+
+                    <Space h="md" />
+
+                    {loading ? (
+                        <Button radius="xl" disabled={loading}>
+                            Loading...
+                        </Button>
+                    ) : (
+                        <Button
+                            fullWidth
+                            type="submit"
+                            radius="xl"
+                            disabled={!form.isValid()}
+                        >
+                            Register
+                        </Button>
+                    )}
                 </form>
             </Paper>
+
+            <Space h="md" />
+
+            <Text size="sm" align="center" c="dimmed">
+                Copyright © 2023{" "}
+                <Anchor
+                    component={Link}
+                    type="button"
+                    to="https://kesra.jambiprov.go.id"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    ta="center"
+                >
+                    Biro Kesra Provinsi Jambi
+                </Anchor>{" "}
+                By{" "}
+                <Anchor
+                    component={Link}
+                    type="button"
+                    to="https://diskominfo.jambiprov.go.id/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    ta="center"
+                >
+                    Diskominfo Provinsi Jambi
+                </Anchor>{" "}
+            </Text>
         </Container>
     );
 }

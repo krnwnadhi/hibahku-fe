@@ -6,23 +6,22 @@ import {
     LoadingOverlay,
     Paper,
     PasswordInput,
+    Space,
     Stack,
+    Text,
     TextInput,
     Title,
 } from "@mantine/core";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { hasLength, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
+import DarkButton from "../../User/components/DarkButton/DarkButton";
 import { loginUserAction } from "../../../redux/slices/auth/authSlices";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function SignIn(props) {
-    // const [loadingApp, setLoadingApp] = useState(false);
-
-    const navigate = useNavigate();
-
     const form = useForm({
         validateInputOnChange: true,
         initialValues: {
@@ -43,8 +42,6 @@ export default function SignIn(props) {
 
     //select state from store
     const storeDataLogin = useSelector((store) => store?.auth);
-
-    // console.log(JSON.stringify(storeDataLogin, undefined, 2));
 
     useEffect(() => {
         console.log(storeDataLogin);
@@ -75,7 +72,7 @@ export default function SignIn(props) {
     });
 
     return (
-        <Container size={450} pt={150}>
+        <Container size={450} pt={100}>
             <LoadingOverlay
                 visible={loading}
                 zIndex={1000}
@@ -118,37 +115,65 @@ export default function SignIn(props) {
                         />
                     </Stack>
 
-                    <Group justify="space-between" mt="xl">
+                    <Group justify="space-between" mt="md">
                         <Anchor
                             component={Link}
                             type="button"
                             c="dimmed"
                             to="/register"
                             size="xs"
+                            ta="center"
                         >
                             NIK Tidak terdaftar? Register disini.
                         </Anchor>
-
-                        {loading ? (
-                            <Button
-                                // loading={loading}
-                                disabled={loading}
-                                radius="xl"
-                            >
-                                Loading...
-                            </Button>
-                        ) : (
-                            <Button
-                                disabled={!form.isValid()}
-                                type="submit"
-                                radius="xl"
-                            >
-                                Login
-                            </Button>
-                        )}
+                        <DarkButton />
                     </Group>
+
+                    <Space h="md" />
+
+                    {loading ? (
+                        <Button disabled={loading} radius="md" fullWidth>
+                            Loading...
+                        </Button>
+                    ) : (
+                        <Button
+                            disabled={!form.isValid()}
+                            type="submit"
+                            radius="md"
+                            fullWidth
+                        >
+                            Login
+                        </Button>
+                    )}
                 </form>
             </Paper>
+
+            <Space h="md" />
+
+            <Text size="sm" align="center" c="dimmed">
+                Copyright © 2023{" "}
+                <Anchor
+                    component={Link}
+                    type="button"
+                    to="https://kesra.jambiprov.go.id"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    ta="center"
+                >
+                    Biro Kesra Provinsi Jambi
+                </Anchor>{" "}
+                By{" "}
+                <Anchor
+                    component={Link}
+                    type="button"
+                    to="https://diskominfo.jambiprov.go.id/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    ta="center"
+                >
+                    Diskominfo Provinsi Jambi
+                </Anchor>{" "}
+            </Text>
         </Container>
     );
 }
