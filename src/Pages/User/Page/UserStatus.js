@@ -10,17 +10,26 @@ import {
     Title,
     useComputedColorScheme,
 } from "@mantine/core";
+import { Link, useParams } from "react-router-dom";
+import {
+    getAllPersetujuan,
+    getDetailUserPersetujuan,
+} from "../../../redux/slices/persetujuan/persetujuanSlices";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
-import { Link } from "react-router-dom";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import classes from "./UserPage.module.css";
 import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
 
 export default function UserStatus() {
+    const { id } = useParams();
+    console.log(id);
+
     const [opened, { open, close }] = useDisclosure(false);
     const [show, setShow] = useState(false);
+    const dispatch = useDispatch();
 
     const computedColorScheme = useComputedColorScheme("light", {
         getInitialValueInEffect: true,
@@ -34,6 +43,16 @@ export default function UserStatus() {
             setShow(true);
         }, 2000);
     };
+
+    // const persetujuan = useSelector(state => state.persetujuan)
+
+    useEffect(() => {
+        dispatch(getAllPersetujuan());
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getDetailUserPersetujuan(id));
+    }, [dispatch, id]);
 
     // const form = useForm({
     //     validateInputOnChange: true,
@@ -71,7 +90,7 @@ export default function UserStatus() {
             value: "status",
             label: (
                 <Link
-                    to={"/dashboard/user/status"}
+                    to={"/dashboard/user/status/:id"}
                     style={{
                         textDecoration: "none",
                         color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",

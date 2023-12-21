@@ -103,7 +103,7 @@ export default function UserPage() {
             value: "status",
             label: (
                 <Link
-                    to={"/dashboard/user/status"}
+                    to={"/dashboard/user/status/:id"}
                     style={{
                         textDecoration: "none",
                         color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",

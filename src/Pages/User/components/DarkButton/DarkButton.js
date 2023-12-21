@@ -1,5 +1,6 @@
 import {
     ActionIcon,
+    Tooltip,
     useComputedColorScheme,
     useMantineColorScheme,
 } from "@mantine/core";
@@ -26,9 +27,21 @@ const DarkButton = () => {
                 aria-label="Toggle color scheme"
             >
                 {computedColorScheme === "light" ? (
-                    <IconMoon stroke={1.5} size={18} />
+                    <Tooltip
+                        label="Mode Gelap"
+                        withArrow
+                        transitionProps={{ transition: "pop", duration: 500 }}
+                    >
+                        <IconMoon stroke={1.5} size={18} />
+                    </Tooltip>
                 ) : (
-                    <IconSun stroke={1.5} size={18} />
+                    <Tooltip
+                        label="Mode Terang"
+                        withArrow
+                        transitionProps={{ transition: "pop", duration: 500 }}
+                    >
+                        <IconSun stroke={1.5} size={18} />
+                    </Tooltip>
                 )}
             </ActionIcon>
         </>
