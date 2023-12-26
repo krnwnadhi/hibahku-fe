@@ -54,6 +54,10 @@ export default function UserStatus() {
         dispatch(getDetailUserPersetujuan(id));
     }, [dispatch, id]);
 
+    const persetujuan = useSelector((state) => state?.persetujuan);
+    const { loading, persetujuanList, appError, serverError } = persetujuan;
+    console.log(persetujuanList?.data);
+
     // const form = useForm({
     //     validateInputOnChange: true,
     //     initialValues: {
@@ -105,6 +109,7 @@ export default function UserStatus() {
     return (
         <>
             <Container size="xs" mt={-15} mb={-65}>
+                {!persetujuanList?.data && "Terlihat"}
                 <Paper
                     // bg="#25262B"
                     // shadow="lg"
@@ -135,7 +140,6 @@ export default function UserStatus() {
                         </Group>
                     </Group>
                 </Paper>
-
                 <Paper
                     bg="var(--mantine-color-blueGray-light)"
                     style={{ minHeight: "calc(110vh - 90px)" }}
@@ -219,7 +223,6 @@ export default function UserStatus() {
                         </Timeline>
                     </Paper>
                 </Paper>
-
                 <Center>
                     <SegmentedControl
                         radius="xl"

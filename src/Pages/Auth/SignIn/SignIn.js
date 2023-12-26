@@ -79,7 +79,7 @@ export default function SignIn(props) {
                 overlayProps={{ radius: "sm", blur: 1 }}
             />
             <Title ta="center">TITLE HERE...</Title>
-            <Paper radius="md" mt={20} p="xl" withBorder shadow="lg" {...props}>
+            <Paper radius="md" mt={20} p="xl" withBorder shadow="md" {...props}>
                 <form onSubmit={formOnSubmit}>
                     <Stack>
                         <TextInput

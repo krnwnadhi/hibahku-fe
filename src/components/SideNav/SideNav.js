@@ -36,12 +36,12 @@ export default function SideNav() {
             icon: IconBuildingMosque,
         },
         {
-            link: "/dashboard/rekap",
+            link: "/dashboard/admin/rekap",
             label: "Rekap Permohonan",
             icon: IconFileTypePdf,
         },
         {
-            link: "/dashboard/waktu",
+            link: "/dashboard/admin/periode",
             label: "Periodisasi",
             icon: IconClockHour4,
         },

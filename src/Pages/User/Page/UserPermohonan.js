@@ -9,15 +9,16 @@ import {
     Paper,
     Stack,
     TextInput,
+    rem,
     useComputedColorScheme,
 } from "@mantine/core";
+import { IconArrowLeft, IconFileTypePdf } from "@tabler/icons-react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useFocusTrap, useToggle } from "@mantine/hooks";
 
 import DarkButton from "../components/DarkButton/DarkButton";
-import { IconArrowLeft } from "@tabler/icons-react";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import axios from "axios";
 import { basePermohonanURL } from "../../../utils/baseURL";
@@ -86,6 +87,18 @@ export default function UserPermohonan() {
             //     "Pengajuan dana minimal 3 angka"
             // ),
             norek: hasLength({ min: 8, max: 10 }, "Min. 8 karakter"),
+            file_ktp: isNotEmpty(
+                "Tidak Boleh Kosong. Silahkan Upload File KTP."
+            ),
+            file_rab: isNotEmpty(
+                "Tidak Boleh Kosong. Silahkan Upload File RAB"
+            ),
+            file_suket: isNotEmpty("Tidak Boleh Kosong"),
+            file_burek: isNotEmpty("Tidak Boleh Kosong"),
+            file_sk: isNotEmpty("Tidak Boleh Kosong"),
+            file_proposal: isNotEmpty("Tidak Boleh Kosong"),
+            file_suratpermohonan: isNotEmpty("Tidak Boleh Kosong"),
+            file_asetrekom: isNotEmpty("Tidak Boleh Kosong"),
         },
     });
 
@@ -95,6 +108,13 @@ export default function UserPermohonan() {
         // form.clearErrors();
         // form.reset();
     });
+
+    const icon = (
+        <IconFileTypePdf
+            style={{ width: rem(18), height: rem(18) }}
+            stroke={1.5}
+        />
+    );
 
     return (
         <>
@@ -211,10 +231,10 @@ export default function UserPermohonan() {
                                     />
                                     <FileInput
                                         label="File KTP"
-                                        description="File KTP"
-                                        placeholder="File KTP"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
+                                        leftSection={icon}
                                         // value={form.values.file_ktp}
                                         // onChange={(event) =>
                                         //     form.setFieldValue(
@@ -224,13 +244,17 @@ export default function UserPermohonan() {
                                         //     )
                                         // }
                                         {...form.getInputProps("file_ktp")}
+                                        // error={
+                                        //     form.errors.file_ktp &&
+                                        //     "Tidak Boleh Kosong"
+                                        // }
                                     />
                                     <FileInput
                                         label="File RAB"
-                                        description="File RAB"
-                                        placeholder="File RAB"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
+                                        leftSection={icon}
                                         // value={form.values.file_rab}
                                         // onChange={(event) =>
                                         //     form.setFieldValue(
@@ -242,10 +266,10 @@ export default function UserPermohonan() {
                                     />
                                     <FileInput
                                         label="File SUKET"
-                                        description="File SUKET"
-                                        placeholder="File SUKET"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
+                                        leftSection={icon}
                                         // value={form.values.file_suket}
                                         // onChange={(event) =>
                                         //     form.setFieldValue(
@@ -257,10 +281,10 @@ export default function UserPermohonan() {
                                     />
                                     <FileInput
                                         label="File BUREK"
-                                        description="File burek"
-                                        placeholder="File burek"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
+                                        leftSection={icon}
                                         // value={form.values.file_burek}
                                         // onChange={(event) =>
                                         //     form.setFieldValue(
@@ -272,10 +296,10 @@ export default function UserPermohonan() {
                                     />
                                     <FileInput
                                         label="File SK"
-                                        description="File SK"
-                                        placeholder="File SK"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
+                                        leftSection={icon}
                                         // value={form.values.file_sk}
                                         // onChange={(event) =>
                                         //     form.setFieldValue(
@@ -287,10 +311,10 @@ export default function UserPermohonan() {
                                     />
                                     <FileInput
                                         label="File PROPOSAL"
-                                        description="File PROPOSAL"
-                                        placeholder="File PROPOSAL"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
+                                        leftSection={icon}
                                         // value={form.values.file_proposal}
                                         // onChange={(event) =>
                                         //     form.setFieldValue(
@@ -302,10 +326,10 @@ export default function UserPermohonan() {
                                     />
                                     <FileInput
                                         label="File SURAT PERMOHONAN"
-                                        description="File SURAT PERMOHONAN"
-                                        placeholder="File SURAT PERMOHONAN"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
+                                        leftSection={icon}
                                         // value={form.values.file_suratpermohonan}
                                         // onChange={(event) =>
                                         //     form.setFieldValue(
@@ -320,10 +344,10 @@ export default function UserPermohonan() {
                                     />
                                     <FileInput
                                         label="File ASET REKOM"
-                                        description="File ASET REKOM"
-                                        placeholder="File ASET REKOM"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
+                                        leftSection={icon}
                                         // value={form.values.file_asetrekom}
                                         // onChange={(event) =>
                                         //     form.setFieldValue(

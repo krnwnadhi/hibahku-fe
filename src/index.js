@@ -12,6 +12,7 @@ import {
 
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+import { DatesProvider } from "@mantine/dates";
 import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -79,7 +80,9 @@ root.render(
     <MantineProvider theme={theme} colorSchemeManager={colorSchemeManager}>
         <Provider store={store}>
             <BrowserRouter>
-                <App />
+                <DatesProvider>
+                    <App />
+                </DatesProvider>
             </BrowserRouter>
         </Provider>
     </MantineProvider>

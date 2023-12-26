@@ -11,9 +11,11 @@ import AuthVerify from "./utils/AuthVerify";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import DashboardUser from "./Pages/Dashboard/DashboardUser";
 import Page403 from "./Pages/Error/Error 403/Page403";
+import Periode from "./Pages/Periode/Periode";
 import ProtectedRoute from "./Navigation/ProtectedRoute";
 import ProtectedRouteUser from "./Navigation/ProtectedRouteUser";
 import Register from "./Pages/Auth/Register/Register";
+import Rekap from "./Pages/Rekap/Rekap";
 import RootLayout from "./components/Layout/RootLayout";
 import RootLayoutUser from "./components/Layout/RootLayoutUser";
 import RumahIbadah from "./Pages/Rumah Ibadah/RumahIbadah";
@@ -103,6 +105,14 @@ function App() {
                         <Route
                             path="/dashboard/admin"
                             element={<AdminPage />}
+                        />
+                        <Route
+                            path="/dashboard/admin/periode"
+                            element={<Periode />}
+                        />
+                        <Route
+                            path="/dashboard/admin/rekap"
+                            element={<Rekap />}
                         />
                         <Route
                             path="/dashboard/rumah-ibadah/list"

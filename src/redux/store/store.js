@@ -1,5 +1,6 @@
 import authReducer from "../slices/auth/authSlices";
 import { configureStore } from "@reduxjs/toolkit";
+import periodeReducer from "../slices/periode/periodeSlices";
 import permohonanReducer from "../slices/permohonan/permohonanSlices";
 import persetujuanReducer from "../slices/persetujuan/persetujuanSlices";
 import rumahIbadahReducer from "../slices/rumahIbadah/rumahIbadahSlices";
@@ -12,6 +13,7 @@ const store = configureStore({
         rumahIbadah: rumahIbadahReducer,
         permohonan: permohonanReducer,
         persetujuan: persetujuanReducer,
+        periode: periodeReducer,
     },
     // devTools: false,
 });
