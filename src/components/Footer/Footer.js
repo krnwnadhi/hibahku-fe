@@ -1,30 +1,33 @@
+import { Anchor, Text } from "@mantine/core";
+
 import { Link } from "react-router-dom";
 import React from "react";
-import { Text } from "@mantine/core";
 
 const Footer = () => {
     return (
-        <Text size="sm" align="center">
+        <Text size="sm" align="center" c="dimmed">
             Copyright © 2023{" "}
-            <Text
+            <Anchor
                 component={Link}
+                type="button"
                 to="https://kesra.jambiprov.go.id"
                 target="_blank"
                 rel="noopener noreferrer"
-                weight="bold"
+                ta="center"
             >
                 Biro Kesra Provinsi Jambi
-            </Text>{" "}
+            </Anchor>{" "}
             By{" "}
-            <Text
+            <Anchor
                 component={Link}
+                type="button"
                 to="https://diskominfo.jambiprov.go.id/"
                 target="_blank"
                 rel="noopener noreferrer"
-                weight="bold"
+                ta="center"
             >
                 Diskominfo Provinsi Jambi
-            </Text>
+            </Anchor>{" "}
         </Text>
     );
 };

@@ -3,6 +3,7 @@ import {
     Container,
     Paper,
     Space,
+    Text,
     TextInput,
     Title,
     rem,
@@ -131,11 +132,17 @@ const Periode = () => {
     return (
         <>
             <Container size="xl">
-                <Title order={3} ta="center">
-                    TUTUP: {mulaiPeriodeFormat} - BUKA KEMBALI :{" "}
-                    {selesaiPeriodeFormat}
+                <Title order={3} ta="center" fw={700} mb="xl" mt="xl">
+                    TUTUP :{" "}
+                    <Text span c="red" inherit>
+                        {mulaiPeriodeFormat ? mulaiPeriodeFormat : ""}
+                    </Text>{" "}
+                    - BUKA KEMBALI :{" "}
+                    <Text span c="blue" inherit>
+                        {selesaiPeriodeFormat ? selesaiPeriodeFormat : ""}
+                    </Text>
                 </Title>
-                <Paper radius="md" shadow="md" p="xl">
+                <Paper radius="md" shadow="md" p="xl" withBorder>
                     <form onSubmit={formOnSubmit}>
                         {/* <DatePickerInput
                             dropdownType="modal"
@@ -185,7 +192,9 @@ const Periode = () => {
                             }
                             radius="md"
                         />
+
                         <Space h="md" />
+
                         <TextInput
                             label="Buka Kembali Periode HIBAHKU"
                             description="YYYY-MM-DD"

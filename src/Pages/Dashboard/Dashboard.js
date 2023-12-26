@@ -46,7 +46,7 @@ const data = [
 export default function Dashboard() {
     const navigate = useNavigate();
     const user = useSelector((state) => state?.auth?.userAuth);
-    console.log(user);
+    // console.log(user);
 
     useEffect(() => {
         if (user?.role === 2) {

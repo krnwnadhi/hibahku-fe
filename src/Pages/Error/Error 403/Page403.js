@@ -3,8 +3,12 @@ import { Button, Container, Group, Text, Title } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import classes from "./Page403.module.css";
+import { useSelector } from "react-redux";
 
 export default function Page403() {
+    const user = useSelector((state) => state?.auth?.userAuth);
+    console.log(user);
+
     return (
         <Container
             // className={classes.root}
@@ -37,7 +41,11 @@ export default function Page403() {
                     variant="filled"
                     size="md"
                     component={Link}
-                    to="/dashboard"
+                    to={
+                        user?.role === 1
+                            ? "/dashboard"
+                            : "/dashboard/user/beranda"
+                    }
                 >
                     Halaman Utama
                 </Button>
