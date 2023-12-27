@@ -1,4 +1,6 @@
 import {
+    Anchor,
+    Breadcrumbs,
     Button,
     Container,
     Paper,
@@ -127,22 +129,41 @@ const Periode = () => {
     //     }
     // };
 
+    const items = [
+        { title: "Home", href: "/dashboard" },
+        { title: "Periodisasi", href: "/dashboard/admin/periode" },
+    ].map((item, index) => (
+        <Anchor
+            href={item.href}
+            key={index}
+            size="sm"
+            // underline={false}
+            truncate="end"
+        >
+            {item.title}
+        </Anchor>
+    ));
+
     console.log(dayjs().format("YYYY-MM-DD"));
 
     return (
         <>
             <Container size="xl">
-                <Title order={3} ta="center" fw={700} mb="xl" mt="xl">
-                    TUTUP :{" "}
-                    <Text span c="red" inherit>
-                        {mulaiPeriodeFormat ? mulaiPeriodeFormat : ""}
-                    </Text>{" "}
-                    - BUKA KEMBALI :{" "}
-                    <Text span c="blue" inherit>
-                        {selesaiPeriodeFormat ? selesaiPeriodeFormat : ""}
-                    </Text>
-                </Title>
+                <Breadcrumbs separator="→" mt="xs" mb="lg">
+                    {items}
+                </Breadcrumbs>
+
                 <Paper radius="md" shadow="md" p="xl" withBorder>
+                    <Title order={3} ta="center" fw={700} mb="xl">
+                        TUTUP :{" "}
+                        <Text span c="red" inherit>
+                            {mulaiPeriodeFormat ? mulaiPeriodeFormat : ""}
+                        </Text>{" "}
+                        - BUKA KEMBALI :{" "}
+                        <Text span c="blue" inherit>
+                            {selesaiPeriodeFormat ? selesaiPeriodeFormat : ""}
+                        </Text>
+                    </Title>
                     <form onSubmit={formOnSubmit}>
                         {/* <DatePickerInput
                             dropdownType="modal"

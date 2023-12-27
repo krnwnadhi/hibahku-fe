@@ -1,4 +1,6 @@
 import {
+    Anchor,
+    Breadcrumbs,
     Center,
     Container,
     Group,
@@ -42,6 +44,12 @@ const data = [
         icon: "down",
     },
 ];
+
+const items = [{ title: "Home", href: "/dashboard" }].map((item, index) => (
+    <Anchor href={item.href} key={index} size="sm" truncate="end">
+        {item.title}
+    </Anchor>
+));
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -96,5 +104,14 @@ export default function Dashboard() {
         );
     });
 
-    return <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>;
+    return (
+        <>
+            <Container size="xl">
+                <Breadcrumbs separator="→" mt="xs" mb="lg">
+                    {items}
+                </Breadcrumbs>
+                <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
+            </Container>
+        </>
+    );
 }
