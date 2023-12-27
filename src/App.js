@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import AdminPage from "./Pages/Admin/AdminPage";
+import AdminUser from "./Pages/AdminUser/AdminUser";
 import Anonymous from "./Navigation/Anonymous";
 import AuthVerify from "./utils/AuthVerify";
 import Dashboard from "./Pages/Dashboard/Dashboard";
@@ -105,6 +106,10 @@ function App() {
                         <Route
                             path="/dashboard/admin"
                             element={<AdminPage />}
+                        />
+                        <Route
+                            path="/dashboard/admin/list"
+                            element={<AdminUser />}
                         />
                         <Route
                             path="/dashboard/admin/periode"

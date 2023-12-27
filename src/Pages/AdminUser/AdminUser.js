@@ -3,11 +3,9 @@ import {
     Anchor,
     Badge,
     Breadcrumbs,
-    Button,
     Center,
     Container,
     Group,
-    Loader,
     LoadingOverlay,
     Pagination,
     Paper,
@@ -18,38 +16,33 @@ import {
     rem,
     useMantineTheme,
 } from "@mantine/core";
-import {
-    IconArrowRight,
-    IconPlus,
-    IconSearch,
-    IconTrash,
-    IconX,
-} from "@tabler/icons-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { IconArrowRight, IconSearch, IconX } from "@tabler/icons-react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 import DateFormatter from "../../utils/DateFormatter";
 import axios from "axios";
-import { baseRumahIbadahURL } from "../../utils/baseURL";
-import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
+import { baseUserURL } from "../../utils/baseURL";
+import { getAllUsersAction } from "../../redux/slices/user/userSlices";
+import { useSearchParams } from "react-router-dom";
 
-export default function RumahIbadah() {
+const AdminUser = () => {
     const dispatch = useDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useMantineTheme();
 
     useEffect(() => {
-        dispatch(getAllRumahIbadahAction());
+        dispatch(getAllUsersAction());
     }, [dispatch]);
 
     const user = useSelector((state) => state?.auth?.userAuth);
     const { token } = user;
 
-    const rumahIbadah = useSelector((state) => state?.rumahIbadah);
-    const { rumahIbadahList = [] } = rumahIbadah;
+    const users = useSelector((state) => state?.users);
+    const { usersList = [] } = users;
+    // console.log(usersList);
 
-    const [rumahIbadahState, setRumahIbadahState] = useState([rumahIbadahList]);
+    const [usersListState, setusersListState] = useState([usersList]);
     const [load, setLoad] = useState(false);
 
     const [pages, setPages] = useState(1);
@@ -61,7 +54,7 @@ export default function RumahIbadah() {
 
     const [query, setQuery] = useState("");
 
-    const getRumahIbadahList = async () => {
+    const getUsersList = async () => {
         try {
             const config = {
                 headers: {
@@ -70,12 +63,12 @@ export default function RumahIbadah() {
                 },
             };
             const response = await axios.get(
-                `${baseRumahIbadahURL}/list?nama=${keyword}&page=${pages}&limit=${limit}`,
+                `${baseUserURL}/getusers?nama=${keyword}&page=${pages}&limit=${limit}`,
                 config
             );
             const result = response?.data?.result;
 
-            setRumahIbadahState(result);
+            setusersListState(result);
             setTotalItems(response.data.totalItems);
             setTotalPage(response.data.totalPage);
             setPages(response.data.page);
@@ -85,24 +78,15 @@ export default function RumahIbadah() {
     };
 
     useEffect(() => {
-        getRumahIbadahList();
+        getUsersList();
         window.scrollTo(0, 0);
     }, [pages, keyword]);
 
     const handlePageChange = async (event) => {
         setPages(event);
-        // if (event === 2) {
-        //     setMsg(
-        //         "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
-        //     );
-        // } else {
-        //     setMsg("");
-        // }
-        // console.log(event);
     };
 
     const searchData = (e) => {
-        // e.preventDefault();
         setLoad(true);
         setTimeout(() => {
             setPages(1);
@@ -121,51 +105,47 @@ export default function RumahIbadah() {
     };
 
     const handleTextInput = (e) => {
-        // console.log(e.target.value);
         setQuery(e.target.value);
     };
 
-    const rowsList = rumahIbadahState?.map((item) => (
-        <Table.Tr key={item.id}>
-            <Table.Td>{item.id}</Table.Td>
-            <Table.Td>{item.nama}</Table.Td>
-            <Table.Td>{item.alamat}</Table.Td>
-            <Table.Td>{item.wilayah}</Table.Td>
+    const rowsList = usersListState?.map((item) => (
+        <Table.Tr key={item?.id}>
+            {/* <Table.Td>{item?.id}</Table.Td> */}
+            <Table.Td>{item?.nik}</Table.Td>
+            <Table.Td>{item?.nama}</Table.Td>
+            <Table.Td>{item?.notelpon}</Table.Td>
             <Table.Td
                 style={{
                     textAlign: "center",
                 }}
             >
-                {item.kategoriid === 1 ? (
-                    <Badge color="blue">Masjid</Badge>
+                {item?.roleid === 1 ? (
+                    <Badge color="red">Admin</Badge>
                 ) : (
-                    <Badge color="green">Lembaga Pendidikan Keagamaan</Badge>
+                    <Badge color="blue">User</Badge>
                 )}
             </Table.Td>
-            {/* <Table.Td>
+            <Table.Td
+                style={{
+                    textAlign: "center",
+                }}
+            >
                 <DateFormatter date={item?.createdAt} />
-            </Table.Td> */}
+            </Table.Td>
         </Table.Tr>
     ));
 
     const items = [
         { title: "Home", href: "/dashboard" },
-        { title: "List Rumah Ibadah", href: "/dashboard/rumah-ibadah/list" },
+        { title: "List User", href: "/dashboard/admin/list" },
     ].map((item, index) => (
-        <Anchor
-            href={item.href}
-            key={index}
-            size="sm"
-            // underline={false}
-            truncate="end"
-        >
+        <Anchor href={item.href} key={index} size="sm" truncate="end">
             {item.title}
         </Anchor>
     ));
 
     return (
         <>
-            {/* <Breadcrumbs>{items}</Breadcrumbs> */}
             <Container size="xl">
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
@@ -182,8 +162,8 @@ export default function RumahIbadah() {
                             overlayProps={{ radius: "sm", blur: 1 }}
                         />
                         {/* <Button component={Link} to="/dashboard/admin">
-                            Tambah
-                        </Button> */}
+                Tambah
+            </Button> */}
 
                         <TextInput
                             onKeyDown={(e) => {
@@ -240,20 +220,6 @@ export default function RumahIbadah() {
                 <Space h="sm" />
 
                 <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
-                    {/* <ActionIcon
-                        component={Link}
-                        to="/dashboard/rumah-ibadah/user/create"
-                        variant="filled"
-                        aria-label="Add"
-                    >
-                        <IconPlus
-                            style={{ width: "70%", height: "70%" }}
-                            stroke={1.5}
-                        />
-                    </ActionIcon>
-
-                    <Space h="sm" /> */}
-
                     <Table.ScrollContainer minWidth={500}>
                         <Table
                             withColumnBorders
@@ -265,22 +231,28 @@ export default function RumahIbadah() {
                         >
                             <Table.Thead>
                                 <Table.Tr key={pages}>
-                                    <Table.Th key={pages}>ID</Table.Th>
+                                    {/* <Table.Th key={pages}>ID</Table.Th> */}
+                                    <Table.Th key={pages}>NIK</Table.Th>
                                     <Table.Th>Nama</Table.Th>
-                                    <Table.Th>Alamat</Table.Th>
-                                    <Table.Th>Kabupaten/Kota</Table.Th>
+                                    <Table.Th>No. HP</Table.Th>
                                     <Table.Th
                                         style={{
                                             textAlign: "center",
                                         }}
                                     >
-                                        Kategori
+                                        Role
                                     </Table.Th>
-                                    {/* <Table.Th>Dibuat</Table.Th> */}
+                                    <Table.Th
+                                        style={{
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        Dibuat
+                                    </Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             <Table.Tbody>
-                                {rumahIbadahState.length === 0 ? (
+                                {usersListState.length === 0 ? (
                                     <Text>Data tidak ditemukan</Text>
                                 ) : (
                                     rowsList
@@ -288,8 +260,6 @@ export default function RumahIbadah() {
                             </Table.Tbody>
                         </Table>
                     </Table.ScrollContainer>
-
-                    {/* <Text>{msg}</Text> */}
 
                     <Space h="sm" />
 
@@ -313,4 +283,6 @@ export default function RumahIbadah() {
             </Container>
         </>
     );
-}
+};
+
+export default AdminUser;

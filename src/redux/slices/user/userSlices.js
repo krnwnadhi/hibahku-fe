@@ -71,7 +71,7 @@ const userSlices = createSlice({
             state.loading = true;
         });
         builder.addCase(getAllUsersAction.fulfilled, (state, action) => {
-            state.userList = action?.payload?.data;
+            state.usersList = action?.payload;
             state.loading = false;
             state.appError = undefined;
             state.serverError = undefined;

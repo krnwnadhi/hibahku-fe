@@ -96,7 +96,7 @@ const Periode = () => {
         form.reset();
         form.clearErrors();
         alert("Periode berhasil diperbaharui: " + JSON.stringify(values));
-        window.location.reload();
+        // window.location.reload();
     });
 
     // const formOnSubmit = form.onSubmit(async (values, event) => {

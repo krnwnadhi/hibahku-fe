@@ -15,24 +15,30 @@ import { useState } from "react";
 
 export default function SideNav() {
     const url = window.location.pathname;
+    console.log(url);
     const location = useLocation();
-    // console.log(location.pathname);
+    console.log(location.pathname);
 
-    const [active, setActive] = useState("Dashboard");
+    const [active, setActive] = useState(url);
 
     const userRole = useSelector((state) => state?.auth?.userAuth);
 
     const dataAdmin = [
         { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
         { link: "/dashboard/admin", label: "Admin", icon: IconUserShield },
+        // {
+        //     link: "/dashboard/user/beranda",
+        //     label: "User",
+        //     icon: IconUserSquare,
+        // },
         {
-            link: "/dashboard/user/beranda",
-            label: "User",
-            icon: IconUserSquare,
+            link: "/dashboard/admin/list",
+            label: "List User",
+            icon: IconBuildingMosque,
         },
         {
             link: "/dashboard/rumah-ibadah/list",
-            label: "Rumah Ibadah",
+            label: "List Rumah Ibadah",
             icon: IconBuildingMosque,
         },
         {
@@ -45,13 +51,13 @@ export default function SideNav() {
             label: "Periodisasi",
             icon: IconClockHour4,
         },
-        { link: "/error", label: "Error", icon: IconError404 },
+        // { link: "/error", label: "Error", icon: IconError404 },
     ];
 
     const linksAdmin = dataAdmin.map((item) => (
         <Link
             className={classes.link}
-            // data-active={item.label === active || undefined}
+            // data-active={item.link === active || undefined}
             to={item.link}
             key={item.label}
             onClick={(event) => {
