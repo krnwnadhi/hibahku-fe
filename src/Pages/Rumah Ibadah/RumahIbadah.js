@@ -166,20 +166,14 @@ export default function RumahIbadah() {
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
-                <Paper withBorder shadow="sm" p="xs">
-                    <Group
-                        justify="center"
-                        // bg="var(--mantine-color-blue-light)"
-                        p={5}
-                    >
+
+                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
+                    <Group>
                         <LoadingOverlay
                             visible={load}
                             zIndex={1000}
                             overlayProps={{ radius: "sm", blur: 1 }}
                         />
-                        {/* <Button component={Link} to="/dashboard/admin">
-                            Tambah
-                        </Button> */}
 
                         <TextInput
                             onKeyDown={(e) => {
@@ -189,7 +183,7 @@ export default function RumahIbadah() {
                             }}
                             value={query}
                             onChange={handleTextInput}
-                            radius="xl"
+                            radius="md"
                             size="sm"
                             placeholder="Cari Berdasarkan Nama"
                             // rightSectionWidth={40}
@@ -231,24 +225,8 @@ export default function RumahIbadah() {
                             </ActionIcon>
                         )}
                     </Group>
-                </Paper>
 
-                <Space h="sm" />
-
-                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
-                    {/* <ActionIcon
-                        component={Link}
-                        to="/dashboard/rumah-ibadah/user/create"
-                        variant="filled"
-                        aria-label="Add"
-                    >
-                        <IconPlus
-                            style={{ width: "70%", height: "70%" }}
-                            stroke={1.5}
-                        />
-                    </ActionIcon>
-
-                    <Space h="sm" /> */}
+                    <Space h="lg" />
 
                     <Table.ScrollContainer minWidth={500}>
                         <Table

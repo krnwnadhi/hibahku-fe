@@ -148,17 +148,16 @@ const Persetujuan = () => {
 
     const rowsList = persetujuanListState?.map((item, index) => (
         <Table.Tr key={item?.index}>
-            <Table.Td style={textCenter}>{index + 1}</Table.Td>
-            <Table.Td>
-                <Group spacing={0} justify="center" position="left">
-                    <ActionIcon
-                        component={Link}
-                        to={`/dashboard/admin/persetujuan/${item?.id}`}
-                        color="blue"
-                    >
-                        <IconPencil size={16} stroke={1.5} />
-                    </ActionIcon>
-                </Group>
+            <Table.Td ta="center">{index + 1}</Table.Td>
+            <Table.Td ta="center">
+                <ActionIcon
+                    component={Link}
+                    to={`/dashboard/admin/persetujuan/${item?.id}`}
+                    color="red"
+                    variant="subtle"
+                >
+                    <IconPencil size={16} stroke={1.5} />
+                </ActionIcon>
             </Table.Td>
             <Table.Td>{item?.keagamaanid}</Table.Td>
             <Table.Td>{item?.userid}</Table.Td>
@@ -195,8 +194,9 @@ const Persetujuan = () => {
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
-                <Paper withBorder shadow="sm" p="xs">
-                    <Group justify="center" p={5}>
+
+                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
+                    <Group>
                         <LoadingOverlay
                             visible={load}
                             zIndex={1000}
@@ -210,7 +210,7 @@ const Persetujuan = () => {
                             }}
                             value={query}
                             onChange={handleTextInput}
-                            radius="xl"
+                            radius="md"
                             size="sm"
                             placeholder="Cari ID Rumah Ibadah"
                             leftSection={
@@ -250,11 +250,9 @@ const Persetujuan = () => {
                             </ActionIcon>
                         )}
                     </Group>
-                </Paper>
 
-                <Space h="sm" />
+                    <Space h="lg" />
 
-                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
                     <Table.ScrollContainer minWidth={500}>
                         <Table
                             withColumnBorders
@@ -324,7 +322,7 @@ const Persetujuan = () => {
                         data
                     </Text>
 
-                    <Space h="xl" />
+                    <Space h="lg" />
 
                     <Center>
                         <Pagination

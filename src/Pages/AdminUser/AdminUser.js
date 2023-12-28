@@ -153,8 +153,9 @@ const AdminUser = () => {
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
-                <Paper withBorder shadow="sm" p="xs">
-                    <Group justify="center" p={5}>
+
+                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
+                    <Group>
                         <LoadingOverlay
                             visible={load}
                             zIndex={1000}
@@ -168,7 +169,7 @@ const AdminUser = () => {
                             }}
                             value={query}
                             onChange={handleTextInput}
-                            radius="xl"
+                            radius="md"
                             size="sm"
                             placeholder="Cari Berdasarkan Nama"
                             // rightSectionWidth={40}
@@ -210,11 +211,9 @@ const AdminUser = () => {
                             </ActionIcon>
                         )}
                     </Group>
-                </Paper>
 
-                <Space h="sm" />
+                    <Space h="lg" />
 
-                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
                     <Table.ScrollContainer minWidth={500}>
                         <Table
                             withColumnBorders
