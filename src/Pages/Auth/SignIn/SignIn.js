@@ -31,8 +31,8 @@ export default function SignIn(props) {
 
         validate: {
             nik: hasLength(
-                { min: 15, max: 16 },
-                "Nik berupa angka yang terdiri dari 15-16 Karakter"
+                { min: 15, max: 18 },
+                "Nik berupa angka yang terdiri dari 15-18 Karakter"
             ),
             password: hasLength({ min: 8 }, "Password minimal 8 karakter"),
         },
@@ -85,7 +85,7 @@ export default function SignIn(props) {
                         <TextInput
                             type="number"
                             label="NIK"
-                            placeholder="NIK yang terdiri dari 16 angka"
+                            placeholder="NIK yang terdiri dari 18 angka"
                             value={form.values.nik}
                             onChange={(event) =>
                                 form.setFieldValue(
@@ -94,7 +94,7 @@ export default function SignIn(props) {
                                 )
                             }
                             error={
-                                form.errors.nik && "Min 15 & Maks. 16 Karakter"
+                                form.errors.nik && "Min 15 & Maks. 18 Karakter"
                             }
                             radius="md"
                         />

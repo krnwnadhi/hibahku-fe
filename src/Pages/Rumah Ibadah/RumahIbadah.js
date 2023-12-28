@@ -255,9 +255,13 @@ export default function RumahIbadah() {
                             </Table.Thead>
                             <Table.Tbody>
                                 {rumahIbadahState.length === 0 ? (
-                                    <Text p="lg" ta="right" fw={700}>
-                                        Data tidak ditemukan
-                                    </Text>
+                                    <Table.Tr>
+                                        <Table.Td colSpan={5}>
+                                            <Text fw={500} ta="center">
+                                                Data Tidak Ditemukan
+                                            </Text>
+                                        </Table.Td>
+                                    </Table.Tr>
                                 ) : (
                                     rowsList
                                 )}

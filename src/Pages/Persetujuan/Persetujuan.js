@@ -100,7 +100,7 @@ const Persetujuan = () => {
             setKeyword(query);
             setLoad(false);
         }, 1000);
-        searchParams.set("ID", query);
+        searchParams.set("id", query);
         setSearchParams(searchParams);
     };
 
@@ -119,7 +119,7 @@ const Persetujuan = () => {
         const statusMap = {
             1: <Badge color="green">DISETUJUI</Badge>,
             2: <Badge color="red">DITOLAK</Badge>,
-            3: <Badge color="blue">PROSES</Badge>,
+            3: <Badge color="blue">BELUM DIPROSES</Badge>,
         };
 
         return statusMap[statusid] || "Status tidak valid";
@@ -305,9 +305,13 @@ const Persetujuan = () => {
                             </Table.Thead>
                             <Table.Tbody>
                                 {persetujuanListState.length === 0 ? (
-                                    <Text p="lg" ta="right" fw={700}>
-                                        Data tidak ditemukan
-                                    </Text>
+                                    <Table.Tr>
+                                        <Table.Td colSpan={14}>
+                                            <Text fw={500} ta="center">
+                                                Data Tidak Ditemukan
+                                            </Text>
+                                        </Table.Td>
+                                    </Table.Tr>
                                 ) : (
                                     rowsList
                                 )}
