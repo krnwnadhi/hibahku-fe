@@ -1,8 +1,11 @@
 import {
+    Alert,
     Anchor,
     Breadcrumbs,
     Button,
+    Collapse,
     Container,
+    Notification,
     Paper,
     Space,
     Text,
@@ -10,6 +13,7 @@ import {
     Title,
     rem,
 } from "@mantine/core";
+import { IconCalendar, IconCheck, IconInfoCircle } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
 import {
     createPeriode,
@@ -19,12 +23,15 @@ import { isNotEmpty, matches, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
 import { DatePickerInput } from "@mantine/dates";
-import { IconCalendar } from "@tabler/icons-react";
 import axios from "axios";
 import { basePeriodeURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 
 const Periode = () => {
+    const [openAlert, setOpenAlert] = useState(false);
+    const [loadingToast, setLoadingToast] = useState(false);
+
     const todaysDate = new Date();
     // console.log(todaysDate);
     function convertDate(date) {
@@ -63,14 +70,12 @@ const Periode = () => {
         },
 
         validate: {
-            // mulai: isNotEmpty("Harus Di Isi"),
-            // selesai: isNotEmpty("Harus Di Isi"),
             mulai: matches(
-                /^\d{4}-\d{2}-\d{2}$/,
+                /^(?:20\d{2}|19\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/,
                 "Tidak sesuai format YYYY-MM-DD"
             ),
             selesai: matches(
-                /^\d{4}-\d{2}-\d{2}$/,
+                /^(?:20\d{2}|19\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/,
                 "Tidak sesuai format YYYY-MM-DD"
             ),
         },
@@ -80,25 +85,26 @@ const Periode = () => {
         dispatch(getPeriode());
     }, [dispatch]);
 
-    const periode = useSelector((state) => state?.periode?.getPeriode);
+    const periode = useSelector((state) => state?.periode);
+
+    const { loading, appError, serverError } = periode;
     // console.log(periode);
-    const mulaiPeriode = periode?.map((x) => x.mulai);
+    const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
     const mulaiPeriodeFormat = dayjs(mulaiPeriode).format("DD-MM-YYYY");
     console.log(mulaiPeriodeFormat);
 
-    const selesaiPeriode = periode?.map((x) => x.selesai);
+    const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
     const selesaiPeriodeFormat = dayjs(selesaiPeriode).format("DD-MM-YYYY");
     console.log(selesaiPeriodeFormat);
-
-    // const { loading, appError, serverError, getPeriode } = periode;
 
     const formOnSubmit = form.onSubmit((values) => {
         console.log(values);
         dispatch(createPeriode(values));
         form.reset();
         form.clearErrors();
-        alert("Periode berhasil diperbaharui: " + JSON.stringify(values));
-        // window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 5500);
     });
 
     // const formOnSubmit = form.onSubmit(async (values, event) => {
@@ -133,18 +139,29 @@ const Periode = () => {
         { title: "Home", href: "/dashboard" },
         { title: "Periodisasi", href: "/dashboard/admin/periode" },
     ].map((item, index) => (
-        <Anchor
-            href={item.href}
-            key={index}
-            size="sm"
-            // underline={false}
-            truncate="end"
-        >
+        <Anchor href={item.href} key={index} size="sm" truncate="end">
             {item.title}
         </Anchor>
     ));
 
-    console.log(dayjs().format("YYYY-MM-DD"));
+    const handleLoadingClick = () => {
+        toast("Loading...", {
+            isLoading: true,
+            autoClose: false, // Don't auto-close for loading
+        });
+
+        // Simulate a loading process
+        setLoadingToast(true);
+        setTimeout(() => {
+            setLoadingToast(false);
+            toast.dismiss(); // Dismiss the loading toast
+            toast.success(
+                "Periode Berhasil Di perbarui. Halaman akan reload secara otomatis."
+            );
+        }, 2500);
+    };
+
+    // console.log(dayjs().format("YYYY-MM-DD"));
 
     return (
         <>
@@ -152,6 +169,8 @@ const Periode = () => {
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
+
+                <Space h="md" />
 
                 <Paper radius="md" shadow="md" p="xl" withBorder>
                     <Title order={3} ta="center" fw={700} mb="xl">
@@ -239,12 +258,17 @@ const Periode = () => {
                         <Button
                             type="submit"
                             // variant="subtle"
+                            loading={loading}
                             fullWidth
                             radius="md"
                             mt="md"
                             disabled={!form.isValid()}
                             // onSubmit={onSubmitButton}
                             // onClick={postData}
+                            // onClick={() => {
+                            //     setOpenAlert((prev) => !prev);
+                            // }}
+                            onClick={handleLoadingClick}
                         >
                             Set Periode
                         </Button>

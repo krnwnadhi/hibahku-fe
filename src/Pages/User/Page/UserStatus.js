@@ -12,8 +12,8 @@ import {
 } from "@mantine/core";
 import { Link, useParams } from "react-router-dom";
 import {
-    getAllPersetujuan,
-    getDetailUserPersetujuan,
+    getAllPersetujuanAction,
+    getDetailUserPersetujuanAction,
 } from "../../../redux/slices/persetujuan/persetujuanSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -47,11 +47,11 @@ export default function UserStatus() {
     // const persetujuan = useSelector(state => state.persetujuan)
 
     useEffect(() => {
-        dispatch(getAllPersetujuan());
+        dispatch(getAllPersetujuanAction());
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getDetailUserPersetujuan(id));
+        dispatch(getDetailUserPersetujuanAction(id));
     }, [dispatch, id]);
 
     const persetujuan = useSelector((state) => state?.persetujuan);

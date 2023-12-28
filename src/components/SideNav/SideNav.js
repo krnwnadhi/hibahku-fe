@@ -2,6 +2,7 @@ import {
     IconClockHour4,
     IconError404,
     IconFileTypePdf,
+    IconLicense,
     IconUserShield,
     IconUserSquare,
 } from "@tabler/icons-react";
@@ -9,6 +10,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 
 import { IconBuildingMosque } from "@tabler/icons-react";
 import { IconHome2 } from "@tabler/icons-react";
+import { IconUser } from "@tabler/icons-react";
 import classes from "./SideNav.module.css";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -32,9 +34,14 @@ export default function SideNav() {
         //     icon: IconUserSquare,
         // },
         {
+            link: "/dashboard/admin/persetujuan",
+            label: "Persetujuan",
+            icon: IconLicense,
+        },
+        {
             link: "/dashboard/admin/list",
             label: "List User",
-            icon: IconBuildingMosque,
+            icon: IconUser,
         },
         {
             link: "/dashboard/rumah-ibadah/list",

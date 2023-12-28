@@ -92,22 +92,6 @@ const AdminPage = () => {
         dispatch(getAllUsersAction());
     }, [dispatch]);
 
-    const users = useSelector((state) => state?.users);
-    // console.log(getUser);
-
-    const { loading: loadingRedux, userList } = users;
-    console.log(userList);
-
-    const list =
-        userList &&
-        userList.map((item) => (
-            <List key={item?.id}>
-                <List.Item>{item?.nama}</List.Item>
-                <List.Item>{item?.notelpon}</List.Item>
-                <List.Item>{item?.nik}</List.Item>
-            </List>
-        ));
-
     return (
         <div>
             <Group>
@@ -133,7 +117,6 @@ const AdminPage = () => {
 
                 <Divider orientation="vertical" />
             </Group>
-            <Container>{list}</Container>
         </div>
     );
 };

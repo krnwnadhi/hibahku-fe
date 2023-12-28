@@ -7,7 +7,7 @@ import { basePersetujuanURL } from "../../../utils/baseURL";
 // const resetcreatePermohonanAction = createAction("permohonan/create/reset");
 
 //get all persetujuan
-export const getAllPersetujuan = createAsyncThunk(
+export const getAllPersetujuanAction = createAsyncThunk(
     "persetujuan/getAllPersetujuan",
     async (data, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
@@ -37,7 +37,7 @@ export const getAllPersetujuan = createAsyncThunk(
 );
 
 //get detail admin persetujuan
-export const getDetailAdminPersetujuan = createAsyncThunk(
+export const getDetailAdminPersetujuanAction = createAsyncThunk(
     "persetujuan/getDetailAdminPersetujuan",
     async (id, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
@@ -67,7 +67,7 @@ export const getDetailAdminPersetujuan = createAsyncThunk(
 );
 
 //get detail User persetujuan
-export const getDetailUserPersetujuan = createAsyncThunk(
+export const getDetailUserPersetujuanAction = createAsyncThunk(
     "persetujuan/getDetailUserPersetujuan",
     async (id, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
@@ -102,27 +102,30 @@ const persetujuan = createSlice({
     initialState: {},
     extraReducers: (builder) => {
         //get all persetujuan
-        builder.addCase(getAllPersetujuan.pending, (state, action) => {
+        builder.addCase(getAllPersetujuanAction.pending, (state, action) => {
             state.loading = true;
         });
-        builder.addCase(getAllPersetujuan.fulfilled, (state, action) => {
+        builder.addCase(getAllPersetujuanAction.fulfilled, (state, action) => {
             state.persetujuanList = action?.payload;
             state.loading = false;
             state.appError = undefined;
             state.serverError = undefined;
         });
-        builder.addCase(getAllPersetujuan.rejected, (state, action) => {
+        builder.addCase(getAllPersetujuanAction.rejected, (state, action) => {
             state.loading = false;
             state.appError = action?.payload?.message;
             state.serverError = action?.error?.message;
         });
 
         //get detail admin persetujuan
-        builder.addCase(getDetailAdminPersetujuan.pending, (state, action) => {
-            state.loading = true;
-        });
         builder.addCase(
-            getDetailAdminPersetujuan.fulfilled,
+            getDetailAdminPersetujuanAction.pending,
+            (state, action) => {
+                state.loading = true;
+            }
+        );
+        builder.addCase(
+            getDetailAdminPersetujuanAction.fulfilled,
             (state, action) => {
                 state.detailAdminPersetujuan = action?.payload;
                 state.loading = false;
@@ -130,27 +133,39 @@ const persetujuan = createSlice({
                 state.serverError = undefined;
             }
         );
-        builder.addCase(getDetailAdminPersetujuan.rejected, (state, action) => {
-            state.loading = false;
-            state.appError = action?.payload?.message;
-            state.serverError = action?.error?.message;
-        });
+        builder.addCase(
+            getDetailAdminPersetujuanAction.rejected,
+            (state, action) => {
+                state.loading = false;
+                state.appError = action?.payload?.message;
+                state.serverError = action?.error?.message;
+            }
+        );
 
         //get detail user persetujuan
-        builder.addCase(getDetailUserPersetujuan.pending, (state, action) => {
-            state.loading = true;
-        });
-        builder.addCase(getDetailUserPersetujuan.fulfilled, (state, action) => {
-            state.detailUserPersetujuan = action?.payload;
-            state.loading = false;
-            state.appError = undefined;
-            state.serverError = undefined;
-        });
-        builder.addCase(getDetailUserPersetujuan.rejected, (state, action) => {
-            state.loading = false;
-            state.appError = action?.payload?.message;
-            state.serverError = action?.error?.message;
-        });
+        builder.addCase(
+            getDetailUserPersetujuanAction.pending,
+            (state, action) => {
+                state.loading = true;
+            }
+        );
+        builder.addCase(
+            getDetailUserPersetujuanAction.fulfilled,
+            (state, action) => {
+                state.detailUserPersetujuan = action?.payload;
+                state.loading = false;
+                state.appError = undefined;
+                state.serverError = undefined;
+            }
+        );
+        builder.addCase(
+            getDetailUserPersetujuanAction.rejected,
+            (state, action) => {
+                state.loading = false;
+                state.appError = action?.payload?.message;
+                state.serverError = action?.error?.message;
+            }
+        );
     },
 });
 

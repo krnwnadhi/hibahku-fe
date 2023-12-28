@@ -14,35 +14,42 @@ import {
     Text,
     TextInput,
     rem,
-    useMantineTheme,
 } from "@mantine/core";
-import { IconArrowRight, IconSearch, IconX } from "@tabler/icons-react";
+import {
+    IconArrowRight,
+    IconCheck,
+    IconPencil,
+    IconSearch,
+    IconX,
+} from "@tabler/icons-react";
+import { Link, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import DateFormatter from "../../utils/DateFormatter";
 import axios from "axios";
-import { baseUserURL } from "../../utils/baseURL";
-import { getAllUsersAction } from "../../redux/slices/user/userSlices";
-import { useSearchParams } from "react-router-dom";
+import { basePersetujuanURL } from "../../utils/baseURL";
+import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 
-const AdminUser = () => {
+const Persetujuan = () => {
     const dispatch = useDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
     // const theme = useMantineTheme();
 
     useEffect(() => {
-        dispatch(getAllUsersAction());
+        dispatch(getAllPersetujuanAction());
     }, [dispatch]);
 
     const user = useSelector((state) => state?.auth?.userAuth);
     const { token } = user;
 
-    const users = useSelector((state) => state?.users);
-    const { usersList = [] } = users;
-    // console.log(usersList);
+    const persetujuan = useSelector((state) => state?.persetujuan);
+    const { persetujuanList } = persetujuan;
+    // console.log(persetujuanList);
 
-    const [usersListState, setUsersListState] = useState([usersList]);
+    const [persetujuanListState, setPersetujuanListState] = useState([
+        persetujuanList,
+    ]);
 
     const [load, setLoad] = useState(false);
 
@@ -54,7 +61,7 @@ const AdminUser = () => {
 
     const [query, setQuery] = useState("");
 
-    const getUsersList = async () => {
+    const getPersetujuanList = async () => {
         try {
             const config = {
                 headers: {
@@ -63,13 +70,12 @@ const AdminUser = () => {
                 },
             };
             const response = await axios.get(
-                `${baseUserURL}/getusers?nama=${keyword}&page=${pages}&limit=${limit}`,
+                `${basePersetujuanURL}/list?keagamaanid=${keyword}&page=${pages}&limit=${limit}`,
                 config
             );
             const result = response?.data?.result;
-            console.log(result);
 
-            setUsersListState(result);
+            setPersetujuanListState(result);
             setTotalItems(response.data.totalItems);
             setTotalPage(response.data.totalPage);
             setPages(response.data.page);
@@ -79,7 +85,7 @@ const AdminUser = () => {
     };
 
     useEffect(() => {
-        getUsersList();
+        getPersetujuanList();
         window.scrollTo(0, 0);
     }, [pages, keyword]);
 
@@ -94,7 +100,7 @@ const AdminUser = () => {
             setKeyword(query);
             setLoad(false);
         }, 1000);
-        searchParams.set("nama", query);
+        searchParams.set("ID", query);
         setSearchParams(searchParams);
     };
 
@@ -109,38 +115,74 @@ const AdminUser = () => {
         setQuery(e.target.value);
     };
 
-    const rowsList = usersListState?.map((item) => (
-        <Table.Tr key={item?.id}>
-            {/* <Table.Td>{item?.id}</Table.Td> */}
-            <Table.Td>{item?.nik}</Table.Td>
-            <Table.Td>{item?.nama}</Table.Td>
+    const getStatusText = (statusid) => {
+        const statusMap = {
+            1: <Badge color="green">DISETUJUI</Badge>,
+            2: <Badge color="red">DITOLAK</Badge>,
+            3: <Badge color="blue">PROSES</Badge>,
+        };
+
+        return statusMap[statusid] || "Status tidak valid";
+    };
+
+    const getProsesText = (prosesid) => {
+        const prosesMap = {
+            1: "VERIFIKASI PERSYARATAN ADMINISTRASI",
+            2: "VERIFIKASI FAKTUAL(SURVEI LAPANGAN)",
+            3: "REKOMENDASI",
+            4: "PERTIMBANGAN TAPD",
+            5: "PENGANGGARAN",
+            6: "PENERBITAN SK SDH DAN DOKUMEN LAINNNYA",
+            7: "PENANDATANGANAN NPHD, PAKTA INTEGRITAS, PERNYATAAN TANGGUNG JAWAB, DLL",
+            8: "PENCAIRAN DANA BANTUAN HIBAH",
+            9: "LAPORAN PERTANGGUNGJAWABAN PENGGUNAAN DANA BANTUAN HIBAH",
+            10: "PROSES",
+        };
+
+        return prosesMap[prosesid] || "Proses tidak valid";
+    };
+
+    const textCenter = {
+        textAlign: "center",
+    };
+
+    const rowsList = persetujuanListState?.map((item, index) => (
+        <Table.Tr key={item?.index}>
+            <Table.Td style={textCenter}>{index + 1}</Table.Td>
             <Table.Td>
-                {item?.notelpon === null ? "Tidak Ada" : item?.notelpon}
+                <Group spacing={0} justify="center" position="left">
+                    <ActionIcon
+                        component={Link}
+                        to={`/dashboard/admin/persetujuan/${item?.id}`}
+                        color="blue"
+                    >
+                        <IconPencil size={16} stroke={1.5} />
+                    </ActionIcon>
+                </Group>
             </Table.Td>
-            <Table.Td
-                style={{
-                    textAlign: "center",
-                }}
-            >
-                {item?.roleid === 1 ? (
-                    <Badge color="red">Admin</Badge>
-                ) : (
-                    <Badge color="blue">User</Badge>
-                )}
-            </Table.Td>
-            <Table.Td
-                style={{
-                    textAlign: "center",
-                }}
-            >
+            <Table.Td>{item?.keagamaanid}</Table.Td>
+            <Table.Td>{item?.userid}</Table.Td>
+            <Table.Td>{getStatusText(item?.statusid)}</Table.Td>
+            <Table.Td>{getProsesText(item?.prosesid)}</Table.Td>
+            <Table.Td>{item?.pengajuandana}</Table.Td>
+            <Table.Td>{item?.tujuan}</Table.Td>
+            <Table.Td>{item?.norek}</Table.Td>
+            <Table.Td style={textCenter}>
                 <DateFormatter date={item?.createdAt} />
             </Table.Td>
+
+            <Table.Td style={textCenter}>
+                {item?.skid && <IconCheck />}
+            </Table.Td>
+            <Table.Td>{item?.ktpid && <IconCheck />}</Table.Td>
+            <Table.Td>{item?.suratpermohonanid && <IconCheck />}</Table.Td>
+            <Table.Td>{item?.asetrekomid && <IconCheck />}</Table.Td>
         </Table.Tr>
     ));
 
     const items = [
         { title: "Home", href: "/dashboard" },
-        { title: "List User", href: "/dashboard/admin/list" },
+        { title: "Persetujuan", href: "/dashboard/admin/persetujuan" },
     ].map((item, index) => (
         <Anchor href={item.href} key={index} size="sm" truncate="end">
             {item.title}
@@ -170,8 +212,7 @@ const AdminUser = () => {
                             onChange={handleTextInput}
                             radius="xl"
                             size="sm"
-                            placeholder="Cari Berdasarkan Nama"
-                            // rightSectionWidth={40}
+                            placeholder="Cari ID Rumah Ibadah"
                             leftSection={
                                 <IconSearch
                                     style={{ width: rem(18), height: rem(18) }}
@@ -182,7 +223,6 @@ const AdminUser = () => {
                                 <ActionIcon
                                     size={32}
                                     radius="xl"
-                                    // color={theme.primaryColor}
                                     variant="filled"
                                     onClick={searchData}
                                     disabled={!query}
@@ -219,35 +259,54 @@ const AdminUser = () => {
                         <Table
                             withColumnBorders
                             withTableBorder
-                            horizontalSpacing="lg"
-                            verticalSpacing="md"
+                            horizontalSpacing="sm"
+                            verticalSpacing="sm"
                             striped
                             highlightOnHover
                         >
                             <Table.Thead>
                                 <Table.Tr key={pages}>
-                                    {/* <Table.Th key={pages}>ID</Table.Th> */}
-                                    <Table.Th key={pages}>NIK</Table.Th>
-                                    <Table.Th>Nama</Table.Th>
-                                    <Table.Th>No. HP</Table.Th>
-                                    <Table.Th
-                                        style={{
-                                            textAlign: "center",
-                                        }}
-                                    >
-                                        Role
+                                    <Table.Th rowSpan={2}>No.</Table.Th>
+                                    <Table.Th rowSpan={2}>Aksi</Table.Th>
+                                    <Table.Th key={pages} rowSpan={2}>
+                                        ID Rumah Ibadah
+                                    </Table.Th>
+                                    <Table.Th rowSpan={2}>User ID</Table.Th>
+                                    <Table.Th rowSpan={2}>Status</Table.Th>
+                                    <Table.Th rowSpan={2}>Proses</Table.Th>
+                                    <Table.Th rowSpan={2}>
+                                        Pengajuan Dana
+                                    </Table.Th>
+                                    <Table.Th rowSpan={2}>Tujuan</Table.Th>
+                                    <Table.Th rowSpan={2}>
+                                        No. Rekening
                                     </Table.Th>
                                     <Table.Th
                                         style={{
                                             textAlign: "center",
                                         }}
+                                        rowSpan={2}
                                     >
                                         Dibuat
                                     </Table.Th>
+                                    <Table.Th
+                                        style={{
+                                            textAlign: "center",
+                                        }}
+                                        colSpan={8}
+                                    >
+                                        Persyaratan Administrasi
+                                    </Table.Th>
+                                </Table.Tr>
+                                <Table.Tr key={pages}>
+                                    <Table.Th>SK Pengurus</Table.Th>
+                                    <Table.Th>KTP</Table.Th>
+                                    <Table.Th>Surat Permohonan</Table.Th>
+                                    <Table.Th>Aset Rekomendasi</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             <Table.Tbody>
-                                {usersListState.length === 0 ? (
+                                {persetujuanListState.length === 0 ? (
                                     <Text p="lg" ta="right" fw={700}>
                                         Data tidak ditemukan
                                     </Text>
@@ -282,4 +341,4 @@ const AdminUser = () => {
     );
 };
 
-export default AdminUser;
+export default Persetujuan;

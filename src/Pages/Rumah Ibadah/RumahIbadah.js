@@ -126,25 +126,22 @@ export default function RumahIbadah() {
     };
 
     const rowsList = rumahIbadahState?.map((item) => (
-        <Table.Tr key={item.id}>
-            <Table.Td>{item.id}</Table.Td>
-            <Table.Td>{item.nama}</Table.Td>
-            <Table.Td>{item.alamat}</Table.Td>
-            <Table.Td>{item.wilayah}</Table.Td>
+        <Table.Tr key={item?.id}>
+            <Table.Td>{item?.id}</Table.Td>
+            <Table.Td>{item?.nama}</Table.Td>
+            <Table.Td>{item?.alamat}</Table.Td>
+            <Table.Td>{item?.wilayah}</Table.Td>
             <Table.Td
-                style={{
-                    textAlign: "center",
-                }}
+            // style={{
+            //     textAlign: "center",
+            // }}
             >
-                {item.kategoriid === 1 ? (
+                {item?.kategoriid === 1 ? (
                     <Badge color="blue">Masjid</Badge>
                 ) : (
                     <Badge color="green">Lembaga Pendidikan Keagamaan</Badge>
                 )}
             </Table.Td>
-            {/* <Table.Td>
-                <DateFormatter date={item?.createdAt} />
-            </Table.Td> */}
         </Table.Tr>
     ));
 
@@ -165,7 +162,6 @@ export default function RumahIbadah() {
 
     return (
         <>
-            {/* <Breadcrumbs>{items}</Breadcrumbs> */}
             <Container size="xl">
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
@@ -258,8 +254,8 @@ export default function RumahIbadah() {
                         <Table
                             withColumnBorders
                             withTableBorder
-                            horizontalSpacing="md"
-                            verticalSpacing="sm"
+                            horizontalSpacing="lg"
+                            verticalSpacing="md"
                             striped
                             highlightOnHover
                         >
@@ -281,7 +277,9 @@ export default function RumahIbadah() {
                             </Table.Thead>
                             <Table.Tbody>
                                 {rumahIbadahState.length === 0 ? (
-                                    <Text>Data tidak ditemukan</Text>
+                                    <Text p="lg" ta="right" fw={700}>
+                                        Data tidak ditemukan
+                                    </Text>
                                 ) : (
                                     rowsList
                                 )}
