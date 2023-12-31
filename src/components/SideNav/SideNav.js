@@ -8,6 +8,7 @@ import {
 } from "@tabler/icons-react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
+import { Anchor } from "@mantine/core";
 import { IconBuildingMosque } from "@tabler/icons-react";
 import { IconHome2 } from "@tabler/icons-react";
 import { IconUser } from "@tabler/icons-react";
@@ -21,7 +22,7 @@ export default function SideNav() {
     const location = useLocation();
     console.log(location.pathname);
 
-    const [active, setActive] = useState(url);
+    const [active, setActive] = useState(location?.pathname);
 
     const userRole = useSelector((state) => state?.auth?.userAuth);
 
@@ -62,10 +63,10 @@ export default function SideNav() {
     ];
 
     const linksAdmin = dataAdmin.map((item) => (
-        <Link
+        <Anchor
             className={classes.link}
-            // data-active={item.link === active || undefined}
-            to={item.link}
+            data-active={item.link === active || undefined}
+            href={item.link}
             key={item.label}
             onClick={(event) => {
                 // event.preventDefault();
@@ -74,7 +75,7 @@ export default function SideNav() {
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />
             <span>{item.label}</span>
-        </Link>
+        </Anchor>
     ));
 
     const dataUser = [

@@ -3,9 +3,11 @@ import {
     Breadcrumbs,
     Container,
     List,
+    Space,
     Table,
     Text,
 } from "@mantine/core";
+import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import {
     getAllPersetujuanAction,
@@ -13,14 +15,14 @@ import {
 } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useParams } from "react-router-dom";
+import { basePersetujuanURL } from "../../utils/baseURL";
 
 const PersetujuanDetail = () => {
     const params = useParams();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllPersetujuanAction());
+        // dispatch(getAllPersetujuanAction());
         dispatch(getDetailAdminPersetujuanAction(params?.id));
     }, [dispatch, params]);
 
@@ -30,19 +32,37 @@ const PersetujuanDetail = () => {
 
     console.log(detailAdminPersetujuan);
 
-    // const [detailAdminPersetujuanState, setDetailAdminPersetujuan] = useState([
-    //     detailAdminPersetujuan,
-    // ]);
-
-    // console.log(detailAdminPersetujuanState);
-
     const list =
         detailAdminPersetujuan &&
         detailAdminPersetujuan.map((item, index) => (
             <List key={index}>
-                {/* <List.Item>{item?.index}</List.Item> */}
                 <List.Item>{item?.id}</List.Item>
                 <List.Item>{item?.norek}</List.Item>
+                <List.Item>{item?.User?.nama}</List.Item>
+                <List.Item>{item?.Status?.nama}</List.Item>
+                <List.Item>
+                    {item?.Proses?.nama} - {item?.Proses?.keterangan}
+                </List.Item>
+                <List.Item
+                    component={Anchor}
+                    href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
+                >
+                    {item?.Ktp?.namafile}
+                </List.Item>
+                <Space h="md" />
+                <List.Item
+                    component={Anchor}
+                    href={`${basePersetujuanURL}/download/${item?.Suket?.namafile}`}
+                >
+                    {item?.Suket?.namafile}
+                </List.Item>
+                <Space h="md" />
+                <List.Item
+                    component={Anchor}
+                    href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
+                >
+                    {item?.Suratpermohonan?.namafile}
+                </List.Item>
             </List>
         ));
 
@@ -58,7 +78,7 @@ const PersetujuanDetail = () => {
         { title: "Home", href: "/dashboard" },
         { title: "Persetujuan", href: "/dashboard/admin/persetujuan" },
         {
-            title: `Detail ${params.id}`,
+            title: `Detail - ${params.id}`,
             href: `/dashboard/admin/persetujuan/${params.id}`,
         },
     ].map((item, index) => (

@@ -1,6 +1,7 @@
 import {
     AppShell,
     Burger,
+    Code,
     Group,
     ScrollArea,
     Text,
@@ -60,7 +61,7 @@ export default function RootLayout() {
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="md">
-                <Group>
+                <Group justify="space-between">
                     <Burger
                         opened={opened}
                         onClick={toggle}
@@ -68,6 +69,7 @@ export default function RootLayout() {
                         size="sm"
                     />
                     <Text>HIBAHKU</Text>
+                    <Code fw={500}>v1.0.0</Code>
                 </Group>
 
                 <AppShell.Section component={ScrollArea}>

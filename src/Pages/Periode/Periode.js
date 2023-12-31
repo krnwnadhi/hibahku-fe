@@ -23,6 +23,7 @@ import { isNotEmpty, matches, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
 import { DatePickerInput } from "@mantine/dates";
+import MaskedInput from "react-text-mask";
 import axios from "axios";
 import { basePeriodeURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
@@ -90,11 +91,11 @@ const Periode = () => {
     const { loading, appError, serverError } = periode;
     // console.log(periode);
     const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
-    const mulaiPeriodeFormat = dayjs(mulaiPeriode).format("DD-MM-YYYY");
+    const mulaiPeriodeFormat = dayjs(mulaiPeriode).format("DD-MMM-YYYY");
     console.log(mulaiPeriodeFormat);
 
     const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
-    const selesaiPeriodeFormat = dayjs(selesaiPeriode).format("DD-MM-YYYY");
+    const selesaiPeriodeFormat = dayjs(selesaiPeriode).format("DD-MMM-YYYY");
     console.log(selesaiPeriodeFormat);
 
     const formOnSubmit = form.onSubmit((values) => {
@@ -178,7 +179,7 @@ const Periode = () => {
                         <Text span c="red" inherit>
                             {mulaiPeriodeFormat ? mulaiPeriodeFormat : ""}
                         </Text>{" "}
-                        - BUKA KEMBALI :{" "}
+                        • BUKA KEMBALI :{" "}
                         <Text span c="blue" inherit>
                             {selesaiPeriodeFormat ? selesaiPeriodeFormat : ""}
                         </Text>
@@ -216,9 +217,23 @@ const Periode = () => {
                     /> */}
 
                         <TextInput
+                            component={MaskedInput}
+                            mask={[
+                                /\d/,
+                                /\d/,
+                                /\d/,
+                                /\d/,
+                                "-",
+                                /\d/,
+                                /\d/,
+                                "-",
+                                /\d/,
+                                /\d/,
+                            ]}
+                            guide
+                            placeholder="YYYY-MM-DD"
                             label="Tutup Periode HIBAHKU"
-                            description="YYYY-MM-DD"
-                            placeholder="Cth. 2024-11-30"
+                            description="Cth. 2024-06-01"
                             value={form.values.mulai}
                             onChange={(event) =>
                                 form.setFieldValue(
@@ -236,9 +251,23 @@ const Periode = () => {
                         <Space h="md" />
 
                         <TextInput
+                            component={MaskedInput}
+                            mask={[
+                                /\d/,
+                                /\d/,
+                                /\d/,
+                                /\d/,
+                                "-",
+                                /\d/,
+                                /\d/,
+                                "-",
+                                /\d/,
+                                /\d/,
+                            ]}
+                            guide
+                            placeholder="YYYY-MM-DD"
                             label="Buka Kembali Periode HIBAHKU"
-                            description="YYYY-MM-DD"
-                            placeholder="Cth. 2024-12-31"
+                            description="Cth. 2025-01-01"
                             value={form.values.selesai}
                             onChange={(event) =>
                                 form.setFieldValue(
@@ -257,7 +286,6 @@ const Periode = () => {
 
                         <Button
                             type="submit"
-                            // variant="subtle"
                             loading={loading}
                             fullWidth
                             radius="md"
