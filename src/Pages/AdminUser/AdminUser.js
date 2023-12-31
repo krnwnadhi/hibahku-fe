@@ -109,9 +109,9 @@ const AdminUser = () => {
         setQuery(e.target.value);
     };
 
-    const rowsList = usersListState?.map((item) => (
+    const rowsList = usersListState?.map((item, index) => (
         <Table.Tr key={item?.id}>
-            {/* <Table.Td>{item?.id}</Table.Td> */}
+            <Table.Td>{index + 1}</Table.Td>
             <Table.Td>{item?.nik}</Table.Td>
             <Table.Td>{item?.nama}</Table.Td>
             <Table.Td>
@@ -123,7 +123,7 @@ const AdminUser = () => {
                 }}
             >
                 {item?.roleid === 1 ? (
-                    <Badge color="red">Admin</Badge>
+                    <Badge color="green">Admin</Badge>
                 ) : (
                     <Badge color="blue">User</Badge>
                 )}
@@ -225,7 +225,12 @@ const AdminUser = () => {
                         >
                             <Table.Thead>
                                 <Table.Tr key={pages}>
-                                    {/* <Table.Th key={pages}>ID</Table.Th> */}
+                                    <Table.Th
+                                        style={{ width: "5%" }}
+                                        key={pages}
+                                    >
+                                        No.
+                                    </Table.Th>
                                     <Table.Th key={pages}>NIK</Table.Th>
                                     <Table.Th>Nama</Table.Th>
                                     <Table.Th>No. HP</Table.Th>

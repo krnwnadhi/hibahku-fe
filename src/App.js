@@ -15,6 +15,7 @@ import Page403 from "./Pages/Error/Error 403/Page403";
 import Periode from "./Pages/Periode/Periode";
 import Persetujuan from "./Pages/Persetujuan/Persetujuan";
 import PersetujuanApprove from "./Pages/Persetujuan/PersetujuanApprove";
+import PersetujuanDetail from "./Pages/Persetujuan/PersetujuanDetail";
 import ProtectedRoute from "./Navigation/ProtectedRoute";
 import ProtectedRouteUser from "./Navigation/ProtectedRouteUser";
 import Register from "./Pages/Auth/Register/Register";
@@ -116,6 +117,10 @@ function App() {
                         <Route
                             path="/dashboard/admin/persetujuan/:id"
                             element={<PersetujuanApprove />}
+                        />
+                        <Route
+                            path="/dashboard/admin/persetujuan/detail/:id"
+                            element={<PersetujuanDetail />}
                         />
                         <Route
                             path="/dashboard/admin/list"

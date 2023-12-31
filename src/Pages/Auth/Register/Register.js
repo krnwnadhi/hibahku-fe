@@ -79,8 +79,8 @@ export default function Register(props) {
                 <form
                     onSubmit={form.onSubmit((values) => {
                         dispatch(registerUserAction(values));
-                        form.reset();
-                        form.clearErrors();
+                        // form.reset();
+                        // form.clearErrors();
                     })}
                 >
                     <Stack>

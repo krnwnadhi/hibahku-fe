@@ -52,7 +52,7 @@ export default function SignIn(props) {
     useEffect(() => {
         const abortController = new AbortController();
 
-        if (appError || serverError) {
+        if (appError && appError) {
             toast.error(appError);
         }
 

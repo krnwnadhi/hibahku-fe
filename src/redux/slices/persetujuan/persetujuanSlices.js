@@ -19,7 +19,7 @@ export const getAllPersetujuanAction = createAsyncThunk(
             },
         };
 
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
             const { data } = await axios.get(
@@ -49,7 +49,7 @@ export const getDetailAdminPersetujuanAction = createAsyncThunk(
             },
         };
 
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
             const { data } = await axios.get(
@@ -79,7 +79,7 @@ export const getDetailUserPersetujuanAction = createAsyncThunk(
             },
         };
 
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
             const { data } = await axios.get(

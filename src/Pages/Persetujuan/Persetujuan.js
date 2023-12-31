@@ -9,6 +9,7 @@ import {
     LoadingOverlay,
     Pagination,
     Paper,
+    Popover,
     Space,
     Table,
     Text,
@@ -127,16 +128,29 @@ const Persetujuan = () => {
 
     const getProsesText = (prosesid) => {
         const prosesMap = {
-            1: "VERIFIKASI PERSYARATAN ADMINISTRASI",
-            2: "VERIFIKASI FAKTUAL(SURVEI LAPANGAN)",
-            3: "REKOMENDASI",
-            4: "PERTIMBANGAN TAPD",
-            5: "PENGANGGARAN",
-            6: "PENERBITAN SK SDH DAN DOKUMEN LAINNNYA",
-            7: "PENANDATANGANAN NPHD, PAKTA INTEGRITAS, PERNYATAAN TANGGUNG JAWAB, DLL",
-            8: "PENCAIRAN DANA BANTUAN HIBAH",
-            9: "LAPORAN PERTANGGUNGJAWABAN PENGGUNAAN DANA BANTUAN HIBAH",
-            10: "PROSES",
+            1: <Badge color="green">VERIFIKASI PERSYARATAN ADMINISTRASI</Badge>,
+            2: <Badge color="green">VERIFIKASI FAKTUAL(SURVEI LAPANGAN)</Badge>,
+            3: <Badge color="green">REKOMENDASI</Badge>,
+            4: <Badge color="green">PERTIMBANGAN TAPD</Badge>,
+            5: <Badge color="green">PENGANGGARAN</Badge>,
+            6: (
+                <Badge color="green">
+                    PENERBITAN SK SDH DAN DOKUMEN LAINNNYA
+                </Badge>
+            ),
+            7: (
+                <Badge color="green">
+                    PENANDATANGANAN NPHD, PAKTA INTEGRITAS, PERNYATAAN TANGGUNG
+                    JAWAB, DLL
+                </Badge>
+            ),
+            8: <Badge color="green">PENCAIRAN DANA BANTUAN HIBAH</Badge>,
+            9: (
+                <Badge color="green">
+                    LAPORAN PERTANGGUNGJAWABAN PENGGUNAAN DANA BANTUAN HIBAH"
+                </Badge>
+            ),
+            10: <Badge color="blue">BELUM DIPROSES</Badge>,
         };
 
         return prosesMap[prosesid] || "Proses tidak valid";
@@ -151,15 +165,25 @@ const Persetujuan = () => {
             <Table.Td ta="center">{index + 1}</Table.Td>
             <Table.Td ta="center">
                 <ActionIcon
-                    component={Link}
-                    to={`/dashboard/admin/persetujuan/${item?.id}`}
+                    component={Anchor}
+                    href={`/dashboard/admin/persetujuan/detail/${item?.id}`}
+                    // to={`/dashboard/admin/persetujuan/${item?.id}`}
                     color="red"
                     variant="subtle"
                 >
                     <IconPencil size={16} stroke={1.5} />
                 </ActionIcon>
             </Table.Td>
-            <Table.Td>{item?.keagamaanid}</Table.Td>
+            <Popover width={250} position="bottom" withArrow shadow="md">
+                <Popover.Target style={{ cursor: "pointer" }}>
+                    <Table.Td>{item?.keagamaanid}</Table.Td>
+                </Popover.Target>
+                <Popover.Dropdown>
+                    <Text size="xs">Nama Masjid: {item?.Keagamaan?.nama}</Text>
+                    <Text size="xs">Kab/Kota: {item?.Keagamaan?.wilayah}</Text>
+                    <Text size="xs">Alamat: {item?.Keagamaan?.alamat}</Text>
+                </Popover.Dropdown>
+            </Popover>
             <Table.Td>{item?.userid}</Table.Td>
             <Table.Td>{getStatusText(item?.statusid)}</Table.Td>
             <Table.Td>{getProsesText(item?.prosesid)}</Table.Td>
