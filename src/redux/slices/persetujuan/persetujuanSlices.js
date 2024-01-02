@@ -19,7 +19,7 @@ export const getAllPersetujuanAction = createAsyncThunk(
             },
         };
 
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         try {
             const { data } = await axios.get(
@@ -84,6 +84,34 @@ export const getDetailUserPersetujuanAction = createAsyncThunk(
         try {
             const { data } = await axios.get(
                 `${basePersetujuanURL}/detail/user/${id}`,
+                config
+            );
+            return data;
+        } catch (error) {
+            if (!error?.response) {
+                throw error;
+            }
+            return rejectWithValue(error?.response?.data);
+        }
+    }
+);
+
+//get detail User persetujuan
+export const downloadFileAction = createAsyncThunk(
+    "persetujuan/download",
+    async (filename, { rejectWithValue, getState, dispatch }) => {
+        const user = getState()?.auth?.userAuth;
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user?.token}`,
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+
+        try {
+            const { data } = await axios.get(
+                `${basePersetujuanURL}/download/${filename}`,
                 config
             );
             return data;
@@ -166,6 +194,22 @@ const persetujuan = createSlice({
                 state.serverError = action?.error?.message;
             }
         );
+
+        //download file
+        builder.addCase(downloadFileAction.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(downloadFileAction.fulfilled, (state, action) => {
+            state.downloadFilename = action?.payload;
+            state.loading = false;
+            state.appError = undefined;
+            state.serverError = undefined;
+        });
+        builder.addCase(downloadFileAction.rejected, (state, action) => {
+            state.loading = false;
+            state.appError = action?.payload?.message;
+            state.serverError = action?.error?.message;
+        });
     },
 });
 

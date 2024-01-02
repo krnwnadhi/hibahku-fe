@@ -14,6 +14,7 @@ import {
     Table,
     Text,
     TextInput,
+    Tooltip,
     rem,
 } from "@mantine/core";
 import {
@@ -151,6 +152,7 @@ const Persetujuan = () => {
                 </Badge>
             ),
             10: <Badge color="blue">BELUM DIPROSES</Badge>,
+            11: <Badge color="red">DITOLAK</Badge>,
         };
 
         return prosesMap[prosesid] || "Proses tidak valid";
@@ -160,19 +162,26 @@ const Persetujuan = () => {
         textAlign: "center",
     };
 
+    // const formattedAmount = new Intl.NumberFormat('id-ID', {
+    //     style: 'currency',
+    //     currency: 'IDR',
+    //   }).format(myAmount);
+
     const rowsList = persetujuanListState?.map((item, index) => (
         <Table.Tr key={item?.index}>
             <Table.Td ta="center">{index + 1}</Table.Td>
             <Table.Td ta="center">
-                <ActionIcon
-                    component={Anchor}
-                    href={`/dashboard/admin/persetujuan/detail/${item?.id}`}
-                    // to={`/dashboard/admin/persetujuan/${item?.id}`}
-                    color="red"
-                    variant="subtle"
-                >
-                    <IconPencil size={16} stroke={1.5} />
-                </ActionIcon>
+                <Tooltip label="Edit">
+                    <ActionIcon
+                        component={Anchor}
+                        href={`/dashboard/admin/persetujuan/detail/${item?.id}`}
+                        // to={`/dashboard/admin/persetujuan/${item?.id}`}
+                        color="red"
+                        variant="subtle"
+                    >
+                        <IconPencil size={16} stroke={1.5} />
+                    </ActionIcon>
+                </Tooltip>
             </Table.Td>
             <Popover width={250} position="bottom" withArrow shadow="md">
                 <Popover.Target style={{ cursor: "pointer" }}>
@@ -187,7 +196,12 @@ const Persetujuan = () => {
             <Table.Td>{item?.userid}</Table.Td>
             <Table.Td>{getStatusText(item?.statusid)}</Table.Td>
             <Table.Td>{getProsesText(item?.prosesid)}</Table.Td>
-            <Table.Td>{item?.pengajuandana}</Table.Td>
+            <Table.Td>
+                {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(item?.pengajuandana)}
+            </Table.Td>
             <Table.Td>{item?.tujuan}</Table.Td>
             <Table.Td>{item?.norek}</Table.Td>
             <Table.Td style={textCenter}>

@@ -1,14 +1,23 @@
+import "dayjs/locale/id";
+
 import {
+    Anchor,
     Button,
     Center,
     Container,
     Fieldset,
     FileInput,
     Group,
+    Image,
+    Modal,
     NumberInput,
     Paper,
+    ScrollArea,
+    Space,
     Stack,
+    Text,
     TextInput,
+    Title,
     rem,
     useComputedColorScheme,
 } from "@mantine/core";
@@ -23,6 +32,8 @@ import MenuMantine from "../../../components/Menu/MenuMantine";
 import axios from "axios";
 import { basePermohonanURL } from "../../../utils/baseURL";
 import { createPermohonan } from "../../../redux/slices/permohonan/permohonanSlices";
+import dayjs from "dayjs";
+import { useDatesContext } from "@mantine/dates";
 import { useNavigate } from "react-router-dom";
 
 export default function UserPermohonan() {
@@ -38,13 +49,14 @@ export default function UserPermohonan() {
     const dispatch = useDispatch();
 
     const permohonan = useSelector((state) => state?.permohonan);
-    const { loading, isCreated, appError, serverError } = permohonan;
+    const { loading, isCreated, appError, serverError, permohonanCreated } =
+        permohonan;
 
-    useEffect(() => {
-        if (isCreated) {
-            navigate("/dashboard/user/beranda");
-        }
-    }, [isCreated, navigate]);
+    // useEffect(() => {
+    //     if (isCreated) {
+    //         navigate("/dashboard/user/beranda");
+    //     }
+    // }, [isCreated, navigate]);
 
     // const [opened, { open, close }] = useDisclosure(false);
     const [type, toggle] = useToggle(["masjid", "pesantren"]);
@@ -109,11 +121,60 @@ export default function UserPermohonan() {
         // form.reset();
     });
 
+    // const dates = useDatesContext();
+    // console.log(dates);
+
     const icon = (
         <IconFileTypePdf
             style={{ width: rem(18), height: rem(18) }}
             stroke={1.5}
         />
+    );
+
+    const today = dayjs(new Date())
+        .locale("id")
+        .format("D MMMM YYYY : HH:mm:ss");
+
+    const hibahkuSuccessModalNotification = (
+        <>
+            <Image
+                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1703043173/Coat_of_arms_of_Jambi.svg_iultjk.png"
+                h={60}
+                w="auto"
+                fit="contain"
+                mx="auto"
+            />
+
+            <Space h="md" />
+
+            <Title ta="center" order={4}>
+                BIRO KESRA SETDA PROVINSI JAMBI
+            </Title>
+
+            <Space h="md" />
+
+            <Text ta="center" c="green" inherit>
+                SELAMAT
+            </Text>
+            <Text ta="center">Permohonan Anda DITERIMA</Text>
+            <Text ta="center">({today})</Text>
+
+            <Space h="md" />
+
+            <Text ta="center">
+                Selanjutnya, untuk mengetahui perkembangan permohonan anda,
+                silahkan klik fitur
+                <Anchor href="/dashboard/user/progres">
+                    <Text c="blue" fs="italic">
+                        "PROGRES HIBAHKU"
+                    </Text>{" "}
+                </Anchor>
+            </Text>
+
+            <Space h="xl" />
+
+            <Text ta="center">Terima Kasih</Text>
+        </>
     );
 
     return (
@@ -367,6 +428,8 @@ export default function UserPermohonan() {
                                     fullWidth
                                     type="submit"
                                     radius="md"
+                                    onClick={handleShow}
+                                    disabled={!form.isValid()}
                                 >
                                     Submit
                                 </Button>
@@ -374,6 +437,30 @@ export default function UserPermohonan() {
                         </form>
                     </Paper>
                 </Paper>
+                <Modal
+                    opened={show}
+                    closeOnEscape={false}
+                    closeOnClickOutside={false}
+                    withCloseButton={false}
+                    centered
+                    overlayProps={{
+                        backgroundOpacity: 0.55,
+                        blur: 3,
+                    }}
+                    yOffset="15vh"
+                    xOffset={0}
+                    scrollAreaComponent={ScrollArea.Autosize}
+                    onClose={handleClose}
+                >
+                    {permohonanCreated
+                        ? hibahkuSuccessModalNotification
+                        : "Tidak ada data"}
+                    {/* <Group mt="xl"> */}
+                    {/* <Button mt="xl" fullWidth onClick={handleClose}>
+                            Saya Mengerti
+                        </Button> */}
+                    {/* </Group> */}
+                </Modal>
             </Container>
         </>
     );

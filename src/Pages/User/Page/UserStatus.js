@@ -35,7 +35,7 @@ export default function UserStatus() {
         getInitialValueInEffect: true,
     });
 
-    const [value, setValue] = useState("status");
+    const [value, setValue] = useState("progres");
 
     const handleClose = () => setShow(false);
     const handleShow = () => {
@@ -91,16 +91,16 @@ export default function UserStatus() {
             ),
         },
         {
-            value: "status",
+            value: "progres",
             label: (
                 <Link
-                    to={"/dashboard/user/status/:id"}
+                    to={"/dashboard/user/progres"}
                     style={{
                         textDecoration: "none",
                         color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
                     }}
                 >
-                    <Text>Status</Text>
+                    <Text>Progres</Text>
                 </Link>
             ),
         },

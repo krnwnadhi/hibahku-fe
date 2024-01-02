@@ -7,7 +7,7 @@ const DateFormatter = ({ date }) => {
     return (
         <Moment
             locale="id"
-            format="DD MMM YYYY"
+            format="DD MMMM YYYY"
             // fromNow
         >
             {date}

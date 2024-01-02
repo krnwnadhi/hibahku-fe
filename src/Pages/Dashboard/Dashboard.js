@@ -4,6 +4,7 @@ import {
     Center,
     Container,
     Group,
+    Loader,
     Paper,
     RingProgress,
     SimpleGrid,
@@ -11,10 +12,13 @@ import {
     rem,
 } from "@mantine/core";
 import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
+import { useDispatch, useSelector } from "react-redux";
 
+import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
+import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
+import { getAllUsersAction } from "../../redux/slices/user/userSlices";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const icons = {
     up: IconArrowUpRight,
@@ -53,8 +57,58 @@ const items = [{ title: "Home", href: "/dashboard" }].map((item, index) => (
 
 export default function Dashboard() {
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllPersetujuanAction());
+        dispatch(getAllRumahIbadahAction());
+        dispatch(getAllUsersAction());
+    }, [dispatch]);
+
+    //
     const user = useSelector((state) => state?.auth?.userAuth);
-    // console.log(user);
+
+    //
+    const allUsersList = useSelector((state) => state?.users);
+    const { loading, usersList } = allUsersList;
+    console.log(usersList?.result?.length);
+
+    //
+    const allRumahIbadah = useSelector(
+        (state) => state?.rumahIbadah?.rumahIbadahList
+    );
+    const allPersetujuan = useSelector(
+        (state) => state?.persetujuan?.persetujuanList
+    );
+
+    // console.log(allUserList?.result?.length);
+    // console.log(allRumahIbadah?.result?.length);
+    // console.log(allPersetujuan?.result?.length);
+
+    const data = [
+        {
+            label: "Persetujuan",
+            stats: allPersetujuan?.result?.length,
+            progress: 65,
+            color: "teal",
+            icon: "up",
+        },
+        {
+            label: "Rumah Ibadah",
+            stats: allRumahIbadah?.result?.length,
+            progress: 72,
+            color: "blue",
+            icon: "up",
+        },
+        {
+            label: "Users",
+            stats: usersList?.result?.length,
+            progress: 52,
+            color: "red",
+            icon: "down",
+        },
+    ];
 
     useEffect(() => {
         if (user?.role === 2) {
@@ -92,10 +146,14 @@ export default function Dashboard() {
 
                         <div>
                             <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-                                {stat.label}
+                                {stat?.label}
                             </Text>
                             <Text fw={700} size="xl">
-                                {stat.stats}
+                                {loading ? (
+                                    <Loader mt="xs" size={18} />
+                                ) : (
+                                    stat?.stats
+                                )}
                             </Text>
                         </div>
                     </Group>

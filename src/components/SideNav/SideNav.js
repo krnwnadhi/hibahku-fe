@@ -28,12 +28,6 @@ export default function SideNav() {
 
     const dataAdmin = [
         { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
-        { link: "/dashboard/admin", label: "Admin", icon: IconUserShield },
-        // {
-        //     link: "/dashboard/user/beranda",
-        //     label: "User",
-        //     icon: IconUserSquare,
-        // },
         {
             link: "/dashboard/admin/persetujuan",
             label: "Persetujuan",
@@ -59,7 +53,6 @@ export default function SideNav() {
             label: "Periodisasi",
             icon: IconClockHour4,
         },
-        // { link: "/error", label: "Error", icon: IconError404 },
     ];
 
     const linksAdmin = dataAdmin.map((item) => (
@@ -79,19 +72,16 @@ export default function SideNav() {
     ));
 
     const dataUser = [
-        // { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
         {
             link: "/dashboard/user/beranda",
             label: "User",
             icon: IconUserSquare,
         },
-        // { link: "/error", label: "Error", icon: IconError404 },
     ];
 
     const linksUser = dataUser.map((item) => (
         <Link
             className={classes.link}
-            // data-active={item.label === active || undefined}
             to={item.link}
             key={item.label}
             onClick={(event) => {

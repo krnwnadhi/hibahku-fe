@@ -139,7 +139,7 @@ export default function RumahIbadah() {
                 {item?.kategoriid === 1 ? (
                     <Badge color="blue">Masjid</Badge>
                 ) : (
-                    <Badge color="green">Lembaga Pendidikan Keagamaan</Badge>
+                    <Badge color="green">Lembaga Keagamaan</Badge>
                 )}
             </Table.Td>
         </Table.Tr>

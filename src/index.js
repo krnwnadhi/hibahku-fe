@@ -80,7 +80,12 @@ root.render(
     <MantineProvider theme={theme} colorSchemeManager={colorSchemeManager}>
         <Provider store={store}>
             <BrowserRouter>
-                <DatesProvider>
+                <DatesProvider
+                    settings={{
+                        locale: "id",
+                        timezone: "UTC",
+                    }}
+                >
                     <App />
                 </DatesProvider>
             </BrowserRouter>
