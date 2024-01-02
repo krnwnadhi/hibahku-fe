@@ -127,19 +127,27 @@ export default function RumahIbadah() {
 
     const rowsList = rumahIbadahState?.map((item) => (
         <Table.Tr key={item?.id}>
-            <Table.Td>{item?.id}</Table.Td>
-            <Table.Td>{item?.nama}</Table.Td>
-            <Table.Td>{item?.alamat}</Table.Td>
-            <Table.Td>{item?.wilayah}</Table.Td>
-            <Table.Td
-            // style={{
-            //     textAlign: "center",
-            // }}
-            >
+            <Table.Td>
+                <Text size="xs">{item?.id}</Text>
+            </Table.Td>
+            <Table.Td>
+                <Text size="xs">{item?.nama}</Text>
+            </Table.Td>
+            <Table.Td>
+                <Text size="xs">{item?.alamat}</Text>
+            </Table.Td>
+            <Table.Td>
+                <Text size="xs">{item?.wilayah}</Text>
+            </Table.Td>
+            <Table.Td>
                 {item?.kategoriid === 1 ? (
-                    <Badge color="blue">Masjid</Badge>
+                    <Badge color="blue" size="xs">
+                        Masjid
+                    </Badge>
                 ) : (
-                    <Badge color="green">Lembaga Keagamaan</Badge>
+                    <Badge color="green" size="xs">
+                        Lembaga Keagamaan
+                    </Badge>
                 )}
             </Table.Td>
         </Table.Tr>

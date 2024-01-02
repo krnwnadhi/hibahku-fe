@@ -1,31 +1,25 @@
+import "dayjs/locale/id";
+
 import {
-    Alert,
     Anchor,
     Breadcrumbs,
     Button,
-    Collapse,
     Container,
-    Notification,
     Paper,
     Space,
     Text,
     TextInput,
     Title,
-    rem,
 } from "@mantine/core";
-import { IconCalendar, IconCheck, IconInfoCircle } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
 import {
     createPeriode,
     getPeriode,
 } from "../../redux/slices/periode/periodeSlices";
-import { isNotEmpty, matches, useForm } from "@mantine/form";
+import { matches, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
-import { DatePickerInput } from "@mantine/dates";
 import MaskedInput from "react-text-mask";
-import axios from "axios";
-import { basePeriodeURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
@@ -91,12 +85,16 @@ const Periode = () => {
     const { loading, appError, serverError } = periode;
     // console.log(periode);
     const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
-    const mulaiPeriodeFormat = dayjs(mulaiPeriode).format("DD-MMM-YYYY");
-    console.log(mulaiPeriodeFormat);
+    const mulaiPeriodeFormat = dayjs(mulaiPeriode)
+        .locale("id")
+        .format("DD MMMM YYYY");
+    // console.log(mulaiPeriodeFormat);
 
     const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
-    const selesaiPeriodeFormat = dayjs(selesaiPeriode).format("DD-MMM-YYYY");
-    console.log(selesaiPeriodeFormat);
+    const selesaiPeriodeFormat = dayjs(selesaiPeriode)
+        .locale("id")
+        .format("DD MMMM YYYY");
+    // console.log(selesaiPeriodeFormat);
 
     const formOnSubmit = form.onSubmit((values) => {
         console.log(values);

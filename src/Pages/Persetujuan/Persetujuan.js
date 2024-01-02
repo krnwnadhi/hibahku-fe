@@ -24,7 +24,6 @@ import {
     IconSearch,
     IconX,
 } from "@tabler/icons-react";
-import { Link, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,6 +31,7 @@ import DateFormatter from "../../utils/DateFormatter";
 import axios from "axios";
 import { basePersetujuanURL } from "../../utils/baseURL";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
+import { useSearchParams } from "react-router-dom";
 
 const Persetujuan = () => {
     const dispatch = useDispatch();
@@ -119,9 +119,21 @@ const Persetujuan = () => {
 
     const getStatusText = (statusid) => {
         const statusMap = {
-            1: <Badge color="green">DISETUJUI</Badge>,
-            2: <Badge color="red">DITOLAK</Badge>,
-            3: <Badge color="blue">BELUM DIPROSES</Badge>,
+            1: (
+                <Badge color="green" size="xs">
+                    DISETUJUI
+                </Badge>
+            ),
+            2: (
+                <Badge color="red" size="xs">
+                    DITOLAK
+                </Badge>
+            ),
+            3: (
+                <Badge color="blue" size="xs">
+                    BELUM DIPROSES
+                </Badge>
+            ),
         };
 
         return statusMap[statusid] || "Status tidak valid";
@@ -129,30 +141,62 @@ const Persetujuan = () => {
 
     const getProsesText = (prosesid) => {
         const prosesMap = {
-            1: <Badge color="green">VERIFIKASI PERSYARATAN ADMINISTRASI</Badge>,
-            2: <Badge color="green">VERIFIKASI FAKTUAL(SURVEI LAPANGAN)</Badge>,
-            3: <Badge color="green">REKOMENDASI</Badge>,
-            4: <Badge color="green">PERTIMBANGAN TAPD</Badge>,
-            5: <Badge color="green">PENGANGGARAN</Badge>,
+            1: (
+                <Badge color="green" size="xs">
+                    VERIFIKASI PERSYARATAN ADMINISTRASI
+                </Badge>
+            ),
+            2: (
+                <Badge color="green" size="xs">
+                    VERIFIKASI FAKTUAL(SURVEI LAPANGAN)
+                </Badge>
+            ),
+            3: (
+                <Badge color="green" size="xs">
+                    REKOMENDASI
+                </Badge>
+            ),
+            4: (
+                <Badge color="green" size="xs">
+                    PERTIMBANGAN TAPD
+                </Badge>
+            ),
+            5: (
+                <Badge color="green" size="xs">
+                    PENGANGGARAN
+                </Badge>
+            ),
             6: (
-                <Badge color="green">
+                <Badge color="green" size="xs">
                     PENERBITAN SK SDH DAN DOKUMEN LAINNNYA
                 </Badge>
             ),
             7: (
-                <Badge color="green">
+                <Badge color="green" size="xs">
                     PENANDATANGANAN NPHD, PAKTA INTEGRITAS, PERNYATAAN TANGGUNG
                     JAWAB, DLL
                 </Badge>
             ),
-            8: <Badge color="green">PENCAIRAN DANA BANTUAN HIBAH</Badge>,
+            8: (
+                <Badge color="green" size="xs">
+                    PENCAIRAN DANA BANTUAN HIBAH
+                </Badge>
+            ),
             9: (
-                <Badge color="green">
+                <Badge color="green" size="xs">
                     LAPORAN PERTANGGUNGJAWABAN PENGGUNAAN DANA BANTUAN HIBAH"
                 </Badge>
             ),
-            10: <Badge color="blue">BELUM DIPROSES</Badge>,
-            11: <Badge color="red">DITOLAK</Badge>,
+            10: (
+                <Badge color="blue" size="xs">
+                    BELUM DIPROSES
+                </Badge>
+            ),
+            11: (
+                <Badge color="red" size="xs">
+                    DITOLAK
+                </Badge>
+            ),
         };
 
         return prosesMap[prosesid] || "Proses tidak valid";
@@ -162,14 +206,13 @@ const Persetujuan = () => {
         textAlign: "center",
     };
 
-    // const formattedAmount = new Intl.NumberFormat('id-ID', {
-    //     style: 'currency',
-    //     currency: 'IDR',
-    //   }).format(myAmount);
-
     const rowsList = persetujuanListState?.map((item, index) => (
         <Table.Tr key={item?.index}>
-            <Table.Td ta="center">{index + 1}</Table.Td>
+            <Table.Td>
+                <Text size="xs" ta="center">
+                    {index + 1}
+                </Text>
+            </Table.Td>
             <Table.Td ta="center">
                 <Tooltip label="Edit">
                     <ActionIcon
@@ -179,13 +222,15 @@ const Persetujuan = () => {
                         color="red"
                         variant="subtle"
                     >
-                        <IconPencil size={16} stroke={1.5} />
+                        <IconPencil size={14} stroke={1.5} />
                     </ActionIcon>
                 </Tooltip>
             </Table.Td>
             <Popover width={250} position="bottom" withArrow shadow="md">
                 <Popover.Target style={{ cursor: "pointer" }}>
-                    <Table.Td>{item?.keagamaanid}</Table.Td>
+                    <Table.Td>
+                        <Text size="xs">{item?.keagamaanid}</Text>
+                    </Table.Td>
                 </Popover.Target>
                 <Popover.Dropdown>
                     <Text size="xs">Nama Masjid: {item?.Keagamaan?.nama}</Text>
@@ -193,27 +238,45 @@ const Persetujuan = () => {
                     <Text size="xs">Alamat: {item?.Keagamaan?.alamat}</Text>
                 </Popover.Dropdown>
             </Popover>
-            <Table.Td>{item?.userid}</Table.Td>
+            <Table.Td>
+                <Text size="xs" ta="center">
+                    {item?.userid}
+                </Text>
+            </Table.Td>
             <Table.Td>{getStatusText(item?.statusid)}</Table.Td>
             <Table.Td>{getProsesText(item?.prosesid)}</Table.Td>
             <Table.Td>
-                {new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(item?.pengajuandana)}
+                <Text size="xs">
+                    {new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                    }).format(item?.pengajuandana)}
+                </Text>
             </Table.Td>
-            <Table.Td>{item?.tujuan}</Table.Td>
-            <Table.Td>{item?.norek}</Table.Td>
+            <Table.Td>
+                <Text size="xs">{item?.tujuan}</Text>
+            </Table.Td>
+            <Table.Td>
+                <Text size="xs">{item?.norek}</Text>
+            </Table.Td>
             <Table.Td style={textCenter}>
-                <DateFormatter date={item?.createdAt} />
+                <Text size="xs">
+                    <DateFormatter date={item?.createdAt} />
+                </Text>
             </Table.Td>
 
             <Table.Td style={textCenter}>
-                {item?.skid && <IconCheck />}
+                {item?.skid && <IconCheck size={16} />}
             </Table.Td>
-            <Table.Td>{item?.ktpid && <IconCheck />}</Table.Td>
-            <Table.Td>{item?.suratpermohonanid && <IconCheck />}</Table.Td>
-            <Table.Td>{item?.asetrekomid && <IconCheck />}</Table.Td>
+            <Table.Td style={textCenter}>
+                {item?.ktpid && <IconCheck size={16} />}
+            </Table.Td>
+            <Table.Td style={textCenter}>
+                {item?.suratpermohonanid && <IconCheck size={16} />}
+            </Table.Td>
+            <Table.Td style={textCenter}>
+                {item?.asetrekomid && <IconCheck size={16} />}
+            </Table.Td>
         </Table.Tr>
     ));
 

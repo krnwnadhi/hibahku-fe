@@ -111,11 +111,19 @@ const AdminUser = () => {
 
     const rowsList = usersListState?.map((item, index) => (
         <Table.Tr key={item?.id}>
-            <Table.Td>{index + 1}</Table.Td>
-            <Table.Td>{item?.nik}</Table.Td>
-            <Table.Td>{item?.nama}</Table.Td>
             <Table.Td>
-                {item?.notelpon === null ? "Tidak Ada" : item?.notelpon}
+                <Text size="xs">{index + 1}</Text>
+            </Table.Td>
+            <Table.Td>
+                <Text size="xs">{item?.nik}</Text>
+            </Table.Td>
+            <Table.Td>
+                <Text size="xs">{item?.nama}</Text>
+            </Table.Td>
+            <Table.Td>
+                <Text size="xs">
+                    {item?.notelpon === null ? "Tidak Ada" : item?.notelpon}
+                </Text>
             </Table.Td>
             <Table.Td
                 style={{
@@ -123,9 +131,13 @@ const AdminUser = () => {
                 }}
             >
                 {item?.roleid === 1 ? (
-                    <Badge color="green">Admin</Badge>
+                    <Badge color="green" size="xs">
+                        Admin
+                    </Badge>
                 ) : (
-                    <Badge color="blue">User</Badge>
+                    <Badge color="blue" size="xs">
+                        User
+                    </Badge>
                 )}
             </Table.Td>
             <Table.Td
@@ -133,7 +145,9 @@ const AdminUser = () => {
                     textAlign: "center",
                 }}
             >
-                <DateFormatter date={item?.createdAt} />
+                <Text size="xs">
+                    <DateFormatter date={item?.createdAt} />
+                </Text>
             </Table.Td>
         </Table.Tr>
     ));
