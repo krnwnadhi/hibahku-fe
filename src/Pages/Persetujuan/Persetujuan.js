@@ -367,6 +367,7 @@ const Persetujuan = () => {
                             verticalSpacing="sm"
                             striped
                             highlightOnHover
+                            fz="xs"
                         >
                             <Table.Thead>
                                 <Table.Tr key={pages}>

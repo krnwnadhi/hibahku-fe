@@ -3,55 +3,196 @@ import {
     Avatar,
     Breadcrumbs,
     Button,
+    CloseButton,
+    Combobox,
     Container,
     Grid,
     Group,
+    Input,
+    InputBase,
     LoadingOverlay,
     Paper,
     Select,
     SimpleGrid,
-    Skeleton,
     Space,
     Stack,
     Text,
     TextInput,
     Tooltip,
+    VisuallyHidden,
     em,
     rem,
+    useCombobox,
 } from "@mantine/core";
-import { IconBuildingBank, IconCheck, IconDownload } from "@tabler/icons-react";
+import {
+    IconBuildingBank,
+    IconCheck,
+    IconDownload,
+    IconFileDownload,
+} from "@tabler/icons-react";
+import { Navigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { showNotification, updateNotification } from "@mantine/notifications";
+import {
+    changeStatusPersetujuanAction,
+    deleteFileAction,
+    getDetailAdminPersetujuanAction,
+} from "../../redux/slices/persetujuan/persetujuanSlices";
+import { isNotEmpty, useForm } from "@mantine/form";
+import {
+    notifications,
+    showNotification,
+    updateNotification,
+} from "@mantine/notifications";
 import { useDispatch, useSelector } from "react-redux";
 
 import { IconTrash } from "@tabler/icons-react";
 import { basePersetujuanURL } from "../../utils/baseURL";
-import { getDetailAdminPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
-import { openConfirmModal } from "@mantine/modals";
+import { modals } from "@mantine/modals";
+import { toast } from "react-toastify";
 import { useMediaQuery } from "@mantine/hooks";
-import { useParams } from "react-router-dom";
 
 const PersetujuanDetail = () => {
     const params = useParams();
     const dispatch = useDispatch();
     const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
+    const [loadingFetch, setLoadingFetch] = useState(false);
 
-    const [value, setValue] = useState([
-        "DISETUJUI",
-        "DITOLAK",
-        "BELUM DIPROSES",
-    ]);
+    const persetujuan = useSelector((state) => state?.persetujuan);
+    const {
+        loading,
+        appError,
+        serverError,
+        detailAdminPersetujuan,
+        isDeleted,
+        changeStatus,
+    } = persetujuan;
+
+    const form = useForm({
+        validateInputOnChange: true,
+        initialValues: {
+            id: params.id,
+            newStatus: detailAdminPersetujuan?.map((x) => x?.Status?.nama),
+        },
+
+        validate: {
+            id: isNotEmpty("Harap diisi"),
+            newStatus: isNotEmpty("Harap diisi"),
+        },
+    });
+
+    const formOnSubmit = form.onSubmit((values) => {
+        // console.log(values);
+        dispatch(changeStatusPersetujuanAction(values));
+        // form.reset()
+        // form.clearErrors();
+    });
+
+    const statusInput = [
+        {
+            value: 1,
+            description: "DISETUJUI",
+        },
+        {
+            value: 2,
+            description: "DITOLAK",
+        },
+        {
+            value: 3,
+            description: "PROSES",
+        },
+    ];
+
+    function SelectOption({ value, description }) {
+        return (
+            <Group>
+                <div>
+                    <Text fz="sm" fw={500}>
+                        {description}
+                    </Text>
+                </div>
+            </Group>
+        );
+    }
+
+    const combobox = useCombobox({
+        onDropdownClose: () => combobox.resetSelectedOption(),
+    });
+
+    const [value, setValue] = useState(
+        detailAdminPersetujuan?.map((x) => x?.Status?.nama)
+    );
+    const selectedOption = statusInput.find((item) => item?.value === value);
+
+    const options = statusInput.map((item) => (
+        <Combobox.Option value={item?.value} key={item?.value}>
+            <SelectOption {...item} />
+        </Combobox.Option>
+    ));
 
     useEffect(() => {
         // dispatch(getAllPersetujuanAction());
         dispatch(getDetailAdminPersetujuanAction(params?.id));
     }, [dispatch, params]);
 
-    const persetujuan = useSelector((state) => state?.persetujuan);
-    const { loading, appError, serverError, detailAdminPersetujuan } =
-        persetujuan;
+    if (isDeleted || changeStatus)
+        return <Navigate to="/dashboard/admin/persetujuan" replace={true} />;
 
-    console.log(detailAdminPersetujuan);
+    const openDeleteModal = () =>
+        modals.openConfirmModal({
+            title: "Hapus Persetujuan?",
+            centered: true,
+            children: (
+                <Text size="sm">
+                    {`Apakah Anda yakin ingin menghapus persetujuan ${detailAdminPersetujuan?.map(
+                        (x) => x?.Keagamaan?.nama
+                    )} oleh ${detailAdminPersetujuan?.map(
+                        (x) => x?.User?.nama
+                    )}?`}
+                </Text>
+            ),
+            labels: { confirm: "Hapus", cancel: "Batal" },
+            confirmProps: { color: "red" },
+            onCancel: () => {
+                toast.error("Aksi dibatalkan");
+            },
+            onConfirm: () => {
+                // notifications.show({
+                //     id: "load-data",
+                //     loading: true,
+                //     title: "Loading..",
+                //     message: "Menghapus data",
+                //     autoClose: false,
+                //     disallowClose: true,
+                // });
+
+                // setTimeout(() => {
+                //     dispatch(deleteFileAction(params?.id));
+                //     // console.log(deleteFileAction(params?.id));
+                //     notifications.update({
+                //         id: "load-data",
+                //         color: "teal",
+                //         title: "Sukses",
+                //         message: "Berhasil menghapus data",
+                //         icon: <IconCheck size={16} />,
+                //         autoClose: 2500,
+                //     });
+                // }, 1500);
+
+                toast("Loading...", {
+                    id: "load-data",
+                    isLoading: true,
+                    autoClose: false, // Don't auto-close for loading
+                });
+
+                setLoadingFetch(loading);
+                setTimeout(() => {
+                    dispatch(deleteFileAction(params?.id));
+                    setLoadingFetch(loading);
+                    toast.dismiss(); // Dismiss the loading toast
+                    toast.success("Data berhasil dihapus");
+                }, 2000);
+            },
+        });
 
     const PRIMARY_COL_HEIGHT = rem(300);
 
@@ -59,370 +200,426 @@ const PersetujuanDetail = () => {
 
     const list = detailAdminPersetujuan?.map((item, index) => (
         <>
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg" pos="relative">
-                <LoadingOverlay
-                    visible={loading}
-                    zIndex={1000}
-                    overlayProps={{ radius: "sm", blur: 1 }}
-                />
-                <Paper
-                    height={PRIMARY_COL_HEIGHT}
-                    withBorder
-                    radius="md"
-                    shadow="md"
-                    p="lg"
+            <form onSubmit={formOnSubmit}>
+                <SimpleGrid
+                    cols={{ base: 1, sm: 2 }}
+                    spacing="lg"
+                    pos="relative"
                 >
-                    <Container>
-                        <Stack gap="lg">
-                            <Paper withBorder radius="md" shadow="md" p="sm">
-                                <Tooltip
-                                    label={item?.User?.nama}
-                                    withArrow
-                                    transitionProps={{
-                                        transition: "pop",
-                                        duration: 500,
-                                    }}
+                    <LoadingOverlay
+                        visible={loading}
+                        zIndex={1000}
+                        overlayProps={{ radius: "sm", blur: 1 }}
+                    />
+                    <Paper
+                        height={PRIMARY_COL_HEIGHT}
+                        withBorder
+                        radius="md"
+                        shadow="md"
+                        p="lg"
+                    >
+                        <Container>
+                            <Stack gap="lg">
+                                <Paper
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="sm"
                                 >
-                                    <Avatar
-                                        src={`https://ui-avatars.com/api/?name=${item?.User?.nama}&background=random`}
-                                        size={40}
-                                        radius={120}
-                                        mx="auto"
-                                    />
-                                </Tooltip>
-                                <Text ta="center" fz="lg" fw={500} mt="md">
-                                    {item?.User?.nama}
-                                </Text>
-                                <Text ta="center" c="dimmed" fz="xs">
-                                    {item?.User?.nik} • {item?.User?.notelpon}
-                                </Text>
+                                    <Tooltip
+                                        label={item?.User?.nama}
+                                        withArrow
+                                        transitionProps={{
+                                            transition: "pop",
+                                            duration: 500,
+                                        }}
+                                    >
+                                        <Avatar
+                                            src={`https://ui-avatars.com/api/?name=${item?.User?.nama}&background=random`}
+                                            size={40}
+                                            radius={120}
+                                            mx="auto"
+                                        />
+                                    </Tooltip>
+                                    <Text ta="center" fz="lg" fw={500} mt="md">
+                                        {item?.User?.nama}
+                                    </Text>
+                                    <Text ta="center" c="dimmed" fz="xs">
+                                        {item?.User?.nik} •{" "}
+                                        {item?.User?.notelpon}
+                                    </Text>
+                                </Paper>
+                                <Paper
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="lg"
+                                >
+                                    <Text ta="center" c="dimmed" fz="xs">
+                                        {item?.Keagamaan?.nama} -{" "}
+                                        {item?.Keagamaan?.Kategori?.nama}
+                                    </Text>
+                                    <Text ta="center" c="dimmed" fz="xs">
+                                        {item?.Keagamaan?.wilayah}
+                                    </Text>
+                                    <Text ta="center" c="dimmed" fz="xs">
+                                        {item?.Keagamaan?.alamat}
+                                    </Text>
+                                </Paper>
+                            </Stack>
+                        </Container>
+                    </Paper>
+                    <Grid gutter="md">
+                        <Grid.Col span={6}>
+                            <Paper
+                                height={SECONDARY_COL_HEIGHT}
+                                withBorder
+                                radius="md"
+                                shadow="md"
+                                p="xl"
+                            >
+                                <Stack gap="xl">
+                                    <Group justify="center" gap="sm">
+                                        <IconDownload size={16} />
+                                        <Text
+                                            ta="center"
+                                            fz={isMobile ? "xs" : "sm"}
+                                            truncate="end"
+                                        >
+                                            Surat Permohonan
+                                        </Text>
+                                    </Group>
+                                    <Text
+                                        ta="center"
+                                        fz="xs"
+                                        component={Anchor}
+                                        href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
+                                        truncate="end"
+                                    >
+                                        {item?.Suratpermohonan?.namafile}
+                                    </Text>
+                                </Stack>
                             </Paper>
-                            <Paper withBorder radius="md" shadow="md" p="lg">
-                                <Text ta="center" c="dimmed" fz="xs">
-                                    {item?.Keagamaan?.nama} -{" "}
-                                    {item?.Keagamaan?.Kategori?.nama}
-                                </Text>
-                                <Text ta="center" c="dimmed" fz="xs">
-                                    {item?.Keagamaan?.wilayah}
-                                </Text>
-                                <Text ta="center" c="dimmed" fz="xs">
-                                    {item?.Keagamaan?.alamat}
-                                </Text>
+                        </Grid.Col>
+                        <Grid.Col span={6}>
+                            <Paper
+                                height={SECONDARY_COL_HEIGHT}
+                                withBorder
+                                radius="md"
+                                shadow="md"
+                                p="xl"
+                            >
+                                <Stack gap="xl">
+                                    <Group justify="center" gap="sm">
+                                        <IconDownload size={16} />
+                                        <Text
+                                            ta="center"
+                                            fz={isMobile ? "xs" : "sm"}
+                                            truncate="end"
+                                        >
+                                            Proposal
+                                        </Text>
+                                    </Group>
+                                    <Text
+                                        ta="center"
+                                        fz="xs"
+                                        component={Anchor}
+                                        href={`${basePersetujuanURL}/download/${item?.Proposal?.namafile}`}
+                                        truncate="end"
+                                    >
+                                        {item?.Proposal?.namafile}
+                                    </Text>
+                                </Stack>
                             </Paper>
-                        </Stack>
-                    </Container>
-                </Paper>
-                <Grid gutter="md">
-                    <Grid.Col span={6}>
-                        <Paper
-                            height={SECONDARY_COL_HEIGHT}
-                            withBorder
-                            radius="md"
-                            shadow="md"
-                            p="xl"
-                        >
-                            <Stack gap="xl">
-                                <Group justify="center" gap="sm">
-                                    <IconDownload size={16} />
+                        </Grid.Col>
+                        <Grid.Col span={6}>
+                            <Paper
+                                height={SECONDARY_COL_HEIGHT}
+                                withBorder
+                                radius="md"
+                                shadow="md"
+                                p="xl"
+                            >
+                                <Stack gap="xl">
+                                    <Group justify="center" gap="sm">
+                                        <IconDownload size={16} />
+                                        <Text
+                                            ta="center"
+                                            fz={isMobile ? "xs" : "sm"}
+                                        >
+                                            RAB
+                                        </Text>
+                                    </Group>
                                     <Text
                                         ta="center"
-                                        fz={isMobile ? "xs" : "sm"}
+                                        fz="xs"
+                                        component={Anchor}
+                                        href={`${basePersetujuanURL}/download/${item?.Rab?.namafile}`}
                                         truncate="end"
                                     >
-                                        Surat Permohonan
+                                        {item?.Rab?.namafile}
                                     </Text>
-                                </Group>
-                                <Text
-                                    ta="center"
-                                    fz="xs"
-                                    component={Anchor}
-                                    href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
-                                    truncate="end"
-                                >
-                                    {item?.Suratpermohonan?.namafile}
-                                </Text>
-                            </Stack>
-                        </Paper>
-                    </Grid.Col>
-                    <Grid.Col span={6}>
-                        <Paper
-                            height={SECONDARY_COL_HEIGHT}
-                            withBorder
-                            radius="md"
-                            shadow="md"
-                            p="xl"
-                        >
-                            <Stack gap="xl">
-                                <Group justify="center" gap="sm">
-                                    <IconDownload size={16} />
+                                </Stack>
+                            </Paper>
+                        </Grid.Col>
+                        <Grid.Col span={6}>
+                            <Paper
+                                height={SECONDARY_COL_HEIGHT}
+                                withBorder
+                                radius="md"
+                                shadow="md"
+                                p="xl"
+                            >
+                                <Stack gap="xl">
+                                    <Group justify="center" gap="sm">
+                                        <IconDownload size={16} />
+                                        <Text
+                                            ta="center"
+                                            fz={isMobile ? "xs" : "sm"}
+                                        >
+                                            SK Pengurus
+                                        </Text>
+                                    </Group>
                                     <Text
                                         ta="center"
-                                        fz={isMobile ? "xs" : "sm"}
+                                        fz="xs"
+                                        component={Anchor}
+                                        href={`${basePersetujuanURL}/download/${item?.Sk?.namafile}`}
                                         truncate="end"
                                     >
-                                        Proposal
+                                        {item?.Sk?.namafile}
                                     </Text>
-                                </Group>
-                                <Text
-                                    ta="center"
-                                    fz="xs"
-                                    component={Anchor}
-                                    href={`${basePersetujuanURL}/download/${item?.Proposal?.namafile}`}
-                                    truncate="end"
-                                >
-                                    {item?.Proposal?.namafile}
-                                </Text>
-                            </Stack>
-                        </Paper>
-                    </Grid.Col>
-                    <Grid.Col span={6}>
-                        <Paper
-                            height={SECONDARY_COL_HEIGHT}
-                            withBorder
-                            radius="md"
-                            shadow="md"
-                            p="xl"
-                        >
-                            <Stack gap="xl">
-                                <Group justify="center" gap="sm">
-                                    <IconDownload size={16} />
+                                </Stack>
+                            </Paper>
+                        </Grid.Col>
+                    </Grid>
+                    <Grid gutter="md">
+                        <Grid.Col span={6}>
+                            <Paper
+                                height={SECONDARY_COL_HEIGHT}
+                                withBorder
+                                radius="md"
+                                shadow="md"
+                                p="xl"
+                            >
+                                <Stack gap="xl">
+                                    <Group justify="center" gap="sm">
+                                        <IconDownload size={16} />
+                                        <Text
+                                            ta="center"
+                                            fz={isMobile ? "xs" : "sm"}
+                                        >
+                                            KTP
+                                        </Text>
+                                    </Group>
                                     <Text
                                         ta="center"
-                                        fz={isMobile ? "xs" : "sm"}
-                                    >
-                                        RAB
-                                    </Text>
-                                </Group>
-                                <Text
-                                    ta="center"
-                                    fz="xs"
-                                    component={Anchor}
-                                    href={`${basePersetujuanURL}/download/${item?.Rab?.namafile}`}
-                                    truncate="end"
-                                >
-                                    {item?.Rab?.namafile}
-                                </Text>
-                            </Stack>
-                        </Paper>
-                    </Grid.Col>
-                    <Grid.Col span={6}>
-                        <Paper
-                            height={SECONDARY_COL_HEIGHT}
-                            withBorder
-                            radius="md"
-                            shadow="md"
-                            p="xl"
-                        >
-                            <Stack gap="xl">
-                                <Group justify="center" gap="sm">
-                                    <IconDownload size={16} />
-                                    <Text
-                                        ta="center"
-                                        fz={isMobile ? "xs" : "sm"}
-                                    >
-                                        SK Pengurus
-                                    </Text>
-                                </Group>
-                                <Text
-                                    ta="center"
-                                    fz="xs"
-                                    component={Anchor}
-                                    href={`${basePersetujuanURL}/download/${item?.Sk?.namafile}`}
-                                    truncate="end"
-                                >
-                                    {item?.Sk?.namafile}
-                                </Text>
-                            </Stack>
-                        </Paper>
-                    </Grid.Col>
-                </Grid>
-                <Grid gutter="md">
-                    <Grid.Col span={6}>
-                        <Paper
-                            height={SECONDARY_COL_HEIGHT}
-                            withBorder
-                            radius="md"
-                            shadow="md"
-                            p="xl"
-                        >
-                            <Stack gap="xl">
-                                <Group justify="center" gap="sm">
-                                    <IconDownload size={16} />
-                                    <Text
-                                        ta="center"
-                                        fz={isMobile ? "xs" : "sm"}
-                                    >
-                                        KTP
-                                    </Text>
-                                </Group>
-                                <Text
-                                    ta="center"
-                                    fz="xs"
-                                    component={Anchor}
-                                    href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
-                                    truncate="end"
-                                >
-                                    {item?.Ktp?.namafile}
-                                </Text>
-                            </Stack>
-                        </Paper>
-                    </Grid.Col>
-                    <Grid.Col span={6}>
-                        <Paper
-                            height={SECONDARY_COL_HEIGHT}
-                            withBorder
-                            radius="md"
-                            shadow="md"
-                            p="xl"
-                        >
-                            <Stack gap="xl">
-                                <Group justify="center" gap="sm">
-                                    <IconDownload size={16} />
-                                    <Text
-                                        ta="center"
-                                        fz={isMobile ? "xs" : "sm"}
-                                    >
-                                        SIMAS/Rekom
-                                    </Text>
-                                </Group>
-                                <Text
-                                    ta="center"
-                                    fz="xs"
-                                    component={Anchor}
-                                    href={`${basePersetujuanURL}/download/${item?.Asetrekom?.namafile}`}
-                                    truncate="end"
-                                >
-                                    {item?.Asetrekom?.namafile}
-                                </Text>
-                            </Stack>
-                        </Paper>
-                    </Grid.Col>
-                </Grid>
-                <Grid gutter="md">
-                    <Grid.Col span={6}>
-                        <Paper
-                            height={SECONDARY_COL_HEIGHT}
-                            withBorder
-                            radius="md"
-                            shadow="md"
-                            p="xl"
-                        >
-                            <Stack gap="xl">
-                                <Group justify="center" gap="sm">
-                                    <IconDownload size={16} />
-                                    <Text
-                                        ta="center"
-                                        fz={isMobile ? "xs" : "sm"}
-                                    >
-                                        Suket Tipologi
-                                    </Text>
-                                </Group>
-                                <Text
-                                    ta="center"
-                                    fz="xs"
-                                    component={Anchor}
-                                    href={`${basePersetujuanURL}/download/${item?.Suket?.namafile}`}
-                                    truncate="end"
-                                >
-                                    {item?.Suket?.namafile}
-                                </Text>
-                            </Stack>
-                        </Paper>
-                    </Grid.Col>
-                    <Grid.Col span={6}>
-                        <Paper
-                            height={SECONDARY_COL_HEIGHT}
-                            withBorder
-                            radius="md"
-                            shadow="md"
-                            p="xl"
-                        >
-                            <Stack gap="xl">
-                                <Group justify="center" gap="sm">
-                                    <IconBuildingBank size={16} />
-                                    <Text
-                                        ta="center"
-                                        fz={isMobile ? "xs" : "sm"}
+                                        fz="xs"
+                                        component={Anchor}
+                                        href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
                                         truncate="end"
                                     >
-                                        Rekening Bank 9
+                                        {item?.Ktp?.namafile}
                                     </Text>
-                                </Group>
-                                <Text ta="center" fz="xs" truncate="end">
-                                    {item?.norek}
-                                </Text>
-                            </Stack>
-                        </Paper>
-                    </Grid.Col>
-                </Grid>
-            </SimpleGrid>
-            <Space h="lg" />
-            <Stack gap="lg">
-                <Select
+                                </Stack>
+                            </Paper>
+                        </Grid.Col>
+                        <Grid.Col span={6}>
+                            <Paper
+                                height={SECONDARY_COL_HEIGHT}
+                                withBorder
+                                radius="md"
+                                shadow="md"
+                                p="xl"
+                            >
+                                <Stack gap="xl">
+                                    <Group justify="center" gap="sm">
+                                        <IconDownload size={16} />
+                                        <Text
+                                            ta="center"
+                                            fz={isMobile ? "xs" : "sm"}
+                                        >
+                                            SIMAS/Rekom
+                                        </Text>
+                                    </Group>
+                                    <Text
+                                        ta="center"
+                                        fz="xs"
+                                        component={Anchor}
+                                        href={`${basePersetujuanURL}/download/${item?.Asetrekom?.namafile}`}
+                                        truncate="end"
+                                    >
+                                        {item?.Asetrekom?.namafile}
+                                    </Text>
+                                </Stack>
+                            </Paper>
+                        </Grid.Col>
+                    </Grid>
+                    <Grid gutter="md">
+                        <Grid.Col span={6}>
+                            <Paper
+                                height={SECONDARY_COL_HEIGHT}
+                                withBorder
+                                radius="md"
+                                shadow="md"
+                                p="xl"
+                            >
+                                <Stack gap="xl">
+                                    <Group justify="center" gap="sm">
+                                        <IconDownload size={16} />
+                                        <Text
+                                            ta="center"
+                                            fz={isMobile ? "xs" : "sm"}
+                                        >
+                                            Suket Tipologi
+                                        </Text>
+                                    </Group>
+                                    <Text
+                                        ta="center"
+                                        fz="xs"
+                                        component={Anchor}
+                                        href={`${basePersetujuanURL}/download/${item?.Suket?.namafile}`}
+                                        truncate="end"
+                                    >
+                                        {item?.Suket?.namafile}
+                                    </Text>
+                                </Stack>
+                            </Paper>
+                        </Grid.Col>
+                        <Grid.Col span={6}>
+                            <Paper
+                                height={SECONDARY_COL_HEIGHT}
+                                withBorder
+                                radius="md"
+                                shadow="md"
+                                p="xl"
+                            >
+                                <Stack gap="xl">
+                                    <Group justify="center" gap="sm">
+                                        <IconBuildingBank size={16} />
+                                        <Text
+                                            ta="center"
+                                            fz={isMobile ? "xs" : "sm"}
+                                            truncate="end"
+                                        >
+                                            Rekening Bank 9
+                                        </Text>
+                                    </Group>
+                                    <Text ta="center" fz="xs" truncate="end">
+                                        {item?.norek}
+                                    </Text>
+                                </Stack>
+                            </Paper>
+                        </Grid.Col>
+                    </Grid>
+                </SimpleGrid>
+                <Space h="lg" />
+                <Stack gap="lg">
+                    {/* <Select
                     data={value}
                     value={
                         item?.Status?.nama === "PROSES"
                             ? "BELUM DIPROSES"
                             : item?.Status?.nama
                     }
-                />
-                <TextInput fullWidth value={item?.Proses?.nama} />
-                <Group grow>
-                    <Button fullWidth>Simpan</Button>
-                    <Button
-                        variant="outline"
-                        color="red"
-                        leftSection={<IconTrash size={14} />}
-                        onClick={openDeleteModal}
+                /> */}
+
+                    <VisuallyHidden>
+                        <TextInput disabled {...form.getInputProps("id")} />
+                    </VisuallyHidden>
+
+                    {/* Status */}
+                    <Combobox
+                        store={combobox}
+                        withinPortal={false}
+                        onOptionSubmit={(value) => {
+                            setValue(value);
+                            form.setFieldValue("newStatus", value);
+                            combobox.closeDropdown();
+                        }}
+                        transitionProps={{
+                            duration: 200,
+                            transition: "pop",
+                        }}
                     >
-                        Hapus
-                    </Button>
-                </Group>
-            </Stack>{" "}
+                        <Combobox.Target>
+                            <InputBase
+                                label="Status"
+                                component="button"
+                                type="button"
+                                pointer
+                                rightSectionPointerEvents={
+                                    value === null ? "none" : "all"
+                                }
+                                rightSection={
+                                    value !== null ? (
+                                        <CloseButton
+                                            size="sm"
+                                            onMouseDown={(event) =>
+                                                event.preventDefault()
+                                            }
+                                            onClick={() => setValue(null)}
+                                            aria-label="Clear value"
+                                        />
+                                    ) : (
+                                        <Combobox.Chevron />
+                                    )
+                                }
+                                onClick={() => combobox.toggleDropdown()}
+                                multiline
+                                error={form.errors.newStatus && "Harap diisi"}
+                            >
+                                {selectedOption ? (
+                                    <SelectOption {...selectedOption} />
+                                ) : (
+                                    <Input.Placeholder>
+                                        Pilih Status
+                                    </Input.Placeholder>
+                                )}
+                            </InputBase>
+                        </Combobox.Target>
+
+                        <Combobox.Dropdown>
+                            <Combobox.Options
+                                mah={200}
+                                type="scroll"
+                                style={{ overflowY: "auto" }}
+                            >
+                                {options}
+                            </Combobox.Options>
+                        </Combobox.Dropdown>
+                    </Combobox>
+
+                    <TextInput
+                        disabled
+                        fullWidth
+                        value={item?.Proses?.keterangan}
+                    />
+
+                    <Group grow>
+                        <Button
+                            fullWidth
+                            leftSection={<IconFileDownload size={14} />}
+                            type="submit"
+                            disabled={!form.isValid()}
+                            loading={loading}
+                        >
+                            Simpan
+                        </Button>
+                        <Button
+                            variant="outline"
+                            color="red"
+                            leftSection={<IconTrash size={14} />}
+                            onClick={openDeleteModal}
+                            loading={loading}
+                        >
+                            Hapus
+                        </Button>
+                    </Group>
+                </Stack>
+            </form>
         </>
     ));
-
-    const openDeleteModal = () =>
-        openConfirmModal({
-            title: "Hapus Berita?",
-            centered: true,
-            children: (
-                <Text size="sm">
-                    {`Apakah Anda yakin ingin menghapus permohonan?`}
-                </Text>
-            ),
-            labels: { confirm: "Hapus", cancel: "Batal" },
-            confirmProps: { color: "red" },
-            onCancel: () => {
-                showNotification({
-                    title: "Batal",
-                    message: "Aksi dibatalkan",
-                    color: "red",
-                });
-            },
-            onConfirm: () => {
-                showNotification({
-                    id: "load-data",
-                    loading: true,
-                    title: "Loading..",
-                    message: "Menghapus data",
-                    autoClose: false,
-                    disallowClose: true,
-                });
-
-                setTimeout(() => {
-                    // dispatch(deletePostAction(postDetail?._id));
-                    updateNotification({
-                        id: "load-data",
-                        color: "teal",
-                        title: "Sukses",
-                        message: "Berhasil menghapus data",
-                        icon: <IconCheck size={16} />,
-                        autoClose: 3000,
-                    });
-                }, 1500);
-            },
-        });
 
     const items = [
         { title: "Home", href: "/dashboard" },

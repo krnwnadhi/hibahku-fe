@@ -13,6 +13,8 @@ import {
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { DatesProvider } from "@mantine/dates";
+import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
 import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -78,6 +80,7 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <MantineProvider theme={theme} colorSchemeManager={colorSchemeManager}>
+        <Notifications />
         <Provider store={store}>
             <BrowserRouter>
                 <DatesProvider
@@ -86,7 +89,9 @@ root.render(
                         timezone: "UTC",
                     }}
                 >
-                    <App />
+                    <ModalsProvider>
+                        <App />
+                    </ModalsProvider>
                 </DatesProvider>
             </BrowserRouter>
         </Provider>

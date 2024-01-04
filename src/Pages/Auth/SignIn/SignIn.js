@@ -121,7 +121,7 @@ export default function SignIn(props) {
                         <Anchor
                             component={Link}
                             type="button"
-                            c="dimmed"
+                            // c="dimmed"
                             to="/register"
                             size="xs"
                             ta="center"

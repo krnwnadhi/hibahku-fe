@@ -4,7 +4,7 @@ import axios from "axios";
 import { basePersetujuanURL } from "../../../utils/baseURL";
 
 // //action to redirect
-// const resetcreatePermohonanAction = createAction("permohonan/create/reset");
+const resetFileDeleteAction = createAction("persetujuan/delete/reset");
 
 //get all persetujuan
 export const getAllPersetujuanAction = createAsyncThunk(
@@ -95,6 +95,36 @@ export const getDetailUserPersetujuanAction = createAsyncThunk(
         }
     }
 );
+//get detail User persetujuan
+export const changeStatusPersetujuanAction = createAsyncThunk(
+    "persetujuan/changeStatus",
+    async (id, { rejectWithValue, getState, dispatch }) => {
+        const user = getState()?.auth?.userAuth;
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user?.token}`,
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        try {
+            const { data } = await axios.post(
+                `${basePersetujuanURL}/${id}`,
+                id,
+                config
+            );
+            return data;
+        } catch (error) {
+            if (!error?.response) {
+                throw error;
+            }
+            return rejectWithValue(error?.response?.data);
+        }
+    }
+);
 
 //get detail User persetujuan
 export const downloadFileAction = createAsyncThunk(
@@ -142,6 +172,9 @@ export const deleteFileAction = createAsyncThunk(
                 `${basePersetujuanURL}/${id}`,
                 config
             );
+
+            dispatch(resetFileDeleteAction());
+
             return data;
         } catch (error) {
             if (!error?.response) {
@@ -223,6 +256,31 @@ const persetujuan = createSlice({
             }
         );
 
+        //change status persetujuan
+        builder.addCase(
+            changeStatusPersetujuanAction.pending,
+            (state, action) => {
+                state.loading = true;
+            }
+        );
+        builder.addCase(
+            changeStatusPersetujuanAction.fulfilled,
+            (state, action) => {
+                state.changeStatus = action?.payload;
+                state.loading = false;
+                state.appError = undefined;
+                state.serverError = undefined;
+            }
+        );
+        builder.addCase(
+            changeStatusPersetujuanAction.rejected,
+            (state, action) => {
+                state.loading = false;
+                state.appError = action?.payload?.message;
+                state.serverError = action?.error?.message;
+            }
+        );
+
         //download file
         builder.addCase(downloadFileAction.pending, (state, action) => {
             state.loading = true;
@@ -243,9 +301,13 @@ const persetujuan = createSlice({
         builder.addCase(deleteFileAction.pending, (state, action) => {
             state.loading = true;
         });
+        builder.addCase(resetFileDeleteAction, (state, action) => {
+            state.isDeleted = true;
+        });
         builder.addCase(deleteFileAction.fulfilled, (state, action) => {
             state.deletedFile = action?.payload;
             state.loading = false;
+            state.isDeleted = false;
             state.appError = undefined;
             state.serverError = undefined;
         });

@@ -24,17 +24,14 @@ import {
 import { IconArrowLeft, IconFileTypePdf } from "@tabler/icons-react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { useFocusTrap, useToggle } from "@mantine/hooks";
 
 import DarkButton from "../components/DarkButton/DarkButton";
 import MenuMantine from "../../../components/Menu/MenuMantine";
-import axios from "axios";
-import { basePermohonanURL } from "../../../utils/baseURL";
 import { createPermohonan } from "../../../redux/slices/permohonan/permohonanSlices";
 import dayjs from "dayjs";
-import { useDatesContext } from "@mantine/dates";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function UserPermohonan() {
     const computedColorScheme = useComputedColorScheme("light", {
