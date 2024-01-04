@@ -6,6 +6,7 @@ import {
     Container,
     Grid,
     Group,
+    LoadingOverlay,
     Paper,
     Select,
     SimpleGrid,
@@ -18,12 +19,15 @@ import {
     em,
     rem,
 } from "@mantine/core";
-import { IconBuildingBank, IconDownload } from "@tabler/icons-react";
+import { IconBuildingBank, IconCheck, IconDownload } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
+import { showNotification, updateNotification } from "@mantine/notifications";
 import { useDispatch, useSelector } from "react-redux";
 
+import { IconTrash } from "@tabler/icons-react";
 import { basePersetujuanURL } from "../../utils/baseURL";
 import { getDetailAdminPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
+import { openConfirmModal } from "@mantine/modals";
 import { useMediaQuery } from "@mantine/hooks";
 import { useParams } from "react-router-dom";
 
@@ -55,7 +59,12 @@ const PersetujuanDetail = () => {
 
     const list = detailAdminPersetujuan?.map((item, index) => (
         <>
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg" pos="relative">
+                <LoadingOverlay
+                    visible={loading}
+                    zIndex={1000}
+                    overlayProps={{ radius: "sm", blur: 1 }}
+                />
                 <Paper
                     height={PRIMARY_COL_HEIGHT}
                     withBorder
@@ -358,10 +367,62 @@ const PersetujuanDetail = () => {
                     }
                 />
                 <TextInput fullWidth value={item?.Proses?.nama} />
-                <Button fullWidth>Simpan</Button>
+                <Group grow>
+                    <Button fullWidth>Simpan</Button>
+                    <Button
+                        variant="outline"
+                        color="red"
+                        leftSection={<IconTrash size={14} />}
+                        onClick={openDeleteModal}
+                    >
+                        Hapus
+                    </Button>
+                </Group>
             </Stack>{" "}
         </>
     ));
+
+    const openDeleteModal = () =>
+        openConfirmModal({
+            title: "Hapus Berita?",
+            centered: true,
+            children: (
+                <Text size="sm">
+                    {`Apakah Anda yakin ingin menghapus permohonan?`}
+                </Text>
+            ),
+            labels: { confirm: "Hapus", cancel: "Batal" },
+            confirmProps: { color: "red" },
+            onCancel: () => {
+                showNotification({
+                    title: "Batal",
+                    message: "Aksi dibatalkan",
+                    color: "red",
+                });
+            },
+            onConfirm: () => {
+                showNotification({
+                    id: "load-data",
+                    loading: true,
+                    title: "Loading..",
+                    message: "Menghapus data",
+                    autoClose: false,
+                    disallowClose: true,
+                });
+
+                setTimeout(() => {
+                    // dispatch(deletePostAction(postDetail?._id));
+                    updateNotification({
+                        id: "load-data",
+                        color: "teal",
+                        title: "Sukses",
+                        message: "Berhasil menghapus data",
+                        icon: <IconCheck size={16} />,
+                        autoClose: 3000,
+                    });
+                }, 1500);
+            },
+        });
 
     const items = [
         { title: "Home", href: "/dashboard" },

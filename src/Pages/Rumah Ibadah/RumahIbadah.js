@@ -47,7 +47,7 @@ export default function RumahIbadah() {
     const { token } = user;
 
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
-    const { rumahIbadahList = [] } = rumahIbadah;
+    const { loading, rumahIbadahList = [] } = rumahIbadah;
 
     const [rumahIbadahState, setRumahIbadahState] = useState([rumahIbadahList]);
     const [load, setLoad] = useState(false);
@@ -125,8 +125,13 @@ export default function RumahIbadah() {
         setQuery(e.target.value);
     };
 
-    const rowsList = rumahIbadahState?.map((item) => (
+    const rowsList = rumahIbadahState?.map((item, index) => (
         <Table.Tr key={item?.id}>
+            <Table.Td>
+                <Text size="xs" ta="center">
+                    {index + 1}
+                </Text>
+            </Table.Td>
             <Table.Td>
                 <Text size="xs">{item?.id}</Text>
             </Table.Td>
@@ -170,19 +175,18 @@ export default function RumahIbadah() {
 
     return (
         <>
-            <Container size="xl">
+            <Container size="xl" pos="relative">
+                <LoadingOverlay
+                    visible={loading}
+                    zIndex={1000}
+                    overlayProps={{ radius: "sm", blur: 1 }}
+                />
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
 
                 <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
                     <Group>
-                        <LoadingOverlay
-                            visible={load}
-                            zIndex={1000}
-                            overlayProps={{ radius: "sm", blur: 1 }}
-                        />
-
                         <TextInput
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
@@ -247,7 +251,8 @@ export default function RumahIbadah() {
                         >
                             <Table.Thead>
                                 <Table.Tr key={pages}>
-                                    <Table.Th key={pages}>ID</Table.Th>
+                                    <Table.Th key={pages}>No. </Table.Th>
+                                    <Table.Th>ID</Table.Th>
                                     <Table.Th>Nama</Table.Th>
                                     <Table.Th>Alamat</Table.Th>
                                     <Table.Th>Kabupaten/Kota</Table.Th>

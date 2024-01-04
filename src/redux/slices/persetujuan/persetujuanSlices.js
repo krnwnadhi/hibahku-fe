@@ -79,7 +79,7 @@ export const getDetailUserPersetujuanAction = createAsyncThunk(
             },
         };
 
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
             const { data } = await axios.get(
@@ -112,6 +112,34 @@ export const downloadFileAction = createAsyncThunk(
         try {
             const { data } = await axios.get(
                 `${basePersetujuanURL}/download/${filename}`,
+                config
+            );
+            return data;
+        } catch (error) {
+            if (!error?.response) {
+                throw error;
+            }
+            return rejectWithValue(error?.response?.data);
+        }
+    }
+);
+
+//Hapus persetujuan
+export const deleteFileAction = createAsyncThunk(
+    "persetujuan/delete",
+    async (id, { rejectWithValue, getState, dispatch }) => {
+        const user = getState()?.auth?.userAuth;
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user?.token}`,
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+
+        try {
+            const { data } = await axios.delete(
+                `${basePersetujuanURL}/${id}`,
                 config
             );
             return data;
@@ -206,6 +234,22 @@ const persetujuan = createSlice({
             state.serverError = undefined;
         });
         builder.addCase(downloadFileAction.rejected, (state, action) => {
+            state.loading = false;
+            state.appError = action?.payload?.message;
+            state.serverError = action?.error?.message;
+        });
+
+        //delete file
+        builder.addCase(deleteFileAction.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(deleteFileAction.fulfilled, (state, action) => {
+            state.deletedFile = action?.payload;
+            state.loading = false;
+            state.appError = undefined;
+            state.serverError = undefined;
+        });
+        builder.addCase(deleteFileAction.rejected, (state, action) => {
             state.loading = false;
             state.appError = action?.payload?.message;
             state.serverError = action?.error?.message;

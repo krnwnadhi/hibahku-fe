@@ -5,6 +5,7 @@ import {
     Container,
     Group,
     Loader,
+    LoadingOverlay,
     Paper,
     RingProgress,
     SimpleGrid,
@@ -24,30 +25,6 @@ const icons = {
     up: IconArrowUpRight,
     down: IconArrowDownRight,
 };
-
-const data = [
-    {
-        label: "Persetujuan",
-        stats: "456,578",
-        progress: 65,
-        color: "teal",
-        icon: "up",
-    },
-    {
-        label: "Rumah Ibadah",
-        stats: "2,550",
-        progress: 72,
-        color: "blue",
-        icon: "up",
-    },
-    {
-        label: "Users",
-        stats: "4,735",
-        progress: 52,
-        color: "red",
-        icon: "down",
-    },
-];
 
 const items = [{ title: "Home", href: "/dashboard" }].map((item, index) => (
     <Anchor href={item.href} key={index} size="sm" truncate="end">
@@ -82,10 +59,6 @@ export default function Dashboard() {
         (state) => state?.persetujuan?.persetujuanList
     );
 
-    // console.log(allUserList?.result?.length);
-    // console.log(allRumahIbadah?.result?.length);
-    // console.log(allPersetujuan?.result?.length);
-
     const data = [
         {
             label: "Persetujuan",
@@ -117,6 +90,16 @@ export default function Dashboard() {
             navigate("/dashboard/");
         }
     }, [user, navigate]);
+
+    // useEffect(() => {
+    //     loading && (
+    //         <LoadingOverlay
+    //             visible={loading}
+    //             zIndex={1000}
+    //             overlayProps={{ radius: "sm", blur: 1 }}
+    //         />
+    //     );
+    // }, [loading]);
 
     const stats = data.map((stat) => {
         const Icon = icons[stat.icon];
@@ -165,6 +148,11 @@ export default function Dashboard() {
     return (
         <>
             <Container size="xl">
+                <LoadingOverlay
+                    visible={loading}
+                    zIndex={1000}
+                    overlayProps={{ radius: "sm", blur: 1 }}
+                />
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>

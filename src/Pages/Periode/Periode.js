@@ -5,6 +5,7 @@ import {
     Breadcrumbs,
     Button,
     Container,
+    LoadingOverlay,
     Paper,
     Space,
     Text,
@@ -164,7 +165,13 @@ const Periode = () => {
 
     return (
         <>
-            <Container size="xl">
+            <Container size="xl" pos="relative">
+                <LoadingOverlay
+                    visible={loading}
+                    zIndex={1000}
+                    overlayProps={{ radius: "sm", blur: 1 }}
+                />
+
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>

@@ -39,7 +39,7 @@ const AdminUser = () => {
     const { token } = user;
 
     const users = useSelector((state) => state?.users);
-    const { usersList = [] } = users;
+    const { loading, usersList = [] } = users;
     // console.log(usersList);
 
     const [usersListState, setUsersListState] = useState([usersList]);
@@ -112,7 +112,9 @@ const AdminUser = () => {
     const rowsList = usersListState?.map((item, index) => (
         <Table.Tr key={item?.id}>
             <Table.Td>
-                <Text size="xs">{index + 1}</Text>
+                <Text size="xs" ta="center">
+                    {index + 1}
+                </Text>
             </Table.Td>
             <Table.Td>
                 <Text size="xs">{item?.nik}</Text>
@@ -163,18 +165,18 @@ const AdminUser = () => {
 
     return (
         <>
-            <Container size="xl">
+            <Container size="xl" pos="relative">
+                <LoadingOverlay
+                    visible={loading}
+                    zIndex={1000}
+                    overlayProps={{ radius: "sm", blur: 1 }}
+                />
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
 
                 <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
                     <Group>
-                        <LoadingOverlay
-                            visible={load}
-                            zIndex={1000}
-                            overlayProps={{ radius: "sm", blur: 1 }}
-                        />
                         <TextInput
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
@@ -195,7 +197,7 @@ const AdminUser = () => {
                             }
                             rightSection={
                                 <ActionIcon
-                                    size={32}
+                                    size={28}
                                     radius="xl"
                                     // color={theme.primaryColor}
                                     variant="filled"
@@ -267,7 +269,7 @@ const AdminUser = () => {
                             <Table.Tbody>
                                 {usersListState.length === 0 ? (
                                     <Table.Tr>
-                                        <Table.Td colSpan={5}>
+                                        <Table.Td colSpan={6}>
                                             <Text fw={500} ta="center">
                                                 Data Tidak Ditemukan
                                             </Text>

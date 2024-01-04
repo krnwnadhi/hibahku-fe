@@ -46,7 +46,7 @@ const Persetujuan = () => {
     const { token } = user;
 
     const persetujuan = useSelector((state) => state?.persetujuan);
-    const { persetujuanList } = persetujuan;
+    const { loading, persetujuanList } = persetujuan;
     // console.log(persetujuanList);
 
     const [persetujuanListState, setPersetujuanListState] = useState([
@@ -291,7 +291,12 @@ const Persetujuan = () => {
 
     return (
         <>
-            <Container size="xl">
+            <Container size="xl" pos="relative">
+                <LoadingOverlay
+                    visible={loading}
+                    zIndex={1000}
+                    overlayProps={{ radius: "sm", blur: 1 }}
+                />
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
@@ -322,7 +327,7 @@ const Persetujuan = () => {
                             }
                             rightSection={
                                 <ActionIcon
-                                    size={32}
+                                    size={28}
                                     radius="xl"
                                     variant="filled"
                                     onClick={searchData}

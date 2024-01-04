@@ -49,7 +49,7 @@ export const getPeriode = createAsyncThunk(
             },
         };
 
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         try {
             const { data } = await axios.get(`${basePeriodeURL}`, config);
