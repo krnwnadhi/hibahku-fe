@@ -12,7 +12,6 @@ import {
     InputBase,
     LoadingOverlay,
     Paper,
-    Select,
     SimpleGrid,
     Space,
     Stack,
@@ -26,7 +25,6 @@ import {
 } from "@mantine/core";
 import {
     IconBuildingBank,
-    IconCheck,
     IconDownload,
     IconFileDownload,
 } from "@tabler/icons-react";
@@ -38,11 +36,6 @@ import {
     getDetailAdminPersetujuanAction,
 } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { isNotEmpty, useForm } from "@mantine/form";
-import {
-    notifications,
-    showNotification,
-    updateNotification,
-} from "@mantine/notifications";
 import { useDispatch, useSelector } from "react-redux";
 
 import { IconTrash } from "@tabler/icons-react";
@@ -67,16 +60,22 @@ const PersetujuanDetail = () => {
         changeStatus,
     } = persetujuan;
 
+    const prosesId = detailAdminPersetujuan?.map((x) => x?.Proses?.id);
+    const prosesIdtoString = prosesId?.toString();
+    console.log(prosesIdtoString);
+
     const form = useForm({
         validateInputOnChange: true,
         initialValues: {
             id: params.id,
-            newStatus: detailAdminPersetujuan?.map((x) => x?.Status?.nama),
+            newStatus: "",
+            // newProses: prosesIdtoString,
         },
 
         validate: {
             id: isNotEmpty("Harap diisi"),
             newStatus: isNotEmpty("Harap diisi"),
+            // newProses: isNotEmpty("Harap diisi"),
         },
     });
 
@@ -118,13 +117,15 @@ const PersetujuanDetail = () => {
         onDropdownClose: () => combobox.resetSelectedOption(),
     });
 
-    const [value, setValue] = useState(
-        detailAdminPersetujuan?.map((x) => x?.Status?.nama)
-    );
+    const [value, setValue] = useState();
     const selectedOption = statusInput.find((item) => item?.value === value);
 
     const options = statusInput.map((item) => (
-        <Combobox.Option value={item?.value} key={item?.value}>
+        <Combobox.Option
+            value={item?.value}
+            key={item?.value}
+            active={item === value}
+        >
             <SelectOption {...item} />
         </Combobox.Option>
     ));
@@ -156,34 +157,11 @@ const PersetujuanDetail = () => {
                 toast.error("Aksi dibatalkan");
             },
             onConfirm: () => {
-                // notifications.show({
-                //     id: "load-data",
-                //     loading: true,
-                //     title: "Loading..",
-                //     message: "Menghapus data",
-                //     autoClose: false,
-                //     disallowClose: true,
-                // });
-
-                // setTimeout(() => {
-                //     dispatch(deleteFileAction(params?.id));
-                //     // console.log(deleteFileAction(params?.id));
-                //     notifications.update({
-                //         id: "load-data",
-                //         color: "teal",
-                //         title: "Sukses",
-                //         message: "Berhasil menghapus data",
-                //         icon: <IconCheck size={16} />,
-                //         autoClose: 2500,
-                //     });
-                // }, 1500);
-
                 toast("Loading...", {
                     id: "load-data",
                     isLoading: true,
                     autoClose: false, // Don't auto-close for loading
                 });
-
                 setLoadingFetch(loading);
                 setTimeout(() => {
                     dispatch(deleteFileAction(params?.id));
@@ -295,6 +273,8 @@ const PersetujuanDetail = () => {
                                         component={Anchor}
                                         href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
                                         truncate="end"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {item?.Suratpermohonan?.namafile}
                                     </Text>
@@ -326,6 +306,8 @@ const PersetujuanDetail = () => {
                                         component={Anchor}
                                         href={`${basePersetujuanURL}/download/${item?.Proposal?.namafile}`}
                                         truncate="end"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {item?.Proposal?.namafile}
                                     </Text>
@@ -356,6 +338,8 @@ const PersetujuanDetail = () => {
                                         component={Anchor}
                                         href={`${basePersetujuanURL}/download/${item?.Rab?.namafile}`}
                                         truncate="end"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {item?.Rab?.namafile}
                                     </Text>
@@ -386,6 +370,8 @@ const PersetujuanDetail = () => {
                                         component={Anchor}
                                         href={`${basePersetujuanURL}/download/${item?.Sk?.namafile}`}
                                         truncate="end"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {item?.Sk?.namafile}
                                     </Text>
@@ -418,6 +404,8 @@ const PersetujuanDetail = () => {
                                         component={Anchor}
                                         href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
                                         truncate="end"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {item?.Ktp?.namafile}
                                     </Text>
@@ -448,6 +436,8 @@ const PersetujuanDetail = () => {
                                         component={Anchor}
                                         href={`${basePersetujuanURL}/download/${item?.Asetrekom?.namafile}`}
                                         truncate="end"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {item?.Asetrekom?.namafile}
                                     </Text>
@@ -480,6 +470,8 @@ const PersetujuanDetail = () => {
                                         component={Anchor}
                                         href={`${basePersetujuanURL}/download/${item?.Suket?.namafile}`}
                                         truncate="end"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {item?.Suket?.namafile}
                                     </Text>
@@ -527,6 +519,12 @@ const PersetujuanDetail = () => {
                     <VisuallyHidden>
                         <TextInput disabled {...form.getInputProps("id")} />
                     </VisuallyHidden>
+                    {/* 
+                    <TextInput
+                        disabled
+                        fullWidth
+                        value={item?.Proses?.keterangan}
+                    /> */}
 
                     {/* Status */}
                     <Combobox

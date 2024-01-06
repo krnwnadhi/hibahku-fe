@@ -85,14 +85,14 @@ function App() {
         <div>
             <ToastContainer
                 position="top-right"
-                limit={5}
+                limit={3}
                 autoClose={1500}
                 hideProgressBar={false}
                 newestOnTop
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
-                draggable={false}
+                // draggable={false}
                 pauseOnHover
                 theme={computedColorScheme}
                 transition={Slide}

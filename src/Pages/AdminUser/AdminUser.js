@@ -43,6 +43,7 @@ const AdminUser = () => {
     // console.log(usersList);
 
     const [usersListState, setUsersListState] = useState([usersList]);
+    // console.log(usersListState);
 
     const [load, setLoad] = useState(false);
 
