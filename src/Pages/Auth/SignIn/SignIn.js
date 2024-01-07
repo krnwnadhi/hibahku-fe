@@ -85,7 +85,7 @@ export default function SignIn(props) {
                         <TextInput
                             type="number"
                             label="NIK"
-                            placeholder="NIK yang terdiri dari 18 angka"
+                            placeholder="NIK Min. 16 angka"
                             value={form.values.nik}
                             onChange={(event) =>
                                 form.setFieldValue(
@@ -101,7 +101,7 @@ export default function SignIn(props) {
 
                         <PasswordInput
                             label="Password"
-                            placeholder="Your password"
+                            placeholder="Kata Kunci"
                             value={form.values.password}
                             onChange={(event) =>
                                 form.setFieldValue(

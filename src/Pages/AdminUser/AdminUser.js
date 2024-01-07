@@ -2,6 +2,7 @@ import {
     ActionIcon,
     Anchor,
     Badge,
+    Box,
     Breadcrumbs,
     Center,
     Container,
@@ -16,11 +17,18 @@ import {
     rem,
     useMantineTheme,
 } from "@mantine/core";
-import { IconArrowRight, IconSearch, IconX } from "@tabler/icons-react";
-import React, { useEffect, useState } from "react";
+import {
+    IconArrowRight,
+    IconEdit,
+    IconSearch,
+    IconX,
+} from "@tabler/icons-react";
+import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import DateFormatter from "../../utils/DateFormatter";
+import { MRT_Localization_ID } from "mantine-react-table/locales/id";
 import axios from "axios";
 import { baseUserURL } from "../../utils/baseURL";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
@@ -164,19 +172,122 @@ const AdminUser = () => {
         </Anchor>
     ));
 
+    const columns = useMemo(
+        () => [
+            {
+                accessorKey: "nik",
+                header: "NIK",
+                enableClickToCopy: true,
+            },
+            {
+                accessorKey: "nama",
+                header: "Nama",
+            },
+            {
+                accessorKey: "notelpon",
+                accessorFn: (dataRow) => dataRow?.notelpon,
+                id: "notelpon",
+                header: "No. HP",
+            },
+            {
+                accessorKey: "Role.nama",
+                header: "Role",
+                Cell: ({ cell }) => (
+                    // <Box
+                    //     style={(theme) => ({
+                    //         backgroundColor:
+                    //             cell.getValue === "Admin" ? "red" : "green",
+                    //         borderRadius: "4px",
+                    //         maxWidth: "9ch",
+                    //         padding: "4px",
+                    //     })}
+                    // >
+                    //     {cell.getValue()}
+                    // </Box>
+                    <Badge
+                        color={cell.getValue() === "ADMIN" ? "red" : "green"}
+                    >
+                        {cell.getValue()}
+                    </Badge>
+                ),
+            },
+            {
+                accessorFn: (row) => {
+                    const sDay = new Date(row.createdAt);
+                    sDay.setHours(0, 0, 0, 0);
+                    return sDay;
+                },
+                id: "createdAt",
+                header: "Dibuat",
+                filterVariant: "date-range",
+                sortingFn: "datetime",
+                // enableColumnFilter: false,
+                enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+                Cell: ({ cell }) =>
+                    cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
+
+                // Edit: ({ cell }) => cell.getValue().toLocaleDateString(),
+            },
+        ],
+        []
+    );
+
+    const data = usersListState;
+
+    const table = useMantineReactTable({
+        columns,
+        data,
+        // enableRowSelection: true,
+        enableColumnOrdering: true,
+        enableRowNumbers: true,
+        rowNumberMode: "original",
+        // columnFilterDisplayMode: "popover",
+        state: {
+            showProgressBars: loading,
+            isLoading: loading,
+            density: "lg",
+        },
+        mantinePaginationProps: {
+            rowsPerPageOptions: ["5", "10", "20"],
+            // withEdges: false,
+            // withControls: false,
+        },
+        enableGrouping: true,
+        // initialState: {
+        //     grouping: ["nik"],
+        //     // expanded: true,
+        // },
+        paginationDisplayMode: "pages",
+        enableFullScreenToggle: false,
+        enableDensityToggle: false,
+        // enableRowActions: true,
+        renderRowActions: ({ row }) => (
+            <Box style={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
+                <ActionIcon
+                    color="red"
+                    size={18}
+                    onClick={() => {
+                        table.setEditingRow(row);
+                    }}
+                >
+                    <IconEdit />
+                </ActionIcon>
+            </Box>
+        ),
+    });
+
     return (
         <>
             <Container size="xl" pos="relative">
-                <LoadingOverlay
+                {/* <LoadingOverlay
                     visible={loading}
                     zIndex={1000}
                     overlayProps={{ radius: "sm", blur: 1 }}
-                />
+                /> */}
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
-
-                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
+                {/* <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
                     <Group>
                         <TextInput
                             onKeyDown={(e) => {
@@ -301,7 +412,8 @@ const AdminUser = () => {
                             withEdges
                         />
                     </Center>
-                </Paper>
+                </Paper> */}
+                <MantineReactTable tabb table={table} enableStickyHeader />
             </Container>
         </>
     );
