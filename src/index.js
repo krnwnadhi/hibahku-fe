@@ -1,7 +1,8 @@
+import "./index.module.css";
 import "@mantine/core/styles/global.css";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
-import "./index.module.css";
+import "@mantine/charts/styles.css";
 import "mantine-react-table/styles.css"; //import MRT styles
 
 import {
@@ -19,10 +20,6 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import store from "./redux/store/store";
-
-// import "@mantine/dates/styles.css";
-
-// import "@mantine/core/styles.css"; //import Mantine V7 styles needed by MRT
 
 const colorSchemeManager = localStorageColorSchemeManager({
     key: "hibahkuColorScheme",

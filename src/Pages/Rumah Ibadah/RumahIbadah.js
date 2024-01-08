@@ -2,37 +2,26 @@ import {
     ActionIcon,
     Anchor,
     Badge,
+    Box,
     Breadcrumbs,
     Button,
-    Center,
     Container,
     Group,
-    Loader,
-    LoadingOverlay,
-    Pagination,
-    Paper,
-    Space,
-    Table,
-    Text,
-    TextInput,
-    rem,
     useMantineTheme,
 } from "@mantine/core";
-import {
-    IconArrowRight,
-    IconPlus,
-    IconSearch,
-    IconTrash,
-    IconX,
-} from "@tabler/icons-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
+import { download, generateCsv, mkConfig } from "export-to-csv"; //or use your library of choice here
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import DateFormatter from "../../utils/DateFormatter";
+import { IconDownload } from "@tabler/icons-react";
+import { IconEdit } from "@tabler/icons-react";
+import { IconFileTypeCsv } from "@tabler/icons-react";
 import axios from "axios";
 import { baseRumahIbadahURL } from "../../utils/baseURL";
+import dayjs from "dayjs";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
+import { useSearchParams } from "react-router-dom";
 
 export default function RumahIbadah() {
     const dispatch = useDispatch();
@@ -50,16 +39,6 @@ export default function RumahIbadah() {
     const { loading, rumahIbadahList = [] } = rumahIbadah;
 
     const [rumahIbadahState, setRumahIbadahState] = useState([rumahIbadahList]);
-    const [load, setLoad] = useState(false);
-
-    const [pages, setPages] = useState(1);
-    const [totalItems, setTotalItems] = useState(0);
-    const [totalPage, setTotalPage] = useState(0);
-    const [limit, setLimit] = useState(10);
-    const [keyword, setKeyword] = useState("");
-    // const [msg, setMsg] = useState("");
-
-    const [query, setQuery] = useState("");
 
     const getRumahIbadahList = async () => {
         try {
@@ -70,15 +49,15 @@ export default function RumahIbadah() {
                 },
             };
             const response = await axios.get(
-                `${baseRumahIbadahURL}/list?nama=${keyword}&page=${pages}&limit=${limit}`,
+                `${baseRumahIbadahURL}/list`,
                 config
             );
             const result = response?.data?.result;
 
             setRumahIbadahState(result);
-            setTotalItems(response.data.totalItems);
-            setTotalPage(response.data.totalPage);
-            setPages(response.data.page);
+            // setTotalItems(response.data.totalItems);
+            // setTotalPage(response.data.totalPage);
+            // setPages(response.data.page);
         } catch (error) {
             console.log(error);
         }
@@ -87,76 +66,7 @@ export default function RumahIbadah() {
     useEffect(() => {
         getRumahIbadahList();
         window.scrollTo(0, 0);
-    }, [pages, keyword]);
-
-    const handlePageChange = async (event) => {
-        setPages(event);
-        // if (event === 2) {
-        //     setMsg(
-        //         "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
-        //     );
-        // } else {
-        //     setMsg("");
-        // }
-        // console.log(event);
-    };
-
-    const searchData = (e) => {
-        // e.preventDefault();
-        setLoad(true);
-        setTimeout(() => {
-            setPages(1);
-            setKeyword(query);
-            setLoad(false);
-        }, 1000);
-        searchParams.set("nama", query);
-        setSearchParams(searchParams);
-    };
-
-    const resetData = (e) => {
-        e.preventDefault();
-        setKeyword("");
-        setQuery("");
-        setSearchParams("");
-    };
-
-    const handleTextInput = (e) => {
-        // console.log(e.target.value);
-        setQuery(e.target.value);
-    };
-
-    const rowsList = rumahIbadahState?.map((item, index) => (
-        <Table.Tr key={item?.id}>
-            <Table.Td>
-                <Text size="xs" ta="center">
-                    {index + 1}
-                </Text>
-            </Table.Td>
-            <Table.Td>
-                <Text size="xs">{item?.id}</Text>
-            </Table.Td>
-            <Table.Td>
-                <Text size="xs">{item?.nama}</Text>
-            </Table.Td>
-            <Table.Td>
-                <Text size="xs">{item?.alamat}</Text>
-            </Table.Td>
-            <Table.Td>
-                <Text size="xs">{item?.wilayah}</Text>
-            </Table.Td>
-            <Table.Td>
-                {item?.kategoriid === 1 ? (
-                    <Badge color="blue" size="xs">
-                        Masjid
-                    </Badge>
-                ) : (
-                    <Badge color="green" size="xs">
-                        Lembaga Keagamaan
-                    </Badge>
-                )}
-            </Table.Td>
-        </Table.Tr>
-    ));
+    }, []);
 
     const items = [
         { title: "Home", href: "/dashboard" },
@@ -173,136 +83,237 @@ export default function RumahIbadah() {
         </Anchor>
     ));
 
+    const citiesList = [
+        "Kab. Batanghari",
+        "Kab. Bungo",
+        "Kab. Kerinci",
+        "Kab. Merangin",
+        "Kab. Muaro Jambi",
+        "Kab. Sarolangun",
+        "Kab. Tanjung Jabung Barat",
+        "Kab. Tanjung Jabung Timur",
+        "Kab. Tebo",
+        "Kota Jambi",
+        "Kota Sungai Penuh",
+    ];
+
+    const categoryList = ["RUMAH IBADAH", "LEMBAGA KEAGAMAAN"];
+
+    const columns = useMemo(
+        () => [
+            {
+                accessorKey: "id",
+                header: "ID SIMAS/NSPP/NSM",
+                enableClickToCopy: true,
+                minSize: 150,
+                maxSize: 275,
+                size: 225,
+            },
+            {
+                accessorKey: "nama",
+                header: "Nama",
+                minSize: 150,
+                maxSize: 250,
+                size: 200,
+            },
+            {
+                accessorKey: "alamat",
+                header: "Alamat",
+                minSize: 300,
+                maxSize: 1000,
+                size: 350,
+            },
+            {
+                accessorKey: "wilayah",
+                header: "Kabupaten/Kota",
+                filterVariant: "select",
+                minSize: 150,
+                maxSize: 250,
+                size: 225,
+                mantineFilterSelectProps: {
+                    data: citiesList,
+                },
+            },
+            {
+                accessorKey: "Kategori.nama",
+                header: "Kategori",
+                Cell: ({ cell }) => (
+                    <Badge
+                        color={
+                            cell.getValue() === "RUMAH IBADAH"
+                                ? "blue"
+                                : "green"
+                        }
+                    >
+                        {cell.getValue()}
+                    </Badge>
+                ),
+                filterVariant: "select",
+                mantineFilterSelectProps: {
+                    data: categoryList,
+                },
+                minSize: 150,
+                maxSize: 250,
+                size: 200,
+            },
+            {
+                accessorFn: (row) => {
+                    const sDay = new Date(row.createdAt);
+                    sDay.setHours(0, 0, 0, 0);
+                    return sDay;
+                },
+                id: "createdAt",
+                header: "Dibuat",
+                filterVariant: "date-range",
+                sortingFn: "datetime",
+                // enableColumnFilter: false,
+                enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+                Cell: ({ cell }) =>
+                    cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
+                minSize: 100,
+                maxSize: 200,
+                size: 150,
+            },
+        ],
+        []
+    );
+
+    const handleExportRows = (rows) => {
+        const rowData = rows.map((row) => {
+            return {
+                ID: row.original.id,
+                Nama: row.original.nama,
+                Alamat: row.original.alamat,
+                Wilayah: row.original.wilayah,
+                Kategori: row.original.Kategori.nama,
+                Dibuat: dayjs(row.original.createdAt)
+                    .locale("id")
+                    .format("DD-MMMM-YYYY"),
+            };
+        });
+        const csvConfig = mkConfig({
+            fieldSeparator: ";",
+            decimalSeparator: ".",
+            useKeysAsHeaders: true,
+            filename: `Rumah-Ibadah-${dayjs()
+                .locale("id")
+                .format("DD-MMMM-YYYY HH_mm_ss")}`,
+        });
+
+        const csv = generateCsv(csvConfig)(rowData);
+        download(csvConfig)(csv);
+    };
+
+    const data = rumahIbadahState;
+
+    const table = useMantineReactTable({
+        columns,
+        data,
+        enableColumnResizing: true,
+        // enableRowSelection: true,
+        positionToolbarAlertBanner: "bottom",
+        enableColumnOrdering: true,
+        enableRowNumbers: true,
+        rowNumberMode: "original",
+        // columnFilterDisplayMode: "popover",
+        initialState: {
+            density: "xs",
+        },
+        state: {
+            showProgressBars: loading,
+            isLoading: loading,
+        },
+        mantinePaginationProps: {
+            rowsPerPageOptions: ["5", "10", "20"],
+        },
+        enableGrouping: true,
+        mantineTableHeadCellProps: {
+            style: {
+                backgroundColor: "var(--mantine-color-blueGray-light)",
+                border: "1px solid lightgray",
+            },
+        },
+        mantineTableBodyCellProps: {
+            style: {
+                border: "1px solid lightgray",
+            },
+        },
+        paginationDisplayMode: "pages",
+        enableFullScreenToggle: false,
+        // enableRowActions: true,
+        renderRowActions: ({ row }) => (
+            <Box style={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
+                <ActionIcon
+                    color="red"
+                    size={18}
+                    onClick={() => {
+                        table.setEditingRow(row);
+                    }}
+                >
+                    <IconEdit />
+                </ActionIcon>
+            </Box>
+        ),
+        mantineSearchTextInputProps: {
+            placeholder: "Cari",
+        },
+        enableRowSelection: true,
+        renderTopToolbarCustomActions: ({ table }) => (
+            <Group p="md" justify="space-between">
+                <Button
+                    disabled={
+                        table.getPrePaginationRowModel().rows.length === 0
+                    }
+                    //export all rows, including from the next page, (still respects filtering and sorting)
+                    onClick={() =>
+                        handleExportRows(table.getPrePaginationRowModel().rows)
+                    }
+                    leftSection={<IconDownload size={16} />}
+                    rightSection={<IconFileTypeCsv size={16} />}
+                    variant="filled"
+                    size="xs"
+                >
+                    Export All Rows
+                </Button>
+                <Button
+                    disabled={table.getRowModel().rows.length === 0}
+                    //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
+                    onClick={() => handleExportRows(table.getRowModel().rows)}
+                    leftSection={<IconDownload size={16} />}
+                    rightSection={<IconFileTypeCsv size={16} />}
+                    variant="filled"
+                    size="xs"
+                >
+                    Export Page Rows
+                </Button>
+                <Button
+                    disabled={
+                        !table.getIsSomeRowsSelected() &&
+                        !table.getIsAllRowsSelected()
+                    }
+                    //only export selected rows
+                    onClick={() =>
+                        handleExportRows(table.getSelectedRowModel().rows)
+                    }
+                    leftSection={<IconDownload size={16} />}
+                    rightSection={<IconFileTypeCsv size={16} />}
+                    variant="filled"
+                    size="xs"
+                >
+                    Export Selected Rows
+                </Button>
+            </Group>
+        ),
+    });
+
     return (
         <>
             <Container size="xl" pos="relative">
-                <LoadingOverlay
-                    visible={loading}
-                    zIndex={1000}
-                    overlayProps={{ radius: "sm", blur: 1 }}
-                />
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
 
-                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
-                    <Group>
-                        <TextInput
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    searchData();
-                                }
-                            }}
-                            value={query}
-                            onChange={handleTextInput}
-                            radius="md"
-                            size="sm"
-                            placeholder="Cari Berdasarkan Nama"
-                            // rightSectionWidth={40}
-                            leftSection={
-                                <IconSearch
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            rightSection={
-                                <ActionIcon
-                                    size={32}
-                                    radius="xl"
-                                    color={theme.primaryColor}
-                                    variant="filled"
-                                    onClick={searchData}
-                                    disabled={!query}
-                                >
-                                    <IconArrowRight
-                                        style={{
-                                            width: rem(18),
-                                            height: rem(18),
-                                        }}
-                                        stroke={1.5}
-                                    />
-                                </ActionIcon>
-                            }
-                        />
-
-                        {query && (
-                            <ActionIcon
-                                onClick={resetData}
-                                disabled={!query}
-                                variant="subtle"
-                                color="red"
-                                ml={-10}
-                            >
-                                <IconX size={14} />
-                            </ActionIcon>
-                        )}
-                    </Group>
-
-                    <Space h="lg" />
-
-                    <Table.ScrollContainer minWidth={500}>
-                        <Table
-                            withColumnBorders
-                            withTableBorder
-                            horizontalSpacing="lg"
-                            verticalSpacing="md"
-                            striped
-                            highlightOnHover
-                        >
-                            <Table.Thead>
-                                <Table.Tr key={pages}>
-                                    <Table.Th key={pages}>No. </Table.Th>
-                                    <Table.Th>ID</Table.Th>
-                                    <Table.Th>Nama</Table.Th>
-                                    <Table.Th>Alamat</Table.Th>
-                                    <Table.Th>Kabupaten/Kota</Table.Th>
-                                    <Table.Th
-                                        style={{
-                                            textAlign: "center",
-                                        }}
-                                    >
-                                        Kategori
-                                    </Table.Th>
-                                    {/* <Table.Th>Dibuat</Table.Th> */}
-                                </Table.Tr>
-                            </Table.Thead>
-                            <Table.Tbody>
-                                {rumahIbadahState.length === 0 ? (
-                                    <Table.Tr>
-                                        <Table.Td colSpan={5}>
-                                            <Text fw={500} ta="center">
-                                                Data Tidak Ditemukan
-                                            </Text>
-                                        </Table.Td>
-                                    </Table.Tr>
-                                ) : (
-                                    rowsList
-                                )}
-                            </Table.Tbody>
-                        </Table>
-                    </Table.ScrollContainer>
-
-                    {/* <Text>{msg}</Text> */}
-
-                    <Space h="sm" />
-
-                    <Text size="sm">
-                        Halaman {pages} dari {totalPage} total : {totalItems}{" "}
-                        data
-                    </Text>
-
-                    <Space h="xl" />
-
-                    <Center>
-                        <Pagination
-                            onChange={handlePageChange}
-                            total={totalPage}
-                            // total={Math.min(2, totalPage)}
-                            withControls
-                            withEdges
-                        />
-                    </Center>
-                </Paper>
+                <MantineReactTable table={table} enableStickyHeader />
             </Container>
         </>
     );

@@ -2,6 +2,7 @@ import {
     ActionIcon,
     Anchor,
     Badge,
+    Box,
     Breadcrumbs,
     Center,
     Container,
@@ -24,10 +25,12 @@ import {
     IconSearch,
     IconX,
 } from "@tabler/icons-react";
-import React, { useEffect, useState } from "react";
+import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import DateFormatter from "../../utils/DateFormatter";
+import { IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import { basePersetujuanURL } from "../../utils/baseURL";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
@@ -46,22 +49,12 @@ const Persetujuan = () => {
     const { token } = user;
 
     const persetujuan = useSelector((state) => state?.persetujuan);
-    const { loading, persetujuanList } = persetujuan;
+    const { loading, persetujuanList = [] } = persetujuan;
     // console.log(persetujuanList);
 
     const [persetujuanListState, setPersetujuanListState] = useState([
         persetujuanList,
     ]);
-
-    const [load, setLoad] = useState(false);
-
-    const [pages, setPages] = useState(1);
-    const [totalItems, setTotalItems] = useState(0);
-    const [totalPage, setTotalPage] = useState(0);
-    const [limit, setLimit] = useState(10);
-    const [keyword, setKeyword] = useState("");
-
-    const [query, setQuery] = useState("");
 
     const getPersetujuanList = async () => {
         try {
@@ -72,15 +65,15 @@ const Persetujuan = () => {
                 },
             };
             const response = await axios.get(
-                `${basePersetujuanURL}/list?keagamaanid=${keyword}&page=${pages}&limit=${limit}`,
+                `${basePersetujuanURL}/list`,
                 config
             );
             const result = response?.data?.result;
 
             setPersetujuanListState(result);
-            setTotalItems(response.data.totalItems);
-            setTotalPage(response.data.totalPage);
-            setPages(response.data.page);
+            // setTotalItems(response.data.totalItems);
+            // setTotalPage(response.data.totalPage);
+            // setPages(response.data.page);
         } catch (error) {
             console.log(error);
         }
@@ -89,33 +82,7 @@ const Persetujuan = () => {
     useEffect(() => {
         getPersetujuanList();
         window.scrollTo(0, 0);
-    }, [pages, keyword]);
-
-    const handlePageChange = async (event) => {
-        setPages(event);
-    };
-
-    const searchData = (e) => {
-        setLoad(true);
-        setTimeout(() => {
-            setPages(1);
-            setKeyword(query);
-            setLoad(false);
-        }, 1000);
-        searchParams.set("id", query);
-        setSearchParams(searchParams);
-    };
-
-    const resetData = (e) => {
-        e.preventDefault();
-        setKeyword("");
-        setQuery("");
-        setSearchParams("");
-    };
-
-    const handleTextInput = (e) => {
-        setQuery(e.target.value);
-    };
+    }, []);
 
     const getStatusText = (statusid) => {
         const statusMap = {
@@ -289,6 +256,175 @@ const Persetujuan = () => {
         </Anchor>
     ));
 
+    const columns = useMemo(
+        () => [
+            {
+                id: "id",
+                header: "Edit",
+                enableColumnOrdering: false,
+                enableColumnFilterModes: false,
+                enableColumnFilter: false,
+                enableColumnSortModes: false,
+                enableGrouping: false,
+                enableSorting: false,
+                enableColumnActions: false,
+                size: 80,
+                Cell: ({ row }) => (
+                    <Tooltip label="Edit">
+                        <ActionIcon
+                            component={Anchor}
+                            href={`/dashboard/admin/persetujuan/detail/${row.original?.id}`}
+                            color="red"
+                            variant="subtle"
+                        >
+                            <IconPencil size={14} stroke={1.5} />
+                        </ActionIcon>
+                    </Tooltip>
+                ),
+            },
+            {
+                id: "masjid",
+                header: "Masjid",
+                columns: [
+                    {
+                        accessorKey: "keagamaanid",
+                        header: "No. SIMAS/NSPP/NSM",
+                        enableClickToCopy: true,
+                    },
+                    {
+                        accessorKey: "Keagamaan.nama",
+                        header: "Nama",
+                    },
+                    {
+                        accessorKey: "Keagamaan.alamat",
+                        header: "Alamat",
+                    },
+                    {
+                        accessorKey: "Keagamaan.wilayah",
+                        header: "Kabupaten/Kota",
+                    },
+                    {
+                        accessorKey: "kategoriid",
+                        header: "Kategori",
+                        Cell: ({ cell, row }) => (
+                            <Badge
+                                color={
+                                    row.original?.kategoriid === 1
+                                        ? "green"
+                                        : "blue"
+                                }
+                            >
+                                {row.original?.kategoriid === 2
+                                    ? "RUMAH IBADAH"
+                                    : "LEMBAGA PENDIDIKAN KEAGAMAAN"}
+                            </Badge>
+                        ),
+                    },
+                ],
+            },
+            {
+                id: "user",
+                header: "User",
+                columns: [
+                    {
+                        accessorKey: "userid",
+                        header: "User ID",
+                        Cell: ({ row }) => (
+                            <Popover
+                                width={250}
+                                position="bottom"
+                                withArrow
+                                shadow="md"
+                            >
+                                <Popover.Target style={{ cursor: "pointer" }}>
+                                    <Text size="xs">
+                                        {row?.original?.userid}
+                                    </Text>
+                                </Popover.Target>
+                                <Popover.Dropdown>
+                                    <Text size="xs">
+                                        Nama: {row?.original?.User?.nama}
+                                    </Text>
+                                    <Text size="xs">
+                                        No. HP: {row?.original?.User?.notelpon}
+                                    </Text>
+                                </Popover.Dropdown>
+                            </Popover>
+                        ),
+                    },
+                ],
+            },
+            {
+                accessorFn: (row) => {
+                    const sDay = new Date(row.createdAt);
+                    sDay.setHours(0, 0, 0, 0);
+                    return sDay;
+                },
+                id: "createdAt",
+                header: "Dibuat",
+                filterVariant: "date-range",
+                sortingFn: "datetime",
+                // enableColumnFilter: false,
+                enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+                Cell: ({ cell }) =>
+                    cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
+            },
+        ],
+        []
+    );
+
+    const data = persetujuanListState;
+
+    const table = useMantineReactTable({
+        layoutMode: "grid",
+        enableColumnResizing: true,
+        columns,
+        data,
+        // enableRowSelection: true,
+        positionToolbarAlertBanner: "bottom",
+        enableColumnOrdering: true,
+        enableRowNumbers: true,
+        rowNumberMode: "original",
+        // columnFilterDisplayMode: "popover",
+        initialState: {
+            density: "xs",
+        },
+        state: {
+            showProgressBars: loading,
+            isLoading: loading,
+        },
+        mantinePaginationProps: {
+            rowsPerPageOptions: ["5", "10", "20"],
+            // withEdges: false,
+            // withControls: false,
+        },
+        enableGrouping: true,
+        // initialState: {
+        //     grouping: ["nik"],
+        //     // expanded: true,
+        // },
+        paginationDisplayMode: "pages",
+        enableFullScreenToggle: false,
+        // enableDensityToggle: false,
+        // enableRowActions: true,
+        renderRowActions: ({ row }) => (
+            <Box style={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
+                <ActionIcon
+                    color="red"
+                    size={18}
+                    onClick={() => {
+                        table.setEditingRow(row);
+                    }}
+                >
+                    <IconEdit />
+                </ActionIcon>
+            </Box>
+        ),
+        mantineSearchTextInputProps: {
+            placeholder: "Cari",
+        },
+    });
+
     return (
         <>
             <Container size="xl" pos="relative">
@@ -301,7 +437,11 @@ const Persetujuan = () => {
                     {items}
                 </Breadcrumbs>
 
-                <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
+                {/* <Paper withBorder shadow="xl" p="md" style={{ minHeight: 500 }}> */}
+                <MantineReactTable table={table} enableStickyHeader />
+                {/* </Paper> */}
+
+                {/* <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
                     <Group>
                         <LoadingOverlay
                             visible={load}
@@ -444,7 +584,7 @@ const Persetujuan = () => {
                             withEdges
                         />
                     </Center>
-                </Paper>
+                </Paper> */}
             </Container>
         </>
     );

@@ -15,6 +15,7 @@ import {
 import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
+import AreaChartMantine from "../../components/AreaChart/AreaChartMantine";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
@@ -66,6 +67,7 @@ export default function Dashboard() {
             progress: 65,
             color: "teal",
             icon: "up",
+            link: "/dashboard/admin/persetujuan",
         },
         {
             label: "Rumah Ibadah",
@@ -73,6 +75,7 @@ export default function Dashboard() {
             progress: 72,
             color: "blue",
             icon: "up",
+            link: "/dashboard/rumah-ibadah/list",
         },
         {
             label: "Users",
@@ -80,6 +83,7 @@ export default function Dashboard() {
             progress: 52,
             color: "red",
             icon: "down",
+            link: "/dashboard/admin/list",
         },
     ];
 
@@ -114,6 +118,8 @@ export default function Dashboard() {
                             sections={[
                                 { value: stat.progress, color: stat.color },
                             ]}
+                            // component={<Anchor />}
+                            // href={stat.link}
                             label={
                                 <Center>
                                     <Icon
@@ -157,6 +163,9 @@ export default function Dashboard() {
                     {items}
                 </Breadcrumbs>
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
+                <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                    <AreaChartMantine />{" "}
+                </SimpleGrid>
             </Container>
         </>
     );

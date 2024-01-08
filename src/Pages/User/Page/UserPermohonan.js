@@ -130,7 +130,7 @@ export default function UserPermohonan() {
 
     const today = dayjs(new Date())
         .locale("id")
-        .format("D MMMM YYYY : HH:mm:ss");
+        .format("DD-MMMM-YYYY : HH:mm:ss");
 
     const hibahkuSuccessModalNotification = (
         <>
