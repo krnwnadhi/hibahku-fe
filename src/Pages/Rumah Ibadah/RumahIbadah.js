@@ -188,7 +188,7 @@ export default function RumahIbadah() {
                 Kategori: row.original.Kategori.nama,
                 Dibuat: dayjs(row.original.createdAt)
                     .locale("id")
-                    .format("DD-MMMM-YYYY"),
+                    .format("DD-MMM-YYYY"),
             };
         });
         const csvConfig = mkConfig({
@@ -197,7 +197,7 @@ export default function RumahIbadah() {
             useKeysAsHeaders: true,
             filename: `Rumah-Ibadah-${dayjs()
                 .locale("id")
-                .format("DD-MMMM-YYYY HH_mm_ss")}`,
+                .format("DD-MMM-YYYY HH_mm_ss")}`,
         });
 
         const csv = generateCsv(csvConfig)(rowData);
@@ -210,12 +210,12 @@ export default function RumahIbadah() {
         columns,
         data,
         enableColumnResizing: true,
+        enableRowSelection: true,
         // enableRowSelection: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
         enableRowNumbers: true,
         rowNumberMode: "original",
-        // columnFilterDisplayMode: "popover",
         initialState: {
             density: "xs",
         },
@@ -257,7 +257,6 @@ export default function RumahIbadah() {
         mantineSearchTextInputProps: {
             placeholder: "Cari",
         },
-        enableRowSelection: true,
         renderTopToolbarCustomActions: ({ table }) => (
             <Group p="md" justify="space-between">
                 <Button
