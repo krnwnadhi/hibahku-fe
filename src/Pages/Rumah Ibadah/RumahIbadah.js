@@ -19,10 +19,12 @@ import { useEffect, useMemo, useState } from "react";
 
 import { IconEdit } from "@tabler/icons-react";
 import { IconFileTypeCsv } from "@tabler/icons-react";
+import autoTable from "jspdf-autotable";
 import axios from "axios";
 import { baseRumahIbadahURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
+import jsPDF from "jspdf";
 import { useSearchParams } from "react-router-dom";
 
 export default function RumahIbadah() {
@@ -180,7 +182,8 @@ export default function RumahIbadah() {
         []
     );
 
-    const handleExportRows = (rows) => {
+    // Handle Excel
+    const handleExportRowsExcel = (rows) => {
         const rowData = rows.map((row) => {
             return {
                 ID: row.original.id,
@@ -204,6 +207,41 @@ export default function RumahIbadah() {
 
         const csv = generateCsv(csvConfig)(rowData);
         download(csvConfig)(csv);
+    };
+
+    // Handle PDF
+    const handleExportRowsPDF = (rows) => {
+        const doc = new jsPDF({
+            orientation: "landscape",
+        });
+
+        const tableData = rows.map((row) => {
+            const { id, nama, alamat, wilayah, Kategori, createdAt } =
+                row.original;
+            return [
+                id,
+                nama,
+                alamat,
+                wilayah,
+                Kategori.nama,
+                dayjs(createdAt).locale("id").format("DD-MMM-YYYY"),
+            ];
+        });
+
+        const tableHeaders = columns.map((c) => c.header);
+
+        autoTable(doc, {
+            head: [tableHeaders],
+            body: tableData,
+            tableWidth: "wrap",
+            styles: { cellPadding: 0.5, fontSize: 8 },
+        });
+
+        doc.save(
+            `Rumah-Ibadah-${dayjs()
+                .locale("id")
+                .format("DD-MMM-YYYY HH_mm_ss")}`
+        );
     };
 
     const data = rumahIbadahState;
@@ -260,7 +298,7 @@ export default function RumahIbadah() {
             placeholder: "Cari",
         },
         renderTopToolbarCustomActions: ({ table }) => (
-            <Group p="md" justify="space-between">
+            <Group p="xs" justify="space-between">
                 {/* EXCEL START */}
                 <Menu
                     transitionProps={{ transition: "pop-top-right" }}
@@ -308,7 +346,7 @@ export default function RumahIbadah() {
                             }
                             //export all rows, including from the next page, (still respects filtering and sorting)
                             onClick={() =>
-                                handleExportRows(
+                                handleExportRowsExcel(
                                     table.getPrePaginationRowModel().rows
                                 )
                             }
@@ -326,7 +364,7 @@ export default function RumahIbadah() {
                             disabled={table.getRowModel().rows.length === 0}
                             //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
                             onClick={() =>
-                                handleExportRows(table.getRowModel().rows)
+                                handleExportRowsExcel(table.getRowModel().rows)
                             }
                         >
                             Export Page Rows
@@ -345,7 +383,7 @@ export default function RumahIbadah() {
                             }
                             //only export selected rows
                             onClick={() =>
-                                handleExportRows(
+                                handleExportRowsExcel(
                                     table.getSelectedRowModel().rows
                                 )
                             }
@@ -403,7 +441,7 @@ export default function RumahIbadah() {
                             }
                             //export all rows, including from the next page, (still respects filtering and sorting)
                             onClick={() =>
-                                handleExportRows(
+                                handleExportRowsPDF(
                                     table.getPrePaginationRowModel().rows
                                 )
                             }
@@ -421,7 +459,7 @@ export default function RumahIbadah() {
                             disabled={table.getRowModel().rows.length === 0}
                             //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
                             onClick={() =>
-                                handleExportRows(table.getRowModel().rows)
+                                handleExportRowsPDF(table.getRowModel().rows)
                             }
                         >
                             Export Page Rows
@@ -440,7 +478,7 @@ export default function RumahIbadah() {
                             }
                             //only export selected rows
                             onClick={() =>
-                                handleExportRows(
+                                handleExportRowsPDF(
                                     table.getSelectedRowModel().rows
                                 )
                             }

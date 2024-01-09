@@ -8,6 +8,7 @@ import {
     Container,
     Group,
     Menu,
+    Text,
     rem,
     useMantineTheme,
 } from "@mantine/core";
@@ -22,10 +23,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import { download, generateCsv, mkConfig } from "export-to-csv";
 import { useDispatch, useSelector } from "react-redux";
 
+import autoTable from "jspdf-autotable";
 import axios from "axios";
 import { baseUserURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
+import jsPDF from "jspdf";
 
 const AdminUser = () => {
     const dispatch = useDispatch();
@@ -135,7 +138,9 @@ const AdminUser = () => {
         []
     );
 
-    const handleExportRows = (rows) => {
+    // Handle Excel
+
+    const handleExportRowsExcel = (rows) => {
         const rowData = rows.map((row) => {
             return {
                 NIK: row.original.nik,
@@ -158,6 +163,35 @@ const AdminUser = () => {
 
         const csv = generateCsv(csvConfig)(rowData);
         download(csvConfig)(csv);
+    };
+
+    // Handle PDF
+    const handleExportRowsPDF = (rows) => {
+        const doc = new jsPDF({
+            orientation: "landscape",
+        });
+
+        const tableData = rows.map((row) => {
+            const { id, nama, notelpon, Role, createdAt } = row.original;
+            return [
+                id,
+                nama,
+                notelpon,
+                Role.nama,
+                dayjs(createdAt).locale("id").format("DD-MMM-YYYY"),
+            ];
+        });
+
+        const tableHeaders = columns.map((c) => c.header);
+
+        autoTable(doc, {
+            head: [tableHeaders],
+            body: tableData,
+            tableWidth: "wrap",
+            styles: { cellPadding: 0.5, fontSize: 8 },
+        });
+
+        doc.save(`User-${dayjs().locale("id").format("DD-MMM-YYYY HH_mm_ss")}`);
     };
 
     const data = usersListState;
@@ -215,6 +249,7 @@ const AdminUser = () => {
         renderTopToolbarCustomActions: ({ table }) => (
             <Group p="md" justify="space-between">
                 {/* EXCEL START */}
+                <Text>{}</Text>
                 <Menu
                     transitionProps={{ transition: "pop-top-right" }}
                     position="top-end"
@@ -261,7 +296,7 @@ const AdminUser = () => {
                             }
                             //export all rows, including from the next page, (still respects filtering and sorting)
                             onClick={() =>
-                                handleExportRows(
+                                handleExportRowsExcel(
                                     table.getPrePaginationRowModel().rows
                                 )
                             }
@@ -279,7 +314,7 @@ const AdminUser = () => {
                             disabled={table.getRowModel().rows.length === 0}
                             //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
                             onClick={() =>
-                                handleExportRows(table.getRowModel().rows)
+                                handleExportRowsExcel(table.getRowModel().rows)
                             }
                         >
                             Export Page Rows
@@ -298,7 +333,7 @@ const AdminUser = () => {
                             }
                             //only export selected rows
                             onClick={() =>
-                                handleExportRows(
+                                handleExportRowsExcel(
                                     table.getSelectedRowModel().rows
                                 )
                             }
@@ -356,7 +391,7 @@ const AdminUser = () => {
                             }
                             //export all rows, including from the next page, (still respects filtering and sorting)
                             onClick={() =>
-                                handleExportRows(
+                                handleExportRowsPDF(
                                     table.getPrePaginationRowModel().rows
                                 )
                             }
@@ -374,7 +409,7 @@ const AdminUser = () => {
                             disabled={table.getRowModel().rows.length === 0}
                             //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
                             onClick={() =>
-                                handleExportRows(table.getRowModel().rows)
+                                handleExportRowsPDF(table.getRowModel().rows)
                             }
                         >
                             Export Page Rows
@@ -393,7 +428,7 @@ const AdminUser = () => {
                             }
                             //only export selected rows
                             onClick={() =>
-                                handleExportRows(
+                                handleExportRowsPDF(
                                     table.getSelectedRowModel().rows
                                 )
                             }
