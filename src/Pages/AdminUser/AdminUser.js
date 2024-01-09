@@ -17,6 +17,7 @@ import {
     IconEdit,
     IconFileExport,
     IconFileTypeCsv,
+    IconFileTypePdf,
 } from "@tabler/icons-react";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import React, { useEffect, useMemo, useState } from "react";
@@ -169,6 +170,7 @@ const AdminUser = () => {
     const handleExportRowsPDF = (rows) => {
         const doc = new jsPDF({
             orientation: "landscape",
+            compress: true,
         });
 
         const tableData = rows.map((row) => {
@@ -365,7 +367,7 @@ const AdminUser = () => {
                                 />
                             }
                             leftSection={
-                                <IconFileTypeCsv
+                                <IconFileTypePdf
                                     style={{ width: rem(18), height: rem(18) }}
                                     stroke={1.5}
                                 />

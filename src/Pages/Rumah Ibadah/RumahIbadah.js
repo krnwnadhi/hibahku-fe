@@ -19,6 +19,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { IconEdit } from "@tabler/icons-react";
 import { IconFileTypeCsv } from "@tabler/icons-react";
+import { IconFileTypePdf } from "@tabler/icons-react";
 import autoTable from "jspdf-autotable";
 import axios from "axios";
 import { baseRumahIbadahURL } from "../../utils/baseURL";
@@ -213,6 +214,7 @@ export default function RumahIbadah() {
     const handleExportRowsPDF = (rows) => {
         const doc = new jsPDF({
             orientation: "landscape",
+            compress: true,
         });
 
         const tableData = rows.map((row) => {
@@ -415,7 +417,7 @@ export default function RumahIbadah() {
                                 />
                             }
                             leftSection={
-                                <IconFileTypeCsv
+                                <IconFileTypePdf
                                     style={{ width: rem(18), height: rem(18) }}
                                     stroke={1.5}
                                 />
