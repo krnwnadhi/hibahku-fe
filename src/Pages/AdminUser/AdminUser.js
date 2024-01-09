@@ -7,14 +7,21 @@ import {
     Button,
     Container,
     Group,
+    Menu,
+    rem,
+    useMantineTheme,
 } from "@mantine/core";
-import { IconEdit, IconFileTypeCsv } from "@tabler/icons-react";
+import {
+    IconChevronDown,
+    IconEdit,
+    IconFileExport,
+    IconFileTypeCsv,
+} from "@tabler/icons-react";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import React, { useEffect, useMemo, useState } from "react";
 import { download, generateCsv, mkConfig } from "export-to-csv";
 import { useDispatch, useSelector } from "react-redux";
 
-import { IconDownload } from "@tabler/icons-react";
 import axios from "axios";
 import { baseUserURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
@@ -22,6 +29,7 @@ import { getAllUsersAction } from "../../redux/slices/user/userSlices";
 
 const AdminUser = () => {
     const dispatch = useDispatch();
+    const theme = useMantineTheme();
 
     useEffect(() => {
         dispatch(getAllUsersAction());
@@ -206,48 +214,195 @@ const AdminUser = () => {
         },
         renderTopToolbarCustomActions: ({ table }) => (
             <Group p="md" justify="space-between">
-                <Button
-                    disabled={
-                        table.getPrePaginationRowModel().rows.length === 0
-                    }
-                    //export all rows, including from the next page, (still respects filtering and sorting)
-                    onClick={() =>
-                        handleExportRows(table.getPrePaginationRowModel().rows)
-                    }
-                    leftSection={<IconDownload size={16} />}
-                    rightSection={<IconFileTypeCsv size={16} />}
-                    variant="filled"
-                    size="xs"
+                {/* EXCEL START */}
+                <Menu
+                    transitionProps={{ transition: "pop-top-right" }}
+                    position="top-end"
+                    width={220}
+                    withinPortal
+                    trigger="click-hover"
+                    withArrow
+                    arrowPosition="center"
+                    openDelay={100}
+                    closeDelay={400}
                 >
-                    Export All Rows
-                </Button>
-                <Button
-                    disabled={table.getRowModel().rows.length === 0}
-                    //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
-                    onClick={() => handleExportRows(table.getRowModel().rows)}
-                    leftSection={<IconDownload size={16} />}
-                    rightSection={<IconFileTypeCsv size={16} />}
-                    variant="filled"
-                    size="xs"
+                    <Menu.Target>
+                        <Button
+                            rightSection={
+                                <IconChevronDown
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            leftSection={
+                                <IconFileTypeCsv
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            size="xs"
+                            color={theme.colors.green[7]}
+                        >
+                            Excel
+                        </Button>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.blue[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={
+                                table.getPrePaginationRowModel().rows.length ===
+                                0
+                            }
+                            //export all rows, including from the next page, (still respects filtering and sorting)
+                            onClick={() =>
+                                handleExportRows(
+                                    table.getPrePaginationRowModel().rows
+                                )
+                            }
+                        >
+                            Export All Rows
+                        </Menu.Item>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.pink[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={table.getRowModel().rows.length === 0}
+                            //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
+                            onClick={() =>
+                                handleExportRows(table.getRowModel().rows)
+                            }
+                        >
+                            Export Page Rows
+                        </Menu.Item>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.green[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={
+                                !table.getIsSomeRowsSelected() &&
+                                !table.getIsAllRowsSelected()
+                            }
+                            //only export selected rows
+                            onClick={() =>
+                                handleExportRows(
+                                    table.getSelectedRowModel().rows
+                                )
+                            }
+                        >
+                            Export Selected Rows
+                        </Menu.Item>
+                    </Menu.Dropdown>
+                </Menu>
+                {/* EXCEL START */}
+
+                {/* PDF START */}
+                <Menu
+                    transitionProps={{ transition: "pop-top-right" }}
+                    position="top-end"
+                    width={220}
+                    withinPortal
+                    trigger="click-hover"
+                    withArrow
+                    arrowPosition="center"
+                    openDelay={100}
+                    closeDelay={400}
                 >
-                    Export Page Rows
-                </Button>
-                <Button
-                    disabled={
-                        !table.getIsSomeRowsSelected() &&
-                        !table.getIsAllRowsSelected()
-                    }
-                    //only export selected rows
-                    onClick={() =>
-                        handleExportRows(table.getSelectedRowModel().rows)
-                    }
-                    leftSection={<IconDownload size={16} />}
-                    rightSection={<IconFileTypeCsv size={16} />}
-                    variant="filled"
-                    size="xs"
-                >
-                    Export Selected Rows
-                </Button>
+                    <Menu.Target>
+                        <Button
+                            rightSection={
+                                <IconChevronDown
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            leftSection={
+                                <IconFileTypeCsv
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            size="xs"
+                            color={theme.colors.red[7]}
+                        >
+                            Pdf
+                        </Button>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.blue[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={
+                                table.getPrePaginationRowModel().rows.length ===
+                                0
+                            }
+                            //export all rows, including from the next page, (still respects filtering and sorting)
+                            onClick={() =>
+                                handleExportRows(
+                                    table.getPrePaginationRowModel().rows
+                                )
+                            }
+                        >
+                            Export All Rows
+                        </Menu.Item>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.pink[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={table.getRowModel().rows.length === 0}
+                            //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
+                            onClick={() =>
+                                handleExportRows(table.getRowModel().rows)
+                            }
+                        >
+                            Export Page Rows
+                        </Menu.Item>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.green[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={
+                                !table.getIsSomeRowsSelected() &&
+                                !table.getIsAllRowsSelected()
+                            }
+                            //only export selected rows
+                            onClick={() =>
+                                handleExportRows(
+                                    table.getSelectedRowModel().rows
+                                )
+                            }
+                        >
+                            Export Selected Rows
+                        </Menu.Item>
+                    </Menu.Dropdown>
+                </Menu>
+                {/* PDF END */}
             </Group>
         ),
     });
