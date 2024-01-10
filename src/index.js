@@ -1,8 +1,8 @@
 import "./index.module.css";
 import "@mantine/core/styles/global.css";
 import "@mantine/core/styles.css";
-import "@mantine/dates/styles.css";
 import "@mantine/charts/styles.css";
+import "@mantine/dates/styles.css";
 import "mantine-react-table/styles.css"; //import MRT styles
 
 import {

@@ -190,7 +190,26 @@ const AdminUser = () => {
             head: [tableHeaders],
             body: tableData,
             tableWidth: "wrap",
-            styles: { cellPadding: 0.5, fontSize: 8 },
+            styles: {
+                cellPadding: 0.5,
+                fontSize: 8,
+                valign: "middle",
+                // halign: "center",
+                minCellWidth: 25,
+            },
+            headStyles: {
+                fillColor: "white",
+                textColor: "black",
+                lineWidth: 0.1,
+                lineColor: "black",
+            },
+            bodyStyles: {
+                fillColor: "white",
+                textColor: "black",
+                lineWidth: 0.1,
+                lineColor: "black",
+            },
+            theme: "grid",
         });
 
         doc.save(`User-${dayjs().locale("id").format("DD-MMM-YYYY HH_mm_ss")}`);

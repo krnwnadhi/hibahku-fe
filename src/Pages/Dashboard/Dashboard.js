@@ -9,13 +9,15 @@ import {
     Paper,
     RingProgress,
     SimpleGrid,
+    Space,
     Text,
     rem,
 } from "@mantine/core";
 import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
-import AreaChartMantine from "../../components/AreaChart/AreaChartMantine";
+import AreaChartMantine from "../../components/Chart/AreaChartMantine";
+import BarChartMantine from "../../components/Chart/BarChartMantine";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
@@ -163,8 +165,24 @@ export default function Dashboard() {
                     {items}
                 </Breadcrumbs>
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
-                <SimpleGrid cols={{ base: 1, sm: 3 }}>
-                    <AreaChartMantine />{" "}
+                <Space h="xl" />
+                <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                    <Paper
+                        radius="md"
+                        withBorder
+                        p="lg"
+                        bg="var(--mantine-color-body)"
+                    >
+                        <AreaChartMantine />
+                    </Paper>
+                    <Paper
+                        radius="md"
+                        withBorder
+                        p="lg"
+                        bg="var(--mantine-color-body)"
+                    >
+                        <BarChartMantine />
+                    </Paper>
                 </SimpleGrid>
             </Container>
         </>

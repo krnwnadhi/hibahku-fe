@@ -215,6 +215,7 @@ export default function RumahIbadah() {
         const doc = new jsPDF({
             orientation: "landscape",
             compress: true,
+            format: "a4",
         });
 
         const tableData = rows.map((row) => {
@@ -235,8 +236,81 @@ export default function RumahIbadah() {
         autoTable(doc, {
             head: [tableHeaders],
             body: tableData,
-            tableWidth: "wrap",
-            styles: { cellPadding: 0.5, fontSize: 8 },
+            startY: 40,
+            // tableWidth: "auto",
+            // styles: {
+            //     cellPadding: 0.5,
+            //     fontSize: 8,
+            //     valign: "middle",
+            //     // minCellWidth: 35,
+            //     overflow: "linebreak",
+            //     cellWidth: "wrap",
+            // },
+            // columnStyles: { 2: { columnWidth: "wrap" } },
+            // rowPageBreak: "auto",
+            headStyles: {
+                fillColor: "white",
+                textColor: "black",
+                lineWidth: 0.1,
+                lineColor: "black",
+            },
+            bodyStyles: {
+                fillColor: "white",
+                textColor: "black",
+                lineWidth: 0.1,
+                lineColor: "black",
+                valign: "top",
+            },
+            theme: "grid",
+            allSectionHooks: true,
+            willDrawPage: () => {
+                doc.setFontSize(12);
+                doc.setFont("times", "bold");
+                doc.text(
+                    "DAFTAR REKAPITULASI PERMOHONAN BANTUAN HIBAH RUMAH IBADAH",
+                    150,
+                    22,
+                    "center"
+                );
+                doc.setFontSize(12);
+                doc.text("PEMERINTAH PROVINSI JAMBI", 150, 27, "center");
+                doc.setFontSize(12);
+                doc.text(
+                    `TAHUN ${new Date().getFullYear()}`,
+                    150,
+                    32,
+                    "center"
+                );
+                doc.setFontSize(10);
+                doc.setFont("times", "");
+                doc.text(
+                    `Jambi,        ${dayjs()
+                        .locale("id")
+                        .format("MMMM")} ${new Date().getFullYear()}`,
+                    230,
+                    160
+                );
+                doc.setFontSize(10);
+                doc.text("KEPALA BIRO KESRA", 230, 164);
+                doc.setFontSize(10);
+                doc.text("H. SULAIMAN, S.Ag.", 230, 180);
+                doc.setFontSize(10);
+                doc.text("Pembina Tk. I", 230, 184);
+                doc.setFontSize(10);
+                doc.text("NIP. 19721001 200012 1 002", 230, 188);
+            },
+            // didDrawPage: () => {
+            //     doc.setFontSize(10);
+            //     doc.text("Jambi,        2024", 230, 170);
+            //     doc.setFontSize(10);
+            //     doc.text("KEPALA BIRO KESRA", 230, 174);
+            //     doc.setFontSize(10);
+            //     doc.text("H. SULAIMAN, S.Ag.", 230, 190);
+            //     doc.setFontSize(10);
+            //     doc.text("Pembina Tk. I", 230, 194);
+            //     doc.setFontSize(10);
+            //     doc.text("NIP. 19721001 200012 1 002", 230, 198);
+            // },
         });
 
         doc.save(
