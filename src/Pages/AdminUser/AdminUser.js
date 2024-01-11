@@ -223,6 +223,11 @@ const AdminUser = () => {
                     32,
                     "center"
                 );
+            },
+        });
+
+        autoTable(doc, {
+            willDrawPage: () => {
                 doc.setFontSize(10);
                 doc.setFont("times", "");
                 doc.text(
@@ -230,16 +235,16 @@ const AdminUser = () => {
                         .locale("id")
                         .format("MMMM")} ${dayjs().format("YYYY")}`,
                     230,
-                    160
+                    175
                 );
                 doc.setFontSize(10);
-                doc.text("KEPALA BIRO KESRA", 230, 164);
+                doc.text("KEPALA BIRO KESRA", 230, 179);
                 doc.setFontSize(10);
-                doc.text("H. SULAIMAN, S.Ag.", 230, 180);
+                doc.text("H. SULAIMAN, S.Ag.", 230, 195);
                 doc.setFontSize(10);
-                doc.text("Pembina Tk. I", 230, 184);
+                doc.text("Pembina Tk. I", 230, 199);
                 doc.setFontSize(10);
-                doc.text("NIP. 19721001 200012 1 002", 230, 188);
+                doc.text("NIP. 19721001 200012 1 002", 230, 203);
             },
         });
 
