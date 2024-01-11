@@ -189,14 +189,7 @@ const AdminUser = () => {
         autoTable(doc, {
             head: [tableHeaders],
             body: tableData,
-            tableWidth: "wrap",
-            styles: {
-                cellPadding: 0.5,
-                fontSize: 8,
-                valign: "middle",
-                // halign: "center",
-                minCellWidth: 25,
-            },
+            startY: 40,
             headStyles: {
                 fillColor: "white",
                 textColor: "black",
@@ -208,8 +201,46 @@ const AdminUser = () => {
                 textColor: "black",
                 lineWidth: 0.1,
                 lineColor: "black",
+                valign: "top",
             },
             theme: "grid",
+            allSectionHooks: true,
+            willDrawPage: () => {
+                doc.setFontSize(12);
+                doc.setFont("times", "bold");
+                doc.text(
+                    "DAFTAR REKAPITULASI PERMOHONAN BANTUAN HIBAH RUMAH IBADAH",
+                    150,
+                    22,
+                    "center"
+                );
+                doc.setFontSize(12);
+                doc.text("PEMERINTAH PROVINSI JAMBI", 150, 27, "center");
+                doc.setFontSize(12);
+                doc.text(
+                    `TAHUN ${new Date().getFullYear()}`,
+                    150,
+                    32,
+                    "center"
+                );
+                doc.setFontSize(10);
+                doc.setFont("times", "");
+                doc.text(
+                    `Jambi,        ${dayjs()
+                        .locale("id")
+                        .format("MMMM")} ${dayjs().format("YYYY")}`,
+                    230,
+                    160
+                );
+                doc.setFontSize(10);
+                doc.text("KEPALA BIRO KESRA", 230, 164);
+                doc.setFontSize(10);
+                doc.text("H. SULAIMAN, S.Ag.", 230, 180);
+                doc.setFontSize(10);
+                doc.text("Pembina Tk. I", 230, 184);
+                doc.setFontSize(10);
+                doc.text("NIP. 19721001 200012 1 002", 230, 188);
+            },
         });
 
         doc.save(`User-${dayjs().locale("id").format("DD-MMM-YYYY HH_mm_ss")}`);

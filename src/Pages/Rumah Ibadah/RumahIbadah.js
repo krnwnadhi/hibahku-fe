@@ -237,17 +237,6 @@ export default function RumahIbadah() {
             head: [tableHeaders],
             body: tableData,
             startY: 40,
-            // tableWidth: "auto",
-            // styles: {
-            //     cellPadding: 0.5,
-            //     fontSize: 8,
-            //     valign: "middle",
-            //     // minCellWidth: 35,
-            //     overflow: "linebreak",
-            //     cellWidth: "wrap",
-            // },
-            // columnStyles: { 2: { columnWidth: "wrap" } },
-            // rowPageBreak: "auto",
             headStyles: {
                 fillColor: "white",
                 textColor: "black",
@@ -286,7 +275,7 @@ export default function RumahIbadah() {
                 doc.text(
                     `Jambi,        ${dayjs()
                         .locale("id")
-                        .format("MMMM")} ${new Date().getFullYear()}`,
+                        .format("MMMM")} ${dayjs().format("YYYY")}`,
                     230,
                     160
                 );
@@ -299,18 +288,6 @@ export default function RumahIbadah() {
                 doc.setFontSize(10);
                 doc.text("NIP. 19721001 200012 1 002", 230, 188);
             },
-            // didDrawPage: () => {
-            //     doc.setFontSize(10);
-            //     doc.text("Jambi,        2024", 230, 170);
-            //     doc.setFontSize(10);
-            //     doc.text("KEPALA BIRO KESRA", 230, 174);
-            //     doc.setFontSize(10);
-            //     doc.text("H. SULAIMAN, S.Ag.", 230, 190);
-            //     doc.setFontSize(10);
-            //     doc.text("Pembina Tk. I", 230, 194);
-            //     doc.setFontSize(10);
-            //     doc.text("NIP. 19721001 200012 1 002", 230, 198);
-            // },
         });
 
         doc.save(
