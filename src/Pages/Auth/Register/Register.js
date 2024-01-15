@@ -3,6 +3,7 @@ import {
     Button,
     Container,
     Group,
+    Image,
     LoadingOverlay,
     Paper,
     PasswordInput,
@@ -11,6 +12,7 @@ import {
     Text,
     TextInput,
     Title,
+    useComputedColorScheme,
 } from "@mantine/core";
 import { Link, Navigate } from "react-router-dom";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
@@ -22,6 +24,10 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 export default function Register(props) {
+    const computedColorScheme = useComputedColorScheme("dark", {
+        getInitialValueInEffect: true,
+    });
+
     const form = useForm({
         validateInputOnChange: true,
         initialValues: {
@@ -74,7 +80,25 @@ export default function Register(props) {
                 zIndex={1000}
                 overlayProps={{ radius: "sm", blur: 1 }}
             />
-            <Title ta="center">TITLE HERE...</Title>
+            {computedColorScheme === "light" ? (
+                <Image
+                    loading="lazy"
+                    radius="md"
+                    w={400}
+                    fit="contain"
+                    src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                    fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                />
+            ) : (
+                <Image
+                    loading="lazy"
+                    radius="md"
+                    w={400}
+                    fit="contain"
+                    src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                    fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
+                />
+            )}
             <Paper radius="md" mt={20} p="xl" withBorder shadow="lg" {...props}>
                 <form
                     onSubmit={form.onSubmit((values) => {
