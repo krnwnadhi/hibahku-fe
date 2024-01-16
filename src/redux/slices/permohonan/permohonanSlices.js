@@ -32,7 +32,6 @@ export const createPermohonan = createAsyncThunk(
             formData.append("file_ktp", permohonan?.file_ktp);
             formData.append("file_rab", permohonan?.file_rab);
             formData.append("file_suket", permohonan?.file_suket);
-            formData.append("file_burek", permohonan?.file_burek);
             formData.append("file_sk", permohonan?.file_sk);
             formData.append("file_proposal", permohonan?.file_proposal);
             formData.append(
@@ -40,6 +39,18 @@ export const createPermohonan = createAsyncThunk(
                 permohonan?.file_suratpermohonan
             );
             formData.append("file_asetrekom", permohonan?.file_asetrekom);
+            formData.append(
+                "file_izinoperasional",
+                permohonan?.file_izinoperasional
+            );
+            formData.append(
+                "file_aktapendirian",
+                permohonan?.file_aktapendirian
+            );
+            formData.append(
+                "file_pengesahankemenkumham",
+                permohonan?.file_pengesahankemenkumham
+            );
 
             const { data } = await axios.post(
                 `${basePermohonanURL}/uploads`,

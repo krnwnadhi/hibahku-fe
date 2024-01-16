@@ -161,24 +161,24 @@ export default function RumahIbadah() {
                 maxSize: 250,
                 size: 200,
             },
-            // {
-            //     accessorFn: (row) => {
-            //         const sDay = new Date(row.createdAt);
-            //         sDay.setHours(0, 0, 0, 0);
-            //         return sDay;
-            //     },
-            //     id: "createdAt",
-            //     header: "Dibuat",
-            //     filterVariant: "date-range",
-            //     sortingFn: "datetime",
-            //     // enableColumnFilter: false,
-            //     enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
-            //     Cell: ({ cell }) =>
-            //         cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
-            //     minSize: 100,
-            //     maxSize: 200,
-            //     size: 150,
-            // },
+            {
+                accessorFn: (row) => {
+                    const sDay = new Date(row.createdAt);
+                    // sDay.setHours(0, 0, 0, 0);
+                    return sDay;
+                },
+                id: "createdAt",
+                header: "Dibuat",
+                filterVariant: "date-range",
+                sortingFn: "datetime",
+                // enableColumnFilter: false,
+                enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+                Cell: ({ cell }) =>
+                    cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
+                minSize: 100,
+                maxSize: 200,
+                size: 150,
+            },
         ],
         []
     );

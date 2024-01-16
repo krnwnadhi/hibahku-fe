@@ -21,7 +21,11 @@ import {
     rem,
     useComputedColorScheme,
 } from "@mantine/core";
-import { IconArrowLeft, IconFileTypePdf } from "@tabler/icons-react";
+import {
+    IconArrowLeft,
+    IconCaretUpDown,
+    IconFileTypePdf,
+} from "@tabler/icons-react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusTrap, useToggle } from "@mantine/hooks";
@@ -56,7 +60,7 @@ export default function UserPermohonan() {
     // }, [isCreated, navigate]);
 
     // const [opened, { open, close }] = useDisclosure(false);
-    const [type, toggle] = useToggle(["masjid", "pesantren"]);
+    const [type, toggle] = useToggle(["masjid", "lembaga"]);
 
     const [show, setShow] = useState(false);
 
@@ -78,11 +82,13 @@ export default function UserPermohonan() {
             file_ktp: null,
             file_rab: null,
             file_suket: null,
-            file_burek: null,
             file_sk: null,
             file_proposal: null,
             file_suratpermohonan: null,
             file_asetrekom: null,
+            file_izinoperasional: null,
+            file_aktapendirian: null,
+            file_pengesahankemenkumham: null,
         },
 
         validate: {
@@ -102,12 +108,14 @@ export default function UserPermohonan() {
             file_rab: isNotEmpty(
                 "Tidak Boleh Kosong. Silahkan Upload File RAB"
             ),
-            file_suket: isNotEmpty("Tidak Boleh Kosong"),
-            file_burek: isNotEmpty("Tidak Boleh Kosong"),
             file_sk: isNotEmpty("Tidak Boleh Kosong"),
             file_proposal: isNotEmpty("Tidak Boleh Kosong"),
             file_suratpermohonan: isNotEmpty("Tidak Boleh Kosong"),
-            file_asetrekom: isNotEmpty("Tidak Boleh Kosong"),
+            // file_suket: isNotEmpty("Tidak Boleh Kosong"),
+            // file_asetrekom: isNotEmpty("Tidak Boleh Kosong"),
+            // file_izinoperasional: isNotEmpty("Tidak Boleh Kosong"),
+            // file_aktapendirian: isNotEmpty("Tidak Boleh Kosong"),
+            // file_pengesahankemenkumham: isNotEmpty("Tidak Boleh Kosong"),
         },
     });
 
@@ -216,6 +224,19 @@ export default function UserPermohonan() {
                                 disabled={loading}
                             >
                                 <Stack gap="lg">
+                                    <Button
+                                        onClick={() => toggle()}
+                                        variant="light"
+                                        radius="lg"
+                                        rightSection={
+                                            <IconCaretUpDown size={14} />
+                                        }
+                                    >
+                                        {type === "lembaga"
+                                            ? "LEMBAGA KEAGAMAAN"
+                                            : "MASJID"}
+                                    </Button>
+
                                     <TextInput
                                         ref={focusTrapRef}
                                         type="number"
@@ -288,135 +309,116 @@ export default function UserPermohonan() {
                                         maxLength={10}
                                     />
                                     <FileInput
-                                        label="File KTP"
+                                        label="1. File SURAT PERMOHONAN"
                                         description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
                                         leftSection={icon}
-                                        // value={form.values.file_ktp}
-                                        // onChange={(event) =>
-                                        //     form.setFieldValue(
-                                        //         "file_ktp",
-                                        //         event.name
-                                        //         // console.log(event.name)
-                                        //     )
-                                        // }
-                                        {...form.getInputProps("file_ktp")}
-                                        // error={
-                                        //     form.errors.file_ktp &&
-                                        //     "Tidak Boleh Kosong"
-                                        // }
-                                    />
-                                    <FileInput
-                                        label="File RAB"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        // value={form.values.file_rab}
-                                        // onChange={(event) =>
-                                        //     form.setFieldValue(
-                                        //         "file_rab",
-                                        //         event.currentTarget.file_rab
-                                        //     )
-                                        // }
-                                        {...form.getInputProps("file_rab")}
-                                    />
-                                    <FileInput
-                                        label="File SUKET"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        // value={form.values.file_suket}
-                                        // onChange={(event) =>
-                                        //     form.setFieldValue(
-                                        //         "file_suket",
-                                        //         event.currentTarget.file_suket
-                                        //     )
-                                        // }
-                                        {...form.getInputProps("file_suket")}
-                                    />
-                                    <FileInput
-                                        label="File BUREK"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        // value={form.values.file_burek}
-                                        // onChange={(event) =>
-                                        //     form.setFieldValue(
-                                        //         "file_burek",
-                                        //         event.currentTarget.file_burek
-                                        //     )
-                                        // }
-                                        {...form.getInputProps("file_burek")}
-                                    />
-                                    <FileInput
-                                        label="File SK"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        // value={form.values.file_sk}
-                                        // onChange={(event) =>
-                                        //     form.setFieldValue(
-                                        //         "file_sk",
-                                        //         event.currentTarget.file_sk
-                                        //     )
-                                        // }
-                                        {...form.getInputProps("file_sk")}
-                                    />
-                                    <FileInput
-                                        label="File PROPOSAL"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        // value={form.values.file_proposal}
-                                        // onChange={(event) =>
-                                        //     form.setFieldValue(
-                                        //         "file_proposal",
-                                        //         event.currentTarget.file_proposal
-                                        //     )
-                                        // }
-                                        {...form.getInputProps("file_proposal")}
-                                    />
-                                    <FileInput
-                                        label="File SURAT PERMOHONAN"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        // value={form.values.file_suratpermohonan}
-                                        // onChange={(event) =>
-                                        //     form.setFieldValue(
-                                        //         "file_suratpermohonan",
-                                        //         event.currentTarget
-                                        //             .file_suratpermohonan
-                                        //     )
-                                        // }
                                         {...form.getInputProps(
                                             "file_suratpermohonan"
                                         )}
                                     />
+
                                     <FileInput
-                                        label="File ASET REKOM"
+                                        label="2. File PROPOSAL"
                                         description="Hanya PDF & Ukuran File Maksimal 1MB."
                                         accept="application/pdf"
                                         clearable
                                         leftSection={icon}
-                                        // value={form.values.file_asetrekom}
-                                        // onChange={(event) =>
-                                        //     form.setFieldValue(
-                                        //         "file_asetrekom",
-                                        //         event.currentTarget.file_asetrekom
-                                        //     )
-                                        // }
-                                        {...form.getInputProps(
-                                            "file_asetrekom"
-                                        )}
+                                        {...form.getInputProps("file_proposal")}
                                     />
+
+                                    <FileInput
+                                        label="3. File RAB"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                        accept="application/pdf"
+                                        clearable
+                                        leftSection={icon}
+                                        {...form.getInputProps("file_rab")}
+                                    />
+
+                                    <FileInput
+                                        label="4. File SK Pengurus"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                        accept="application/pdf"
+                                        clearable
+                                        leftSection={icon}
+                                        {...form.getInputProps("file_sk")}
+                                    />
+
+                                    <FileInput
+                                        label="5. File KTP Pengurus"
+                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                        accept="application/pdf"
+                                        clearable
+                                        leftSection={icon}
+                                        {...form.getInputProps("file_ktp")}
+                                    />
+
+                                    {type === "masjid" && (
+                                        <FileInput
+                                            label="6. File SIMAS REKOM"
+                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            accept="application/pdf"
+                                            clearable
+                                            leftSection={icon}
+                                            {...form.getInputProps(
+                                                "file_asetrekom"
+                                            )}
+                                        />
+                                    )}
+
+                                    {type === "masjid" && (
+                                        <FileInput
+                                            label="7. File SUKET TIPOLOGI"
+                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            accept="application/pdf"
+                                            clearable
+                                            leftSection={icon}
+                                            {...form.getInputProps(
+                                                "file_suket"
+                                            )}
+                                        />
+                                    )}
+
+                                    {type === "lembaga" && (
+                                        <FileInput
+                                            label="6. File IZIN OPERASIONAL"
+                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            accept="application/pdf"
+                                            clearable
+                                            leftSection={icon}
+                                            {...form.getInputProps(
+                                                "file_izinoperasional"
+                                            )}
+                                        />
+                                    )}
+
+                                    {type === "lembaga" && (
+                                        <FileInput
+                                            label="7. File AKTA PENDIRIAN"
+                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            accept="application/pdf"
+                                            clearable
+                                            leftSection={icon}
+                                            {...form.getInputProps(
+                                                "file_aktapendirian"
+                                            )}
+                                        />
+                                    )}
+
+                                    {type === "lembaga" && (
+                                        <FileInput
+                                            label="8. File PENGESAHAN KEMENKUMHAM"
+                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            accept="application/pdf"
+                                            clearable
+                                            leftSection={icon}
+                                            {...form.getInputProps(
+                                                "file_pengesahankemenkumham"
+                                            )}
+                                        />
+                                    )}
                                 </Stack>
                             </Fieldset>
                             <Center my={20}>
@@ -449,14 +451,17 @@ export default function UserPermohonan() {
                     scrollAreaComponent={ScrollArea.Autosize}
                     onClose={handleClose}
                 >
-                    {permohonanCreated
-                        ? hibahkuSuccessModalNotification
-                        : "Tidak ada data"}
-                    {/* <Group mt="xl"> */}
-                    {/* <Button mt="xl" fullWidth onClick={handleClose}>
-                            Saya Mengerti
-                        </Button> */}
-                    {/* </Group> */}
+                    {permohonanCreated ? (
+                        hibahkuSuccessModalNotification
+                    ) : (
+                        <Text ta="center" inherit>
+                            Terjadi Kesalahan! Silahkan reload halaman & harap
+                            mengulang upload file permohonan anda.
+                            <Text ta="center" c="red" inherit>
+                                Pesan: {appError}
+                            </Text>
+                        </Text>
+                    )}
                 </Modal>
             </Container>
         </>
