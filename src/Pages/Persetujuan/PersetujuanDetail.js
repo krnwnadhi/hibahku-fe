@@ -13,6 +13,7 @@ import {
     LoadingOverlay,
     Paper,
     SimpleGrid,
+    Skeleton,
     Space,
     Stack,
     Text,
@@ -47,7 +48,7 @@ import { useMediaQuery } from "@mantine/hooks";
 const PersetujuanDetail = () => {
     const params = useParams();
     const dispatch = useDispatch();
-    const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
+    const isMobile = useMediaQuery(`(max-width: ${em(850)})`);
     const [loadingFetch, setLoadingFetch] = useState(false);
 
     const persetujuan = useSelector((state) => state?.persetujuan);
@@ -60,9 +61,13 @@ const PersetujuanDetail = () => {
         changeStatus,
     } = persetujuan;
 
-    const prosesId = detailAdminPersetujuan?.map((x) => x?.Proses?.id);
-    const prosesIdtoString = prosesId?.toString();
-    console.log(prosesIdtoString);
+    // const prosesId = detailAdminPersetujuan?.map((x) => x?.Proses?.id);
+    // const prosesIdtoString = prosesId?.toString();
+    // console.log(prosesIdtoString);
+
+    const namaKategori = detailAdminPersetujuan?.map(
+        (x) => x?.Keagamaan?.Kategori?.nama
+    );
 
     const form = useForm({
         validateInputOnChange: true,
@@ -179,332 +184,722 @@ const PersetujuanDetail = () => {
     const list = detailAdminPersetujuan?.map((item, index) => (
         <>
             <form onSubmit={formOnSubmit}>
-                <SimpleGrid
-                    cols={{ base: 1, sm: 2 }}
-                    spacing="lg"
-                    pos="relative"
-                >
-                    <LoadingOverlay
-                        visible={loading}
-                        zIndex={1000}
-                        overlayProps={{ radius: "sm", blur: 1 }}
-                    />
-                    <Paper
-                        height={PRIMARY_COL_HEIGHT}
-                        withBorder
-                        radius="md"
-                        shadow="md"
-                        p="lg"
+                {namaKategori === "RUMAH IBADAH" ? (
+                    // MASJID START
+
+                    <SimpleGrid
+                        cols={{ base: 1, sm: 2 }}
+                        spacing="lg"
+                        pos="relative"
                     >
-                        <Container>
-                            <Stack gap="lg">
+                        <LoadingOverlay
+                            visible={loading}
+                            zIndex={1000}
+                            overlayProps={{ radius: "sm", blur: 1 }}
+                        />
+                        <Paper
+                            height={PRIMARY_COL_HEIGHT}
+                            withBorder
+                            radius="md"
+                            shadow="md"
+                            p="lg"
+                        >
+                            <Container>
+                                <Stack gap="lg">
+                                    <Paper
+                                        withBorder
+                                        radius="md"
+                                        shadow="md"
+                                        p="sm"
+                                    >
+                                        <Tooltip
+                                            label={item?.User?.nama}
+                                            withArrow
+                                            transitionProps={{
+                                                transition: "pop",
+                                                duration: 500,
+                                            }}
+                                        >
+                                            <Avatar
+                                                src={`https://ui-avatars.com/api/?name=${item?.User?.nama}&background=random`}
+                                                size={40}
+                                                radius={120}
+                                                mx="auto"
+                                            />
+                                        </Tooltip>
+                                        <Text
+                                            ta="center"
+                                            fz="lg"
+                                            fw={500}
+                                            mt="md"
+                                        >
+                                            {item?.User?.nama}
+                                        </Text>
+                                        <Text ta="center" c="dimmed" fz="xs">
+                                            {item?.User?.nik} •{" "}
+                                            {item?.User?.notelpon}
+                                        </Text>
+                                    </Paper>
+                                    <Paper
+                                        withBorder
+                                        radius="md"
+                                        shadow="md"
+                                        p="lg"
+                                    >
+                                        <Text ta="center" c="dimmed" fz="xs">
+                                            {item?.Keagamaan?.nama} -{" "}
+                                            {item?.Keagamaan?.Kategori?.nama}
+                                        </Text>
+                                        <Text ta="center" c="dimmed" fz="xs">
+                                            {item?.Keagamaan?.wilayah}
+                                        </Text>
+                                        <Text ta="center" c="dimmed" fz="xs">
+                                            {item?.Keagamaan?.alamat}
+                                        </Text>
+                                    </Paper>
+                                </Stack>
+                            </Container>
+                        </Paper>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
                                 <Paper
+                                    height={SECONDARY_COL_HEIGHT}
                                     withBorder
                                     radius="md"
                                     shadow="md"
-                                    p="sm"
+                                    p="xl"
                                 >
-                                    <Tooltip
-                                        label={item?.User?.nama}
-                                        withArrow
-                                        transitionProps={{
-                                            transition: "pop",
-                                            duration: 500,
-                                        }}
-                                    >
-                                        <Avatar
-                                            src={`https://ui-avatars.com/api/?name=${item?.User?.nama}&background=random`}
-                                            size={40}
-                                            radius={120}
-                                            mx="auto"
-                                        />
-                                    </Tooltip>
-                                    <Text ta="center" fz="lg" fw={500} mt="md">
-                                        {item?.User?.nama}
-                                    </Text>
-                                    <Text ta="center" c="dimmed" fz="xs">
-                                        {item?.User?.nik} •{" "}
-                                        {item?.User?.notelpon}
-                                    </Text>
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Surat Permohonan
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Suratpermohonan?.namafile}
+                                        </Text>
+                                    </Stack>
                                 </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
                                 <Paper
+                                    height={SECONDARY_COL_HEIGHT}
                                     withBorder
                                     radius="md"
                                     shadow="md"
-                                    p="lg"
+                                    p="xl"
                                 >
-                                    <Text ta="center" c="dimmed" fz="xs">
-                                        {item?.Keagamaan?.nama} -{" "}
-                                        {item?.Keagamaan?.Kategori?.nama}
-                                    </Text>
-                                    <Text ta="center" c="dimmed" fz="xs">
-                                        {item?.Keagamaan?.wilayah}
-                                    </Text>
-                                    <Text ta="center" c="dimmed" fz="xs">
-                                        {item?.Keagamaan?.alamat}
-                                    </Text>
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Proposal
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Proposal?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Proposal?.namafile}
+                                        </Text>
+                                    </Stack>
                                 </Paper>
-                            </Stack>
-                        </Container>
-                    </Paper>
-                    <Grid gutter="md">
-                        <Grid.Col span={6}>
-                            <Paper
-                                height={SECONDARY_COL_HEIGHT}
-                                withBorder
-                                radius="md"
-                                shadow="md"
-                                p="xl"
-                            >
-                                <Stack gap="xl">
-                                    <Group justify="center" gap="sm">
-                                        <IconDownload size={16} />
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                RAB
+                                            </Text>
+                                        </Group>
                                         <Text
                                             ta="center"
-                                            fz={isMobile ? "xs" : "sm"}
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Rab?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Rab?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                SK Pengurus
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Sk?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Sk?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                KTP
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Ktp?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                SIMAS/Rekom
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Asetrekom?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Asetrekom?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Suket Tipologi
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Suket?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Suket?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconBuildingBank size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Rekening Bank 9
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
                                             truncate="end"
                                         >
-                                            Surat Permohonan
+                                            {item?.norek}
                                         </Text>
-                                    </Group>
-                                    <Text
-                                        ta="center"
-                                        fz="xs"
-                                        component={Anchor}
-                                        href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
-                                        truncate="end"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                    </SimpleGrid>
+                ) : (
+                    // LEMBAGA KEAGAMAAN START
+                    <SimpleGrid
+                        cols={{ base: 1, sm: 2 }}
+                        spacing="lg"
+                        pos="relative"
+                    >
+                        <LoadingOverlay
+                            visible={loading}
+                            zIndex={1000}
+                            overlayProps={{ radius: "sm", blur: 1 }}
+                        />
+                        <Paper
+                            height={PRIMARY_COL_HEIGHT}
+                            withBorder
+                            radius="md"
+                            shadow="md"
+                            p="lg"
+                        >
+                            <Container>
+                                <Stack gap="lg">
+                                    <Paper
+                                        withBorder
+                                        radius="md"
+                                        shadow="md"
+                                        p="sm"
                                     >
-                                        {item?.Suratpermohonan?.namafile}
-                                    </Text>
-                                </Stack>
-                            </Paper>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                            <Paper
-                                height={SECONDARY_COL_HEIGHT}
-                                withBorder
-                                radius="md"
-                                shadow="md"
-                                p="xl"
-                            >
-                                <Stack gap="xl">
-                                    <Group justify="center" gap="sm">
-                                        <IconDownload size={16} />
+                                        <Tooltip
+                                            label={item?.User?.nama}
+                                            withArrow
+                                            transitionProps={{
+                                                transition: "pop",
+                                                duration: 500,
+                                            }}
+                                        >
+                                            <Avatar
+                                                src={`https://ui-avatars.com/api/?name=${item?.User?.nama}&background=random`}
+                                                size={40}
+                                                radius={120}
+                                                mx="auto"
+                                            />
+                                        </Tooltip>
                                         <Text
                                             ta="center"
-                                            fz={isMobile ? "xs" : "sm"}
+                                            fz="lg"
+                                            fw={500}
+                                            mt="md"
+                                        >
+                                            {item?.User?.nama}
+                                        </Text>
+                                        <Text ta="center" c="dimmed" fz="xs">
+                                            {item?.User?.nik} •{" "}
+                                            {item?.User?.notelpon}
+                                        </Text>
+                                    </Paper>
+                                    <Paper
+                                        withBorder
+                                        radius="md"
+                                        shadow="md"
+                                        p="lg"
+                                    >
+                                        <Text ta="center" c="dimmed" fz="xs">
+                                            {item?.Keagamaan?.nama} -{" "}
+                                            {item?.Keagamaan?.Kategori?.nama}
+                                        </Text>
+                                        <Text ta="center" c="dimmed" fz="xs">
+                                            {item?.Keagamaan?.wilayah}
+                                        </Text>
+                                        <Text ta="center" c="dimmed" fz="xs">
+                                            {item?.Keagamaan?.alamat}
+                                        </Text>
+                                    </Paper>
+                                </Stack>
+                            </Container>
+                        </Paper>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Surat Permohonan
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Suratpermohonan?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Proposal
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Proposal?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Proposal?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                RAB
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Rab?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Rab?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                SK Pengurus
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Sk?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Sk?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                KTP
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Ktp?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Izin Operasional
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Izinoperasional?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Izinoperasional?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Akta Pendirian
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Aktapendirian?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Aktapendirian?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />{" "}
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Pengesahan
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/download/${item?.Pengesahankemenkumham?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {
+                                                item?.Pengesahankemenkumham
+                                                    ?.namafile
+                                            }
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                        {/*  */}
+                        <Grid gutter="md">
+                            <Grid.Col span={isMobile ? 12 : 24}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconBuildingBank size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Rekening Bank 9
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
                                             truncate="end"
                                         >
-                                            Proposal
+                                            {item?.norek}
                                         </Text>
-                                    </Group>
-                                    <Text
-                                        ta="center"
-                                        fz="xs"
-                                        component={Anchor}
-                                        href={`${basePersetujuanURL}/download/${item?.Proposal?.namafile}`}
-                                        truncate="end"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {item?.Proposal?.namafile}
-                                    </Text>
-                                </Stack>
-                            </Paper>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                            <Paper
-                                height={SECONDARY_COL_HEIGHT}
-                                withBorder
-                                radius="md"
-                                shadow="md"
-                                p="xl"
-                            >
-                                <Stack gap="xl">
-                                    <Group justify="center" gap="sm">
-                                        <IconDownload size={16} />
-                                        <Text
-                                            ta="center"
-                                            fz={isMobile ? "xs" : "sm"}
-                                        >
-                                            RAB
-                                        </Text>
-                                    </Group>
-                                    <Text
-                                        ta="center"
-                                        fz="xs"
-                                        component={Anchor}
-                                        href={`${basePersetujuanURL}/download/${item?.Rab?.namafile}`}
-                                        truncate="end"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {item?.Rab?.namafile}
-                                    </Text>
-                                </Stack>
-                            </Paper>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                            <Paper
-                                height={SECONDARY_COL_HEIGHT}
-                                withBorder
-                                radius="md"
-                                shadow="md"
-                                p="xl"
-                            >
-                                <Stack gap="xl">
-                                    <Group justify="center" gap="sm">
-                                        <IconDownload size={16} />
-                                        <Text
-                                            ta="center"
-                                            fz={isMobile ? "xs" : "sm"}
-                                        >
-                                            SK Pengurus
-                                        </Text>
-                                    </Group>
-                                    <Text
-                                        ta="center"
-                                        fz="xs"
-                                        component={Anchor}
-                                        href={`${basePersetujuanURL}/download/${item?.Sk?.namafile}`}
-                                        truncate="end"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {item?.Sk?.namafile}
-                                    </Text>
-                                </Stack>
-                            </Paper>
-                        </Grid.Col>
-                    </Grid>
-                    <Grid gutter="md">
-                        <Grid.Col span={6}>
-                            <Paper
-                                height={SECONDARY_COL_HEIGHT}
-                                withBorder
-                                radius="md"
-                                shadow="md"
-                                p="xl"
-                            >
-                                <Stack gap="xl">
-                                    <Group justify="center" gap="sm">
-                                        <IconDownload size={16} />
-                                        <Text
-                                            ta="center"
-                                            fz={isMobile ? "xs" : "sm"}
-                                        >
-                                            KTP
-                                        </Text>
-                                    </Group>
-                                    <Text
-                                        ta="center"
-                                        fz="xs"
-                                        component={Anchor}
-                                        href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
-                                        truncate="end"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {item?.Ktp?.namafile}
-                                    </Text>
-                                </Stack>
-                            </Paper>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                            <Paper
-                                height={SECONDARY_COL_HEIGHT}
-                                withBorder
-                                radius="md"
-                                shadow="md"
-                                p="xl"
-                            >
-                                <Stack gap="xl">
-                                    <Group justify="center" gap="sm">
-                                        <IconDownload size={16} />
-                                        <Text
-                                            ta="center"
-                                            fz={isMobile ? "xs" : "sm"}
-                                        >
-                                            SIMAS/Rekom
-                                        </Text>
-                                    </Group>
-                                    <Text
-                                        ta="center"
-                                        fz="xs"
-                                        component={Anchor}
-                                        href={`${basePersetujuanURL}/download/${item?.Asetrekom?.namafile}`}
-                                        truncate="end"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {item?.Asetrekom?.namafile}
-                                    </Text>
-                                </Stack>
-                            </Paper>
-                        </Grid.Col>
-                    </Grid>
-                    <Grid gutter="md">
-                        <Grid.Col span={6}>
-                            <Paper
-                                height={SECONDARY_COL_HEIGHT}
-                                withBorder
-                                radius="md"
-                                shadow="md"
-                                p="xl"
-                            >
-                                <Stack gap="xl">
-                                    <Group justify="center" gap="sm">
-                                        <IconDownload size={16} />
-                                        <Text
-                                            ta="center"
-                                            fz={isMobile ? "xs" : "sm"}
-                                        >
-                                            Suket Tipologi
-                                        </Text>
-                                    </Group>
-                                    <Text
-                                        ta="center"
-                                        fz="xs"
-                                        component={Anchor}
-                                        href={`${basePersetujuanURL}/download/${item?.Suket?.namafile}`}
-                                        truncate="end"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {item?.Suket?.namafile}
-                                    </Text>
-                                </Stack>
-                            </Paper>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                            <Paper
-                                height={SECONDARY_COL_HEIGHT}
-                                withBorder
-                                radius="md"
-                                shadow="md"
-                                p="xl"
-                            >
-                                <Stack gap="xl">
-                                    <Group justify="center" gap="sm">
-                                        <IconBuildingBank size={16} />
-                                        <Text
-                                            ta="center"
-                                            fz={isMobile ? "xs" : "sm"}
-                                            truncate="end"
-                                        >
-                                            Rekening Bank 9
-                                        </Text>
-                                    </Group>
-                                    <Text ta="center" fz="xs" truncate="end">
-                                        {item?.norek}
-                                    </Text>
-                                </Stack>
-                            </Paper>
-                        </Grid.Col>
-                    </Grid>
-                </SimpleGrid>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                    </SimpleGrid>
+
+                    // LEMBAGA KEAGAMAAN END
+                )}
                 <Space h="lg" />
                 <Stack gap="lg">
                     {/* <Select

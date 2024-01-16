@@ -26,11 +26,12 @@ import { baseRumahIbadahURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import jsPDF from "jspdf";
-import { useSearchParams } from "react-router-dom";
+
+// import { useSearchParams } from "react-router-dom";
 
 export default function RumahIbadah() {
     const dispatch = useDispatch();
-    const [searchParams, setSearchParams] = useSearchParams();
+    // const [searchParams, setSearchParams] = useSearchParams();
     const theme = useMantineTheme();
 
     useEffect(() => {

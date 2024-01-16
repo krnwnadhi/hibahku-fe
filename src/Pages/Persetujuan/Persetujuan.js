@@ -304,17 +304,17 @@ const Persetujuan = () => {
                         header: "Kabupaten/Kota",
                     },
                     {
-                        accessorKey: "kategoriid",
+                        accessorKey: "Keagamaan.Kategori.nama",
                         header: "Kategori",
                         Cell: ({ cell, row }) => (
                             <Badge
                                 color={
-                                    row.original?.kategoriid === 1
+                                    row.original?.Keagamaan?.Kategori?.id === 1
                                         ? "green"
                                         : "blue"
                                 }
                             >
-                                {row.original?.kategoriid === 2
+                                {row.original?.Keagamaan?.Kategori?.id === 2
                                     ? "RUMAH IBADAH"
                                     : "LEMBAGA PENDIDIKAN KEAGAMAAN"}
                             </Badge>

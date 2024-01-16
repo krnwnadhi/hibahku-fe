@@ -79,11 +79,11 @@ const RumahIbadahCreate = () => {
     const kategori = [
         {
             value: 1,
-            description: "Masjid",
+            description: "Lembaga Pendidikan Keagamaan",
         },
         {
             value: 2,
-            description: "Lembaga Pendidikan Keagamaan",
+            description: "Masjid",
         },
     ];
 
