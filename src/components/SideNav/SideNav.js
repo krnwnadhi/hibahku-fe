@@ -49,7 +49,7 @@ export default function SideNav() {
             icon: IconBuildingMosque,
         },
         {
-            link: "/dashboard/admin/rekap",
+            link: "/dashboard/admin/rekap/masjid",
             label: "Rekap",
             icon: IconReportAnalytics,
         },
