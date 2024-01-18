@@ -27,12 +27,10 @@ import dayjs from "dayjs";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import jsPDF from "jspdf";
 
-// import { useSearchParams } from "react-router-dom";
-
 export default function RumahIbadah() {
     const dispatch = useDispatch();
-    // const [searchParams, setSearchParams] = useSearchParams();
     const theme = useMantineTheme();
+    const { colorScheme } = useMantineTheme();
 
     useEffect(() => {
         dispatch(getAllRumahIbadahAction());
@@ -168,6 +166,7 @@ export default function RumahIbadah() {
                     // sDay.setHours(0, 0, 0, 0);
                     return sDay;
                 },
+                enableGrouping: false,
                 id: "createdAt",
                 header: "Dibuat",
                 filterVariant: "date-range",
@@ -195,7 +194,7 @@ export default function RumahIbadah() {
                 Kategori: row.original.Kategori.nama,
                 Dibuat: dayjs(row.original.createdAt)
                     .locale("id")
-                    .format("DD-MMM-YYYY"),
+                    .format("DD MMM YYYY"),
             };
         });
         const csvConfig = mkConfig({
@@ -228,7 +227,7 @@ export default function RumahIbadah() {
                 alamat,
                 wilayah,
                 Kategori.nama,
-                dayjs(createdAt).locale("id").format("DD-MMM-YYYY"),
+                dayjs(createdAt).locale("id").format("DD MMM YYYY"),
             ];
         });
 
@@ -306,17 +305,37 @@ export default function RumahIbadah() {
     const data = rumahIbadahState;
 
     const table = useMantineReactTable({
+        mantineTableProps: {
+            withColumnBorders: true,
+        },
+        withBorder: colorScheme === "light",
+        sx: {
+            "thead > tr": {
+                backgroundColor: "inherit",
+            },
+            "thead > tr > th": {
+                backgroundColor: "inherit",
+            },
+            "tbody > tr > td": {
+                backgroundColor: "inherit",
+            },
+        },
         columns,
         data,
         enableColumnResizing: true,
+        // enableColumnDragging: false,
         enableRowSelection: true,
         // enableRowSelection: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
         enableRowNumbers: true,
         rowNumberMode: "original",
+        // enableColumnPinning: true,
         initialState: {
             density: "xs",
+            // columnPinning: {
+            //     left: ["mrt-row-actions"],
+            // },
         },
         state: {
             showProgressBars: loading,
@@ -326,17 +345,6 @@ export default function RumahIbadah() {
             rowsPerPageOptions: ["5", "10", "20"],
         },
         enableGrouping: true,
-        mantineTableHeadCellProps: {
-            style: {
-                backgroundColor: "var(--mantine-color-blueGray-light)",
-                border: "1px solid lightgray",
-            },
-        },
-        mantineTableBodyCellProps: {
-            style: {
-                border: "1px solid lightgray",
-            },
-        },
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
         // enableRowActions: true,
@@ -367,8 +375,8 @@ export default function RumahIbadah() {
                     trigger="click-hover"
                     withArrow
                     arrowPosition="center"
-                    openDelay={100}
-                    closeDelay={400}
+                    // openDelay={100}
+                    // closeDelay={400}
                 >
                     <Menu.Target>
                         <Button
@@ -462,8 +470,8 @@ export default function RumahIbadah() {
                     trigger="click-hover"
                     withArrow
                     arrowPosition="center"
-                    openDelay={100}
-                    closeDelay={400}
+                    // openDelay={100}
+                    // closeDelay={400}
                 >
                     <Menu.Target>
                         <Button

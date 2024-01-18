@@ -34,6 +34,7 @@ import jsPDF from "jspdf";
 const AdminUser = () => {
     const dispatch = useDispatch();
     const theme = useMantineTheme();
+    const { colorScheme } = useMantineTheme();
 
     useEffect(() => {
         dispatch(getAllUsersAction());
@@ -126,6 +127,7 @@ const AdminUser = () => {
                     sDay.setHours(0, 0, 0, 0);
                     return sDay;
                 },
+                enableGrouping: false,
                 id: "createdAt",
                 header: "Dibuat",
                 filterVariant: "date-range",
@@ -150,7 +152,7 @@ const AdminUser = () => {
                 Role: row.original.Role.nama,
                 Dibuat: dayjs(row.original.createdAt)
                     .locale("id")
-                    .format("DD-MMM-YYYY"),
+                    .format("DD MMM YYYY"),
             };
         });
         const csvConfig = mkConfig({
@@ -180,7 +182,7 @@ const AdminUser = () => {
                 nama,
                 notelpon,
                 Role.nama,
-                dayjs(createdAt).locale("id").format("DD-MMM-YYYY"),
+                dayjs(createdAt).locale("id").format("DD MMM YYYY"),
             ];
         });
 
@@ -254,6 +256,21 @@ const AdminUser = () => {
     const data = usersListState;
 
     const table = useMantineReactTable({
+        mantineTableProps: {
+            withColumnBorders: true,
+        },
+        withBorder: colorScheme === "light",
+        sx: {
+            "thead > tr": {
+                backgroundColor: "inherit",
+            },
+            "thead > tr > th": {
+                backgroundColor: "inherit",
+            },
+            "tbody > tr > td": {
+                backgroundColor: "inherit",
+            },
+        },
         columns,
         data,
         enableRowSelection: true,
@@ -273,17 +290,6 @@ const AdminUser = () => {
             rowsPerPageOptions: ["5", "10", "20"],
         },
         enableGrouping: true,
-        mantineTableHeadCellProps: {
-            style: {
-                backgroundColor: "var(--mantine-color-blueGray-light)",
-                border: "1px solid lightgray",
-            },
-        },
-        mantineTableBodyCellProps: {
-            style: {
-                border: "1px solid lightgray",
-            },
-        },
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
         // enableRowActions: true,

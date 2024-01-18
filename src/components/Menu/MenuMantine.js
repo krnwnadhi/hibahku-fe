@@ -59,7 +59,7 @@ export default function MenuMantine() {
 
                     <Menu.Divider />
 
-                    {role === 1 && (
+                    {/* {role === 1 && (
                         <>
                             <Menu.Label>Settings</Menu.Label>
                             <Menu.Item
@@ -78,7 +78,7 @@ export default function MenuMantine() {
                                 Account settings
                             </Menu.Item>
                         </>
-                    )}
+                    )} */}
 
                     <Menu.Item
                         leftSection={

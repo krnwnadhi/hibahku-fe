@@ -4,42 +4,25 @@ import {
     Badge,
     Box,
     Breadcrumbs,
-    Center,
     Container,
-    Group,
-    LoadingOverlay,
-    Pagination,
-    Paper,
     Popover,
-    Space,
-    Table,
     Text,
-    TextInput,
     Tooltip,
-    rem,
+    useMantineTheme,
 } from "@mantine/core";
-import {
-    IconArrowRight,
-    IconCheck,
-    IconPencil,
-    IconSearch,
-    IconX,
-} from "@tabler/icons-react";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import DateFormatter from "../../utils/DateFormatter";
 import { IconEdit } from "@tabler/icons-react";
+import { IconPencil } from "@tabler/icons-react";
 import axios from "axios";
 import { basePersetujuanURL } from "../../utils/baseURL";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
-import { useSearchParams } from "react-router-dom";
 
 const Persetujuan = () => {
     const dispatch = useDispatch();
-    const [searchParams, setSearchParams] = useSearchParams();
-    // const theme = useMantineTheme();
+    const { colorScheme } = useMantineTheme();
 
     useEffect(() => {
         dispatch(getAllPersetujuanAction());
@@ -169,84 +152,6 @@ const Persetujuan = () => {
         return prosesMap[prosesid] || "Proses tidak valid";
     };
 
-    const textCenter = {
-        textAlign: "center",
-    };
-
-    const rowsList = persetujuanListState?.map((item, index) => (
-        <Table.Tr key={item?.index}>
-            <Table.Td>
-                <Text size="xs" ta="center">
-                    {index + 1}
-                </Text>
-            </Table.Td>
-            <Table.Td ta="center">
-                <Tooltip label="Edit">
-                    <ActionIcon
-                        component={Anchor}
-                        href={`/dashboard/admin/persetujuan/detail/${item?.id}`}
-                        // to={`/dashboard/admin/persetujuan/${item?.id}`}
-                        color="red"
-                        variant="subtle"
-                    >
-                        <IconPencil size={14} stroke={1.5} />
-                    </ActionIcon>
-                </Tooltip>
-            </Table.Td>
-            <Popover width={250} position="bottom" withArrow shadow="md">
-                <Popover.Target style={{ cursor: "pointer" }}>
-                    <Table.Td>
-                        <Text size="xs">{item?.keagamaanid}</Text>
-                    </Table.Td>
-                </Popover.Target>
-                <Popover.Dropdown>
-                    <Text size="xs">Nama Masjid: {item?.Keagamaan?.nama}</Text>
-                    <Text size="xs">Kab/Kota: {item?.Keagamaan?.wilayah}</Text>
-                    <Text size="xs">Alamat: {item?.Keagamaan?.alamat}</Text>
-                </Popover.Dropdown>
-            </Popover>
-            <Table.Td>
-                <Text size="xs" ta="center">
-                    {item?.userid}
-                </Text>
-            </Table.Td>
-            <Table.Td>{getStatusText(item?.statusid)}</Table.Td>
-            <Table.Td>{getProsesText(item?.prosesid)}</Table.Td>
-            <Table.Td>
-                <Text size="xs">
-                    {new Intl.NumberFormat("id-ID", {
-                        style: "currency",
-                        currency: "IDR",
-                    }).format(item?.pengajuandana)}
-                </Text>
-            </Table.Td>
-            <Table.Td>
-                <Text size="xs">{item?.tujuan}</Text>
-            </Table.Td>
-            <Table.Td>
-                <Text size="xs">{item?.norek}</Text>
-            </Table.Td>
-            <Table.Td style={textCenter}>
-                <Text size="xs">
-                    <DateFormatter date={item?.createdAt} />
-                </Text>
-            </Table.Td>
-
-            <Table.Td style={textCenter}>
-                {item?.skid && <IconCheck size={16} />}
-            </Table.Td>
-            <Table.Td style={textCenter}>
-                {item?.ktpid && <IconCheck size={16} />}
-            </Table.Td>
-            <Table.Td style={textCenter}>
-                {item?.suratpermohonanid && <IconCheck size={16} />}
-            </Table.Td>
-            <Table.Td style={textCenter}>
-                {item?.asetrekomid && <IconCheck size={16} />}
-            </Table.Td>
-        </Table.Tr>
-    ));
-
     const items = [
         { title: "Home", href: "/dashboard" },
         { title: "Persetujuan", href: "/dashboard/admin/persetujuan" },
@@ -268,6 +173,7 @@ const Persetujuan = () => {
                 enableGrouping: false,
                 enableSorting: false,
                 enableColumnActions: false,
+                enableResizing: false,
                 size: 80,
                 Cell: ({ row }) => (
                     <Tooltip label="Edit">
@@ -328,7 +234,7 @@ const Persetujuan = () => {
                 columns: [
                     {
                         accessorKey: "userid",
-                        header: "User ID",
+                        header: "NIK",
                         Cell: ({ row }) => (
                             <Popover
                                 width={250}
@@ -360,6 +266,7 @@ const Persetujuan = () => {
                     sDay.setHours(0, 0, 0, 0);
                     return sDay;
                 },
+                enableGrouping: false,
                 id: "createdAt",
                 header: "Dibuat",
                 filterVariant: "date-range",
@@ -376,18 +283,36 @@ const Persetujuan = () => {
     const data = persetujuanListState;
 
     const table = useMantineReactTable({
+        mantineTableProps: {
+            withColumnBorders: true,
+        },
+        withBorder: colorScheme === "light",
+        sx: {
+            "thead > tr": {
+                backgroundColor: "inherit",
+            },
+            "thead > tr > th": {
+                backgroundColor: "inherit",
+            },
+            "tbody > tr > td": {
+                backgroundColor: "inherit",
+            },
+        },
         layoutMode: "grid",
         enableColumnResizing: true,
         columns,
         data,
-        // enableRowSelection: true,
+        enableRowSelection: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
         enableRowNumbers: true,
         rowNumberMode: "original",
-        // columnFilterDisplayMode: "popover",
+        enableColumnPinning: true,
         initialState: {
             density: "xs",
+            columnPinning: {
+                left: ["id"],
+            },
         },
         state: {
             showProgressBars: loading,
@@ -395,17 +320,11 @@ const Persetujuan = () => {
         },
         mantinePaginationProps: {
             rowsPerPageOptions: ["5", "10", "20"],
-            // withEdges: false,
-            // withControls: false,
         },
         enableGrouping: true,
-        // initialState: {
-        //     grouping: ["nik"],
-        //     // expanded: true,
-        // },
+
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
-        // enableDensityToggle: false,
         // enableRowActions: true,
         renderRowActions: ({ row }) => (
             <Box style={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
@@ -428,163 +347,17 @@ const Persetujuan = () => {
     return (
         <>
             <Container size="xl" pos="relative">
-                <LoadingOverlay
-                    visible={loading}
-                    zIndex={1000}
-                    overlayProps={{ radius: "sm", blur: 1 }}
-                />
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>
 
-                {/* <Paper withBorder shadow="xl" p="md" style={{ minHeight: 500 }}> */}
-                <MantineReactTable table={table} enableStickyHeader />
-                {/* </Paper> */}
-
-                {/* <Paper withBorder shadow="sm" p="xl" style={{ minHeight: 500 }}>
-                    <Group>
-                        <LoadingOverlay
-                            visible={load}
-                            zIndex={1000}
-                            overlayProps={{ radius: "sm", blur: 1 }}
-                        />
-                        <TextInput
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    searchData();
-                                }
-                            }}
-                            value={query}
-                            onChange={handleTextInput}
-                            radius="md"
-                            size="sm"
-                            placeholder="Cari ID Rumah Ibadah"
-                            leftSection={
-                                <IconSearch
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            rightSection={
-                                <ActionIcon
-                                    size={28}
-                                    radius="xl"
-                                    variant="filled"
-                                    onClick={searchData}
-                                    disabled={!query}
-                                >
-                                    <IconArrowRight
-                                        style={{
-                                            width: rem(18),
-                                            height: rem(18),
-                                        }}
-                                        stroke={1.5}
-                                    />
-                                </ActionIcon>
-                            }
-                        />
-
-                        {query && (
-                            <ActionIcon
-                                onClick={resetData}
-                                disabled={!query}
-                                variant="subtle"
-                                color="red"
-                                ml={-10}
-                            >
-                                <IconX size={14} />
-                            </ActionIcon>
-                        )}
-                    </Group>
-
-                    <Space h="lg" />
-
-                    <Table.ScrollContainer minWidth={500}>
-                        <Table
-                            withColumnBorders
-                            withTableBorder
-                            horizontalSpacing="sm"
-                            verticalSpacing="sm"
-                            striped
-                            highlightOnHover
-                            fz="xs"
-                        >
-                            <Table.Thead>
-                                <Table.Tr key={pages}>
-                                    <Table.Th rowSpan={2}>No.</Table.Th>
-                                    <Table.Th rowSpan={2}>Aksi</Table.Th>
-                                    <Table.Th key={pages} rowSpan={2}>
-                                        ID Rumah Ibadah
-                                    </Table.Th>
-                                    <Table.Th rowSpan={2}>User ID</Table.Th>
-                                    <Table.Th rowSpan={2}>Status</Table.Th>
-                                    <Table.Th rowSpan={2}>Proses</Table.Th>
-                                    <Table.Th rowSpan={2}>
-                                        Pengajuan Dana
-                                    </Table.Th>
-                                    <Table.Th rowSpan={2}>Tujuan</Table.Th>
-                                    <Table.Th rowSpan={2}>
-                                        No. Rekening
-                                    </Table.Th>
-                                    <Table.Th
-                                        style={{
-                                            textAlign: "center",
-                                        }}
-                                        rowSpan={2}
-                                    >
-                                        Dibuat
-                                    </Table.Th>
-                                    <Table.Th
-                                        style={{
-                                            textAlign: "center",
-                                        }}
-                                        colSpan={8}
-                                    >
-                                        Persyaratan Administrasi
-                                    </Table.Th>
-                                </Table.Tr>
-                                <Table.Tr key={pages}>
-                                    <Table.Th>SK Pengurus</Table.Th>
-                                    <Table.Th>KTP</Table.Th>
-                                    <Table.Th>Surat Permohonan</Table.Th>
-                                    <Table.Th>Aset Rekomendasi</Table.Th>
-                                </Table.Tr>
-                            </Table.Thead>
-                            <Table.Tbody>
-                                {persetujuanListState.length === 0 ? (
-                                    <Table.Tr>
-                                        <Table.Td colSpan={14}>
-                                            <Text fw={500} ta="center">
-                                                Data Tidak Ditemukan
-                                            </Text>
-                                        </Table.Td>
-                                    </Table.Tr>
-                                ) : (
-                                    rowsList
-                                )}
-                            </Table.Tbody>
-                        </Table>
-                    </Table.ScrollContainer>
-
-                    <Space h="sm" />
-
-                    <Text size="sm">
-                        Halaman {pages} dari {totalPage} total : {totalItems}{" "}
-                        data
-                    </Text>
-
-                    <Space h="lg" />
-
-                    <Center>
-                        <Pagination
-                            onChange={handlePageChange}
-                            total={totalPage}
-                            // total={Math.min(2, totalPage)}
-                            withControls
-                            withEdges
-                        />
-                    </Center>
-                </Paper> */}
+                <MantineReactTable
+                    table={table}
+                    enableStickyHeader
+                    mantineTableContainerProps={{
+                        style: { minHeight: 500 },
+                    }}
+                />
             </Container>
         </>
     );

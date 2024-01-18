@@ -167,6 +167,8 @@ export const deleteFileAction = createAsyncThunk(
             },
         };
 
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
         try {
             const { data } = await axios.delete(
                 `${basePersetujuanURL}/${id}`,

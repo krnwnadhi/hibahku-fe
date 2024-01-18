@@ -182,11 +182,15 @@ const Periode = () => {
                     <Title order={3} ta="center" fw={700} mb="xl">
                         TUTUP :{" "}
                         <Text span c="red" inherit>
-                            {mulaiPeriodeFormat ? mulaiPeriodeFormat : ""}
+                            {mulaiPeriodeFormat
+                                ? mulaiPeriodeFormat
+                                : "Tidak Ada Data"}
                         </Text>{" "}
                         • BUKA KEMBALI :{" "}
                         <Text span c="blue" inherit>
-                            {selesaiPeriodeFormat ? selesaiPeriodeFormat : ""}
+                            {selesaiPeriodeFormat
+                                ? selesaiPeriodeFormat
+                                : "Tidak Ada Data"}
                         </Text>
                     </Title>
                     <form onSubmit={formOnSubmit}>

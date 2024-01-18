@@ -184,7 +184,7 @@ const PersetujuanDetail = () => {
     const list = detailAdminPersetujuan?.map((item, index) => (
         <>
             <form onSubmit={formOnSubmit}>
-                {namaKategori === "RUMAH IBADAH" ? (
+                {namaKategori.toString() === "RUMAH IBADAH" ? (
                     // MASJID START
 
                     <SimpleGrid

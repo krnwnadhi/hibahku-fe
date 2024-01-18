@@ -1,12 +1,12 @@
 import {
     IconClockHour4,
-    IconError404,
     IconFileTypePdf,
     IconLicense,
-    IconUserShield,
+    IconReportAnalytics,
+    IconTableExport,
     IconUserSquare,
 } from "@tabler/icons-react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { Anchor } from "@mantine/core";
 import { IconBuildingMosque } from "@tabler/icons-react";
@@ -29,6 +29,11 @@ export default function SideNav() {
     const dataAdmin = [
         { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
         {
+            link: "/dashboard/admin/periode",
+            label: "Periodisasi",
+            icon: IconClockHour4,
+        },
+        {
             link: "/dashboard/admin/persetujuan",
             label: "Persetujuan",
             icon: IconLicense,
@@ -40,18 +45,13 @@ export default function SideNav() {
         },
         {
             link: "/dashboard/rumah-ibadah/list",
-            label: "List Rumah Ibadah",
+            label: "List Tempat",
             icon: IconBuildingMosque,
         },
         {
             link: "/dashboard/admin/rekap",
-            label: "Rekap Permohonan",
-            icon: IconFileTypePdf,
-        },
-        {
-            link: "/dashboard/admin/periode",
-            label: "Periodisasi",
-            icon: IconClockHour4,
+            label: "Rekap",
+            icon: IconReportAnalytics,
         },
     ];
 
@@ -62,9 +62,9 @@ export default function SideNav() {
             href={item.link}
             key={item.label}
             onClick={(event) => {
-                // event.preventDefault();
                 setActive(item.label);
             }}
+            p="sm"
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />
             <span>{item.label}</span>
