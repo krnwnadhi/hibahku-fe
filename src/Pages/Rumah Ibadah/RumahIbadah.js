@@ -148,6 +148,7 @@ export default function RumahIbadah() {
                                 ? "blue"
                                 : "green"
                         }
+                        size="xs"
                     >
                         {cell.getValue()}
                     </Badge>
@@ -307,6 +308,9 @@ export default function RumahIbadah() {
     const table = useMantineReactTable({
         mantineTableProps: {
             withColumnBorders: true,
+            style: {
+                fontSize: "12px",
+            },
         },
         withBorder: colorScheme === "light",
         sx: {
@@ -333,9 +337,6 @@ export default function RumahIbadah() {
         // enableColumnPinning: true,
         initialState: {
             density: "xs",
-            // columnPinning: {
-            //     left: ["mrt-row-actions"],
-            // },
         },
         state: {
             showProgressBars: loading,

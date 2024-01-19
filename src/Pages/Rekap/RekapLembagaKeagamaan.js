@@ -70,9 +70,7 @@ const RekapLembagaKeagamaan = () => {
 
     return (
         <>
-            <Container size="xl">
-                <MantineReactTable table={table} />
-            </Container>
+            <MantineReactTable table={table} />
         </>
     );
 };

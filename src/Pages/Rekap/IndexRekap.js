@@ -20,10 +20,14 @@ const IndexRekap = () => {
                     keepMounted={false}
                     p={10}
                     radius="md"
+                    variant="pills"
                 >
                     <Tabs.List grow>
                         <Tabs.Tab value="masjid">Masjid</Tabs.Tab>
-                        <Tabs.Tab value="lembagapendidikankeagamaan">
+                        <Tabs.Tab
+                            value="lembagapendidikankeagamaan"
+                            color="green"
+                        >
                             Lembaga Keagamaan
                         </Tabs.Tab>
                     </Tabs.List>

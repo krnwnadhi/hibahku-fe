@@ -161,11 +161,27 @@ const Persetujuan = () => {
         </Anchor>
     ));
 
+    const citiesList = [
+        "Kab. Batanghari",
+        "Kab. Bungo",
+        "Kab. Kerinci",
+        "Kab. Merangin",
+        "Kab. Muaro Jambi",
+        "Kab. Sarolangun",
+        "Kab. Tanjung Jabung Barat",
+        "Kab. Tanjung Jabung Timur",
+        "Kab. Tebo",
+        "Kota Jambi",
+        "Kota Sungai Penuh",
+    ];
+
+    const categoryList = ["RUMAH IBADAH", "LEMBAGA KEAGAMAAN"];
+
     const columns = useMemo(
         () => [
             {
                 id: "id",
-                header: "Edit",
+                header: "",
                 enableColumnOrdering: false,
                 enableColumnFilterModes: false,
                 enableColumnFilter: false,
@@ -174,7 +190,7 @@ const Persetujuan = () => {
                 enableSorting: false,
                 enableColumnActions: false,
                 enableResizing: false,
-                size: 80,
+                size: 50,
                 Cell: ({ row }) => (
                     <Tooltip label="Edit">
                         <ActionIcon
@@ -188,84 +204,130 @@ const Persetujuan = () => {
                     </Tooltip>
                 ),
             },
+            // {
+            // id: "masjid",
+            // header: "Masjid",
+            // columns: [
             {
-                id: "masjid",
-                header: "Masjid",
-                columns: [
-                    {
-                        accessorKey: "keagamaanid",
-                        header: "No. SIMAS/NSPP/NSM",
-                        enableClickToCopy: true,
-                    },
-                    {
-                        accessorKey: "Keagamaan.nama",
-                        header: "Nama",
-                    },
-                    {
-                        accessorKey: "Keagamaan.alamat",
-                        header: "Alamat",
-                    },
-                    {
-                        accessorKey: "Keagamaan.wilayah",
-                        header: "Kabupaten/Kota",
-                    },
-                    {
-                        accessorKey: "Keagamaan.Kategori.nama",
-                        header: "Kategori",
-                        Cell: ({ cell, row }) => (
-                            <Badge
-                                color={
-                                    row.original?.Keagamaan?.Kategori?.id === 1
-                                        ? "green"
-                                        : "blue"
-                                }
-                            >
-                                {row.original?.Keagamaan?.Kategori?.id === 2
-                                    ? "RUMAH IBADAH"
-                                    : "LEMBAGA PENDIDIKAN KEAGAMAAN"}
-                            </Badge>
-                        ),
-                    },
-                ],
+                accessorKey: "keagamaanid",
+                header: "No. SIMAS/NSPP/NSM",
+                enableClickToCopy: true,
+                minSize: 250,
+                maxSize: 300,
+                size: 275,
             },
             {
-                id: "user",
-                header: "User",
-                columns: [
-                    {
-                        accessorKey: "userid",
-                        header: "NIK",
-                        Cell: ({ row }) => (
-                            <Popover
-                                width={250}
-                                position="bottom"
-                                withArrow
-                                shadow="md"
-                            >
-                                <Popover.Target style={{ cursor: "pointer" }}>
-                                    <Text size="xs">
-                                        {row?.original?.userid}
-                                    </Text>
-                                </Popover.Target>
-                                <Popover.Dropdown>
-                                    <Text size="xs">
-                                        Nama: {row?.original?.User?.nama}
-                                    </Text>
-                                    <Text size="xs">
-                                        No. HP: {row?.original?.User?.notelpon}
-                                    </Text>
-                                </Popover.Dropdown>
-                            </Popover>
-                        ),
-                    },
-                ],
+                accessorKey: "Keagamaan.nama",
+                header: "Nama Tempat",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
             },
+            {
+                accessorKey: "Keagamaan.alamat",
+                header: "Alamat",
+                minSize: 275,
+                maxSize: 450,
+                size: 300,
+            },
+            {
+                accessorKey: "Keagamaan.wilayah",
+                header: "Kabupaten/Kota",
+                minSize: 200,
+                maxSize: 250,
+                size: 225,
+                filterVariant: "select",
+                mantineFilterSelectProps: {
+                    data: citiesList,
+                },
+            },
+            {
+                accessorKey: "Keagamaan.Kategori.nama",
+                header: "Kategori",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
+                Cell: ({ row }) => (
+                    <Badge
+                        color={
+                            row.original?.Keagamaan?.Kategori?.id === 1
+                                ? "green"
+                                : "blue"
+                        }
+                        size="xs"
+                    >
+                        {row.original?.Keagamaan?.Kategori?.id === 2
+                            ? "RUMAH IBADAH"
+                            : "LEMBAGA KEAGAMAAN"}
+                    </Badge>
+                ),
+                filterVariant: "select",
+                mantineFilterSelectProps: {
+                    data: categoryList,
+                },
+            },
+            {
+                accessorKey: "pengajuandana",
+                header: "Usulan Dana",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
+                Cell: ({ row }) =>
+                    new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                    }).format(row?.original?.pengajuandana),
+            },
+            {
+                accessorKey: "tujuan",
+                header: "Peruntukkan Dana",
+                minSize: 225,
+                maxSize: 275,
+                size: 250,
+            },
+            // ],
+            // },
+            // {
+            //     id: "user",
+            //     header: "User",
+            //     columns: [
+            //         {
+            //             accessorKey: "userid",
+            //             header: "NIK",
+            //             Cell: ({ row }) => (
+            //                 <Popover
+            //                     width={250}
+            //                     position="bottom"
+            //                     withArrow
+            //                     shadow="md"
+            //                 >
+            //                     <Popover.Target style={{ cursor: "pointer" }}>
+            //                         <Text size="xs">
+            //                             {row?.original?.userid}
+            //                         </Text>
+            //                     </Popover.Target>
+            //                     <Popover.Dropdown>
+            //                         <Text size="xs">
+            //                             Nama: {row?.original?.User?.nama}
+            //                         </Text>
+            //                         <Text size="xs">
+            //                             No. HP: {row?.original?.User?.notelpon}
+            //                         </Text>
+            //                     </Popover.Dropdown>
+            //                 </Popover>
+            //             ),
+            //         },
+            //     ],
+            // },
             {
                 accessorFn: (row) => {
                     const sDay = new Date(row.createdAt);
                     sDay.setHours(0, 0, 0, 0);
                     return sDay;
                 },
+                minSize: 150,
+                maxSize: 200,
+                size: 175,
                 enableGrouping: false,
                 id: "createdAt",
                 header: "Dibuat",
@@ -285,6 +347,10 @@ const Persetujuan = () => {
     const table = useMantineReactTable({
         mantineTableProps: {
             withColumnBorders: true,
+            highlightOnHover: false,
+            style: {
+                fontSize: "12px",
+            },
         },
         withBorder: colorScheme === "light",
         sx: {

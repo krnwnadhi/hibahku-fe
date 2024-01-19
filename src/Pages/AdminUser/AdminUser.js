@@ -258,6 +258,9 @@ const AdminUser = () => {
     const table = useMantineReactTable({
         mantineTableProps: {
             withColumnBorders: true,
+            style: {
+                fontSize: "12px",
+            },
         },
         withBorder: colorScheme === "light",
         sx: {
@@ -310,9 +313,8 @@ const AdminUser = () => {
             placeholder: "Cari",
         },
         renderTopToolbarCustomActions: ({ table }) => (
-            <Group p="md" justify="space-between">
+            <Group p="xs" justify="space-between">
                 {/* EXCEL START */}
-                <Text>{}</Text>
                 <Menu
                     transitionProps={{ transition: "pop-top-right" }}
                     position="top-end"
