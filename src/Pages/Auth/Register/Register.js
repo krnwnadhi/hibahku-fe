@@ -1,5 +1,6 @@
 import {
     Anchor,
+    BackgroundImage,
     Button,
     Container,
     Group,
@@ -18,6 +19,7 @@ import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
 import DarkButton from "../../User/components/DarkButton/DarkButton";
+import backgroundSvg from "../../../assets/wave-signin.svg";
 import { registerUserAction } from "../../../redux/slices/auth/authSlices";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -75,169 +77,184 @@ export default function Register(props) {
     }
 
     return (
-        <Container size={450} pt={100}>
-            <LoadingOverlay
-                visible={loading}
-                zIndex={1000}
-                overlayProps={{ radius: "sm", blur: 1 }}
-            />
-            {computedColorScheme === "light" ? (
-                <Image
-                    loading="lazy"
-                    radius="md"
-                    w={400}
-                    fit="contain"
-                    src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                    fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
-                />
-            ) : (
-                <Image
-                    loading="lazy"
-                    radius="md"
-                    w={400}
-                    fit="contain"
-                    src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                    fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
-                />
-            )}
-            <Paper radius="md" mt={20} p="xl" withBorder shadow="lg" {...props}>
-                <form
-                    onSubmit={form.onSubmit((values) => {
-                        dispatch(registerUserAction(values));
-                        // form.reset();
-                        // form.clearErrors();
-                    })}
-                >
-                    <Stack>
-                        <TextInput
-                            ref={focusTrapRef}
-                            type="number"
-                            label="NIK"
-                            placeholder="NIK yang terdiri dari 16 angka"
-                            value={form.values.nik}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "nik",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.nik && "Min 15 & Maks. 16 Karakter"
-                            }
+        <>
+            <BackgroundImage h="100vh" src={backgroundSvg}>
+                <Container size={450} pt={50}>
+                    <LoadingOverlay
+                        visible={loading}
+                        zIndex={1000}
+                        overlayProps={{ radius: "sm", blur: 1 }}
+                    />
+                    {computedColorScheme === "light" ? (
+                        <Image
+                            loading="lazy"
                             radius="md"
+                            w={400}
+                            fit="contain"
+                            src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                            fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
                         />
-
-                        <TextInput
-                            label="Nama"
-                            placeholder="Nama Lengkap"
-                            value={form.values.nama}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "nama",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.nama && "Nama tidak boleh kosong"
-                            }
+                    ) : (
+                        <Image
+                            loading="lazy"
                             radius="md"
+                            w={400}
+                            fit="contain"
+                            src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                            fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
                         />
-
-                        <TextInput
-                            label="No. Handphone"
-                            type="number"
-                            placeholder="08xxxxxxxx"
-                            value={form.values.notelpon}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "notelpon",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.notelpon &&
-                                "No Handphone Min. 6 Angka & Maks. 14 Angka"
-                            }
-                            radius="md"
-                        />
-
-                        <PasswordInput
-                            label="Password"
-                            placeholder="Your password"
-                            value={form.values.password}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "password",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.password &&
-                                "Password Min. 8 Karakter"
-                            }
-                            radius="md"
-                        />
-                    </Stack>
-
-                    <Group justify="space-between" mt="md">
-                        <Anchor
-                            component={Link}
-                            type="button"
-                            // c="dimmed"
-                            to="/signin"
-                            size="xs"
+                    )}
+                    <Paper
+                        radius="md"
+                        mt={20}
+                        p="xl"
+                        withBorder
+                        shadow="lg"
+                        {...props}
+                    >
+                        <form
+                            onSubmit={form.onSubmit((values) => {
+                                dispatch(registerUserAction(values));
+                                // form.reset();
+                                // form.clearErrors();
+                            })}
                         >
-                            NIK Sudah Terdaftar? Login disini.
-                        </Anchor>
+                            <Stack>
+                                <TextInput
+                                    ref={focusTrapRef}
+                                    type="number"
+                                    label="NIK"
+                                    placeholder="NIK yang terdiri dari 16 angka"
+                                    value={form.values.nik}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "nik",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                    error={
+                                        form.errors.nik &&
+                                        "Min 15 & Maks. 16 Karakter"
+                                    }
+                                    radius="md"
+                                />
 
-                        <DarkButton />
-                    </Group>
+                                <TextInput
+                                    label="Nama"
+                                    placeholder="Nama Lengkap"
+                                    value={form.values.nama}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "nama",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                    error={
+                                        form.errors.nama &&
+                                        "Nama tidak boleh kosong"
+                                    }
+                                    radius="md"
+                                />
+
+                                <TextInput
+                                    label="No. Handphone"
+                                    type="number"
+                                    placeholder="08xxxxxxxx"
+                                    value={form.values.notelpon}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "notelpon",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                    error={
+                                        form.errors.notelpon &&
+                                        "No Handphone Min. 6 Angka & Maks. 14 Angka"
+                                    }
+                                    radius="md"
+                                />
+
+                                <PasswordInput
+                                    label="Password"
+                                    placeholder="Your password"
+                                    value={form.values.password}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "password",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                    error={
+                                        form.errors.password &&
+                                        "Password Min. 8 Karakter"
+                                    }
+                                    radius="md"
+                                />
+                            </Stack>
+
+                            <Group justify="space-between" mt="md">
+                                <Anchor
+                                    component={Link}
+                                    type="button"
+                                    // c="dimmed"
+                                    to="/signin"
+                                    size="xs"
+                                >
+                                    NIK Sudah Terdaftar? Login disini.
+                                </Anchor>
+
+                                <DarkButton />
+                            </Group>
+
+                            <Space h="md" />
+
+                            {loading ? (
+                                <Button radius="md" disabled={loading}>
+                                    Loading...
+                                </Button>
+                            ) : (
+                                <Button
+                                    fullWidth
+                                    type="submit"
+                                    radius="md"
+                                    disabled={!form.isValid()}
+                                >
+                                    Register
+                                </Button>
+                            )}
+                        </form>
+                    </Paper>
 
                     <Space h="md" />
 
-                    {loading ? (
-                        <Button radius="md" disabled={loading}>
-                            Loading...
-                        </Button>
-                    ) : (
-                        <Button
-                            fullWidth
-                            type="submit"
-                            radius="md"
-                            disabled={!form.isValid()}
+                    <Text size="sm" align="center">
+                        Copyright © 2023{" "}
+                        <Anchor
+                            component={Link}
+                            type="button"
+                            to="https://kesra.jambiprov.go.id"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            ta="center"
+                            c="dark"
                         >
-                            Register
-                        </Button>
-                    )}
-                </form>
-            </Paper>
-
-            <Space h="md" />
-
-            <Text size="sm" align="center" c="dimmed">
-                Copyright © 2023{" "}
-                <Anchor
-                    component={Link}
-                    type="button"
-                    to="https://kesra.jambiprov.go.id"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    ta="center"
-                >
-                    Biro Kesra Provinsi Jambi
-                </Anchor>{" "}
-                By{" "}
-                <Anchor
-                    component={Link}
-                    type="button"
-                    to="https://diskominfo.jambiprov.go.id/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    ta="center"
-                >
-                    Diskominfo Provinsi Jambi
-                </Anchor>{" "}
-            </Text>
-        </Container>
+                            Biro Kesra Provinsi Jambi
+                        </Anchor>{" "}
+                        By{" "}
+                        <Anchor
+                            component={Link}
+                            type="button"
+                            to="https://diskominfo.jambiprov.go.id/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            ta="center"
+                            c="dark"
+                        >
+                            Diskominfo Provinsi Jambi
+                        </Anchor>{" "}
+                    </Text>
+                </Container>
+            </BackgroundImage>
+        </>
     );
 }

@@ -1,11 +1,12 @@
 import {
     Anchor,
+    BackgroundImage,
+    Box,
     Breadcrumbs,
     Center,
     Container,
     Group,
     Loader,
-    LoadingOverlay,
     Paper,
     RingProgress,
     SimpleGrid,
@@ -18,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import AreaChartMantine from "../../components/Chart/AreaChartMantine";
 import BarChartMantine from "../../components/Chart/BarChartMantine";
+import backgroundSvg from "../../assets/wave-haikei.svg";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
@@ -98,7 +100,14 @@ export default function Dashboard() {
     const stats = data.map((stat) => {
         const Icon = icons[stat.icon];
         return (
-            <Paper withBorder radius="md" shadow="lg" p="xs" key={stat.label}>
+            <Paper
+                withBorder
+                radius="md"
+                mt={10}
+                shadow="lg"
+                p="xs"
+                key={stat.label}
+            >
                 <Container>
                     <Group>
                         <RingProgress
@@ -143,18 +152,16 @@ export default function Dashboard() {
 
     return (
         <>
-            <Container size="xl">
-                <LoadingOverlay
-                    visible={loading}
-                    zIndex={1000}
-                    overlayProps={{ radius: "sm", blur: 1 }}
-                />
-                <Breadcrumbs separator="→" mt="xs" mb="lg">
-                    {items}
-                </Breadcrumbs>
-                <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
-                <Space h="xl" />
-                {/* <SimpleGrid cols={{ base: 1, sm: 2 }}>
+            {/* <Box maw={1300} h="1000px" mx="auto"> */}
+            {/* <Breadcrumbs separator="→" mt="xs" mb="lg">
+                {items}
+            </Breadcrumbs> */}
+            <BackgroundImage h={577} src={backgroundSvg} radius="md">
+                <Container size="xl">
+                    <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
+
+                    <Space h="xl" />
+                    {/* <SimpleGrid cols={{ base: 1, sm: 2 }}>
                     <Paper
                         radius="md"
                         withBorder
@@ -174,7 +181,9 @@ export default function Dashboard() {
                         <BarChartMantine />
                     </Paper>
                 </SimpleGrid> */}
-            </Container>
+                </Container>
+            </BackgroundImage>
+            {/* </Box> */}
         </>
     );
 }

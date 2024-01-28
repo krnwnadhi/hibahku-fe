@@ -73,13 +73,13 @@ const PersetujuanDetail = () => {
         validateInputOnChange: true,
         initialValues: {
             id: params.id,
-            newStatus: "",
+            // newStatus: "",
             newProses: "",
         },
 
         validate: {
             id: isNotEmpty("Harap diisi"),
-            newStatus: isNotEmpty("Harap diisi"),
+            // newStatus: isNotEmpty("Harap diisi"),
             newProses: isNotEmpty("Harap diisi"),
         },
     });
@@ -160,7 +160,7 @@ const PersetujuanDetail = () => {
             <Group>
                 <div>
                     <Text fz="sm" fw={500}>
-                        {description}
+                        {value}. {description}
                     </Text>
                 </div>
             </Group>
@@ -168,18 +168,21 @@ const PersetujuanDetail = () => {
     }
 
     // Status Start
-    const combobox = useCombobox({
-        onDropdownClose: () => combobox.resetSelectedOption(),
+    const comboboxStatus = useCombobox({
+        onDropdownClose: () => comboboxStatus.resetSelectedOption(),
+        // onDropdownOpen: () => comboboxStatus.selectNextOption(),
     });
 
-    const [value, setValue] = useState();
-    const selectedOption = statusInput.find((item) => item?.value === value);
+    const [statusValue, setStatusValue] = useState();
+    const selectedOptionStatus = statusInput.find(
+        (item) => item?.value === statusValue
+    );
 
-    const options = statusInput.map((item) => (
+    const optionsStatus = statusInput.map((item) => (
         <Combobox.Option
             value={item?.value}
             key={item?.value}
-            active={item === value}
+            active={item === statusValue}
         >
             <SelectOption {...item} />
         </Combobox.Option>
@@ -187,20 +190,20 @@ const PersetujuanDetail = () => {
     // Status End
 
     // Proses Start
-    // const comboboxProses = useCombobox({
-    //     onDropdownClose: () => combobox.resetSelectedOption(),
-    // });
+    const comboboxProses = useCombobox({
+        onDropdownClose: () => comboboxProses.resetSelectedOption(),
+    });
 
     const [prosesValue, setProsesValue] = useState();
     const SelectOptionProses = keteranganInput.find(
-        (item) => item?.value === value
+        (item) => item?.value === prosesValue
     );
 
     const optionsProses = keteranganInput.map((item) => (
         <Combobox.Option
             value={item?.value}
             key={item?.value}
-            active={item === value}
+            active={item === prosesValue}
         >
             <SelectOption {...item} />
         </Combobox.Option>
@@ -979,12 +982,12 @@ const PersetujuanDetail = () => {
 
                     {/* Status Start */}
                     <Combobox
-                        store={combobox}
+                        store={comboboxStatus}
                         withinPortal={false}
                         onOptionSubmit={(value) => {
-                            setValue(value);
+                            setStatusValue(value);
                             form.setFieldValue("newStatus", value);
-                            combobox.closeDropdown();
+                            comboboxStatus.closeDropdown();
                         }}
                         transitionProps={{
                             duration: 200,
@@ -998,32 +1001,17 @@ const PersetujuanDetail = () => {
                                 component="button"
                                 type="button"
                                 pointer
-                                rightSectionPointerEvents={
-                                    value === null ? "none" : "all"
-                                }
-                                rightSection={
-                                    value !== null ? (
-                                        <CloseButton
-                                            size="sm"
-                                            onMouseDown={(event) =>
-                                                event.preventDefault()
-                                            }
-                                            onClick={() => setValue(null)}
-                                            aria-label="Clear value"
-                                        />
-                                    ) : (
-                                        <Combobox.Chevron />
-                                    )
-                                }
-                                onClick={() => combobox.toggleDropdown()}
-                                multiline
+                                rightSectionPointerEvents="none"
+                                rightSection={<Combobox.Chevron />}
+                                onClick={() => comboboxStatus.toggleDropdown()}
                                 error={form.errors.newStatus && "Harap diisi"}
+                                disabled
                             >
-                                {selectedOption ? (
-                                    <SelectOption {...selectedOption} />
+                                {selectedOptionStatus ? (
+                                    <SelectOption {...selectedOptionStatus} />
                                 ) : (
                                     <Input.Placeholder>
-                                        Pilih Status
+                                        {item?.Status?.nama}
                                     </Input.Placeholder>
                                 )}
                             </InputBase>
@@ -1035,7 +1023,7 @@ const PersetujuanDetail = () => {
                                 type="scroll"
                                 style={{ overflowY: "auto" }}
                             >
-                                {options}
+                                {optionsStatus}
                             </Combobox.Options>
                         </Combobox.Dropdown>
                     </Combobox>
@@ -1044,21 +1032,13 @@ const PersetujuanDetail = () => {
 
                     {/* Proses Start */}
 
-                    {/* <TextInput
-                        label="Proses"
-                        description={`Proses saat ini : ${item?.Proses?.nama}`}
-                        disabled
-                        fullWidth
-                        value={item?.Proses?.nama}
-                    /> */}
-
                     <Combobox
-                        store={combobox}
+                        store={comboboxProses}
                         withinPortal={false}
                         onOptionSubmit={(value) => {
                             setProsesValue(value);
                             form.setFieldValue("newProses", value);
-                            combobox.closeDropdown();
+                            comboboxProses.closeDropdown();
                         }}
                         transitionProps={{
                             duration: 200,
@@ -1067,31 +1047,16 @@ const PersetujuanDetail = () => {
                     >
                         <Combobox.Target>
                             <InputBase
-                                label="Status"
-                                description={`Status saat ini : ${item?.Proses?.nama}`}
+                                label="Proses"
+                                description={`Proses saat ini : ${item?.Proses?.nama}`}
                                 component="button"
                                 type="button"
                                 pointer
-                                rightSectionPointerEvents={
-                                    prosesValue === null ? "none" : "all"
-                                }
-                                rightSection={
-                                    prosesValue !== null ? (
-                                        <CloseButton
-                                            size="sm"
-                                            onMouseDown={(event) =>
-                                                event.preventDefault()
-                                            }
-                                            onClick={() => setProsesValue(null)}
-                                            aria-label="Clear value"
-                                        />
-                                    ) : (
-                                        <Combobox.Chevron />
-                                    )
-                                }
-                                onClick={() => combobox.toggleDropdown()}
-                                multiline
+                                rightSectionPointerEvents="none"
+                                rightSection={<Combobox.Chevron />}
+                                onClick={() => comboboxProses.toggleDropdown()}
                                 error={form.errors.newProses && "Harap diisi"}
+                                disabled={loading}
                             >
                                 {SelectOptionProses ? (
                                     <SelectOption {...SelectOptionProses} />

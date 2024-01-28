@@ -1,5 +1,6 @@
 import {
     Anchor,
+    BackgroundImage,
     Button,
     Container,
     Group,
@@ -18,6 +19,7 @@ import { hasLength, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
 import DarkButton from "../../User/components/DarkButton/DarkButton";
+import backgroundSvg from "../../../assets/wave-signin.svg";
 import { loginUserAction } from "../../../redux/slices/auth/authSlices";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -79,129 +81,147 @@ export default function SignIn(props) {
     });
 
     return (
-        <Container size={450} pt={100}>
-            <LoadingOverlay
-                visible={loading}
-                zIndex={1000}
-                overlayProps={{ radius: "sm", blur: 1 }}
-            />
-            {computedColorScheme === "light" ? (
-                <Image
-                    loading="lazy"
-                    radius="md"
-                    w={400}
-                    fit="contain"
-                    src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                    fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
-                />
-            ) : (
-                <Image
-                    loading="lazy"
-                    radius="md"
-                    w={400}
-                    fit="contain"
-                    src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                    fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
-                />
-            )}
-            <Paper radius="md" mt={20} p="xl" withBorder shadow="md" {...props}>
-                <form onSubmit={formOnSubmit}>
-                    <Stack>
-                        <TextInput
-                            ref={focusTrapRef}
-                            type="number"
-                            label="NIK"
-                            placeholder="NIK Min. 16 angka"
-                            value={form.values.nik}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "nik",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.nik && "Min 15 & Maks. 18 Karakter"
-                            }
+        <>
+            <BackgroundImage h="100vh" src={backgroundSvg}>
+                <Container size={450} pt={50}>
+                    <LoadingOverlay
+                        visible={loading}
+                        zIndex={1000}
+                        overlayProps={{ radius: "sm", blur: 1 }}
+                    />
+                    {computedColorScheme === "light" ? (
+                        <Image
+                            loading="lazy"
                             radius="md"
+                            w={400}
+                            fit="contain"
+                            src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                            fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
                         />
-
-                        <PasswordInput
-                            label="Password"
-                            placeholder="Kata Kunci"
-                            value={form.values.password}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "password",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.password &&
-                                "Password Min. 8 Karakter"
-                            }
+                    ) : (
+                        <Image
+                            loading="lazy"
                             radius="md"
+                            w={400}
+                            fit="contain"
+                            src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                            fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
                         />
-                    </Stack>
+                    )}
+                    <Paper
+                        radius="md"
+                        mt={20}
+                        p="xl"
+                        withBorder
+                        shadow="md"
+                        {...props}
+                    >
+                        <form onSubmit={formOnSubmit}>
+                            <Stack>
+                                <TextInput
+                                    ref={focusTrapRef}
+                                    type="number"
+                                    label="NIK"
+                                    placeholder="NIK Min. 16 angka"
+                                    value={form.values.nik}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "nik",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                    error={
+                                        form.errors.nik &&
+                                        "Min 15 & Maks. 18 Karakter"
+                                    }
+                                    radius="md"
+                                />
 
-                    <Group justify="space-between" mt="md">
-                        <Anchor
-                            component={Link}
-                            type="button"
-                            // c="dimmed"
-                            to="/register"
-                            size="xs"
-                            ta="center"
-                        >
-                            NIK Tidak terdaftar? Register disini.
-                        </Anchor>
-                        <DarkButton />
-                    </Group>
+                                <PasswordInput
+                                    label="Password"
+                                    placeholder="Kata Kunci"
+                                    value={form.values.password}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "password",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                    error={
+                                        form.errors.password &&
+                                        "Password Min. 8 Karakter"
+                                    }
+                                    radius="md"
+                                />
+                            </Stack>
+
+                            <Group justify="space-between" mt="md">
+                                <Anchor
+                                    component={Link}
+                                    type="button"
+                                    // c="dimmed"
+                                    to="/register"
+                                    size="xs"
+                                    ta="center"
+                                >
+                                    NIK Tidak terdaftar? Register disini.
+                                </Anchor>
+                                <DarkButton />
+                            </Group>
+
+                            <Space h="md" />
+
+                            {loading ? (
+                                <Button
+                                    disabled={loading}
+                                    radius="md"
+                                    fullWidth
+                                >
+                                    Loading...
+                                </Button>
+                            ) : (
+                                <Button
+                                    disabled={!form.isValid()}
+                                    type="submit"
+                                    radius="md"
+                                    fullWidth
+                                >
+                                    Login
+                                </Button>
+                            )}
+                        </form>
+                    </Paper>
 
                     <Space h="md" />
 
-                    {loading ? (
-                        <Button disabled={loading} radius="md" fullWidth>
-                            Loading...
-                        </Button>
-                    ) : (
-                        <Button
-                            disabled={!form.isValid()}
-                            type="submit"
-                            radius="md"
-                            fullWidth
+                    <Text size="sm" align="center">
+                        Copyright © 2023{" "}
+                        <Anchor
+                            component={Link}
+                            type="button"
+                            to="https://kesra.jambiprov.go.id"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            ta="center"
+                            c="dark"
                         >
-                            Login
-                        </Button>
-                    )}
-                </form>
-            </Paper>
-
-            <Space h="md" />
-
-            <Text size="sm" align="center" c="dimmed">
-                Copyright © 2023{" "}
-                <Anchor
-                    component={Link}
-                    type="button"
-                    to="https://kesra.jambiprov.go.id"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    ta="center"
-                >
-                    Biro Kesra Provinsi Jambi
-                </Anchor>{" "}
-                By{" "}
-                <Anchor
-                    component={Link}
-                    type="button"
-                    to="https://diskominfo.jambiprov.go.id/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    ta="center"
-                >
-                    Diskominfo Provinsi Jambi
-                </Anchor>{" "}
-            </Text>
-        </Container>
+                            Biro Kesra Provinsi Jambi
+                        </Anchor>{" "}
+                        By{" "}
+                        <Anchor
+                            component={Link}
+                            type="button"
+                            to="https://diskominfo.jambiprov.go.id/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            ta="center"
+                            c="dark"
+                        >
+                            Diskominfo Provinsi Jambi
+                        </Anchor>{" "}
+                    </Text>
+                </Container>
+            </BackgroundImage>
+        </>
     );
 }

@@ -59,12 +59,6 @@ export default function RootLayout() {
         >
             <AppShell.Header>
                 <Group h="100%" px="md" justify="space-between">
-                    {/* <Burger
-                        opened={opened}
-                        onClick={toggle}
-                        hiddenFrom="sm"
-                        size="sm"
-                    /> */}
                     <Burger
                         opened={mobileOpened}
                         onClick={toggleMobile}
@@ -86,12 +80,6 @@ export default function RootLayout() {
             </AppShell.Header>
             <AppShell.Navbar p="md">
                 <Group justify="space-between">
-                    {/* <Burger
-                        opened={opened}
-                        onClick={toggle}
-                        hiddenFrom="sm"
-                        size="sm"
-                    /> */}
                     <Burger
                         opened={mobileOpened}
                         onClick={toggleMobile}
