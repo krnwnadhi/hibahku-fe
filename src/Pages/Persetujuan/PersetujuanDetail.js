@@ -74,13 +74,13 @@ const PersetujuanDetail = () => {
         initialValues: {
             id: params.id,
             newStatus: "",
-            // newProses: prosesIdtoString,
+            newProses: "",
         },
 
         validate: {
             id: isNotEmpty("Harap diisi"),
             newStatus: isNotEmpty("Harap diisi"),
-            // newProses: isNotEmpty("Harap diisi"),
+            newProses: isNotEmpty("Harap diisi"),
         },
     });
 
@@ -106,6 +106,55 @@ const PersetujuanDetail = () => {
         },
     ];
 
+    const keteranganInput = [
+        {
+            value: 1,
+            description: "VERIFIKASI PERSYARATAN ADMINISTRASI",
+        },
+        {
+            value: 2,
+            description: "VERIFIKASI FAKTUAL(SURVEI LAPANGAN)",
+        },
+        {
+            value: 3,
+            description: "REKOMENDASI",
+        },
+        {
+            value: 4,
+            description: " PERTIMBANGAN TAPD",
+        },
+        {
+            value: 5,
+            description: "PENGANGGARAN",
+        },
+        {
+            value: 6,
+            description: " PENERBITAN SK SDH DAN DOKUMEN LAINNNYA",
+        },
+        {
+            value: 7,
+            description:
+                " PENANDATANGANAN NPHD, PAKTA INTEGRITAS, PERNYATAAN TANGGUNG JAWAB, DLL",
+        },
+        {
+            value: 8,
+            description: "PENCAIRAN DANA BANTUAN HIBAH",
+        },
+        {
+            value: 9,
+            description:
+                "LAPORAN PERTANGGUNGJAWABAN PENGGUNAAN DANA BANTUAN HIBAH",
+        },
+        {
+            value: 10,
+            description: "BELUM DIPROSES",
+        },
+        {
+            value: 11,
+            description: "DITOLAK",
+        },
+    ];
+
     function SelectOption({ value, description }) {
         return (
             <Group>
@@ -118,6 +167,7 @@ const PersetujuanDetail = () => {
         );
     }
 
+    // Status Start
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
     });
@@ -134,6 +184,28 @@ const PersetujuanDetail = () => {
             <SelectOption {...item} />
         </Combobox.Option>
     ));
+    // Status End
+
+    // Proses Start
+    // const comboboxProses = useCombobox({
+    //     onDropdownClose: () => combobox.resetSelectedOption(),
+    // });
+
+    const [prosesValue, setProsesValue] = useState();
+    const SelectOptionProses = keteranganInput.find(
+        (item) => item?.value === value
+    );
+
+    const optionsProses = keteranganInput.map((item) => (
+        <Combobox.Option
+            value={item?.value}
+            key={item?.value}
+            active={item === value}
+        >
+            <SelectOption {...item} />
+        </Combobox.Option>
+    ));
+    // Proses End
 
     useEffect(() => {
         // dispatch(getAllPersetujuanAction());
@@ -186,7 +258,6 @@ const PersetujuanDetail = () => {
             <form onSubmit={formOnSubmit}>
                 {namaKategori.toString() === "RUMAH IBADAH" ? (
                     // MASJID START
-
                     <SimpleGrid
                         cols={{ base: 1, sm: 2 }}
                         spacing="lg"
@@ -902,26 +973,11 @@ const PersetujuanDetail = () => {
                 )}
                 <Space h="lg" />
                 <Stack gap="lg">
-                    {/* <Select
-                    data={value}
-                    value={
-                        item?.Status?.nama === "PROSES"
-                            ? "BELUM DIPROSES"
-                            : item?.Status?.nama
-                    }
-                /> */}
-
                     <VisuallyHidden>
                         <TextInput disabled {...form.getInputProps("id")} />
                     </VisuallyHidden>
-                    {/* 
-                    <TextInput
-                        disabled
-                        fullWidth
-                        value={item?.Proses?.keterangan}
-                    /> */}
 
-                    {/* Status */}
+                    {/* Status Start */}
                     <Combobox
                         store={combobox}
                         withinPortal={false}
@@ -938,6 +994,7 @@ const PersetujuanDetail = () => {
                         <Combobox.Target>
                             <InputBase
                                 label="Status"
+                                description={`Status saat ini : ${item?.Status?.nama}`}
                                 component="button"
                                 type="button"
                                 pointer
@@ -983,11 +1040,81 @@ const PersetujuanDetail = () => {
                         </Combobox.Dropdown>
                     </Combobox>
 
-                    <TextInput
+                    {/* Status End */}
+
+                    {/* Proses Start */}
+
+                    {/* <TextInput
+                        label="Proses"
+                        description={`Proses saat ini : ${item?.Proses?.nama}`}
                         disabled
                         fullWidth
-                        value={item?.Proses?.keterangan}
-                    />
+                        value={item?.Proses?.nama}
+                    /> */}
+
+                    <Combobox
+                        store={combobox}
+                        withinPortal={false}
+                        onOptionSubmit={(value) => {
+                            setProsesValue(value);
+                            form.setFieldValue("newProses", value);
+                            combobox.closeDropdown();
+                        }}
+                        transitionProps={{
+                            duration: 200,
+                            transition: "pop",
+                        }}
+                    >
+                        <Combobox.Target>
+                            <InputBase
+                                label="Status"
+                                description={`Status saat ini : ${item?.Proses?.nama}`}
+                                component="button"
+                                type="button"
+                                pointer
+                                rightSectionPointerEvents={
+                                    prosesValue === null ? "none" : "all"
+                                }
+                                rightSection={
+                                    prosesValue !== null ? (
+                                        <CloseButton
+                                            size="sm"
+                                            onMouseDown={(event) =>
+                                                event.preventDefault()
+                                            }
+                                            onClick={() => setProsesValue(null)}
+                                            aria-label="Clear value"
+                                        />
+                                    ) : (
+                                        <Combobox.Chevron />
+                                    )
+                                }
+                                onClick={() => combobox.toggleDropdown()}
+                                multiline
+                                error={form.errors.newProses && "Harap diisi"}
+                            >
+                                {SelectOptionProses ? (
+                                    <SelectOption {...SelectOptionProses} />
+                                ) : (
+                                    <Input.Placeholder>
+                                        Pilih Proses
+                                    </Input.Placeholder>
+                                )}
+                            </InputBase>
+                        </Combobox.Target>
+
+                        <Combobox.Dropdown>
+                            <Combobox.Options
+                                mah={200}
+                                type="scroll"
+                                style={{ overflowY: "auto" }}
+                            >
+                                {optionsProses}
+                            </Combobox.Options>
+                        </Combobox.Dropdown>
+                    </Combobox>
+
+                    {/* Proses End */}
 
                     <Group grow>
                         <Button
@@ -1004,7 +1131,8 @@ const PersetujuanDetail = () => {
                             color="red"
                             leftSection={<IconTrash size={14} />}
                             onClick={openDeleteModal}
-                            loading={loading}
+                            // loading={loading}
+                            disabled={loading}
                         >
                             Hapus
                         </Button>

@@ -3,12 +3,12 @@ import React from "react";
 
 const BarChartMantine = () => {
     const data = [
-        { month: "January", Smartphones: 120, Laptops: 80, Tablets: 10 },
-        { month: "February", Smartphones: 90, Laptops: 120, Tablets: 40 },
-        { month: "March", Smartphones: 40, Laptops: 100, Tablets: 20 },
-        { month: "April", Smartphones: 100, Laptops: 20, Tablets: 80 },
-        { month: "May", Smartphones: 80, Laptops: 140, Tablets: 120 },
-        { month: "June", Smartphones: 75, Laptops: 60, Tablets: 100 },
+        { month: "January", X: 120, Y: 80, Z: 10 },
+        { month: "February", X: 90, Y: 120, Z: 40 },
+        { month: "March", X: 40, Y: 100, Z: 20 },
+        { month: "April", X: 100, Y: 20, Z: 80 },
+        { month: "May", X: 80, Y: 140, Z: 120 },
+        { month: "June", X: 75, Y: 60, Z: 100 },
     ];
 
     return (
@@ -19,9 +19,9 @@ const BarChartMantine = () => {
                 data={data}
                 dataKey="month"
                 series={[
-                    { name: "Smartphones", color: "violet.6" },
-                    { name: "Laptops", color: "blue.6" },
-                    { name: "Tablets", color: "teal.6" },
+                    { name: "X", color: "violet.6" },
+                    { name: "Y", color: "blue.6" },
+                    { name: "Z", color: "teal.6" },
                 ]}
                 tickLine="y"
             />

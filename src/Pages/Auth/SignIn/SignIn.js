@@ -21,11 +21,13 @@ import DarkButton from "../../User/components/DarkButton/DarkButton";
 import { loginUserAction } from "../../../redux/slices/auth/authSlices";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useFocusTrap } from "@mantine/hooks";
 
 export default function SignIn(props) {
     const computedColorScheme = useComputedColorScheme("dark", {
         getInitialValueInEffect: true,
     });
+    const focusTrapRef = useFocusTrap();
 
     const form = useForm({
         validateInputOnChange: true,
@@ -106,6 +108,7 @@ export default function SignIn(props) {
                 <form onSubmit={formOnSubmit}>
                     <Stack>
                         <TextInput
+                            ref={focusTrapRef}
                             type="number"
                             label="NIK"
                             placeholder="NIK Min. 16 angka"

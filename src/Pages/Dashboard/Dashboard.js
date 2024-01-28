@@ -13,7 +13,7 @@ import {
     Text,
     rem,
 } from "@mantine/core";
-import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
+import { IconBuildingMosque, IconLicense, IconUser } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import AreaChartMantine from "../../components/Chart/AreaChartMantine";
@@ -25,8 +25,9 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const icons = {
-    up: IconArrowUpRight,
-    down: IconArrowDownRight,
+    persetujuan: IconLicense,
+    listTempat: IconBuildingMosque,
+    listUser: IconUser,
 };
 
 const items = [{ title: "Home", href: "/dashboard" }].map((item, index) => (
@@ -66,26 +67,23 @@ export default function Dashboard() {
         {
             label: "Persetujuan",
             stats: allPersetujuan?.result?.length,
-            progress: 65,
+            progress: allPersetujuan?.result?.length,
             color: "teal",
-            icon: "up",
-            link: "/dashboard/admin/persetujuan",
+            icon: "persetujuan",
         },
         {
             label: "Rumah Ibadah",
             stats: allRumahIbadah?.result?.length,
-            progress: 72,
+            progress: allRumahIbadah?.result?.length,
             color: "blue",
-            icon: "up",
-            link: "/dashboard/rumah-ibadah/list",
+            icon: "listTempat",
         },
         {
             label: "Users",
             stats: usersList?.result?.length,
-            progress: 52,
+            progress: usersList?.result?.length,
             color: "red",
-            icon: "down",
-            link: "/dashboard/admin/list",
+            icon: "listUser",
         },
     ];
 
@@ -97,20 +95,10 @@ export default function Dashboard() {
         }
     }, [user, navigate]);
 
-    // useEffect(() => {
-    //     loading && (
-    //         <LoadingOverlay
-    //             visible={loading}
-    //             zIndex={1000}
-    //             overlayProps={{ radius: "sm", blur: 1 }}
-    //         />
-    //     );
-    // }, [loading]);
-
     const stats = data.map((stat) => {
         const Icon = icons[stat.icon];
         return (
-            <Paper withBorder radius="md" p="xs" key={stat.label}>
+            <Paper withBorder radius="md" shadow="lg" p="xs" key={stat.label}>
                 <Container>
                     <Group>
                         <RingProgress
@@ -166,12 +154,13 @@ export default function Dashboard() {
                 </Breadcrumbs>
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
                 <Space h="xl" />
-                <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                {/* <SimpleGrid cols={{ base: 1, sm: 2 }}>
                     <Paper
                         radius="md"
                         withBorder
                         p="lg"
                         bg="var(--mantine-color-body)"
+                        shadow="lg"
                     >
                         <AreaChartMantine />
                     </Paper>
@@ -180,10 +169,11 @@ export default function Dashboard() {
                         withBorder
                         p="lg"
                         bg="var(--mantine-color-body)"
+                        shadow="lg"
                     >
                         <BarChartMantine />
                     </Paper>
-                </SimpleGrid>
+                </SimpleGrid> */}
             </Container>
         </>
     );
