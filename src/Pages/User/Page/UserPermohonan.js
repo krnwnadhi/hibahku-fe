@@ -2,6 +2,7 @@ import "dayjs/locale/id";
 
 import {
     Anchor,
+    BackgroundImage,
     Button,
     Center,
     Container,
@@ -32,6 +33,7 @@ import { useFocusTrap, useToggle } from "@mantine/hooks";
 
 import DarkButton from "../components/DarkButton/DarkButton";
 import MenuMantine from "../../../components/Menu/MenuMantine";
+import backgroundSvg from "../../../assets/circle-scatter-haikei2.svg";
 import { createPermohonan } from "../../../redux/slices/permohonan/permohonanSlices";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -184,286 +186,310 @@ export default function UserPermohonan() {
 
     return (
         <>
-            <Container size="xs" mt={-15} mb={-65}>
-                <Paper
-                    p="lg"
-                    withBorder
-                    bg={
-                        computedColorScheme === "dark"
-                            ? "var(--mantine-color-gray-9)"
-                            : "var(--mantine-color-blueGray-light)"
-                    }
-                >
-                    <Group justify="space-between" gap="xl">
-                        <Button
-                            variant="subtle"
-                            leftSection={<IconArrowLeft size={14} />}
-                            onClick={() => navigate(-1)}
-                        >
-                            Kembali
-                        </Button>
-                        <Group gap="xs">
-                            <DarkButton />
-                            <MenuMantine />
-                        </Group>
-                    </Group>
-                </Paper>
-
-                <Paper
-                    bg="var(--mantine-color-blueGray-light)"
-                    style={{ minHeight: "calc(110vh - 90px)" }}
-                    p="xl"
-                    withBorder
-                >
-                    <Paper radius="md" p="md" bg="var(--mantine-color-body)">
-                        <form onSubmit={formOnSubmit}>
-                            <Fieldset
-                                legend="Permohonan Bantuan Hibah"
-                                radius="md"
-                                p="xl"
-                                disabled={loading}
+            <BackgroundImage h="100vh" src={backgroundSvg} radius="md">
+                <Container size="xs" mt={-15} mb={-65}>
+                    <Paper
+                        p="lg"
+                        withBorder
+                        bg={
+                            computedColorScheme === "dark"
+                                ? "var(--mantine-color-gray-9)"
+                                : "var(--mantine-color-blueGray-light)"
+                        }
+                    >
+                        <Group justify="space-between" gap="xl">
+                            <Button
+                                variant="subtle"
+                                leftSection={<IconArrowLeft size={14} />}
+                                onClick={() => navigate(-1)}
                             >
-                                <Stack gap="lg">
-                                    <Button
-                                        onClick={() => toggle()}
-                                        variant="light"
-                                        radius="lg"
-                                        rightSection={
-                                            <IconCaretUpDown size={14} />
-                                        }
-                                    >
-                                        {type === "lembaga"
-                                            ? "LEMBAGA KEAGAMAAN"
-                                            : "MASJID"}
-                                    </Button>
-
-                                    <TextInput
-                                        ref={focusTrapRef}
-                                        type="number"
-                                        label="ID SIMAS/NSPP/NSM"
-                                        description="Masukkan ID SIMAS/NSPP/NSM yang akan menerima HIBAH"
-                                        value={form.values.keagamaanid}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "keagamaanid",
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        error={
-                                            form.errors.keagamaanid &&
-                                            "10-20 Karakter"
-                                        }
-                                    />
-                                    <TextInput
-                                        label="Tujuan"
-                                        description="Alasan pemohon untuk memohon HIBAH"
-                                        placeholder="Contoh: Renovasi Tempat Wudhu, dll."
-                                        value={form.values.tujuan}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "tujuan",
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        error={
-                                            form.errors.tujuan &&
-                                            "Tujuan minimal 5 karakter"
-                                        }
-                                    />
-                                    <NumberInput
-                                        allowNegative={false}
-                                        allowDecimal={false}
-                                        thousandSeparator=","
-                                        placeholder="Rupiah"
-                                        prefix="Rp. "
-                                        hideControls
-                                        label="Usulan Dana"
-                                        description="Masukkan Jumlah Usulan Dana"
-                                        value={form.values.pengajuandana}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "pengajuandana",
-                                                event
-                                            )
-                                        }
-                                        error={
-                                            form.errors.pengajuandana &&
-                                            "Pengajuan dana minimal 3 angka"
-                                        }
-                                    />
-                                    <TextInput
-                                        type="number"
-                                        label="No. Rekening Bank Jambi"
-                                        description="Masukkan No. Rekening Bank Jambi Pemohon"
-                                        value={form.values.norek}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "norek",
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        error={
-                                            form.errors.norek &&
-                                            "Min. 8 karakter"
-                                        }
-                                        maxLength={10}
-                                    />
-                                    <FileInput
-                                        label="1. File SURAT PERMOHONAN"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        {...form.getInputProps(
-                                            "file_suratpermohonan"
-                                        )}
-                                    />
-
-                                    <FileInput
-                                        label="2. File PROPOSAL"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        {...form.getInputProps("file_proposal")}
-                                    />
-
-                                    <FileInput
-                                        label="3. File RAB"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        {...form.getInputProps("file_rab")}
-                                    />
-
-                                    <FileInput
-                                        label="4. File SK Pengurus"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        {...form.getInputProps("file_sk")}
-                                    />
-
-                                    <FileInput
-                                        label="5. File KTP Pengurus"
-                                        description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                        accept="application/pdf"
-                                        clearable
-                                        leftSection={icon}
-                                        {...form.getInputProps("file_ktp")}
-                                    />
-
-                                    {type === "masjid" && (
-                                        <FileInput
-                                            label="6. File SIMAS REKOM"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                            accept="application/pdf"
-                                            clearable
-                                            leftSection={icon}
-                                            {...form.getInputProps(
-                                                "file_asetrekom"
-                                            )}
-                                        />
-                                    )}
-
-                                    {type === "masjid" && (
-                                        <FileInput
-                                            label="7. File SUKET TIPOLOGI"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                            accept="application/pdf"
-                                            clearable
-                                            leftSection={icon}
-                                            {...form.getInputProps(
-                                                "file_suket"
-                                            )}
-                                        />
-                                    )}
-
-                                    {type === "lembaga" && (
-                                        <FileInput
-                                            label="6. File IZIN OPERASIONAL"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                            accept="application/pdf"
-                                            clearable
-                                            leftSection={icon}
-                                            {...form.getInputProps(
-                                                "file_izinoperasional"
-                                            )}
-                                        />
-                                    )}
-
-                                    {type === "lembaga" && (
-                                        <FileInput
-                                            label="7. File AKTA PENDIRIAN"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                            accept="application/pdf"
-                                            clearable
-                                            leftSection={icon}
-                                            {...form.getInputProps(
-                                                "file_aktapendirian"
-                                            )}
-                                        />
-                                    )}
-
-                                    {type === "lembaga" && (
-                                        <FileInput
-                                            label="8. File PENGESAHAN KEMENKUMHAM"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
-                                            accept="application/pdf"
-                                            clearable
-                                            leftSection={icon}
-                                            {...form.getInputProps(
-                                                "file_pengesahankemenkumham"
-                                            )}
-                                        />
-                                    )}
-                                </Stack>
-                            </Fieldset>
-                            <Center my={20}>
-                                <Button
-                                    loading={loading}
-                                    fullWidth
-                                    type="submit"
-                                    radius="md"
-                                    onClick={handleShow}
-                                    disabled={!form.isValid()}
-                                >
-                                    Submit
-                                </Button>
-                            </Center>
-                        </form>
+                                Kembali
+                            </Button>
+                            <Group gap="xs">
+                                <DarkButton />
+                                <MenuMantine />
+                            </Group>
+                        </Group>
                     </Paper>
-                </Paper>
-                <Modal
-                    opened={show}
-                    closeOnEscape={false}
-                    closeOnClickOutside={false}
-                    withCloseButton={false}
-                    centered
-                    overlayProps={{
-                        backgroundOpacity: 0.55,
-                        blur: 3,
-                    }}
-                    yOffset="15vh"
-                    xOffset={0}
-                    scrollAreaComponent={ScrollArea.Autosize}
-                    onClose={handleClose}
-                >
-                    {permohonanCreated ? (
-                        hibahkuSuccessModalNotification
-                    ) : (
-                        <Text ta="center" inherit>
-                            Terjadi Kesalahan! Silahkan reload halaman & harap
-                            mengulang upload file permohonan anda.
-                            <Text ta="center" c="red" inherit>
-                                Pesan: {appError}
+
+                    <Paper
+                        bg="var(--mantine-color-blueGray-light)"
+                        // style={{ minHeight: "calc(110vh - 90px)" }}
+                        h="90vh"
+                        p="xl"
+                        withBorder
+                    >
+                        <ScrollArea h="80vh">
+                            <Paper
+                                radius="md"
+                                p="md"
+                                bg="var(--mantine-color-body)"
+                            >
+                                <form onSubmit={formOnSubmit}>
+                                    <Fieldset
+                                        legend="Permohonan Bantuan Hibah"
+                                        radius="md"
+                                        p="xl"
+                                        disabled={loading}
+                                    >
+                                        <Stack gap="lg">
+                                            <Button
+                                                onClick={() => toggle()}
+                                                variant="light"
+                                                radius="lg"
+                                                rightSection={
+                                                    <IconCaretUpDown
+                                                        size={14}
+                                                    />
+                                                }
+                                            >
+                                                {type === "lembaga"
+                                                    ? "LEMBAGA KEAGAMAAN"
+                                                    : "MASJID"}
+                                            </Button>
+
+                                            <TextInput
+                                                ref={focusTrapRef}
+                                                type="number"
+                                                label="ID SIMAS/NSPP/NSM"
+                                                description="Masukkan ID SIMAS/NSPP/NSM yang akan menerima HIBAH"
+                                                value={form.values.keagamaanid}
+                                                onChange={(event) =>
+                                                    form.setFieldValue(
+                                                        "keagamaanid",
+                                                        event.currentTarget
+                                                            .value
+                                                    )
+                                                }
+                                                error={
+                                                    form.errors.keagamaanid &&
+                                                    "10-20 Karakter"
+                                                }
+                                            />
+                                            <TextInput
+                                                label="Tujuan"
+                                                description="Alasan pemohon untuk memohon HIBAH"
+                                                placeholder="Contoh: Renovasi Tempat Wudhu, dll."
+                                                value={form.values.tujuan}
+                                                onChange={(event) =>
+                                                    form.setFieldValue(
+                                                        "tujuan",
+                                                        event.currentTarget
+                                                            .value
+                                                    )
+                                                }
+                                                error={
+                                                    form.errors.tujuan &&
+                                                    "Tujuan minimal 5 karakter"
+                                                }
+                                            />
+                                            <NumberInput
+                                                allowNegative={false}
+                                                allowDecimal={false}
+                                                thousandSeparator=","
+                                                placeholder="Rupiah"
+                                                prefix="Rp. "
+                                                hideControls
+                                                label="Usulan Dana"
+                                                description="Masukkan Jumlah Usulan Dana"
+                                                value={
+                                                    form.values.pengajuandana
+                                                }
+                                                onChange={(event) =>
+                                                    form.setFieldValue(
+                                                        "pengajuandana",
+                                                        event
+                                                    )
+                                                }
+                                                error={
+                                                    form.errors.pengajuandana &&
+                                                    "Pengajuan dana minimal 3 angka"
+                                                }
+                                            />
+                                            <TextInput
+                                                type="number"
+                                                label="No. Rekening Bank Jambi"
+                                                description="Masukkan No. Rekening Bank Jambi Pemohon"
+                                                value={form.values.norek}
+                                                onChange={(event) =>
+                                                    form.setFieldValue(
+                                                        "norek",
+                                                        event.currentTarget
+                                                            .value
+                                                    )
+                                                }
+                                                error={
+                                                    form.errors.norek &&
+                                                    "Min. 8 karakter"
+                                                }
+                                                maxLength={10}
+                                            />
+                                            <FileInput
+                                                label="1. File SURAT PERMOHONAN"
+                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                {...form.getInputProps(
+                                                    "file_suratpermohonan"
+                                                )}
+                                            />
+
+                                            <FileInput
+                                                label="2. File PROPOSAL"
+                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                {...form.getInputProps(
+                                                    "file_proposal"
+                                                )}
+                                            />
+
+                                            <FileInput
+                                                label="3. File RAB"
+                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                {...form.getInputProps(
+                                                    "file_rab"
+                                                )}
+                                            />
+
+                                            <FileInput
+                                                label="4. File SK Pengurus"
+                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                {...form.getInputProps(
+                                                    "file_sk"
+                                                )}
+                                            />
+
+                                            <FileInput
+                                                label="5. File KTP Pengurus"
+                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                {...form.getInputProps(
+                                                    "file_ktp"
+                                                )}
+                                            />
+
+                                            {type === "masjid" && (
+                                                <FileInput
+                                                    label="6. File SIMAS REKOM"
+                                                    description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                    accept="application/pdf"
+                                                    clearable
+                                                    leftSection={icon}
+                                                    {...form.getInputProps(
+                                                        "file_asetrekom"
+                                                    )}
+                                                />
+                                            )}
+
+                                            {type === "masjid" && (
+                                                <FileInput
+                                                    label="7. File SUKET TIPOLOGI"
+                                                    description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                    accept="application/pdf"
+                                                    clearable
+                                                    leftSection={icon}
+                                                    {...form.getInputProps(
+                                                        "file_suket"
+                                                    )}
+                                                />
+                                            )}
+
+                                            {type === "lembaga" && (
+                                                <FileInput
+                                                    label="6. File IZIN OPERASIONAL"
+                                                    description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                    accept="application/pdf"
+                                                    clearable
+                                                    leftSection={icon}
+                                                    {...form.getInputProps(
+                                                        "file_izinoperasional"
+                                                    )}
+                                                />
+                                            )}
+
+                                            {type === "lembaga" && (
+                                                <FileInput
+                                                    label="7. File AKTA PENDIRIAN"
+                                                    description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                    accept="application/pdf"
+                                                    clearable
+                                                    leftSection={icon}
+                                                    {...form.getInputProps(
+                                                        "file_aktapendirian"
+                                                    )}
+                                                />
+                                            )}
+
+                                            {type === "lembaga" && (
+                                                <FileInput
+                                                    label="8. File PENGESAHAN KEMENKUMHAM"
+                                                    description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                    accept="application/pdf"
+                                                    clearable
+                                                    leftSection={icon}
+                                                    {...form.getInputProps(
+                                                        "file_pengesahankemenkumham"
+                                                    )}
+                                                />
+                                            )}
+                                        </Stack>
+                                    </Fieldset>
+                                    <Center my={20}>
+                                        <Button
+                                            loading={loading}
+                                            fullWidth
+                                            type="submit"
+                                            radius="md"
+                                            onClick={handleShow}
+                                            disabled={!form.isValid()}
+                                        >
+                                            Submit
+                                        </Button>
+                                    </Center>
+                                </form>
+                            </Paper>
+                        </ScrollArea>
+                    </Paper>
+                    <Modal
+                        opened={show}
+                        closeOnEscape={false}
+                        closeOnClickOutside={false}
+                        withCloseButton={false}
+                        centered
+                        overlayProps={{
+                            backgroundOpacity: 0.55,
+                            blur: 3,
+                        }}
+                        yOffset="15vh"
+                        xOffset={0}
+                        scrollAreaComponent={ScrollArea.Autosize}
+                        onClose={handleClose}
+                    >
+                        {permohonanCreated ? (
+                            hibahkuSuccessModalNotification
+                        ) : (
+                            <Text ta="center" inherit>
+                                Terjadi Kesalahan! Silahkan reload halaman &
+                                harap mengulang upload file permohonan anda.
+                                <Text ta="center" c="red" inherit>
+                                    Pesan: {appError}
+                                </Text>
                             </Text>
-                        </Text>
-                    )}
-                </Modal>
-            </Container>
+                        )}
+                    </Modal>
+                </Container>
+            </BackgroundImage>
         </>
     );
 }

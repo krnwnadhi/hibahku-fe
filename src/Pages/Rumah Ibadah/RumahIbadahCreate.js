@@ -1,5 +1,6 @@
 import {
     Avatar,
+    BackgroundImage,
     Button,
     Center,
     CloseButton,
@@ -30,6 +31,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DarkButton from "../User/components/DarkButton/DarkButton";
 import { IconArrowLeft } from "@tabler/icons-react";
 import MenuMantine from "../../components/Menu/MenuMantine";
+import backgroundSvg from "../../assets/circle-scatter-haikei2.svg";
 import { createRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 
 const RumahIbadahCreate = () => {
@@ -302,299 +304,312 @@ const RumahIbadahCreate = () => {
 
     return (
         <>
-            <Container size="xs" mt={-15} mb={-65}>
-                <Paper
-                    p="lg"
-                    withBorder
-                    bg={
-                        computedColorScheme === "dark"
-                            ? "var(--mantine-color-gray-9)"
-                            : "var(--mantine-color-blueGray-light)"
-                    }
-                >
-                    <Group justify="space-between" gap="xl">
-                        <Button
-                            variant="subtle"
-                            leftSection={<IconArrowLeft size={14} />}
-                            onClick={() => navigate(-1)}
-                            radius="md"
-                        >
-                            Kembali
-                        </Button>
-                        <Group gap="xs">
-                            <DarkButton />
-                            <MenuMantine />
-                        </Group>
-                    </Group>
-                </Paper>
-                <Paper
-                    bg="var(--mantine-color-blueGray-light)"
-                    p="xl"
-                    withBorder
-                    shadow="md"
-                    // bg="var(--mantine-color-body)"
-                >
-                    <Paper radius="md" p="md" bg="var(--mantine-color-body)">
-                        <form onSubmit={formOnSubmit}>
-                            <Fieldset
-                                legend="Tambah Informasi Rumah Ibadah"
+            <BackgroundImage h="100vh" src={backgroundSvg} radius="md">
+                <Container size="xs" mt={-15} mb={-65}>
+                    <Paper
+                        p="lg"
+                        withBorder
+                        bg={
+                            computedColorScheme === "dark"
+                                ? "var(--mantine-color-gray-9)"
+                                : "var(--mantine-color-blueGray-light)"
+                        }
+                    >
+                        <Group justify="space-between" gap="xl">
+                            <Button
+                                variant="subtle"
+                                leftSection={<IconArrowLeft size={14} />}
+                                onClick={() => navigate(-1)}
                                 radius="md"
-                                // variant="unstyled"
-                                p="xl"
-                                disabled={loading}
                             >
-                                <Stack gap="lg">
-                                    <TextInput
-                                        ref={focusTrapRef}
-                                        // required
-                                        type="number"
-                                        label="ID"
-                                        description="ID SIMAS Rumah Ibadah/No. NSPP /No. NSM"
-                                        // placeholder="ID SIMAS Rumah Ibadah/ No. NSPP"
-                                        value={form.values.id}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "id",
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        error={
-                                            form.errors.id && "10-20 Karakter"
-                                        }
-                                        radius="md"
-                                    />
-                                    <TextInput
-                                        // required
-                                        label="Nama Tempat"
-                                        description="Nama Rumah Ibadah/Lembaga Pendidikan Keagamaan"
-                                        placeholder="Min. 3 Karakter"
-                                        value={form.values.nama}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "nama",
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        error={
-                                            form.errors.nama &&
-                                            "Mininmal 3 Karakter"
-                                        }
-                                        radius="md"
-                                    />
-                                    <TextInput
-                                        // required
-                                        label="Alamat Lengkap"
-                                        description="Alamat Lengkap Masjid/Lembaga Pendidikan Keagamaan"
-                                        placeholder="Jalan, RT, RW, Kel, Kec"
-                                        value={form.values.alamat}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "alamat",
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        error={
-                                            form.errors.alamat &&
-                                            "Min. 5 Karakter"
-                                        }
-                                        radius="md"
-                                    />
-
-                                    {/* Wilayah Kabupaten/Kota */}
-                                    <Combobox
-                                        store={comboboxWilayah}
-                                        withinPortal={false}
-                                        onOptionSubmit={(value) => {
-                                            setValueWilayah(value);
-                                            form.setFieldValue(
-                                                "wilayah",
-                                                value
-                                            );
-                                            comboboxWilayah.closeDropdown();
-                                        }}
-                                        transitionProps={{
-                                            duration: 200,
-                                            transition: "pop",
-                                        }}
-                                    >
-                                        <Combobox.Target>
-                                            <InputBase
-                                                label="Kabupaten/Kota"
-                                                component="button"
-                                                type="button"
-                                                pointer
-                                                // rightSection={<Combobox.Chevron />}
-                                                onClick={() =>
-                                                    comboboxWilayah.toggleDropdown()
-                                                }
-                                                rightSectionPointerEvents={
-                                                    valueWilayah === null
-                                                        ? "none"
-                                                        : "all"
-                                                }
-                                                rightSection={
-                                                    valueWilayah !== null ? (
-                                                        <CloseButton
-                                                            size="sm"
-                                                            onMouseDown={(
-                                                                event
-                                                            ) =>
-                                                                event.preventDefault()
-                                                            }
-                                                            onClick={() =>
-                                                                setValueWilayah(
-                                                                    null
-                                                                )
-                                                            }
-                                                            aria-label="Clear value"
-                                                        />
-                                                    ) : (
-                                                        <Combobox.Chevron />
-                                                    )
-                                                }
-                                                multiline
-                                                error={
-                                                    form.errors.wilayah &&
-                                                    "Silahkan Pilih Kabupaten/Kota"
-                                                }
-                                            >
-                                                {selectedOptionWilayah ? (
-                                                    <SelectOptionWilayah
-                                                        {...selectedOptionWilayah}
-                                                    />
-                                                ) : (
-                                                    <Input.Placeholder>
-                                                        Pilih kabupaten/Kota
-                                                    </Input.Placeholder>
-                                                )}
-                                            </InputBase>
-                                        </Combobox.Target>
-
-                                        <Combobox.Dropdown>
-                                            <Combobox.Options
-                                                mah={200}
-                                                type="scroll"
-                                                style={{ overflowY: "auto" }}
-                                            >
-                                                {optionsWilayah}
-                                            </Combobox.Options>
-                                        </Combobox.Dropdown>
-                                    </Combobox>
-
-                                    {/* Kategori */}
-                                    <Combobox
-                                        store={combobox}
-                                        withinPortal={false}
-                                        onOptionSubmit={(value) => {
-                                            setValue(value);
-                                            form.setFieldValue(
-                                                "kategoriid",
-                                                value
-                                            );
-                                            combobox.closeDropdown();
-                                        }}
-                                        transitionProps={{
-                                            duration: 200,
-                                            transition: "pop",
-                                        }}
-                                    >
-                                        <Combobox.Target>
-                                            <InputBase
-                                                label="Kategori"
-                                                component="button"
-                                                type="button"
-                                                pointer
-                                                rightSectionPointerEvents={
-                                                    value === null
-                                                        ? "none"
-                                                        : "all"
-                                                }
-                                                rightSection={
-                                                    value !== null ? (
-                                                        <CloseButton
-                                                            size="sm"
-                                                            onMouseDown={(
-                                                                event
-                                                            ) =>
-                                                                event.preventDefault()
-                                                            }
-                                                            onClick={() =>
-                                                                setValue(null)
-                                                            }
-                                                            aria-label="Clear value"
-                                                        />
-                                                    ) : (
-                                                        <Combobox.Chevron />
-                                                    )
-                                                }
-                                                onClick={() =>
-                                                    combobox.toggleDropdown()
-                                                }
-                                                multiline
-                                                error={
-                                                    form.errors.kategoriid &&
-                                                    "Silahkan Pilih Kategori"
-                                                }
-                                            >
-                                                {selectedOption ? (
-                                                    <SelectOption
-                                                        {...selectedOption}
-                                                    />
-                                                ) : (
-                                                    <Input.Placeholder>
-                                                        Pilih Kategori
-                                                    </Input.Placeholder>
-                                                )}
-                                            </InputBase>
-                                        </Combobox.Target>
-
-                                        <Combobox.Dropdown>
-                                            <Combobox.Options>
-                                                {options}
-                                            </Combobox.Options>
-                                        </Combobox.Dropdown>
-                                    </Combobox>
-                                </Stack>
-                            </Fieldset>
-
-                            <Center my={20}>
-                                <Button
-                                    fullWidth
-                                    type="submit"
-                                    radius="md"
-                                    loading={loading}
-                                    disabled={loading}
-                                    onClick={handleShow}
-                                >
-                                    Submit
-                                </Button>
-                            </Center>
-                        </form>
+                                Kembali
+                            </Button>
+                            <Group gap="xs">
+                                <DarkButton />
+                                <MenuMantine />
+                            </Group>
+                        </Group>
                     </Paper>
-                </Paper>
-            </Container>
+                    <Paper
+                        bg="var(--mantine-color-blueGray-light)"
+                        p="xl"
+                        withBorder
+                        shadow="md"
+                        // bg="var(--mantine-color-body)"
+                    >
+                        <Paper
+                            radius="md"
+                            p="md"
+                            bg="var(--mantine-color-body)"
+                        >
+                            <form onSubmit={formOnSubmit}>
+                                <Fieldset
+                                    legend="Tambah Informasi Rumah Ibadah"
+                                    radius="md"
+                                    // variant="unstyled"
+                                    p="xl"
+                                    disabled={loading}
+                                >
+                                    <Stack gap="lg">
+                                        <TextInput
+                                            ref={focusTrapRef}
+                                            // required
+                                            type="number"
+                                            label="ID"
+                                            description="ID SIMAS Rumah Ibadah/No. NSPP /No. NSM"
+                                            // placeholder="ID SIMAS Rumah Ibadah/ No. NSPP"
+                                            value={form.values.id}
+                                            onChange={(event) =>
+                                                form.setFieldValue(
+                                                    "id",
+                                                    event.currentTarget.value
+                                                )
+                                            }
+                                            error={
+                                                form.errors.id &&
+                                                "10-20 Karakter"
+                                            }
+                                            radius="md"
+                                        />
+                                        <TextInput
+                                            // required
+                                            label="Nama Tempat"
+                                            description="Nama Rumah Ibadah/Lembaga Pendidikan Keagamaan"
+                                            placeholder="Min. 3 Karakter"
+                                            value={form.values.nama}
+                                            onChange={(event) =>
+                                                form.setFieldValue(
+                                                    "nama",
+                                                    event.currentTarget.value
+                                                )
+                                            }
+                                            error={
+                                                form.errors.nama &&
+                                                "Mininmal 3 Karakter"
+                                            }
+                                            radius="md"
+                                        />
+                                        <TextInput
+                                            // required
+                                            label="Alamat Lengkap"
+                                            description="Alamat Lengkap Masjid/Lembaga Pendidikan Keagamaan"
+                                            placeholder="Jalan, RT, RW, Kel, Kec"
+                                            value={form.values.alamat}
+                                            onChange={(event) =>
+                                                form.setFieldValue(
+                                                    "alamat",
+                                                    event.currentTarget.value
+                                                )
+                                            }
+                                            error={
+                                                form.errors.alamat &&
+                                                "Min. 5 Karakter"
+                                            }
+                                            radius="md"
+                                        />
 
-            {/* MODAL */}
-            <Modal
-                opened={show}
-                // onClose={handleClose}
-                // title="HIBAHKU"
-                centered
-                overlayProps={{
-                    backgroundOpacity: 0.55,
-                    blur: 3,
-                }}
-                yOffset="15vh"
-                xOffset={0}
-                scrollAreaComponent={ScrollArea.Autosize}
-                closeOnEscape={false}
-                closeOnClickOutside={false}
-                withCloseButton={false}
-            >
-                {appError
-                    ? hibahkuErrorModalNotification
-                    : hibahkuSuccessModalNotification}
-            </Modal>
+                                        {/* Wilayah Kabupaten/Kota */}
+                                        <Combobox
+                                            store={comboboxWilayah}
+                                            withinPortal={false}
+                                            onOptionSubmit={(value) => {
+                                                setValueWilayah(value);
+                                                form.setFieldValue(
+                                                    "wilayah",
+                                                    value
+                                                );
+                                                comboboxWilayah.closeDropdown();
+                                            }}
+                                            transitionProps={{
+                                                duration: 200,
+                                                transition: "pop",
+                                            }}
+                                        >
+                                            <Combobox.Target>
+                                                <InputBase
+                                                    label="Kabupaten/Kota"
+                                                    component="button"
+                                                    type="button"
+                                                    pointer
+                                                    // rightSection={<Combobox.Chevron />}
+                                                    onClick={() =>
+                                                        comboboxWilayah.toggleDropdown()
+                                                    }
+                                                    rightSectionPointerEvents={
+                                                        valueWilayah === null
+                                                            ? "none"
+                                                            : "all"
+                                                    }
+                                                    rightSection={
+                                                        valueWilayah !==
+                                                        null ? (
+                                                            <CloseButton
+                                                                size="sm"
+                                                                onMouseDown={(
+                                                                    event
+                                                                ) =>
+                                                                    event.preventDefault()
+                                                                }
+                                                                onClick={() =>
+                                                                    setValueWilayah(
+                                                                        null
+                                                                    )
+                                                                }
+                                                                aria-label="Clear value"
+                                                            />
+                                                        ) : (
+                                                            <Combobox.Chevron />
+                                                        )
+                                                    }
+                                                    multiline
+                                                    error={
+                                                        form.errors.wilayah &&
+                                                        "Silahkan Pilih Kabupaten/Kota"
+                                                    }
+                                                >
+                                                    {selectedOptionWilayah ? (
+                                                        <SelectOptionWilayah
+                                                            {...selectedOptionWilayah}
+                                                        />
+                                                    ) : (
+                                                        <Input.Placeholder>
+                                                            Pilih kabupaten/Kota
+                                                        </Input.Placeholder>
+                                                    )}
+                                                </InputBase>
+                                            </Combobox.Target>
+
+                                            <Combobox.Dropdown>
+                                                <Combobox.Options
+                                                    mah={200}
+                                                    type="scroll"
+                                                    style={{
+                                                        overflowY: "auto",
+                                                    }}
+                                                >
+                                                    {optionsWilayah}
+                                                </Combobox.Options>
+                                            </Combobox.Dropdown>
+                                        </Combobox>
+
+                                        {/* Kategori */}
+                                        <Combobox
+                                            store={combobox}
+                                            withinPortal={false}
+                                            onOptionSubmit={(value) => {
+                                                setValue(value);
+                                                form.setFieldValue(
+                                                    "kategoriid",
+                                                    value
+                                                );
+                                                combobox.closeDropdown();
+                                            }}
+                                            transitionProps={{
+                                                duration: 200,
+                                                transition: "pop",
+                                            }}
+                                        >
+                                            <Combobox.Target>
+                                                <InputBase
+                                                    label="Kategori"
+                                                    component="button"
+                                                    type="button"
+                                                    pointer
+                                                    rightSectionPointerEvents={
+                                                        value === null
+                                                            ? "none"
+                                                            : "all"
+                                                    }
+                                                    rightSection={
+                                                        value !== null ? (
+                                                            <CloseButton
+                                                                size="sm"
+                                                                onMouseDown={(
+                                                                    event
+                                                                ) =>
+                                                                    event.preventDefault()
+                                                                }
+                                                                onClick={() =>
+                                                                    setValue(
+                                                                        null
+                                                                    )
+                                                                }
+                                                                aria-label="Clear value"
+                                                            />
+                                                        ) : (
+                                                            <Combobox.Chevron />
+                                                        )
+                                                    }
+                                                    onClick={() =>
+                                                        combobox.toggleDropdown()
+                                                    }
+                                                    multiline
+                                                    error={
+                                                        form.errors
+                                                            .kategoriid &&
+                                                        "Silahkan Pilih Kategori"
+                                                    }
+                                                >
+                                                    {selectedOption ? (
+                                                        <SelectOption
+                                                            {...selectedOption}
+                                                        />
+                                                    ) : (
+                                                        <Input.Placeholder>
+                                                            Pilih Kategori
+                                                        </Input.Placeholder>
+                                                    )}
+                                                </InputBase>
+                                            </Combobox.Target>
+
+                                            <Combobox.Dropdown>
+                                                <Combobox.Options>
+                                                    {options}
+                                                </Combobox.Options>
+                                            </Combobox.Dropdown>
+                                        </Combobox>
+                                    </Stack>
+                                </Fieldset>
+
+                                <Center my={20}>
+                                    <Button
+                                        fullWidth
+                                        type="submit"
+                                        radius="md"
+                                        loading={loading}
+                                        disabled={loading}
+                                        onClick={handleShow}
+                                    >
+                                        Submit
+                                    </Button>
+                                </Center>
+                            </form>
+                        </Paper>
+                    </Paper>
+                </Container>
+
+                {/* MODAL */}
+                <Modal
+                    opened={show}
+                    // onClose={handleClose}
+                    // title="HIBAHKU"
+                    centered
+                    overlayProps={{
+                        backgroundOpacity: 0.55,
+                        blur: 3,
+                    }}
+                    yOffset="15vh"
+                    xOffset={0}
+                    scrollAreaComponent={ScrollArea.Autosize}
+                    closeOnEscape={false}
+                    closeOnClickOutside={false}
+                    withCloseButton={false}
+                >
+                    {appError
+                        ? hibahkuErrorModalNotification
+                        : hibahkuSuccessModalNotification}
+                </Modal>
+            </BackgroundImage>
         </>
     );
 };

@@ -165,7 +165,7 @@ function App() {
                         />
 
                         <Route
-                            path="/dashboard/user/progres"
+                            path="/dashboard/user/progres/:id"
                             element={<UserStatus />}
                         />
                         {/* </Route> */}

@@ -1,6 +1,5 @@
 import {
     Anchor,
-    BackgroundImage,
     Box,
     Breadcrumbs,
     Center,
@@ -156,12 +155,12 @@ export default function Dashboard() {
             {/* <Breadcrumbs separator="→" mt="xs" mb="lg">
                 {items}
             </Breadcrumbs> */}
-            <BackgroundImage h={577} src={backgroundSvg} radius="md">
-                <Container size="xl">
-                    <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
+            {/* <BackgroundImage h={577} src={backgroundSvg} radius="md"> */}
+            <Container size="xl">
+                <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
 
-                    <Space h="xl" />
-                    {/* <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                <Space h="xl" />
+                {/* <SimpleGrid cols={{ base: 1, sm: 2 }}>
                     <Paper
                         radius="md"
                         withBorder
@@ -181,8 +180,8 @@ export default function Dashboard() {
                         <BarChartMantine />
                     </Paper>
                 </SimpleGrid> */}
-                </Container>
-            </BackgroundImage>
+            </Container>
+            {/* </BackgroundImage> */}
             {/* </Box> */}
         </>
     );

@@ -152,69 +152,6 @@ const Persetujuan = () => {
         return prosesMap[prosesid] || "Proses tidak valid";
     };
 
-    // const getKeteranganText = (keterangan) => {
-    //     const keteranganMap = {
-    //         "LENGKAP DAN PERBAIKAN": (
-    //             <Badge color="green" size="xs">
-    //                 VERIFIKASI PERSYARATAN ADMINISTRASI
-    //             </Badge>
-    //         ),
-    //         "SESUAI PERMOHONAN": (
-    //             <Badge color="green" size="xs">
-    //                 VERIFIKASI FAKTUAL(SURVEI LAPANGAN)
-    //             </Badge>
-    //         ),
-    //         "TELAH DIREKOMENDASIKAN": (
-    //             <Badge color="green" size="xs">
-    //                 REKOMENDASI
-    //             </Badge>
-    //         ),
-    //         "TELAH DISETUJUI": (
-    //             <Badge color="green" size="xs">
-    //                 PERTIMBANGAN TAPD
-    //             </Badge>
-    //         ),
-    //         "TELAH DIANGGARKAN": (
-    //             <Badge color="green" size="xs">
-    //                 PENGANGGARAN
-    //             </Badge>
-    //         ),
-    //         "TELAH DIPROSES": (
-    //             <Badge color="green" size="xs">
-    //                 PENERBITAN SK SDH DAN DOKUMEN LAINNNYA
-    //             </Badge>
-    //         ),
-    //         "TELAH DILAKSANAKAN": (
-    //             <Badge color="green" size="xs">
-    //                 PENANDATANGANAN NPHD, PAKTA INTEGRITAS, PERNYATAAN TANGGUNG
-    //                 JAWAB, DLL
-    //             </Badge>
-    //         ),
-    //         8: (
-    //             <Badge color="green" size="xs">
-    //                 PENCAIRAN DANA BANTUAN HIBAH
-    //             </Badge>
-    //         ),
-    //         9: (
-    //             <Badge color="green" size="xs">
-    //                 LAPORAN PERTANGGUNGJAWABAN PENGGUNAAN DANA BANTUAN HIBAH"
-    //             </Badge>
-    //         ),
-    //         10: (
-    //             <Badge color="blue" size="xs">
-    //                 BELUM DIPROSES
-    //             </Badge>
-    //         ),
-    //         11: (
-    //             <Badge color="red" size="xs">
-    //                 DITOLAK
-    //             </Badge>
-    //         ),
-    //     };
-
-    //     return keteranganMap[prosesid] || "Proses tidak valid";
-    // };
-
     const items = [
         { title: "Home", href: "/dashboard" },
         { title: "Persetujuan", href: "/dashboard/admin/persetujuan" },
