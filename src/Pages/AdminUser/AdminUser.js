@@ -109,12 +109,22 @@ const AdminUser = () => {
                 minSize: 150,
                 maxSize: 275,
                 size: 225,
+                Cell: ({ cell }) =>
+                    cell.getValue() === null
+                        ? "Tidak Ada Data"
+                        : cell.getValue(),
+
+                // Cell: ({ row }) =>
+                //     row?.original?.notelpon === null
+                //         ? "Tidak Ada Data"
+                //         : row?.original?.notelpon,
             },
             {
                 accessorKey: "Role.nama",
                 header: "Role",
                 Cell: ({ cell }) => (
                     <Badge
+                        size="sm"
                         color={cell.getValue() === "ADMIN" ? "red" : "green"}
                     >
                         {cell.getValue()}
@@ -180,7 +190,7 @@ const AdminUser = () => {
             return [
                 id,
                 nama,
-                notelpon,
+                notelpon === null ? "Tidak Ada Data" : notelpon,
                 Role.nama,
                 dayjs(createdAt).locale("id").format("DD MMM YYYY"),
             ];

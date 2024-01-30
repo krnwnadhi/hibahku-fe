@@ -151,7 +151,7 @@ export default function UserStatus() {
                 <Text size="xs">
                     {dayjs(item?.updatedAt)
                         .locale("id")
-                        .format("DD MMMM YYYY HH:mm:ss")}
+                        .format("DD MMMM YYYY HH:mm")}
                 </Text>
             </Table.Td>
         </Table.Tr>

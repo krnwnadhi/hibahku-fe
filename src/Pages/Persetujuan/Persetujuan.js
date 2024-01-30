@@ -204,7 +204,6 @@ const Persetujuan = () => {
                     </Tooltip>
                 ),
             },
-
             {
                 accessorKey: "Status.id",
                 header: "Status",
@@ -405,7 +404,6 @@ const Persetujuan = () => {
             rowsPerPageOptions: ["5", "10", "20"],
         },
         enableGrouping: true,
-
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
         // enableRowActions: true,

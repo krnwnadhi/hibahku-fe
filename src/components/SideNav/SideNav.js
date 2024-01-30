@@ -1,9 +1,7 @@
 import {
     IconClockHour4,
-    IconFileTypePdf,
     IconLicense,
     IconReportAnalytics,
-    IconTableExport,
     IconUserSquare,
 } from "@tabler/icons-react";
 import { Link, useLocation } from "react-router-dom";
@@ -17,8 +15,8 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 export default function SideNav() {
-    const url = window.location.pathname;
-    // console.log(url);
+    // const url = window.location.pathname;
+    // // console.log(url);
     const location = useLocation();
     // console.log(location.pathname);
 

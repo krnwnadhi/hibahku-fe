@@ -1,5 +1,6 @@
 import {
     Anchor,
+    BackgroundImage,
     Box,
     Breadcrumbs,
     Center,
@@ -18,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import AreaChartMantine from "../../components/Chart/AreaChartMantine";
 import BarChartMantine from "../../components/Chart/BarChartMantine";
-import backgroundSvg from "../../assets/wave-haikei.svg";
+import backgroundSvg from "../../assets/circle-scatter-haikei.svg";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
@@ -155,7 +156,7 @@ export default function Dashboard() {
             {/* <Breadcrumbs separator="→" mt="xs" mb="lg">
                 {items}
             </Breadcrumbs> */}
-            {/* <BackgroundImage h={577} src={backgroundSvg} radius="md"> */}
+            {/* <BackgroundImage h="80vh" src={backgroundSvg} radius="md"> */}
             <Container size="xl">
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
 
