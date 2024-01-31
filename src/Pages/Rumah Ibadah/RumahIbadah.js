@@ -59,9 +59,6 @@ export default function RumahIbadah() {
             const result = response?.data?.result;
 
             setRumahIbadahState(result);
-            // setTotalItems(response.data.totalItems);
-            // setTotalPage(response.data.totalPage);
-            // setPages(response.data.page);
         } catch (error) {
             console.log(error);
         }
@@ -202,32 +199,32 @@ export default function RumahIbadah() {
         []
     );
 
-    // Handle Excel
-    const handleExportRowsExcel = (rows) => {
-        const rowData = rows.map((row) => {
-            return {
-                ID: row.original.id,
-                Nama: row.original.nama,
-                Alamat: row.original.alamat,
-                Wilayah: row.original.wilayah,
-                Kategori: row.original.Kategori.nama,
-                Dibuat: dayjs(row.original.createdAt)
-                    .locale("id")
-                    .format("DD MMM YYYY"),
-            };
-        });
-        const csvConfig = mkConfig({
-            fieldSeparator: ";",
-            decimalSeparator: ".",
-            useKeysAsHeaders: true,
-            filename: `Rumah-Ibadah-${dayjs()
-                .locale("id")
-                .format("DD-MMM-YYYY HH_mm_ss")}`,
-        });
+    // // Handle Excel
+    // const handleExportRowsExcel = (rows) => {
+    //     const rowData = rows.map((row) => {
+    //         return {
+    //             ID: row.original.id,
+    //             Nama: row.original.nama,
+    //             Alamat: row.original.alamat,
+    //             Wilayah: row.original.wilayah,
+    //             Kategori: row.original.Kategori.nama,
+    //             Dibuat: dayjs(row.original.createdAt)
+    //                 .locale("id")
+    //                 .format("DD MMM YYYY"),
+    //         };
+    //     });
+    //     const csvConfig = mkConfig({
+    //         fieldSeparator: ";",
+    //         decimalSeparator: ".",
+    //         useKeysAsHeaders: true,
+    //         filename: `Rumah-Ibadah-${dayjs()
+    //             .locale("id")
+    //             .format("DD-MMM-YYYY HH_mm_ss")}`,
+    //     });
 
-        const csv = generateCsv(csvConfig)(rowData);
-        download(csvConfig)(csv);
-    };
+    //     const csv = generateCsv(csvConfig)(rowData);
+    //     download(csvConfig)(csv);
+    // };
 
     // Handle PDF
     const handleExportRowsPDF = (rows) => {
@@ -383,7 +380,7 @@ export default function RumahIbadah() {
         renderTopToolbarCustomActions: ({ table }) => (
             <Group p="xs" justify="space-between">
                 {/* EXCEL START */}
-                <Menu
+                {/* <Menu
                     transitionProps={{ transition: "pop-top-right" }}
                     position="top-end"
                     width={220}
@@ -474,8 +471,8 @@ export default function RumahIbadah() {
                             Export Selected Rows
                         </Menu.Item>
                     </Menu.Dropdown>
-                </Menu>
-                {/* EXCEL START */}
+                </Menu> */}
+                {/* EXCEL END */}
 
                 {/* PDF START */}
                 <Menu

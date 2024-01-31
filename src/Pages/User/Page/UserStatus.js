@@ -73,7 +73,6 @@ export default function UserStatus() {
 
     const persetujuanId =
         filteredResult?.length > 0 ? filteredResult[0].id : null;
-    console.log(persetujuanId);
 
     const dataSegmentedControl = [
         {

@@ -60,9 +60,6 @@ const AdminUser = () => {
             console.log(result);
 
             setUsersListState(result);
-            // setTotalItems(response.data.totalItems);
-            // setTotalPage(response.data.totalPage);
-            // setPages(response.data.page);
         } catch (error) {
             console.log(error);
         }
@@ -161,32 +158,31 @@ const AdminUser = () => {
         []
     );
 
-    // Handle Excel
+    // // Handle Excel
+    // const handleExportRowsExcel = (rows) => {
+    //     const rowData = rows.map((row) => {
+    //         return {
+    //             NIK: row.original.nik,
+    //             Nama: row.original.nama,
+    //             NoHp: row.original.notelpon,
+    //             Role: row.original.Role.nama,
+    //             Dibuat: dayjs(row.original.createdAt)
+    //                 .locale("id")
+    //                 .format("DD MMM YYYY"),
+    //         };
+    //     });
+    //     const csvConfig = mkConfig({
+    //         fieldSeparator: ";",
+    //         decimalSeparator: ".",
+    //         useKeysAsHeaders: true,
+    //         filename: `User-${dayjs()
+    //             .locale("id")
+    //             .format("DD-MMM-YYYY HH_mm_ss")}`,
+    //     });
 
-    const handleExportRowsExcel = (rows) => {
-        const rowData = rows.map((row) => {
-            return {
-                NIK: row.original.nik,
-                Nama: row.original.nama,
-                NoHp: row.original.notelpon,
-                Role: row.original.Role.nama,
-                Dibuat: dayjs(row.original.createdAt)
-                    .locale("id")
-                    .format("DD MMM YYYY"),
-            };
-        });
-        const csvConfig = mkConfig({
-            fieldSeparator: ";",
-            decimalSeparator: ".",
-            useKeysAsHeaders: true,
-            filename: `User-${dayjs()
-                .locale("id")
-                .format("DD-MMM-YYYY HH_mm_ss")}`,
-        });
-
-        const csv = generateCsv(csvConfig)(rowData);
-        download(csvConfig)(csv);
-    };
+    //     const csv = generateCsv(csvConfig)(rowData);
+    //     download(csvConfig)(csv);
+    // };
 
     // Handle PDF
     const handleExportRowsPDF = (rows) => {
@@ -336,7 +332,7 @@ const AdminUser = () => {
         renderTopToolbarCustomActions: ({ table }) => (
             <Group p="xs" justify="space-between">
                 {/* EXCEL START */}
-                <Menu
+                {/* <Menu
                     transitionProps={{ transition: "pop-top-right" }}
                     position="top-end"
                     width={220}
@@ -427,8 +423,8 @@ const AdminUser = () => {
                             Export Selected Rows
                         </Menu.Item>
                     </Menu.Dropdown>
-                </Menu>
-                {/* EXCEL START */}
+                </Menu> */}
+                {/* EXCEL END */}
 
                 {/* PDF START */}
                 <Menu

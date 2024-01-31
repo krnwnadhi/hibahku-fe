@@ -67,18 +67,6 @@ export default function UserPage() {
 
     const user = useSelector((state) => state?.auth?.userAuth);
     const { nik } = user;
-    // console.log(nik);
-
-    // const userId = persetujuanList?.result?.map((item) => item?.userid);
-    // console.log(userId);
-
-    // const idPersetujuan = persetujuanList?.result?.map((item) =>
-    //     userId === nik ? item?.id : null
-    // );
-    // console.log(idPersetujuan);
-
-    // const id = nik === userId ? "Ya" : "Tidak";
-    // console.log(id);
 
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
     const { loading, cekStatus, appError } = rumahIbadah;
