@@ -8,7 +8,6 @@ import {
     Container,
     Group,
     Menu,
-    Text,
     rem,
     useMantineTheme,
 } from "@mantine/core";
@@ -45,7 +44,6 @@ const AdminUser = () => {
 
     const users = useSelector((state) => state?.users);
     const { loading, usersList = [] } = users;
-    // console.log(usersList);
 
     const [usersListState, setUsersListState] = useState([usersList]);
 
@@ -87,6 +85,22 @@ const AdminUser = () => {
     const columns = useMemo(
         () => [
             {
+                header: "No",
+                id: "id",
+                Cell: ({ row }) => {
+                    return <> {row.index + 1} </>;
+                },
+                enableColumnOrdering: false,
+                enableColumnFilterModes: false,
+                enableColumnFilter: false,
+                enableColumnSortModes: false,
+                enableGrouping: false,
+                enableSorting: false,
+                enableColumnActions: false,
+                enableResizing: false,
+                size: 55,
+            },
+            {
                 accessorKey: "nik",
                 header: "NIK",
                 enableClickToCopy: true,
@@ -113,11 +127,6 @@ const AdminUser = () => {
                     cell.getValue() === null
                         ? "Tidak Ada Data"
                         : cell.getValue(),
-
-                // Cell: ({ row }) =>
-                //     row?.original?.notelpon === null
-                //         ? "Tidak Ada Data"
-                //         : row?.original?.notelpon,
             },
             {
                 accessorKey: "Role.nama",
@@ -188,6 +197,7 @@ const AdminUser = () => {
         const tableData = rows.map((row) => {
             const { id, nama, notelpon, Role, createdAt } = row.original;
             return [
+                row.index + 1,
                 id,
                 nama,
                 notelpon === null ? "Tidak Ada Data" : notelpon,
@@ -290,7 +300,7 @@ const AdminUser = () => {
         enableColumnResizing: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
-        enableRowNumbers: true,
+        // enableRowNumbers: true,
         rowNumberMode: "original",
         initialState: {
             density: "xs",

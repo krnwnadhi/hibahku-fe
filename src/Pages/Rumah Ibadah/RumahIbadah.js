@@ -106,6 +106,22 @@ export default function RumahIbadah() {
     const columns = useMemo(
         () => [
             {
+                header: "No",
+                id: "no",
+                Cell: ({ row }) => {
+                    return <> {row.index + 1} </>;
+                },
+                enableColumnOrdering: false,
+                enableColumnFilterModes: false,
+                enableColumnFilter: false,
+                enableColumnSortModes: false,
+                enableGrouping: false,
+                enableSorting: false,
+                enableColumnActions: false,
+                enableResizing: false,
+                size: 55,
+            },
+            {
                 accessorKey: "id",
                 header: "ID SIMAS/NSPP/NSM",
                 enableClickToCopy: true,
@@ -223,6 +239,7 @@ export default function RumahIbadah() {
             const { id, nama, alamat, wilayah, Kategori, createdAt } =
                 row.original;
             return [
+                row.index + 1,
                 id,
                 nama,
                 alamat,
@@ -327,14 +344,10 @@ export default function RumahIbadah() {
         columns,
         data,
         enableColumnResizing: true,
-        // enableColumnDragging: false,
         enableRowSelection: true,
-        // enableRowSelection: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
-        enableRowNumbers: true,
         rowNumberMode: "original",
-        // enableColumnPinning: true,
         initialState: {
             density: "xs",
         },
