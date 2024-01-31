@@ -203,7 +203,7 @@ export default function SignIn(props) {
                             target="_blank"
                             rel="noopener noreferrer"
                             ta="center"
-                            c="dark"
+                            // c="dark"
                         >
                             Biro Kesra Provinsi Jambi
                         </Anchor>{" "}
@@ -215,7 +215,7 @@ export default function SignIn(props) {
                             target="_blank"
                             rel="noopener noreferrer"
                             ta="center"
-                            c="dark"
+                            // c="dark"
                         >
                             Diskominfo Provinsi Jambi
                         </Anchor>{" "}

@@ -483,8 +483,6 @@ export default function RumahIbadah() {
                     trigger="click-hover"
                     withArrow
                     arrowPosition="center"
-                    // openDelay={100}
-                    // closeDelay={400}
                 >
                     <Menu.Target>
                         <Button

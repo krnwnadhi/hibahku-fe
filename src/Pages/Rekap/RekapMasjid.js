@@ -301,8 +301,9 @@ const RekapMasjid = () => {
             ],
             body: tableData,
             styles: {
-                fontSize: 8,
+                fontSize: 10,
             },
+            margin: { bottom: 60 },
             headStyles: {
                 fillColor: "white",
                 textColor: "black",
