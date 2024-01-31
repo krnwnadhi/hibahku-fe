@@ -1,16 +1,26 @@
-import { Container, useMantineTheme } from "@mantine/core";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { Button, Menu, rem, useMantineTheme } from "@mantine/core";
+import {
+    IconCheck,
+    IconChevronDown,
+    IconFileExport,
+    IconFileTypePdf,
+    IconX,
+} from "@tabler/icons-react";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import autoTable from "jspdf-autotable";
 import axios from "axios";
 import { basePersetujuanURL } from "../../utils/baseURL";
+import dayjs from "dayjs";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
+import jsPDF from "jspdf";
 
 const RekapLembagaKeagamaan = () => {
     const dispatch = useDispatch();
     const { colorScheme } = useMantineTheme();
+    const theme = useMantineTheme();
 
     const user = useSelector((state) => state?.auth?.userAuth);
     const { token } = user;
@@ -38,7 +48,9 @@ const RekapLembagaKeagamaan = () => {
             const filteredLembagaKeagamaan = result
                 ?.filter((item) => {
                     return (
-                        item?.Keagamaan?.Kategori?.nama === "LEMBAGA KEAGAMAAN"
+                        item?.Keagamaan?.Kategori?.nama ===
+                            "LEMBAGA KEAGAMAAN" &&
+                        item?.Status?.nama === "DISETUJUI"
                     );
                 })
                 .map((item) => {
@@ -55,6 +67,7 @@ const RekapLembagaKeagamaan = () => {
         dispatch(getAllPersetujuanAction());
         getPersetujuanList();
         window.scrollTo(0, 0);
+        // eslint-disable-next-line
     }, [dispatch]);
 
     const formatCurrency = (amount) =>
@@ -65,6 +78,22 @@ const RekapLembagaKeagamaan = () => {
 
     const columns = useMemo(
         () => [
+            {
+                header: "No",
+                id: "no",
+                enableColumnOrdering: false,
+                enableColumnFilterModes: false,
+                enableColumnFilter: false,
+                enableColumnSortModes: false,
+                enableGrouping: false,
+                enableSorting: false,
+                enableColumnActions: false,
+                enableResizing: false,
+                size: 55,
+                Cell: ({ row }) => {
+                    return <> {row.index + 1} </>;
+                },
+            },
             {
                 accessorKey: "Keagamaan.nama",
                 header: "Nama Lembaga Keagamaan",
@@ -82,16 +111,16 @@ const RekapLembagaKeagamaan = () => {
             {
                 accessorKey: "keagamaanid",
                 header: "Nomor NSPP/NSM",
-                minSize: 175,
-                maxSize: 225,
-                size: 200,
+                minSize: 200,
+                maxSize: 250,
+                size: 225,
             },
             {
                 accessorKey: "User.nama",
                 header: "Pimpinan/Pengurus",
-                minSize: 175,
-                maxSize: 225,
-                size: 200,
+                minSize: 200,
+                maxSize: 250,
+                size: 225,
             },
             {
                 accessorKey: "User.notelpon",
@@ -101,123 +130,105 @@ const RekapLembagaKeagamaan = () => {
                 size: 200,
             },
             {
-                id: "administrasi",
-                header: "Persyaratan Administrasi",
-                columns: [
-                    {
-                        accessorKey: "Suratpermohonan.namafile",
-                        header: "Surat Permohonan",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.Suratpermohonan?.namafile ? (
-                                <IconCheck />
-                            ) : (
-                                <IconX />
-                            ),
-                    },
-                    {
-                        accessorKey: "Proposal.namafile",
-                        header: "Proposal",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.Proposal?.namafile ? (
-                                <IconCheck />
-                            ) : (
-                                <IconX />
-                            ),
-                    },
-                    {
-                        accessorKey: "Rab.namafile",
-                        header: "RAB",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.Rab?.namafile ? (
-                                <IconCheck />
-                            ) : (
-                                <IconX />
-                            ),
-                    },
-                    {
-                        accessorKey: "Sk.namafile",
-                        header: "SK Pengurus",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.Sk?.namafile ? (
-                                <IconCheck />
-                            ) : (
-                                <IconX />
-                            ),
-                    },
-                    {
-                        accessorKey: "Ktp.namafile",
-                        header: "KTP Ketua Pengurus",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.Ktp?.namafile ? (
-                                <IconCheck />
-                            ) : (
-                                <IconX />
-                            ),
-                    },
-                    {
-                        accessorKey: "Izinoperasional.namafile",
-                        header: "Izin Operasional",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.Izinoperasional?.namafile ? (
-                                <IconCheck />
-                            ) : (
-                                <IconX />
-                            ),
-                    },
-                    {
-                        accessorKey: "Aktapendirian.namafile",
-                        header: "Akta Pendirian",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.Aktapendirian?.namafile ? (
-                                <IconCheck />
-                            ) : (
-                                <IconX />
-                            ),
-                    },
-                    {
-                        accessorKey: "Pengesahankemenkumham.namafile",
-                        header: "Pengesahan Kemenkumham",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.Aktapendirian?.namafile ? (
-                                <IconCheck />
-                            ) : (
-                                <IconX />
-                            ),
-                    },
-                    {
-                        accessorKey: "norek",
-                        header: "Rekening Bank Jambi",
-                        minSize: 175,
-                        maxSize: 225,
-                        size: 200,
-                        Cell: ({ row }) =>
-                            row?.original?.norek ? <IconCheck /> : <IconX />,
-                    },
-                ],
+                accessorKey: "Suratpermohonan.namafile",
+                header: "Surat Permohonan",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
+                Cell: ({ row }) =>
+                    row?.original?.Suratpermohonan?.namafile ? (
+                        <IconCheck />
+                    ) : (
+                        <IconX />
+                    ),
+            },
+            {
+                accessorKey: "Proposal.namafile",
+                header: "Proposal",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
+                Cell: ({ row }) =>
+                    row?.original?.Proposal?.namafile ? (
+                        <IconCheck />
+                    ) : (
+                        <IconX />
+                    ),
+            },
+            {
+                accessorKey: "Rab.namafile",
+                header: "RAB",
+                minSize: 125,
+                maxSize: 175,
+                size: 150,
+                Cell: ({ row }) =>
+                    row?.original?.Rab?.namafile ? <IconCheck /> : <IconX />,
+            },
+            {
+                accessorKey: "Sk.namafile",
+                header: "SK Pengurus",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
+                Cell: ({ row }) =>
+                    row?.original?.Sk?.namafile ? <IconCheck /> : <IconX />,
+            },
+            {
+                accessorKey: "Ktp.namafile",
+                header: "KTP Ketua Pengurus",
+                minSize: 200,
+                maxSize: 250,
+                size: 225,
+                Cell: ({ row }) =>
+                    row?.original?.Ktp?.namafile ? <IconCheck /> : <IconX />,
+            },
+            {
+                accessorKey: "Izinoperasional.namafile",
+                header: "Izin Operasional",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
+                Cell: ({ row }) =>
+                    row?.original?.Izinoperasional?.namafile ? (
+                        <IconCheck />
+                    ) : (
+                        <IconX />
+                    ),
+            },
+            {
+                accessorKey: "Aktapendirian.namafile",
+                header: "Akta Operasional",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
+                Cell: ({ row }) =>
+                    row?.original?.Aktapendirian?.namafile ? (
+                        <IconCheck />
+                    ) : (
+                        <IconX />
+                    ),
+            },
+            {
+                accessorKey: "Pengesahankemenkumham.namafile",
+                header: "Pengesahan Kemenkumham",
+                minSize: 175,
+                maxSize: 225,
+                size: 200,
+                Cell: ({ row }) =>
+                    row?.original?.Aktapendirian?.namafile ? (
+                        <IconCheck />
+                    ) : (
+                        <IconX />
+                    ),
+            },
+            {
+                accessorKey: "norek",
+                header: "Rekening Bank Jambi",
+                minSize: 200,
+                maxSize: 250,
+                size: 225,
+                Cell: ({ row }) =>
+                    row?.original?.norek ? <IconCheck /> : <IconX />,
             },
             {
                 accessorKey: "pengajuandana",
@@ -230,13 +241,184 @@ const RekapLembagaKeagamaan = () => {
             {
                 accessorKey: "tujuan",
                 header: "Peruntukkan Dana",
-                minSize: 175,
-                maxSize: 225,
-                size: 200,
+                minSize: 200,
+                maxSize: 250,
+                size: 225,
             },
         ],
         []
     );
+
+    // Handle PDF
+    const handleExportRowsPDF = (rows) => {
+        const doc = new jsPDF({
+            orientation: "landscape",
+            compress: true,
+            format: "a3",
+        });
+
+        const tableData = rows.map((row) => {
+            const {
+                Keagamaan,
+                keagamaanid,
+                User,
+                Suratpermohonan,
+                Proposal,
+                Rab,
+                Sk,
+                Ktp,
+                Izinoperasional,
+                Aktapendirian,
+                Pengesahankemenkumham,
+                norek,
+                pengajuandana,
+                tujuan,
+            } = row.original;
+            return [
+                row.index + 1,
+                Keagamaan.nama,
+                Keagamaan.alamat,
+                keagamaanid,
+                User.nama,
+                User.notelpon,
+                Suratpermohonan.namafile !== null ? "V" : "X",
+                Proposal.namafile !== null ? "V" : "X",
+                Rab.namafile !== null ? "V" : "X",
+                Sk.namafile !== null ? "V" : "X",
+                Ktp.namafile !== null ? "V" : "X",
+                Izinoperasional.namafile !== null ? "V" : "X",
+                Aktapendirian.namafile !== null ? "V" : "X",
+                Pengesahankemenkumham.namafile !== null ? "V" : "X",
+                norek !== null ? "V" : "X",
+                pengajuandana,
+                tujuan,
+            ];
+        });
+
+        autoTable(doc, {
+            rowPageBreak: "auto",
+            startY: 40,
+            head: [
+                {
+                    no: "No",
+                    nama: "Nama Rumah Ibadah",
+                    alamat: "Alamat",
+                    id: "ID Rumah Ibadah",
+                    namaPengurus: "Ketua / Pengurus",
+                    notelpon: "No. Kontak",
+                    suratpermohonan: "Surat Permohonan",
+                    proposal: "Proposal",
+                    rab: "RAB",
+                    sk: "SK Pengurus",
+                    ktp: "KTP Pengurus",
+                    izinoperasional: "Izin Operasional",
+                    aktapendirian: "Akta Pendirian",
+                    pengesahan: "Pengesahan Kemenkumham",
+                    rekening: "Rekening Bank 9",
+                    usulan: "Usulan Dana",
+                    tujuan: "Peruntukkan Dana",
+                },
+            ],
+            body: tableData,
+            styles: {
+                fontSize: 8,
+            },
+            headStyles: {
+                fillColor: "white",
+                textColor: "black",
+                lineWidth: 0.1,
+                lineColor: "black",
+                halign: "center",
+            },
+            bodyStyles: {
+                fillColor: "white",
+                textColor: "black",
+                lineWidth: 0.1,
+                lineColor: "black",
+                valign: "top",
+            },
+            columnStyles: {
+                suratpermohonan: {
+                    halign: "center",
+                },
+                proposal: {
+                    halign: "center",
+                },
+                rab: {
+                    halign: "center",
+                },
+                sk: {
+                    halign: "center",
+                },
+                ktp: {
+                    halign: "center",
+                },
+                izinoperasional: {
+                    halign: "center",
+                },
+                aktapendirian: {
+                    halign: "center",
+                },
+                pengesahan: {
+                    halign: "center",
+                },
+                rekening: {
+                    halign: "center",
+                },
+            },
+            theme: "grid",
+            allSectionHooks: true,
+            willDrawPage: () => {
+                doc.setFontSize(12);
+                doc.setFont("times", "bold");
+                doc.text(
+                    "DAFTAR REKAPITULASI PERMOHONAN BANTUAN HIBAH LEMBAGA KEAGAMAAN",
+                    220,
+                    22,
+                    "center"
+                );
+                doc.setFontSize(12);
+                doc.text("PEMERINTAH PROVINSI JAMBI", 220, 27, "center");
+                doc.setFontSize(12);
+                doc.text(
+                    `TAHUN ${new Date().getFullYear()}`,
+                    220,
+                    32,
+                    "center"
+                );
+            },
+        });
+        var finalY = doc.lastAutoTable.finalY;
+
+        autoTable(doc, {
+            startY: finalY + 30,
+            didDrawPage: () => {
+                doc.setFontSize(10);
+                doc.setFont("times", "");
+                doc.text(
+                    `Jambi,        ${dayjs()
+                        .locale("id")
+                        .format("MMMM")} ${dayjs().format("YYYY")}`,
+                    355,
+                    250
+                );
+                doc.setFontSize(10);
+                doc.text("KEPALA BIRO KESRA", 355, 254);
+                doc.setFontSize(10);
+                doc.text("H. SULAIMAN, S.Ag", 355, 275);
+                doc.setFontSize(10);
+                doc.text("Pembina Tk. I", 355, 279);
+                doc.setFontSize(10);
+                doc.text("NIP. 19721001 200012 1 002", 355, 284);
+            },
+        });
+
+        doc.save(
+            `Rekap-Lembaga-Keagamaan-${dayjs()
+                .locale("id")
+                .format("DD-MMM-YYYY HH:mm")}`
+        );
+    };
 
     const data = persetujuanListState;
 
@@ -266,7 +448,7 @@ const RekapLembagaKeagamaan = () => {
         enableColumnResizing: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
-        enableRowNumbers: true,
+        enableRowSelection: true,
         rowNumberMode: "original",
         state: {
             showProgressBars: loading,
@@ -276,12 +458,109 @@ const RekapLembagaKeagamaan = () => {
             rowsPerPageOptions: ["5", "10", "20"],
         },
         enableGrouping: true,
-
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
         mantineSearchTextInputProps: {
             placeholder: "Cari",
         },
+        renderTopToolbarCustomActions: ({ table }) => (
+            <>
+                {/* PDF START */}
+                <Menu
+                    transitionProps={{ transition: "pop-top-right" }}
+                    position="top-end"
+                    width={220}
+                    withinPortal
+                    trigger="click-hover"
+                    withArrow
+                    arrowPosition="center"
+                    openDelay={100}
+                    closeDelay={400}
+                >
+                    <Menu.Target>
+                        <Button
+                            rightSection={
+                                <IconChevronDown
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            leftSection={
+                                <IconFileTypePdf
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            size="xs"
+                            color={theme.colors.red[7]}
+                        >
+                            Pdf
+                        </Button>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.blue[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={
+                                table.getPrePaginationRowModel().rows.length ===
+                                0
+                            }
+                            //export all rows, including from the next page, (still respects filtering and sorting)
+                            onClick={() =>
+                                handleExportRowsPDF(
+                                    table.getPrePaginationRowModel().rows
+                                )
+                            }
+                        >
+                            Export All Rows
+                        </Menu.Item>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.pink[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={table.getRowModel().rows.length === 0}
+                            //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
+                            onClick={() =>
+                                handleExportRowsPDF(table.getRowModel().rows)
+                            }
+                        >
+                            Export Page Rows
+                        </Menu.Item>
+                        <Menu.Item
+                            leftSection={
+                                <IconFileExport
+                                    style={{ width: rem(16), height: rem(16) }}
+                                    color={theme.colors.green[6]}
+                                    stroke={1.5}
+                                />
+                            }
+                            disabled={
+                                !table.getIsSomeRowsSelected() &&
+                                !table.getIsAllRowsSelected()
+                            }
+                            //only export selected rows
+                            onClick={() =>
+                                handleExportRowsPDF(
+                                    table.getSelectedRowModel().rows
+                                )
+                            }
+                        >
+                            Export Selected Rows
+                        </Menu.Item>
+                    </Menu.Dropdown>
+                </Menu>
+                {/* PDF END */}
+            </>
+        ),
     });
 
     return (

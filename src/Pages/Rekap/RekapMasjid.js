@@ -1,4 +1,4 @@
-import { Button, Group, Menu, rem, useMantineTheme } from "@mantine/core";
+import { Button, Menu, rem, useMantineTheme } from "@mantine/core";
 import {
     IconCheck,
     IconChevronDown,
@@ -8,7 +8,6 @@ import {
 } from "@tabler/icons-react";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import React, { useEffect, useMemo, useState } from "react";
-import { download, generateCsv, mkConfig } from "export-to-csv";
 import { useDispatch, useSelector } from "react-redux";
 
 import autoTable from "jspdf-autotable";
@@ -22,45 +21,6 @@ const RekapMasjid = () => {
     const dispatch = useDispatch();
     const { colorScheme } = useMantineTheme();
     const theme = useMantineTheme();
-
-    // useEffect(() => {
-    //     dispatch(getAllPersetujuanAction());
-    // }, [dispatch]);
-
-    // const user = useSelector((state) => state?.auth?.userAuth);
-    // const { token } = user;
-
-    // const persetujuan = useSelector((state) => state?.persetujuan);
-    // const { loading, persetujuanList = [] } = persetujuan;
-
-    // const [persetujuanListState, setPersetujuanListState] = useState([
-    //     persetujuanList,
-    // ]);
-
-    // const getPersetujuanList = async () => {
-    //     try {
-    //         const config = {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //                 "Access-Control-Allow-Origin": "*",
-    //             },
-    //         };
-    //         const response = await axios.get(
-    //             `${basePersetujuanURL}/list`,
-    //             config
-    //         );
-    //         const result = response?.data?.result;
-
-    //         setPersetujuanListState(result);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     getPersetujuanList();
-    //     window.scrollTo(0, 0);
-    // }, []);
 
     const user = useSelector((state) => state?.auth?.userAuth);
     const { token } = user;
@@ -86,11 +46,15 @@ const RekapMasjid = () => {
             const result = response?.data?.result;
             const filteredMasjid = result
                 ?.filter((item) => {
-                    return item?.Keagamaan?.Kategori?.nama === "RUMAH IBADAH";
+                    return (
+                        item?.Keagamaan?.Kategori?.nama === "RUMAH IBADAH" &&
+                        item?.Status?.nama === "DISETUJUI"
+                    );
                 })
                 .map((item) => {
                     return item;
                 });
+            console.log(filteredMasjid);
 
             setPersetujuanListState(filteredMasjid);
         } catch (error) {
@@ -102,6 +66,7 @@ const RekapMasjid = () => {
         dispatch(getAllPersetujuanAction());
         getPersetujuanList();
         window.scrollTo(0, 0);
+        // eslint-disable-next-line
     }, [dispatch]);
 
     const formatCurrency = (amount) =>
@@ -114,7 +79,7 @@ const RekapMasjid = () => {
         () => [
             {
                 header: "No",
-                id: "id",
+                id: "no",
                 enableColumnOrdering: false,
                 enableColumnFilterModes: false,
                 enableColumnFilter: false,
@@ -461,7 +426,6 @@ const RekapMasjid = () => {
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
         enableRowSelection: true,
-
         rowNumberMode: "original",
         state: {
             showProgressBars: loading,

@@ -71,6 +71,7 @@ const AdminUser = () => {
     useEffect(() => {
         getUsersList();
         window.scrollTo(0, 0);
+        // eslint-disable-next-line
     }, []);
 
     const items = [

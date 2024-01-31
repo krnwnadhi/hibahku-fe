@@ -70,6 +70,7 @@ export default function RumahIbadah() {
     useEffect(() => {
         getRumahIbadahList();
         window.scrollTo(0, 0);
+        // eslint-disable-next-line
     }, []);
 
     const items = [
@@ -197,6 +198,7 @@ export default function RumahIbadah() {
                 size: 150,
             },
         ],
+        // eslint-disable-next-line
         []
     );
 
