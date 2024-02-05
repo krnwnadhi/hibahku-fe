@@ -75,6 +75,20 @@ const RekapMasjid = () => {
             currency: "IDR",
         }).format(amount);
 
+    const citiesList = [
+        "Kab. Batanghari",
+        "Kab. Bungo",
+        "Kab. Kerinci",
+        "Kab. Merangin",
+        "Kab. Muaro Jambi",
+        "Kab. Sarolangun",
+        "Kab. Tanjung Jabung Barat",
+        "Kab. Tanjung Jabung Timur",
+        "Kab. Tebo",
+        "Kota Jambi",
+        "Kota Sungai Penuh",
+    ];
+
     const columns = useMemo(
         () => [
             {
@@ -228,6 +242,17 @@ const RekapMasjid = () => {
                 maxSize: 225,
                 size: 200,
             },
+            {
+                accessorKey: "Keagamaan.wilayah",
+                header: "Kabupaten/Kota",
+                minSize: 200,
+                maxSize: 250,
+                size: 225,
+                filterVariant: "select",
+                mantineFilterSelectProps: {
+                    data: citiesList,
+                },
+            },
         ],
         []
     );
@@ -271,7 +296,7 @@ const RekapMasjid = () => {
                 Asetrekom.namafile !== null ? "V" : "X",
                 Suket.namafile !== null ? "V" : "X",
                 norek !== null ? "V" : "X",
-                pengajuandana,
+                formatCurrency(pengajuandana),
                 tujuan,
             ];
         });
@@ -280,24 +305,44 @@ const RekapMasjid = () => {
             rowPageBreak: "auto",
             startY: 40,
             head: [
-                {
-                    no: "No",
-                    nama: "Nama Rumah Ibadah",
-                    alamat: "Alamat",
-                    id: "ID Rumah Ibadah",
-                    namaPengurus: "Ketua / Pengurus",
-                    notelpon: "No. Kontak",
-                    suratpermohonan: "Surat Permohonan",
-                    proposal: "Proposal",
-                    rab: "RAB",
-                    sk: "SK Pengurus",
-                    ktp: "KTP Pengurus",
-                    simas: "SIMAS / REKOM",
-                    suketTipologi: "Suket Tipologi",
-                    rekening: "Rekening Bank 9",
-                    usulan: "Usulan Dana",
-                    tujuan: "Peruntukkan Dana",
-                },
+                [
+                    { content: "No", rowSpan: 2 },
+                    {
+                        content: "Nama Rumah Ibadah",
+                        rowSpan: 2,
+                    },
+                    {
+                        content: "Alamat",
+                        rowSpan: 2,
+                    },
+                    {
+                        content: "ID Rumah Ibadah",
+                        rowSpan: 2,
+                    },
+                    {
+                        content: "Ketua / Pengurus",
+                        rowSpan: 2,
+                    },
+                    {
+                        content: "No. Kontak",
+                        rowSpan: 2,
+                    },
+                    { content: "Persyaratan Administrasi", colSpan: 8 },
+                    { content: "Usulan Dana", rowSpan: 2 },
+                    { content: "Peruntukkan Dana", rowSpan: 2 },
+                ],
+                [
+                    { content: "Surat Permohonan" },
+                    { content: "Proposal" },
+                    { content: "RAB" },
+                    { content: "SK Pengurus" },
+                    { content: "KTP Pengurus" },
+                    { content: "SIMAS / REKOM" },
+                    { content: "Suket Tipologi" },
+                    { content: "Rekening Bank Jambi" },
+                    { content: "" },
+                    { content: "" },
+                ],
             ],
             body: tableData,
             styles: {
@@ -319,29 +364,36 @@ const RekapMasjid = () => {
                 valign: "top",
             },
             columnStyles: {
-                suratpermohonan: {
+                0: {
                     halign: "center",
                 },
-                proposal: {
+                6: {
                     halign: "center",
                 },
-                rab: {
+                7: {
                     halign: "center",
                 },
-                sk: {
+                8: {
                     halign: "center",
                 },
-                ktp: {
+                9: {
                     halign: "center",
                 },
-                simas: {
+                10: {
                     halign: "center",
                 },
-                suketTipologi: {
+                11: {
                     halign: "center",
                 },
-                rekening: {
+                12: {
                     halign: "center",
+                },
+                13: {
+                    halign: "center",
+                },
+                14: {
+                    halign: "center",
+                    cellWidth: "wrap",
                 },
             },
             theme: "grid",

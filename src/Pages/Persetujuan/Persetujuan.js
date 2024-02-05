@@ -180,6 +180,22 @@ const Persetujuan = () => {
     const columns = useMemo(
         () => [
             {
+                header: "No",
+                id: "no",
+                enableColumnOrdering: false,
+                enableColumnFilterModes: false,
+                enableColumnFilter: false,
+                enableColumnSortModes: false,
+                enableGrouping: false,
+                enableSorting: false,
+                enableColumnActions: false,
+                enableResizing: false,
+                size: 55,
+                Cell: ({ row }) => {
+                    return <> {row.index + 1} </>;
+                },
+            },
+            {
                 id: "id",
                 header: "",
                 enableColumnOrdering: false,
@@ -301,40 +317,6 @@ const Persetujuan = () => {
                 maxSize: 275,
                 size: 250,
             },
-            // ],
-            // },
-            // {
-            //     id: "user",
-            //     header: "User",
-            //     columns: [
-            //         {
-            //             accessorKey: "userid",
-            //             header: "NIK",
-            //             Cell: ({ row }) => (
-            //                 <Popover
-            //                     width={250}
-            //                     position="bottom"
-            //                     withArrow
-            //                     shadow="md"
-            //                 >
-            //                     <Popover.Target style={{ cursor: "pointer" }}>
-            //                         <Text size="xs">
-            //                             {row?.original?.userid}
-            //                         </Text>
-            //                     </Popover.Target>
-            //                     <Popover.Dropdown>
-            //                         <Text size="xs">
-            //                             Nama: {row?.original?.User?.nama}
-            //                         </Text>
-            //                         <Text size="xs">
-            //                             No. HP: {row?.original?.User?.notelpon}
-            //                         </Text>
-            //                     </Popover.Dropdown>
-            //                 </Popover>
-            //             ),
-            //         },
-            //     ],
-            // },
             {
                 accessorFn: (row) => {
                     const sDay = new Date(row.createdAt);
@@ -387,8 +369,7 @@ const Persetujuan = () => {
         enableRowSelection: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
-        enableRowNumbers: true,
-        rowNumberMode: "original",
+        // rowNumberMode: "original",
         enableColumnPinning: true,
         initialState: {
             density: "xs",

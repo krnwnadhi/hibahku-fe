@@ -76,6 +76,20 @@ const RekapLembagaKeagamaan = () => {
             currency: "IDR",
         }).format(amount);
 
+    const citiesList = [
+        "Kab. Batanghari",
+        "Kab. Bungo",
+        "Kab. Kerinci",
+        "Kab. Merangin",
+        "Kab. Muaro Jambi",
+        "Kab. Sarolangun",
+        "Kab. Tanjung Jabung Barat",
+        "Kab. Tanjung Jabung Timur",
+        "Kab. Tebo",
+        "Kota Jambi",
+        "Kota Sungai Penuh",
+    ];
+
     const columns = useMemo(
         () => [
             {
@@ -245,6 +259,17 @@ const RekapLembagaKeagamaan = () => {
                 maxSize: 250,
                 size: 225,
             },
+            {
+                accessorKey: "Keagamaan.wilayah",
+                header: "Kabupaten/Kota",
+                minSize: 200,
+                maxSize: 250,
+                size: 225,
+                filterVariant: "select",
+                mantineFilterSelectProps: {
+                    data: citiesList,
+                },
+            },
         ],
         []
     );
@@ -290,7 +315,7 @@ const RekapLembagaKeagamaan = () => {
                 Aktapendirian.namafile !== null ? "V" : "X",
                 Pengesahankemenkumham.namafile !== null ? "V" : "X",
                 norek !== null ? "V" : "X",
-                pengajuandana,
+                formatCurrency(pengajuandana),
                 tujuan,
             ];
         });
@@ -299,25 +324,45 @@ const RekapLembagaKeagamaan = () => {
             rowPageBreak: "auto",
             startY: 40,
             head: [
-                {
-                    no: "No",
-                    nama: "Nama Rumah Ibadah",
-                    alamat: "Alamat",
-                    id: "ID Rumah Ibadah",
-                    namaPengurus: "Ketua / Pengurus",
-                    notelpon: "No. Kontak",
-                    suratpermohonan: "Surat Permohonan",
-                    proposal: "Proposal",
-                    rab: "RAB",
-                    sk: "SK Pengurus",
-                    ktp: "KTP Pengurus",
-                    izinoperasional: "Izin Operasional",
-                    aktapendirian: "Akta Pendirian",
-                    pengesahan: "Pengesahan Kemenkumham",
-                    rekening: "Rekening Bank 9",
-                    usulan: "Usulan Dana",
-                    tujuan: "Peruntukkan Dana",
-                },
+                [
+                    { content: "No", rowSpan: 2 },
+                    {
+                        content: "Nama Rumah Ibadah",
+                        rowSpan: 2,
+                    },
+                    {
+                        content: "Alamat",
+                        rowSpan: 2,
+                    },
+                    {
+                        content: "ID Rumah Ibadah",
+                        rowSpan: 2,
+                    },
+                    {
+                        content: "Ketua / Pengurus",
+                        rowSpan: 2,
+                    },
+                    {
+                        content: "No. Kontak",
+                        rowSpan: 2,
+                    },
+                    { content: "Persyaratan Administrasi", colSpan: 9 },
+                    { content: "Usulan Dana", rowSpan: 2 },
+                    { content: "Peruntukkan Dana", rowSpan: 2 },
+                ],
+                [
+                    { content: "Surat Permohonan" },
+                    { content: "Proposal" },
+                    { content: "RAB" },
+                    { content: "SK Pengurus" },
+                    { content: "KTP Pengurus" },
+                    { content: "Izin Operasional" },
+                    { content: "Akta Pendirian" },
+                    { content: "Pengesahan Kemenkumham" },
+                    { content: "Rekening Bank Jambi" },
+                    { content: "" },
+                    { content: "" },
+                ],
             ],
             body: tableData,
             styles: {
@@ -339,32 +384,38 @@ const RekapLembagaKeagamaan = () => {
                 valign: "top",
             },
             columnStyles: {
-                suratpermohonan: {
+                0: {
                     halign: "center",
                 },
-                proposal: {
+                6: {
                     halign: "center",
                 },
-                rab: {
+                7: {
                     halign: "center",
                 },
-                sk: {
+                8: {
                     halign: "center",
                 },
-                ktp: {
+                9: {
                     halign: "center",
                 },
-                izinoperasional: {
+                10: {
                     halign: "center",
                 },
-                aktapendirian: {
+                11: {
                     halign: "center",
                 },
-                pengesahan: {
+                12: {
                     halign: "center",
                 },
-                rekening: {
+                13: {
                     halign: "center",
+                },
+                14: {
+                    halign: "center",
+                },
+                15: {
+                    cellWidth: "wrap",
                 },
             },
             theme: "grid",

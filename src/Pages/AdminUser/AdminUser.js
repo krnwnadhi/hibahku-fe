@@ -427,7 +427,7 @@ const AdminUser = () => {
                 {/* EXCEL END */}
 
                 {/* PDF START */}
-                <Menu
+                {/* <Menu
                     transitionProps={{ transition: "pop-top-right" }}
                     position="top-end"
                     width={220}
@@ -518,7 +518,7 @@ const AdminUser = () => {
                             Export Selected Rows
                         </Menu.Item>
                     </Menu.Dropdown>
-                </Menu>
+                </Menu> */}
                 {/* PDF END */}
             </Group>
         ),
