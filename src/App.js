@@ -30,11 +30,15 @@ import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/Page/UserPage";
 import UserPermohonan from "./Pages/User/Page/UserPermohonan";
 import UserStatus from "./Pages/User/Page/UserStatus";
+import dayjs from "dayjs";
 import { logoutUserAction } from "./redux/slices/auth/authSlices";
 import secureLocalStorage from "react-secure-storage";
 import { useComputedColorScheme } from "@mantine/core";
 import { useNetwork } from "@mantine/hooks";
 
+// import customParseFormat from "dayjs/plugin/customParseFormat";
+
+// dayjs.extend(customParseFormat);
 // import NoPage from "./Pages/Error/NoPage";
 
 function App() {

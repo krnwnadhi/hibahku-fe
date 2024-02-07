@@ -21,6 +21,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import store from "./redux/store/store";
 
+// import "dayjs/locale/id";
+
 const colorSchemeManager = localStorageColorSchemeManager({
     key: "hibahkuColorScheme",
 });
@@ -86,7 +88,8 @@ root.render(
                 <DatesProvider
                     settings={{
                         locale: "id",
-                        timezone: "UTC",
+                        // timezone: "UTC",
+                        consistentWeeks: true,
                     }}
                 >
                     <ModalsProvider>

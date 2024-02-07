@@ -63,6 +63,7 @@ export default function SideNav() {
                 setActive(item.label);
             }}
             p="sm"
+            underline="never"
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />
             <span>{item.label}</span>

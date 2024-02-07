@@ -9,72 +9,52 @@ import {
     Paper,
     Space,
     Text,
-    TextInput,
     Title,
+    rem,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import {
     createPeriode,
     getPeriode,
 } from "../../redux/slices/periode/periodeSlices";
-import { matches, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
-import MaskedInput from "react-text-mask";
+import { DatePickerInput } from "@mantine/dates";
+import { IconCalendar } from "@tabler/icons-react";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
+import moment from "moment";
 import { toast } from "react-toastify";
+import { useForm } from "@mantine/form";
 
 const Periode = () => {
     const [openAlert, setOpenAlert] = useState(false);
     const [loadingToast, setLoadingToast] = useState(false);
 
-    const todaysDate = new Date();
-    // console.log(todaysDate);
-    function convertDate(date) {
-        const yyyy = date.getFullYear().toString();
-        const mm = (date.getMonth() + 1).toString();
-        const dd = date.getDate().toString();
+    dayjs.extend(customParseFormat);
 
-        const mmChars = mm.split("");
-        const ddChars = dd.split("");
-
-        return (
-            yyyy +
-            "-" +
-            (mmChars[1] ? mm : "0" + mmChars[0]) +
-            "-" +
-            (ddChars[1] ? dd : "0" + ddChars[0])
-        );
-    }
-
-    // console.log(convertDate(todaysDate));
-
-    // const [mulai, setMulai] = useState();
-    // const [selesai, setSelesai] = useState();
+    const todaysDate = moment().format("YYYY-MM-DD");
+    console.log(todaysDate);
 
     const dispatch = useDispatch();
-
-    // const handleDateChange = (date) => {
-    //     setMulai(dayjs(date));
-    // };
 
     const form = useForm({
         validateInputOnChange: true,
         initialValues: {
-            mulai: null,
-            selesai: null,
+            mulai: moment().format("YYYY-MM-DD"),
+            selesai: moment().format("YYYY-MM-DD"),
         },
 
-        validate: {
-            mulai: matches(
-                /^(?:20\d{2}|19\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/,
-                "Tidak sesuai format YYYY-MM-DD"
-            ),
-            selesai: matches(
-                /^(?:20\d{2}|19\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/,
-                "Tidak sesuai format YYYY-MM-DD"
-            ),
-        },
+        // validate: {
+        //     mulai: matches(
+        //         /^(?:20\d{2}|19\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/,
+        //         "Tidak sesuai format YYYY-MM-DD"
+        //     ),
+        //     selesai: matches(
+        //         /^(?:20\d{2}|19\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/,
+        //         "Tidak sesuai format YYYY-MM-DD"
+        //     ),
+        // },
     });
 
     useEffect(() => {
@@ -95,7 +75,6 @@ const Periode = () => {
     const selesaiPeriodeFormat = dayjs(selesaiPeriode)
         .locale("id")
         .format("DD MMMM YYYY");
-    // console.log(selesaiPeriodeFormat);
 
     const formOnSubmit = form.onSubmit((values) => {
         console.log(values);
@@ -106,34 +85,6 @@ const Periode = () => {
             window.location.reload();
         }, 5500);
     });
-
-    // const formOnSubmit = form.onSubmit(async (values, event) => {
-    //     event.preventDefault();
-    //     console.log(event);
-    //     try {
-    //         await axios.post(`${basePeriodeURL}`);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // });
-
-    // const onSubmitButton = () => {
-    //     console.log("ee");
-    // };
-
-    // const formattedDate = mulai.format("YYYY-MM-DD");
-
-    // const postData = async () => {
-    //     try {
-    //         const response = await axios.post(basePeriodeURL, {
-    //             date: formattedDate,
-    //         });
-
-    //         console.log("Data sent successfully:", response.data);
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //     }
-    // };
 
     const items = [
         { title: "Home", href: "/dashboard" },
@@ -160,8 +111,6 @@ const Periode = () => {
             );
         }, 2500);
     };
-
-    // console.log(dayjs().format("YYYY-MM-DD"));
 
     return (
         <>
@@ -194,38 +143,7 @@ const Periode = () => {
                         </Text>
                     </Title>
                     <form onSubmit={formOnSubmit}>
-                        {/* <DatePickerInput
-                            dropdownType="modal"
-                            valueFormat="YYYY-MM-DD"
-                            label="Mulai"
-                            placeholder="Set Tanggal Mulai"
-                            clearable
-                            leftSection={
-                                <IconCalendar
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            required
-                            locale="id"
-                            leftSectionPointerEvents="none"
-                            value={mulai}
-                            onChange={handleDateChange}
-                            // onChange={(date) => {
-                            //     console.log(date);
-                            //     setMulai(date);
-                            // }}
-                            minDate={new Date()}
-                            // {...form.getInputProps("mulai")}
-                        /> */}
-                        {/* <DatePickerInput
-                        label="Selesai"
-                        placeholder="Set Tanggal Selesai"
-                        value={selesai}
-                        onChange={setSelesai}
-                    /> */}
-
-                        <TextInput
+                        {/* <TextInput
                             component={MaskedInput}
                             mask={[
                                 /\d/,
@@ -289,16 +207,58 @@ const Periode = () => {
                                 "Tidak sesuai format YYYY-MM-DD"
                             }
                             radius="md"
+                        /> */}
+
+                        <DatePickerInput
+                            valueFormat="DD MMMM YYYY"
+                            label="Tutup Periode Hibahku"
+                            placeholder="Pilih Tanggal"
+                            hideWeekdays
+                            minDate={new Date()}
+                            leftSection={
+                                <IconCalendar
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            value={moment(form?.values?.mulai)}
+                            onChange={(date) => {
+                                form.setFieldValue(
+                                    "mulai",
+                                    moment(date).format("YYYY-MM-DD")
+                                );
+                            }}
                         />
 
                         <Space h="md" />
+
+                        <DatePickerInput
+                            valueFormat="DD MMMM YYYY"
+                            label="Buka Kembali Periode Hibahku"
+                            placeholder="Pilih Tanggal"
+                            hideWeekdays
+                            minDate={new Date()}
+                            leftSection={
+                                <IconCalendar
+                                    style={{ width: rem(18), height: rem(18) }}
+                                    stroke={1.5}
+                                />
+                            }
+                            value={moment(form?.values?.selesai)}
+                            onChange={(date) => {
+                                form.setFieldValue(
+                                    "selesai",
+                                    moment(date).format("YYYY-MM-DD")
+                                );
+                            }}
+                        />
 
                         <Button
                             type="submit"
                             loading={loading}
                             fullWidth
                             radius="md"
-                            mt="md"
+                            mt="lg"
                             disabled={!form.isValid()}
                             // onSubmit={onSubmitButton}
                             // onClick={postData}
@@ -311,7 +271,6 @@ const Periode = () => {
                         </Button>
                     </form>
                 </Paper>
-                {/* <p>Selected Date: {formattedDate}</p> */}
             </Container>
         </>
     );
