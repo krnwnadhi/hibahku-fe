@@ -4,6 +4,7 @@ import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
 import "@mantine/dates/styles.css";
 import "mantine-react-table/styles.css"; //import MRT styles
+import "@mantine/nprogress/styles.css";
 
 import {
     Loader,
@@ -16,6 +17,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { DatesProvider } from "@mantine/dates";
 import { ModalsProvider } from "@mantine/modals";
+import { NavigationProgress } from "@mantine/nprogress";
 import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -93,6 +95,7 @@ root.render(
                     }}
                 >
                     <ModalsProvider>
+                        <NavigationProgress />
                         <App />
                     </ModalsProvider>
                 </DatesProvider>

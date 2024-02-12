@@ -29,6 +29,7 @@ import { baseUserURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
 import jsPDF from "jspdf";
+import { nprogress } from "@mantine/nprogress";
 
 const AdminUser = () => {
     const dispatch = useDispatch();
@@ -79,6 +80,14 @@ const AdminUser = () => {
             {item.title}
         </Anchor>
     ));
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
 
     const columns = useMemo(
         () => [

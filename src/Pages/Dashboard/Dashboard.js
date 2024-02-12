@@ -23,6 +23,7 @@ import backgroundSvg from "../../assets/circle-scatter-haikei.svg";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
+import { nprogress } from "@mantine/nprogress";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -150,14 +151,22 @@ export default function Dashboard() {
         );
     });
 
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
+
     return (
         <>
             {/* <Box maw={1300} h="1000px" mx="auto"> */}
-            {/* <Breadcrumbs separator="→" mt="xs" mb="lg">
-                {items}
-            </Breadcrumbs> */}
             {/* <BackgroundImage h="80vh" src={backgroundSvg} radius="md"> */}
             <Container size="xl">
+                <Breadcrumbs separator="→" mt="xs" mb="lg">
+                    {items}
+                </Breadcrumbs>
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
 
                 <Space h="xl" />

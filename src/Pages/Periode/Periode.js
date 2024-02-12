@@ -24,6 +24,7 @@ import { IconCalendar } from "@tabler/icons-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import moment from "moment";
+import { nprogress } from "@mantine/nprogress";
 import { toast } from "react-toastify";
 import { useForm } from "@mantine/form";
 
@@ -44,17 +45,6 @@ const Periode = () => {
             mulai: moment().format("YYYY-MM-DD"),
             selesai: moment().format("YYYY-MM-DD"),
         },
-
-        // validate: {
-        //     mulai: matches(
-        //         /^(?:20\d{2}|19\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/,
-        //         "Tidak sesuai format YYYY-MM-DD"
-        //     ),
-        //     selesai: matches(
-        //         /^(?:20\d{2}|19\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/,
-        //         "Tidak sesuai format YYYY-MM-DD"
-        //     ),
-        // },
     });
 
     useEffect(() => {
@@ -64,12 +54,11 @@ const Periode = () => {
     const periode = useSelector((state) => state?.periode);
 
     const { loading, appError, serverError } = periode;
-    // console.log(periode);
+
     const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
     const mulaiPeriodeFormat = dayjs(mulaiPeriode)
         .locale("id")
         .format("DD MMMM YYYY");
-    // console.log(mulaiPeriodeFormat);
 
     const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
     const selesaiPeriodeFormat = dayjs(selesaiPeriode)
@@ -111,6 +100,14 @@ const Periode = () => {
             );
         }, 2500);
     };
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
 
     return (
         <>
@@ -213,8 +210,8 @@ const Periode = () => {
                             valueFormat="DD MMMM YYYY"
                             label="Tutup Periode Hibahku"
                             placeholder="Pilih Tanggal"
-                            hideWeekdays
                             minDate={new Date()}
+                            leftSectionPointerEvents="none"
                             leftSection={
                                 <IconCalendar
                                     style={{ width: rem(18), height: rem(18) }}
@@ -236,8 +233,8 @@ const Periode = () => {
                             valueFormat="DD MMMM YYYY"
                             label="Buka Kembali Periode Hibahku"
                             placeholder="Pilih Tanggal"
-                            hideWeekdays
                             minDate={new Date()}
+                            leftSectionPointerEvents="none"
                             leftSection={
                                 <IconCalendar
                                     style={{ width: rem(18), height: rem(18) }}
@@ -260,11 +257,6 @@ const Periode = () => {
                             radius="md"
                             mt="lg"
                             disabled={!form.isValid()}
-                            // onSubmit={onSubmitButton}
-                            // onClick={postData}
-                            // onClick={() => {
-                            //     setOpenAlert((prev) => !prev);
-                            // }}
                             onClick={handleLoadingClick}
                         >
                             Set Periode

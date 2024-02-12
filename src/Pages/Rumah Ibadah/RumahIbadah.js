@@ -26,6 +26,7 @@ import { baseRumahIbadahURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import jsPDF from "jspdf";
+import { nprogress } from "@mantine/nprogress";
 
 export default function RumahIbadah() {
     const dispatch = useDispatch();
@@ -69,6 +70,14 @@ export default function RumahIbadah() {
         window.scrollTo(0, 0);
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
 
     const items = [
         { title: "Home", href: "/dashboard" },

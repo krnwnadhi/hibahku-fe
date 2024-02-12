@@ -16,6 +16,7 @@ import { basePersetujuanURL } from "../../utils/baseURL";
 import dayjs from "dayjs";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import jsPDF from "jspdf";
+import { nprogress } from "@mantine/nprogress";
 
 const RekapLembagaKeagamaan = () => {
     const dispatch = useDispatch();
@@ -89,6 +90,14 @@ const RekapLembagaKeagamaan = () => {
         "Kota Jambi",
         "Kota Sungai Penuh",
     ];
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
 
     const columns = useMemo(
         () => [

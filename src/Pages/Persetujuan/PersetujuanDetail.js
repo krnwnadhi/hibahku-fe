@@ -42,6 +42,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IconTrash } from "@tabler/icons-react";
 import { basePersetujuanURL } from "../../utils/baseURL";
 import { modals } from "@mantine/modals";
+import { nprogress } from "@mantine/nprogress";
 import { toast } from "react-toastify";
 import { useMediaQuery } from "@mantine/hooks";
 
@@ -90,6 +91,14 @@ const PersetujuanDetail = () => {
         // form.reset()
         // form.clearErrors();
     });
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
 
     const statusInput = [
         {

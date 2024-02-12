@@ -19,6 +19,7 @@ import { IconPencil } from "@tabler/icons-react";
 import axios from "axios";
 import { basePersetujuanURL } from "../../utils/baseURL";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
+import { nprogress } from "@mantine/nprogress";
 
 const Persetujuan = () => {
     const dispatch = useDispatch();
@@ -405,6 +406,14 @@ const Persetujuan = () => {
             placeholder: "Cari",
         },
     });
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
 
     return (
         <>
