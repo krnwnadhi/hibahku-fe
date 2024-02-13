@@ -20,14 +20,15 @@ import {
     Title,
     useComputedColorScheme,
 } from "@mantine/core";
+import { IconCaretUpDown, IconInfoCircle } from "@tabler/icons-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { hasLength, useForm } from "@mantine/form";
-import { useDisclosure, useFocusTrap } from "@mantine/hooks";
+import { useDisclosure, useFocusTrap, useToggle } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
-import { IconInfoCircle } from "@tabler/icons-react";
+import MaskedInput from "react-text-mask";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import UserInfo from "../components/UserInfo/UserInfo";
 import backgroundSvg from "../../../assets/circle-scatter-haikei2.svg";
@@ -38,6 +39,7 @@ import { getAllPersetujuanAction } from "../../../redux/slices/persetujuan/perse
 export default function UserPage() {
     const dispatch = useDispatch();
     const focusTrapRef = useFocusTrap();
+    const [type, toggle] = useToggle(["masjid", "lembaga"]);
 
     const computedColorScheme = useComputedColorScheme("light", {
         getInitialValueInEffect: true,
@@ -47,6 +49,8 @@ export default function UserPage() {
     const [show, setShow] = useState(false);
 
     const [value, setValue] = useState("home");
+
+    const exceptThisSymbols = ["e", "E", "+", "-", ".", ","];
 
     const navigate = useNavigate();
     const { tabValue } = useParams();
@@ -88,7 +92,10 @@ export default function UserPage() {
         },
 
         validate: {
-            id: hasLength({ min: 10, max: 20 }, "ID SIMAS berupa angka yang"),
+            id: hasLength(
+                { min: 12, max: 15 },
+                "Min. 12 Angka & Maks. 15 Angka"
+            ),
         },
     });
 
@@ -299,76 +306,90 @@ export default function UserPage() {
 
     return (
         <>
-            <BackgroundImage h="100vh" src={backgroundSvg} radius="md">
-                <Container size="xs" mt={-15} mb={-65}>
-                    <Paper
-                        bg={
-                            computedColorScheme === "dark"
-                                ? "var(--mantine-color-gray-9)"
-                                : "var(--mantine-color-blueGray-light)"
-                        }
-                        p="md"
-                        withBorder
-                    >
-                        <Group justify="space-between" gap="xl">
-                            {computedColorScheme === "light" ? (
-                                <Image
-                                    loading="lazy"
-                                    radius="md"
-                                    w={200}
-                                    fit="contain"
-                                    src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                                    fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
-                                />
-                            ) : (
-                                <Image
-                                    loading="lazy"
-                                    radius="md"
-                                    w={200}
-                                    fit="contain"
-                                    src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                                    fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
-                                />
-                            )}
-                            <Group gap="xs">
-                                <DarkButton />
-                                <MenuMantine />
-                            </Group>
-                        </Group>
-                    </Paper>
-
-                    <Paper
-                        bg="var(--mantine-color-blueGray-light)"
-                        p="xl"
-                        withBorder
-                    >
-                        <UserInfo />
-
-                        <Space h="md" />
-
-                        <form onSubmit={formOnSubmit}>
-                            <Paper
+            {/* <BackgroundImage h="100vh" src={backgroundSvg} radius="md"> */}
+            <Container size="sm" mt={-15} mb={-65}>
+                <Paper
+                    bg={
+                        computedColorScheme === "dark"
+                            ? "var(--mantine-color-gray-9)"
+                            : "var(--mantine-color-blueGray-light)"
+                    }
+                    p="md"
+                    withBorder
+                >
+                    <Group justify="space-between" gap="xl">
+                        {computedColorScheme === "light" ? (
+                            <Image
+                                loading="lazy"
                                 radius="md"
-                                p="xl"
-                                bg="var(--mantine-color-body)"
-                                withBorder
-                                shadow="md"
+                                w={200}
+                                fit="contain"
+                                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                                fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                            />
+                        ) : (
+                            <Image
+                                loading="lazy"
+                                radius="md"
+                                w={200}
+                                fit="contain"
+                                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                                fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
+                            />
+                        )}
+                        <Group gap="xs">
+                            <DarkButton />
+                            <MenuMantine />
+                        </Group>
+                    </Group>
+                </Paper>
+
+                <Paper
+                    bg="var(--mantine-color-blueGray-light)"
+                    p="xl"
+                    withBorder
+                >
+                    <UserInfo />
+
+                    <Space h="md" />
+
+                    <form onSubmit={formOnSubmit}>
+                        <Paper
+                            radius="md"
+                            p="xl"
+                            bg="var(--mantine-color-body)"
+                            withBorder
+                            shadow="md"
+                        >
+                            <Text ta="center" c="dimmed" size="xs">
+                                Silahkan mengisi data ID SIMAS/No. NSPP/NSM yang
+                                akan menerima bantuan HIBAH dibawah ini terlebih
+                                dahulu:
+                            </Text>
+
+                            <Space h="md" />
+
+                            <Button
+                                onClick={() => toggle()}
+                                variant="light"
+                                radius="lg"
+                                fullWidth
+                                rightSection={<IconCaretUpDown size={14} />}
                             >
-                                <Text ta="center" c="dimmed" size="xs">
-                                    Silahkan mengisi data ID SIMAS/NSPP yang
-                                    akan menerima bantuan HIBAH dibawah ini
-                                    terlebih dahulu:
-                                </Text>
+                                {type === "lembaga"
+                                    ? "LEMBAGA KEAGAMAAN"
+                                    : "MASJID"}
+                            </Button>
 
-                                <Space h="md" />
-
-                                <Stack>
+                            <Stack>
+                                {type === "masjid" && (
                                     <TextInput
+                                        mt={15}
                                         ref={focusTrapRef}
                                         type="number"
-                                        label="ID/NSPP"
-                                        description="ID SIMAS/No. NSPP Lembaga Pendidikan Keagamaan"
-                                        placeholder="ID/NSPP Min. 10 angka"
+                                        label="ID SIMAS Rumah Ibadah"
+                                        description="ID Rumah Ibadah Min. 12 angka"
+                                        placeholder="Contoh: 510012340001"
                                         value={form.values.id}
                                         onChange={(event) =>
                                             form.setFieldValue(
@@ -377,94 +398,126 @@ export default function UserPage() {
                                             )
                                         }
                                         error={
-                                            form.errors.id && "Min. 10 Karakter"
+                                            form.errors.id && "Min. 12 Angka"
+                                        }
+                                        onKeyDown={(e) =>
+                                            exceptThisSymbols.includes(e.key) &&
+                                            e.preventDefault()
                                         }
                                         radius="md"
                                         disabled={loading}
                                     />
-                                </Stack>
-                                <Button
-                                    type="submit"
-                                    variant="subtle"
-                                    fullWidth
-                                    radius="md"
-                                    mt="md"
-                                    loading={loading}
-                                    onClick={handleShow}
-                                    disabled={!form.isValid()}
-                                >
-                                    Cek Status
-                                </Button>
-                            </Paper>
-                        </form>
+                                )}
 
-                        <Space h="md" />
-
-                        <Paper
-                            radius="md"
-                            p="xl"
-                            bg="var(--mantine-color-body)"
-                            withBorder
-                        >
-                            <Blockquote
-                                color="blue"
-                                cite="– Admin"
-                                icon={<IconInfoCircle />}
-                                // mt="xl"
+                                {type === "lembaga" && (
+                                    <TextInput
+                                        mt={15}
+                                        ref={focusTrapRef}
+                                        type="number"
+                                        label="No. NSPP/NSM"
+                                        description="No. NSPP/NSM Min. 15 angka & Tanpa TITIK"
+                                        placeholder="Contoh : 011010101000001"
+                                        value={form.values.id}
+                                        onChange={(event) =>
+                                            form.setFieldValue(
+                                                "id",
+                                                event.currentTarget.value
+                                            )
+                                        }
+                                        error={
+                                            form.errors.id && "Min. 15 Angka"
+                                        }
+                                        onKeyDown={(e) =>
+                                            exceptThisSymbols.includes(e.key) &&
+                                            e.preventDefault()
+                                        }
+                                        radius="md"
+                                        disabled={loading}
+                                    />
+                                )}
+                            </Stack>
+                            <Button
+                                type="submit"
+                                variant="subtle"
+                                fullWidth
+                                radius="md"
+                                mt="md"
+                                loading={loading}
+                                onClick={handleShow}
+                                disabled={!form.isValid()}
                             >
-                                <Text fs="italic" size="sm">
-                                    Contoh File/Dokumen dapat anda download pada
-                                    link berikut:
-                                    <Anchor
-                                        href="https://www.google.com/"
-                                        target="_blank"
-                                    >
-                                        <Text c="blue" fs="italic">
-                                            "CONTOH DOKUMEN"
-                                        </Text>
-                                    </Anchor>
-                                </Text>
-                            </Blockquote>
+                                Cek Status
+                            </Button>
                         </Paper>
-                        <Modal
-                            opened={show}
-                            closeOnEscape={false}
-                            closeOnClickOutside={false}
-                            withCloseButton={false}
-                            centered
-                            overlayProps={{
-                                backgroundOpacity: 0.55,
-                                blur: 3,
-                            }}
-                            yOffset="15vh"
-                            xOffset={0}
-                            scrollAreaComponent={ScrollArea.Autosize}
+                    </form>
+
+                    <Space h="md" />
+
+                    <Paper
+                        radius="md"
+                        p="xl"
+                        bg="var(--mantine-color-body)"
+                        withBorder
+                    >
+                        <Blockquote
+                            color="blue"
+                            cite="– Admin"
+                            icon={<IconInfoCircle />}
+                            // mt="xl"
                         >
-                            {appError
-                                ? hibahkuFailedModalNotification
-                                : cekStatus?.isUpload === true
-                                ? hibahkuSuccessModalNotification
-                                : hibahkuNotFoundModalNotification}
-                            {/* <Group mt="xl"> */}
-                            {/* <Button mt="xl" fullWidth onClick={handleClose}>
+                            <Text fs="italic" size="sm">
+                                Contoh File/Dokumen dapat anda download pada
+                                link berikut:
+                                <Anchor
+                                    href="https://www.google.com/"
+                                    target="_blank"
+                                >
+                                    <Text c="blue" fs="italic">
+                                        "CONTOH DOKUMEN"
+                                    </Text>
+                                </Anchor>
+                            </Text>
+                        </Blockquote>
+                    </Paper>
+                    <Modal
+                        opened={show}
+                        closeOnEscape={false}
+                        closeOnClickOutside={false}
+                        withCloseButton={false}
+                        centered
+                        overlayProps={{
+                            backgroundOpacity: 0.55,
+                            blur: 3,
+                        }}
+                        yOffset="15vh"
+                        xOffset={0}
+                        scrollAreaComponent={ScrollArea.Autosize}
+                    >
+                        {appError
+                            ? hibahkuFailedModalNotification
+                            : cekStatus?.isUpload === true
+                            ? hibahkuSuccessModalNotification
+                            : hibahkuNotFoundModalNotification}
+                        {/* <Group mt="xl"> */}
+                        {/* <Button mt="xl" fullWidth onClick={handleClose}>
                             Saya Mengerti
                         </Button> */}
-                            {/* </Group> */}
-                        </Modal>
-                    </Paper>
+                        {/* </Group> */}
+                    </Modal>
+                </Paper>
 
-                    <Center>
-                        <SegmentedControl
-                            radius="xl"
-                            size="md"
-                            classNames={classes}
-                            value={value}
-                            onChange={setValue}
-                            data={dataSegmentedControl}
-                        />
-                    </Center>
-                </Container>
-            </BackgroundImage>
+                <Center>
+                    <SegmentedControl
+                        radius="xl"
+                        size="md"
+                        classNames={classes}
+                        value={value}
+                        onChange={setValue}
+                        data={dataSegmentedControl}
+                    />
+                </Center>
+            </Container>
+            {/* </BackgroundImage> */}
         </>
     );
 }
