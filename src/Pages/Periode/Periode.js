@@ -5,6 +5,7 @@ import {
     Breadcrumbs,
     Button,
     Container,
+    Group,
     LoadingOverlay,
     Paper,
     Space,
@@ -43,7 +44,7 @@ const Periode = () => {
         validateInputOnChange: true,
         initialValues: {
             mulai: moment().format("YYYY-MM-DD"),
-            selesai: moment().format("YYYY-MM-DD"),
+            selesai: moment().add(1, "d").format("YYYY-MM-DD"),
         },
     });
 
@@ -124,21 +125,29 @@ const Periode = () => {
 
                 <Space h="md" />
 
-                <Paper radius="md" shadow="md" p="xl" withBorder>
-                    <Title order={3} ta="center" fw={700} mb="xl">
-                        TUTUP :{" "}
-                        <Text span c="red" inherit>
-                            {mulaiPeriodeFormat
-                                ? mulaiPeriodeFormat
-                                : "Tidak Ada Data"}
-                        </Text>{" "}
-                        • BUKA KEMBALI :{" "}
-                        <Text span c="blue" inherit>
-                            {selesaiPeriodeFormat
-                                ? selesaiPeriodeFormat
-                                : "Tidak Ada Data"}
-                        </Text>
-                    </Title>
+                <Paper radius="md" shadow="md" p="xl" withBorder mih="70vh">
+                    <Group grow>
+                        <Paper radius="md" shadow="sm" p="lg" withBorder>
+                            <Text ta="center" fz="md" fw={700}>
+                                TUTUP PERIODE
+                            </Text>
+                            <Text ta="center" c="red" fz="sm">
+                                {mulaiPeriodeFormat
+                                    ? mulaiPeriodeFormat
+                                    : "Tidak Ada Data"}
+                            </Text>
+                        </Paper>
+                        <Paper radius="md" shadow="sm" p="lg" withBorder>
+                            <Text ta="center" fz="md" fw={700}>
+                                BUKA KEMBALI
+                            </Text>
+                            <Text ta="center" c="green" fz="sm">
+                                {selesaiPeriodeFormat
+                                    ? selesaiPeriodeFormat
+                                    : "Tidak Ada Data"}
+                            </Text>
+                        </Paper>
+                    </Group>
                     <form onSubmit={formOnSubmit}>
                         {/* <TextInput
                             component={MaskedInput}
@@ -207,6 +216,7 @@ const Periode = () => {
                         /> */}
 
                         <DatePickerInput
+                            mt={25}
                             valueFormat="DD MMMM YYYY"
                             label="Tutup Periode Hibahku"
                             placeholder="Pilih Tanggal"

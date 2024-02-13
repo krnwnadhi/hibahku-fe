@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DarkButton from "../../User/components/DarkButton/DarkButton";
 import backgroundSvg from "../../../assets/wave-signin.svg";
 import { loginUserAction } from "../../../redux/slices/auth/authSlices";
+import { nprogress } from "@mantine/nprogress";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useFocusTrap } from "@mantine/hooks";
@@ -59,14 +60,24 @@ export default function SignIn(props) {
     const { appError, serverError, loading, userAuth } = storeDataLogin;
 
     useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
+
+    useEffect(() => {
         const abortController = new AbortController();
 
         if (appError && appError) {
             toast.error(appError);
+            nprogress.start();
         }
 
         return () => {
             abortController.abort();
+            nprogress.complete();
         };
     }, [appError, serverError, loading, userAuth]);
 

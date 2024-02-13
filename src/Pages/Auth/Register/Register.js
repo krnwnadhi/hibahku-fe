@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import DarkButton from "../../User/components/DarkButton/DarkButton";
 import backgroundSvg from "../../../assets/wave-signin.svg";
+import { nprogress } from "@mantine/nprogress";
 import { registerUserAction } from "../../../redux/slices/auth/authSlices";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -42,7 +43,7 @@ export default function Register(props) {
 
         validate: {
             nik: hasLength(
-                { min: 15, max: 16 },
+                16,
                 "Nik berupa angka yang terdiri dari 16 Karakter"
             ),
             nama: isNotEmpty("Nama tidak boleh kosong"),
@@ -67,6 +68,14 @@ export default function Register(props) {
             toast.error(appError);
         }
     }, [appError, serverError, registered, loading]);
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
 
     //redirect
     if (registered) {
@@ -123,7 +132,7 @@ export default function Register(props) {
                                 <TextInput
                                     ref={focusTrapRef}
                                     type="number"
-                                    label="NIK"
+                                    label="NIK Ketua/Pengurus/Pimpinan"
                                     placeholder="NIK yang terdiri dari 16 angka"
                                     value={form.values.nik}
                                     onChange={(event) =>
@@ -134,13 +143,13 @@ export default function Register(props) {
                                     }
                                     error={
                                         form.errors.nik &&
-                                        "Min 15 & Maks. 16 Karakter"
+                                        "NIK minimal 16 Angka"
                                     }
                                     radius="md"
                                 />
 
                                 <TextInput
-                                    label="Nama"
+                                    label="Nama Ketua/Pengurus/Pimpinan"
                                     placeholder="Nama Lengkap"
                                     value={form.values.nama}
                                     onChange={(event) =>
@@ -157,7 +166,7 @@ export default function Register(props) {
                                 />
 
                                 <TextInput
-                                    label="No. Handphone"
+                                    label="No. Handphone Ketua/Pengurus/Pimpinan"
                                     type="number"
                                     placeholder="08xxxxxxxx"
                                     value={form.values.notelpon}
