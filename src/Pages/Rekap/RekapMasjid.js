@@ -378,27 +378,35 @@ const RekapMasjid = () => {
                 },
                 6: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 7: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 8: {
                     halign: "center",
+                    cellWidth: 15,
                 },
                 9: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 10: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 11: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 12: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 13: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 14: {
                     halign: "center",

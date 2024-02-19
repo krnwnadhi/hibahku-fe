@@ -1,14 +1,11 @@
 import {
     Anchor,
-    Avatar,
-    BackgroundImage,
     Blockquote,
     Button,
     Center,
     Container,
     Group,
     Image,
-    LoadingOverlay,
     Modal,
     Paper,
     ScrollArea,
@@ -28,10 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
-import MaskedInput from "react-text-mask";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import UserInfo from "../components/UserInfo/UserInfo";
-import backgroundSvg from "../../../assets/circle-scatter-haikei2.svg";
 import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import classes from "./UserPage.module.css";
 import { getAllPersetujuanAction } from "../../../redux/slices/persetujuan/persetujuanSlices";
@@ -45,15 +40,11 @@ export default function UserPage() {
         getInitialValueInEffect: true,
     });
 
-    const [opened, { open, close }] = useDisclosure(false);
     const [show, setShow] = useState(false);
 
     const [value, setValue] = useState("home");
 
     const exceptThisSymbols = ["e", "E", "+", "-", ".", ","];
-
-    const navigate = useNavigate();
-    const { tabValue } = useParams();
 
     const handleClose = () => setShow(false);
     const handleShow = () => {
@@ -100,9 +91,7 @@ export default function UserPage() {
     });
 
     const formOnSubmit = form.onSubmit((values) => {
-        // console.log(values);
         dispatch(cekStatusRumahIbadahAction(values));
-        // form.reset()
         form.clearErrors();
     });
 

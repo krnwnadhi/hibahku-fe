@@ -336,7 +336,7 @@ const RekapLembagaKeagamaan = () => {
                 [
                     { content: "No", rowSpan: 2 },
                     {
-                        content: "Nama Rumah Ibadah",
+                        content: "Nama Lembaga",
                         rowSpan: 2,
                     },
                     {
@@ -344,11 +344,11 @@ const RekapLembagaKeagamaan = () => {
                         rowSpan: 2,
                     },
                     {
-                        content: "ID Rumah Ibadah",
+                        content: "No. NSPP/NSM",
                         rowSpan: 2,
                     },
                     {
-                        content: "Ketua / Pengurus",
+                        content: "Pimpinan/ Pengurus",
                         rowSpan: 2,
                     },
                     {
@@ -396,32 +396,45 @@ const RekapLembagaKeagamaan = () => {
                 0: {
                     halign: "center",
                 },
+                // 4: {
+                //     halign: "center",
+                //     cellWidth: 15,
+                // },
                 6: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 7: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 8: {
                     halign: "center",
+                    cellWidth: 15,
                 },
                 9: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 10: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 11: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 12: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 13: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 14: {
                     halign: "center",
+                    cellWidth: "auto",
                 },
                 15: {
                     cellWidth: "wrap",
