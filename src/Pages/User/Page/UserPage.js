@@ -25,11 +25,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
+import MaskedInput from "react-text-mask";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import UserInfo from "../components/UserInfo/UserInfo";
 import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import classes from "./UserPage.module.css";
 import { getAllPersetujuanAction } from "../../../redux/slices/persetujuan/persetujuanSlices";
+import { nprogress } from "@mantine/nprogress";
 
 export default function UserPage() {
     const dispatch = useDispatch();
@@ -70,11 +72,11 @@ export default function UserPage() {
     const filteredResult = persetujuanList?.result?.filter((item) => {
         return nik === item?.userid;
     });
-    console.log(filteredResult);
+    // console.log(filteredResult);
 
     const persetujuanId =
         filteredResult?.length > 0 ? filteredResult[0].id : null;
-    console.log(persetujuanId);
+    // console.log(persetujuanId);
 
     const form = useForm({
         validateInputOnChange: true,
@@ -293,6 +295,14 @@ export default function UserPage() {
         </>
     );
 
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
+
     return (
         <>
             {/* <BackgroundImage h="100vh" src={backgroundSvg} radius="md"> */}
@@ -367,7 +377,7 @@ export default function UserPage() {
                             >
                                 {type === "lembaga"
                                     ? "LEMBAGA KEAGAMAAN"
-                                    : "MASJID"}
+                                    : "RUMAH IBADAH"}
                             </Button>
 
                             <Stack>
@@ -376,9 +386,9 @@ export default function UserPage() {
                                         mt={15}
                                         ref={focusTrapRef}
                                         type="number"
-                                        label="ID SIMAS Rumah Ibadah"
-                                        description="ID Rumah Ibadah Min. 12 angka"
-                                        placeholder="Contoh: 510012340001"
+                                        label="ID Rumah Ibadah"
+                                        description="ID SIMAS Min. 15 angka & Tanpa TITIK"
+                                        placeholder="Contoh: 011051001000000"
                                         value={form.values.id}
                                         onChange={(event) =>
                                             form.setFieldValue(
@@ -387,7 +397,8 @@ export default function UserPage() {
                                             )
                                         }
                                         error={
-                                            form.errors.id && "Min. 12 Angka"
+                                            form.errors.id &&
+                                            "ID SIMAS wajib terdiri dari 15 Angka & Tanpa TITIK"
                                         }
                                         onKeyDown={(e) =>
                                             exceptThisSymbols.includes(e.key) &&
@@ -404,8 +415,8 @@ export default function UserPage() {
                                         ref={focusTrapRef}
                                         type="number"
                                         label="No. NSPP/NSM"
-                                        description="No. NSPP/NSM Min. 15 angka & Tanpa TITIK"
-                                        placeholder="Contoh : 011010101000001"
+                                        description="No. NSPP/NSM Min. 12 angka "
+                                        placeholder="Contoh : 500015020000"
                                         value={form.values.id}
                                         onChange={(event) =>
                                             form.setFieldValue(
@@ -414,7 +425,8 @@ export default function UserPage() {
                                             )
                                         }
                                         error={
-                                            form.errors.id && "Min. 15 Angka"
+                                            form.errors.id &&
+                                            "No. NSPP/NSM Min. 12 Angka"
                                         }
                                         onKeyDown={(e) =>
                                             exceptThisSymbols.includes(e.key) &&

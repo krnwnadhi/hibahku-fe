@@ -110,6 +110,19 @@ export default function RumahIbadah() {
 
     const categoryList = ["RUMAH IBADAH", "LEMBAGA KEAGAMAAN"];
 
+    const formatInput = (input) => {
+        let formattedString = "";
+        for (let i = 0; i < input.length; i += 2) {
+            formattedString += input.substr(i, 2);
+            if (i < input.length - 2) {
+                formattedString += ".";
+            }
+        }
+        return formattedString;
+    };
+
+    console.log(formatInput("011051001000001"));
+
     const columns = useMemo(
         () => [
             {
@@ -135,6 +148,9 @@ export default function RumahIbadah() {
                 minSize: 150,
                 maxSize: 275,
                 size: 225,
+                // Cell: ({ row }) => {
+                //     console.log(row.original.id);
+                // },
             },
             {
                 accessorKey: "nama",
@@ -184,25 +200,25 @@ export default function RumahIbadah() {
                 maxSize: 250,
                 size: 200,
             },
-            {
-                accessorFn: (row) => {
-                    const sDay = new Date(row.createdAt);
-                    // sDay.setHours(0, 0, 0, 0);
-                    return sDay;
-                },
-                enableGrouping: false,
-                id: "createdAt",
-                header: "Dibuat",
-                filterVariant: "date-range",
-                sortingFn: "datetime",
-                // enableColumnFilter: false,
-                enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
-                Cell: ({ cell }) =>
-                    cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
-                minSize: 100,
-                maxSize: 200,
-                size: 150,
-            },
+            // {
+            //     accessorFn: (row) => {
+            //         const sDay = new Date(row.createdAt);
+            //         // sDay.setHours(0, 0, 0, 0);
+            //         return sDay;
+            //     },
+            //     enableGrouping: false,
+            //     id: "createdAt",
+            //     header: "Dibuat",
+            //     filterVariant: "date-range",
+            //     sortingFn: "datetime",
+            //     // enableColumnFilter: false,
+            //     enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+            //     Cell: ({ cell }) =>
+            //         cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
+            //     minSize: 100,
+            //     maxSize: 200,
+            //     size: 150,
+            // },
         ],
         // eslint-disable-next-line
         []

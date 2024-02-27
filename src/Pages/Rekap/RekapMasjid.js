@@ -98,6 +98,19 @@ const RekapMasjid = () => {
         };
     }, [loading]);
 
+    const formatInput = (input) => {
+        const inputString = input.toString(); // Convert number to string
+        const firstPart = inputString.slice(0, -6); // Get the first part of the string (excluding the last 6 digits)
+        const lastPart = inputString.slice(-6); // Get the last 6 digits
+        return (
+            firstPart
+                .match(/.{1,2}/g) // Split the string into groups of two characters
+                .join(".") +
+            "." +
+            lastPart
+        ); // Join the groups with a dot and append the last 6 digits
+    };
+
     const columns = useMemo(
         () => [
             {
@@ -294,7 +307,7 @@ const RekapMasjid = () => {
                 row.index + 1,
                 Keagamaan.nama,
                 Keagamaan.alamat,
-                keagamaanid,
+                formatInput(keagamaanid),
                 User.nama,
                 User.notelpon,
                 Suratpermohonan.namafile !== null ? "V" : "X",

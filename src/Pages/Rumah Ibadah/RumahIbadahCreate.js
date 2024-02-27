@@ -24,7 +24,7 @@ import {
 } from "@mantine/core";
 import { IconArrowLeft, IconCaretUpDown } from "@tabler/icons-react";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure, useFocusTrap, useToggle } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +33,7 @@ import DarkButton from "../User/components/DarkButton/DarkButton";
 import MenuMantine from "../../components/Menu/MenuMantine";
 import backgroundSvg from "../../assets/circle-scatter-haikei2.svg";
 import { createRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
+import { nprogress } from "@mantine/nprogress";
 
 const RumahIbadahCreate = () => {
     const navigate = useNavigate();
@@ -66,7 +67,7 @@ const RumahIbadahCreate = () => {
 
         validate: {
             id: hasLength(
-                { min: 10, max: 20 },
+                { min: 12, max: 15 },
                 "Nomor ID SIMAS Rumah Ibadah/ No. NSPP/ No. NSM berupa angka yang terdiri dari 15-16 Karakter"
             ),
             nama: hasLength({ min: 3, max: 50 }, "Nama minimal 3 karakter"),
@@ -87,7 +88,7 @@ const RumahIbadahCreate = () => {
         },
         {
             value: 2,
-            description: "Masjid",
+            description: "Rumah Ibadah",
         },
     ];
 
@@ -304,6 +305,14 @@ const RumahIbadahCreate = () => {
         </>
     );
 
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
+
     return (
         <>
             {/* <BackgroundImage h="100vh" src={backgroundSvg} radius="md"> */}
@@ -366,7 +375,7 @@ const RumahIbadahCreate = () => {
                                             ref={focusTrapRef}
                                             type="number"
                                             label="ID SIMAS"
-                                            description="ID SIMAS Rumah Ibadah"
+                                            description="ID SIMAS Min. 15 angka & Tanpa TITIK"
                                             value={form.values.id}
                                             onChange={(event) =>
                                                 form.setFieldValue(
@@ -376,7 +385,7 @@ const RumahIbadahCreate = () => {
                                             }
                                             error={
                                                 form.errors.id &&
-                                                "Min. 12 Angka"
+                                                "ID SIMAS wajib terdiri dari 15 Angka & Tanpa TITIK"
                                             }
                                             radius="md"
                                         />
@@ -648,7 +657,8 @@ const RumahIbadahCreate = () => {
                                     type="submit"
                                     radius="md"
                                     loading={loading}
-                                    disabled={loading}
+                                    // disabled={loading}
+                                    disabled={!form.isValid()}
                                     onClick={handleShow}
                                 >
                                     Submit

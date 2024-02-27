@@ -29,6 +29,7 @@ import {
 } from "@tabler/icons-react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { useFocusTrap, useToggle } from "@mantine/hooks";
 
 import DarkButton from "../components/DarkButton/DarkButton";
@@ -36,8 +37,8 @@ import MenuMantine from "../../../components/Menu/MenuMantine";
 import backgroundSvg from "../../../assets/circle-scatter-haikei2.svg";
 import { createPermohonan } from "../../../redux/slices/permohonan/permohonanSlices";
 import dayjs from "dayjs";
+import { nprogress } from "@mantine/nprogress";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export default function UserPermohonan() {
     const computedColorScheme = useComputedColorScheme("light", {
@@ -66,6 +67,8 @@ export default function UserPermohonan() {
 
     const [show, setShow] = useState(false);
 
+    const exceptThisSymbols = ["e", "E", "+", "-", ".", ","];
+
     const handleClose = () => setShow(false);
 
     const handleShow = () => {
@@ -73,6 +76,19 @@ export default function UserPermohonan() {
             setShow(true);
         }, 2000);
     };
+
+    const persetujuan = useSelector((state) => state?.persetujuan);
+    const { persetujuanList } = persetujuan;
+
+    const user = useSelector((state) => state?.auth?.userAuth);
+    const { nik } = user;
+
+    const filteredResult = persetujuanList?.result?.filter((item) => {
+        return nik === item?.userid;
+    });
+
+    const persetujuanId =
+        filteredResult?.length > 0 ? filteredResult[0].id : null;
 
     const form = useForm({
         validateInputOnChange: true,
@@ -120,6 +136,14 @@ export default function UserPermohonan() {
             // file_pengesahankemenkumham: isNotEmpty("Tidak Boleh Kosong"),
         },
     });
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
 
     const formOnSubmit = form.onSubmit((values) => {
         console.log(values);
@@ -171,7 +195,7 @@ export default function UserPermohonan() {
             <Text ta="center">
                 Selanjutnya, untuk mengetahui perkembangan permohonan anda,
                 silahkan klik fitur
-                <Anchor href="/dashboard/user/progres">
+                <Anchor href={`/dashboard/user/beranda`}>
                     <Text c="blue" fs="italic">
                         "PROGRES HIBAHKU"
                     </Text>{" "}
@@ -246,7 +270,7 @@ export default function UserPermohonan() {
                                                 : "MASJID"}
                                         </Button>
 
-                                        <TextInput
+                                        {/* <TextInput
                                             ref={focusTrapRef}
                                             type="number"
                                             label="ID SIMAS/NSPP/NSM"
@@ -262,7 +286,68 @@ export default function UserPermohonan() {
                                                 form.errors.keagamaanid &&
                                                 "10-20 Karakter"
                                             }
-                                        />
+                                        /> */}
+
+                                        {type === "masjid" && (
+                                            <TextInput
+                                                mt={15}
+                                                ref={focusTrapRef}
+                                                type="number"
+                                                label="ID Rumah Ibadah"
+                                                description="ID SIMAS Min. 15 angka & Tanpa TITIK"
+                                                placeholder="Contoh: 011051001000000"
+                                                value={form.values.keagamaanid}
+                                                onChange={(event) =>
+                                                    form.setFieldValue(
+                                                        "keagamaanid",
+                                                        event.currentTarget
+                                                            .value
+                                                    )
+                                                }
+                                                error={
+                                                    form.errors.keagamaanid &&
+                                                    "ID SIMAS wajib terdiri dari 15 Angka & Tanpa TITIK"
+                                                }
+                                                onKeyDown={(e) =>
+                                                    exceptThisSymbols.includes(
+                                                        e.key
+                                                    ) && e.preventDefault()
+                                                }
+                                                radius="md"
+                                                disabled={loading}
+                                            />
+                                        )}
+
+                                        {type === "lembaga" && (
+                                            <TextInput
+                                                mt={15}
+                                                ref={focusTrapRef}
+                                                type="number"
+                                                label="No. NSPP/NSM"
+                                                description="No. NSPP/NSM Min. 12 angka "
+                                                placeholder="Contoh : 500015020000"
+                                                value={form.values.keagamaanid}
+                                                onChange={(event) =>
+                                                    form.setFieldValue(
+                                                        "keagamaanid",
+                                                        event.currentTarget
+                                                            .value
+                                                    )
+                                                }
+                                                error={
+                                                    form.errors.keagamaanid &&
+                                                    "No. NSPP/NSM Min. 12 Angka"
+                                                }
+                                                onKeyDown={(e) =>
+                                                    exceptThisSymbols.includes(
+                                                        e.key
+                                                    ) && e.preventDefault()
+                                                }
+                                                radius="md"
+                                                disabled={loading}
+                                            />
+                                        )}
+
                                         <TextInput
                                             label="Tujuan"
                                             description="Alasan pemohon untuk memohon HIBAH"
@@ -463,9 +548,7 @@ export default function UserPermohonan() {
                     scrollAreaComponent={ScrollArea.Autosize}
                     onClose={handleClose}
                 >
-                    {permohonanCreated ? (
-                        hibahkuSuccessModalNotification
-                    ) : (
+                    {!permohonanCreated ? (
                         <Text ta="center" inherit>
                             Terjadi Kesalahan! Silahkan reload halaman & harap
                             mengulang upload file permohonan anda.
@@ -473,6 +556,8 @@ export default function UserPermohonan() {
                                 Pesan: {appError}
                             </Text>
                         </Text>
+                    ) : (
+                        hibahkuSuccessModalNotification
                     )}
                 </Modal>
             </Container>

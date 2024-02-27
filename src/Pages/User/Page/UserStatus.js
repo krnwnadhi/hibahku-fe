@@ -1,5 +1,4 @@
 import {
-    BackgroundImage,
     Badge,
     Center,
     Container,
@@ -24,19 +23,22 @@ import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
 import MenuMantine from "../../../components/Menu/MenuMantine";
-import backgroundSvg from "../../../assets/circle-scatter-haikei2.svg";
 import classes from "./UserPage.module.css";
 import dayjs from "dayjs";
+import { nprogress } from "@mantine/nprogress";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useDisclosure } from "@mantine/hooks";
+
+// import backgroundSvg from "../../../assets/circle-scatter-haikei2.svg";
+
+// import { useDisclosure } from "@mantine/hooks";
 
 dayjs.extend(relativeTime);
 
 export default function UserStatus() {
     const { id } = useParams();
 
-    const [opened, { open, close }] = useDisclosure(false);
-    const [show, setShow] = useState(false);
+    // const [opened, { open, close }] = useDisclosure(false);
+    // const [show, setShow] = useState(false);
     const dispatch = useDispatch();
 
     const computedColorScheme = useComputedColorScheme("light", {
@@ -45,12 +47,12 @@ export default function UserStatus() {
 
     const [value, setValue] = useState("progres");
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => {
-        setTimeout(() => {
-            setShow(true);
-        }, 2000);
-    };
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => {
+    //     setTimeout(() => {
+    //         setShow(true);
+    //     }, 2000);
+    // };
 
     useEffect(() => {
         dispatch(getAllPersetujuanAction());
@@ -62,17 +64,22 @@ export default function UserStatus() {
 
     const persetujuan = useSelector((state) => state?.persetujuan);
     const { loading, persetujuanList, detailUserPersetujuan } = persetujuan;
-    // console.log(detailUserPersetujuan);
+
+    // console.log(persetujuanList);
 
     const user = useSelector((state) => state?.auth?.userAuth);
     const { nik } = user;
+    console.log(nik);
 
     const filteredResult = persetujuanList?.result?.filter((item) => {
-        return nik === item.userid;
+        return nik === item?.userid;
     });
+    console.log(filteredResult);
 
     const persetujuanId =
         filteredResult?.length > 0 ? filteredResult[0].id : null;
+
+    console.log(persetujuanId);
 
     const dataSegmentedControl = [
         {
@@ -121,13 +128,21 @@ export default function UserStatus() {
         dayjs(item?.updatedAt).locale("id").fromNow()
     );
 
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
+
     const rows = detailUserPersetujuan?.map((item) => (
         <Table.Tr key={item?.id}>
             <Table.Td>
                 <Group gap="sm">
                     <Badge
                         color={statusColors[item?.Status?.nama]}
-                        variant="light"
+                        variant="outline"
                         size="sm"
                     >
                         {item?.Status?.nama}
@@ -137,7 +152,7 @@ export default function UserStatus() {
             <Table.Td>
                 <Badge
                     color={prosesColors[item?.Proses?.nama]}
-                    variant="light"
+                    variant="outline"
                     size="sm"
                 >
                     {item?.Proses?.nama}
@@ -158,7 +173,6 @@ export default function UserStatus() {
 
     return (
         <>
-            {/* <BackgroundImage h="100vh" src={backgroundSvg} radius="md"> */}
             <Container size="sm" mt={-15} mb={-65} mih="50vh">
                 <Paper
                     p="md"
@@ -206,7 +220,7 @@ export default function UserStatus() {
                             Status Permohonan
                         </Title>
                         <Divider h="xl" />
-                        {persetujuanId === null ? (
+                        {filteredResult === null ? (
                             loading ? (
                                 <Center>
                                     <Loader />
@@ -232,7 +246,7 @@ export default function UserStatus() {
                                         captionSide="bottom"
                                         style={{
                                             fontSize: 12,
-                                            minWidth: 1000,
+                                            minWidth: "70vh",
                                         }}
                                     >
                                         <Table.Caption>
@@ -265,7 +279,6 @@ export default function UserStatus() {
                     />
                 </Center>
             </Container>
-            {/* </BackgroundImage> */}
         </>
     );
 }
