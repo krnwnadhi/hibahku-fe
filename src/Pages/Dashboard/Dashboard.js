@@ -56,7 +56,7 @@ export default function Dashboard() {
     //
     const allUsersList = useSelector((state) => state?.users);
     const { loading, usersList } = allUsersList;
-    console.log(usersList?.result?.length);
+    // console.log(usersList?.result?.length);
 
     //
     const allRumahIbadah = useSelector(

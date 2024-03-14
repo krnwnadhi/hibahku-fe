@@ -548,16 +548,16 @@ export default function UserPermohonan() {
                     scrollAreaComponent={ScrollArea.Autosize}
                     onClose={handleClose}
                 >
-                    {!permohonanCreated ? (
+                    {permohonanCreated?.message === "Permohonan berhasil" ? (
+                        hibahkuSuccessModalNotification
+                    ) : (
                         <Text ta="center" inherit>
-                            Terjadi Kesalahan! Silahkan reload halaman & harap
-                            mengulang upload file permohonan anda.
+                            Terjadi Kesalahan! Silahkan refresh halaman & harap
+                            untuk mengulang upload file permohonan anda.
                             <Text ta="center" c="red" inherit>
-                                Pesan: {appError}
+                                {appError ? <>Pesan: {appError}</> : "Periksa"}
                             </Text>
                         </Text>
-                    ) : (
-                        hibahkuSuccessModalNotification
                     )}
                 </Modal>
             </Container>

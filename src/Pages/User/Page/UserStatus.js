@@ -37,6 +37,10 @@ dayjs.extend(relativeTime);
 export default function UserStatus() {
     const { id } = useParams();
 
+    const user = useSelector((state) => state?.auth?.userAuth);
+    const { nik } = user;
+    console.log(nik);
+
     // const [opened, { open, close }] = useDisclosure(false);
     // const [show, setShow] = useState(false);
     const dispatch = useDispatch();
@@ -59,17 +63,13 @@ export default function UserStatus() {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getDetailUserPersetujuanAction(id));
-    }, [dispatch, id]);
+        dispatch(getDetailUserPersetujuanAction(nik));
+    }, [dispatch, nik]);
 
     const persetujuan = useSelector((state) => state?.persetujuan);
     const { loading, persetujuanList, detailUserPersetujuan } = persetujuan;
 
-    // console.log(persetujuanList);
-
-    const user = useSelector((state) => state?.auth?.userAuth);
-    const { nik } = user;
-    console.log(nik);
+    console.log(persetujuanList);
 
     const filteredResult = persetujuanList?.result?.filter((item) => {
         return nik === item?.userid;
@@ -128,6 +128,9 @@ export default function UserStatus() {
         dayjs(item?.updatedAt).locale("id").fromNow()
     );
 
+    const lastTableCaption = tableCaption?.slice(-1);
+    console.log(lastTableCaption);
+
     useEffect(() => {
         loading ? nprogress.start() : nprogress.complete();
 
@@ -138,34 +141,36 @@ export default function UserStatus() {
 
     const rows = detailUserPersetujuan?.map((item) => (
         <Table.Tr key={item?.id}>
-            <Table.Td>
+            <Table.Td ta="center">
                 <Group gap="sm">
                     <Badge
                         color={statusColors[item?.Status?.nama]}
                         variant="outline"
-                        size="sm"
+                        size="xs"
                     >
                         {item?.Status?.nama}
                     </Badge>
                 </Group>
             </Table.Td>
-            <Table.Td>
+            <Table.Td ta="center">
                 <Badge
                     color={prosesColors[item?.Proses?.nama]}
                     variant="outline"
-                    size="sm"
+                    size="xs"
                 >
                     {item?.Proses?.nama}
                 </Badge>
             </Table.Td>
             <Table.Td>
-                <Text size="xs">{item?.Proses?.keterangan}</Text>
+                <Text size="xs" ta="center">
+                    {item?.Proses?.keterangan}
+                </Text>
             </Table.Td>
-            <Table.Td>
+            <Table.Td ta="center">
                 <Text size="xs">
                     {dayjs(item?.updatedAt)
                         .locale("id")
-                        .format("DD MMMM YYYY HH:mm")}
+                        .format("DD/MM/YYYY HH:mm")}
                 </Text>
             </Table.Td>
         </Table.Tr>
@@ -249,15 +254,24 @@ export default function UserStatus() {
                                             minWidth: "70vh",
                                         }}
                                     >
-                                        <Table.Caption>
-                                            Terakhir diperbarui: {tableCaption}
-                                        </Table.Caption>
+                                        {/* <Table.Caption>
+                                            Terakhir diperbarui:{" "}
+                                            {lastTableCaption}
+                                        </Table.Caption> */}
                                         <Table.Thead>
                                             <Table.Tr>
-                                                <Table.Th>Status</Table.Th>
-                                                <Table.Th>Proses</Table.Th>
-                                                <Table.Th>Keterangan</Table.Th>
-                                                <Table.Th>Update</Table.Th>
+                                                <Table.Th ta="center">
+                                                    Status
+                                                </Table.Th>
+                                                <Table.Th ta="center">
+                                                    Proses
+                                                </Table.Th>
+                                                <Table.Th ta="center">
+                                                    Keterangan
+                                                </Table.Th>
+                                                <Table.Th ta="center">
+                                                    Update
+                                                </Table.Th>
                                             </Table.Tr>
                                         </Table.Thead>
                                         <Table.Tbody>{rows}</Table.Tbody>

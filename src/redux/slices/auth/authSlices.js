@@ -157,11 +157,11 @@ const authSlices = createSlice({
             state.loading = false;
             state.appError = action?.payload?.message;
             state.serverError = action?.error?.message;
-            if (state.appError) {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
-            }
+            // if (state.appError) {
+            //     setTimeout(() => {
+            //         window.location.reload();
+            //     }, 4000);
+            // }
         });
 
         //logout user

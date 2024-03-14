@@ -156,11 +156,11 @@ const PersetujuanDetail = () => {
         },
         {
             value: 10,
-            description: "BELUM DIPROSES",
+            description: "❎ BELUM DIPROSES",
         },
         {
             value: 11,
-            description: "DITOLAK",
+            description: "❌ DITOLAK",
         },
     ];
 

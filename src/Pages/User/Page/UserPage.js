@@ -345,7 +345,7 @@ export default function UserPage() {
 
                 <Paper
                     bg="var(--mantine-color-blueGray-light)"
-                    p="xl"
+                    p="md"
                     withBorder
                 >
                     <UserInfo />

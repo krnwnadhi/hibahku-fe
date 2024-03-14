@@ -46,7 +46,9 @@ const Persetujuan = () => {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Access-Control-Allow-Origin": "*",
+                    "Content-Type": "application/json",
                 },
+                withCredentials: true,
             };
             const response = await axios.get(
                 `${basePersetujuanURL}/list`,

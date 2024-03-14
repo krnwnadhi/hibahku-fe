@@ -69,7 +69,7 @@ export const getDetailAdminPersetujuanAction = createAsyncThunk(
 //get detail User persetujuan
 export const getDetailUserPersetujuanAction = createAsyncThunk(
     "persetujuan/getDetailUserPersetujuan",
-    async (id, { rejectWithValue, getState, dispatch }) => {
+    async (userId, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
 
         const config = {
@@ -83,7 +83,7 @@ export const getDetailUserPersetujuanAction = createAsyncThunk(
 
         try {
             const { data } = await axios.get(
-                `${basePersetujuanURL}/detail/user/${id}`,
+                `${basePersetujuanURL}/detail/user/${userId}`,
                 config
             );
             return data;
