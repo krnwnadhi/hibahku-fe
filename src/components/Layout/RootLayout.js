@@ -71,7 +71,6 @@ export default function RootLayout() {
                         visibleFrom="sm"
                         size="sm"
                     />
-                    <Title order={5}>Selamat Datang, {user?.nama}!</Title>
                     <Group h="100%" px="md" justify="space-between">
                         <DarkButton />
                         <MenuMantine />
@@ -109,11 +108,15 @@ export default function RootLayout() {
                             />
                         </Anchor>
                     )}
-                    <Code fw={500}>v1.0.0</Code>
+                    <Code fw={500}>v1.0.1</Code>
                 </Group>
 
-                <AppShell.Section component={ScrollArea}>
+                <AppShell.Section component={ScrollArea} grow>
                     <SideNav />
+                </AppShell.Section>
+                <AppShell.Section>
+                    {" "}
+                    <Title order={5}>Selamat Datang, {user?.nama}!</Title>
                 </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>

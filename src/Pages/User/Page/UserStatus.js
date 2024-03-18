@@ -225,7 +225,7 @@ export default function UserStatus() {
                             Status Permohonan
                         </Title>
                         <Divider h="xl" />
-                        {filteredResult === null ? (
+                        {persetujuanId === null ? (
                             loading ? (
                                 <Center>
                                     <Loader />
