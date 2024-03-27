@@ -21,4 +21,4 @@ export const basePeriodeURL = "http://localhost:5000/api/v1/periode";
 // export const basePeriodeURL =
 //     "https://api-hibahku.jambiprov.go.id/api/v1/periode";
 
-// http://10.15.0.103:5000/api/v1/auth
+// // http://10.15.0.103:5000/api/v1/auth
