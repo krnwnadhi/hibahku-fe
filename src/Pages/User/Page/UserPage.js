@@ -18,24 +18,22 @@ import {
     useComputedColorScheme,
 } from "@mantine/core";
 import { IconCaretUpDown, IconInfoCircle } from "@tabler/icons-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import { hasLength, useForm } from "@mantine/form";
-import { useDisclosure, useFocusTrap, useToggle } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
-import MaskedInput from "react-text-mask";
+import { Link } from "react-router-dom";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import UserInfo from "../components/UserInfo/UserInfo";
 import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import classes from "./UserPage.module.css";
 import { getAllPersetujuanAction } from "../../../redux/slices/persetujuan/persetujuanSlices";
 import { nprogress } from "@mantine/nprogress";
+import { useToggle } from "@mantine/hooks";
 
 export default function UserPage() {
     const dispatch = useDispatch();
-    const focusTrapRef = useFocusTrap();
     const [type, toggle] = useToggle(["masjid", "lembaga"]);
 
     const computedColorScheme = useComputedColorScheme("light", {
@@ -384,7 +382,6 @@ export default function UserPage() {
                                 {type === "masjid" && (
                                     <TextInput
                                         mt={15}
-                                        ref={focusTrapRef}
                                         type="number"
                                         label="ID Rumah Ibadah"
                                         description="ID SIMAS Min. 15 angka & Tanpa TITIK"
@@ -412,7 +409,6 @@ export default function UserPage() {
                                 {type === "lembaga" && (
                                     <TextInput
                                         mt={15}
-                                        ref={focusTrapRef}
                                         type="number"
                                         label="No. NSPP/NSM"
                                         description="No. NSPP/NSM Min. 12 angka "

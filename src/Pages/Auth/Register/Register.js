@@ -24,13 +24,11 @@ import { nprogress } from "@mantine/nprogress";
 import { registerUserAction } from "../../../redux/slices/auth/authSlices";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { useFocusTrap } from "@mantine/hooks";
 
 export default function Register(props) {
     const computedColorScheme = useComputedColorScheme("dark", {
         getInitialValueInEffect: true,
     });
-    const focusTrapRef = useFocusTrap();
 
     const form = useForm({
         validateInputOnChange: true,
@@ -130,7 +128,6 @@ export default function Register(props) {
                         >
                             <Stack>
                                 <TextInput
-                                    ref={focusTrapRef}
                                     type="number"
                                     label="NIK Ketua/Pengurus/Pimpinan"
                                     placeholder="NIK yang terdiri dari 16 angka"

@@ -2,7 +2,6 @@ import "dayjs/locale/id";
 
 import {
     Anchor,
-    BackgroundImage,
     Button,
     Center,
     Container,
@@ -30,15 +29,14 @@ import {
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useFocusTrap, useToggle } from "@mantine/hooks";
 
 import DarkButton from "../components/DarkButton/DarkButton";
 import MenuMantine from "../../../components/Menu/MenuMantine";
-import backgroundSvg from "../../../assets/circle-scatter-haikei2.svg";
 import { createPermohonan } from "../../../redux/slices/permohonan/permohonanSlices";
 import dayjs from "dayjs";
 import { nprogress } from "@mantine/nprogress";
 import { useNavigate } from "react-router-dom";
+import { useToggle } from "@mantine/hooks";
 
 export default function UserPermohonan() {
     const computedColorScheme = useComputedColorScheme("light", {
@@ -48,7 +46,6 @@ export default function UserPermohonan() {
     const [errorMsg, setErrorMsg] = useState("");
 
     const navigate = useNavigate();
-    const focusTrapRef = useFocusTrap();
 
     const dispatch = useDispatch();
 
@@ -271,7 +268,6 @@ export default function UserPermohonan() {
                                         </Button>
 
                                         {/* <TextInput
-                                            ref={focusTrapRef}
                                             type="number"
                                             label="ID SIMAS/NSPP/NSM"
                                             description="Masukkan ID SIMAS/NSPP/NSM yang akan menerima HIBAH"
@@ -291,7 +287,6 @@ export default function UserPermohonan() {
                                         {type === "masjid" && (
                                             <TextInput
                                                 mt={15}
-                                                ref={focusTrapRef}
                                                 type="number"
                                                 label="ID Rumah Ibadah"
                                                 description="ID SIMAS Min. 15 angka & Tanpa TITIK"
@@ -321,7 +316,6 @@ export default function UserPermohonan() {
                                         {type === "lembaga" && (
                                             <TextInput
                                                 mt={15}
-                                                ref={focusTrapRef}
                                                 type="number"
                                                 label="No. NSPP/NSM"
                                                 description="No. NSPP/NSM Min. 12 angka "

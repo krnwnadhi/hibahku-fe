@@ -1,6 +1,4 @@
 import {
-    Avatar,
-    BackgroundImage,
     Button,
     Center,
     CloseButton,
@@ -26,7 +24,7 @@ import { IconArrowLeft, IconCaretUpDown } from "@tabler/icons-react";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
-import { useDisclosure, useFocusTrap, useToggle } from "@mantine/hooks";
+import { useDisclosure, useToggle } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
 
 import DarkButton from "../User/components/DarkButton/DarkButton";
@@ -37,7 +35,6 @@ import { nprogress } from "@mantine/nprogress";
 
 const RumahIbadahCreate = () => {
     const navigate = useNavigate();
-    const focusTrapRef = useFocusTrap();
 
     const [type, toggle] = useToggle(["masjid", "lembaga"]);
 
@@ -372,7 +369,6 @@ const RumahIbadahCreate = () => {
 
                                     {type === "masjid" && (
                                         <TextInput
-                                            ref={focusTrapRef}
                                             type="number"
                                             label="ID SIMAS"
                                             description="ID SIMAS Min. 15 angka & Tanpa TITIK"
@@ -393,7 +389,6 @@ const RumahIbadahCreate = () => {
 
                                     {type === "lembaga" && (
                                         <TextInput
-                                            ref={focusTrapRef}
                                             type="number"
                                             label="No. NSPP/NSM"
                                             description="No. NSPP/NSM Lembaga Pendidikan Keagamaan"

@@ -6,12 +6,11 @@ import {
     Group,
     Image,
     ScrollArea,
-    Text,
     Title,
     em,
     useComputedColorScheme,
 } from "@mantine/core";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
 import DarkButton from "../DarkButton/DarkButton";
