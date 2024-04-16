@@ -194,7 +194,7 @@ export default function SignIn(props) {
                                     radius="md"
                                     fullWidth
                                 >
-                                    Login
+                                    Log in
                                 </Button>
                             )}
                         </form>

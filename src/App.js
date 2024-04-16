@@ -52,37 +52,6 @@ function App() {
 
     const networkStatus = useNetwork();
 
-    // useEffect(() => {
-    //     const abortController = new AbortController();
-
-    //     if (networkStatus.online) {
-    //         toast("Memeriksa jaringan...", {
-    //             isLoading: true,
-    //             autoClose: false,
-    //         });
-
-    //         // Simulate a loading process
-    //         setLoading(true);
-    //         setTimeout(() => {
-    //             setLoading(false);
-    //             toast.dismiss(); // Dismiss the loading toast
-    //             toast.success("Online!");
-    //         }, 1500);
-    //     } else {
-    //         toast.error("Offline!");
-    //     }
-
-    //     return () => {
-    //         abortController.abort();
-    //     };
-    // }, [networkStatus.online]);
-
-    // const user = useSelector((state) => state?.auth);
-    // const { userAuth } = user;
-    // const { role } = userAuth;
-
-    // console.log(role);
-
     const logOut = useCallback(() => {
         dispatch(logoutUserAction());
     }, [dispatch]);
@@ -98,7 +67,6 @@ function App() {
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
-                // draggable={false}
                 pauseOnHover
                 theme={computedColorScheme}
                 transition={Slide}
@@ -112,10 +80,6 @@ function App() {
                 <Route element={<ProtectedRoute />}>
                     <Route path="/dashboard" element={<RootLayout />}>
                         <Route index element={<Dashboard />} />
-                        {/* <Route
-                            path="/dashboard/admin"
-                            element={<AdminPage />}
-                        /> */}
                         <Route
                             path="/dashboard/admin/persetujuan"
                             element={<Persetujuan />}
@@ -140,14 +104,6 @@ function App() {
                             path="/dashboard/admin/rekap/:tabValue"
                             element={<IndexRekap />}
                         />
-                        {/* <Route
-                            path="/dashboard/admin/rekap/masjid"
-                            element={<RekapMasjid />}
-                        />
-                        <Route
-                            path="/dashboard/admin/rekap/lembagapendidikankeagamaan"
-                            element={<RekapLembagaKeagamaan />}
-                        /> */}
                         <Route
                             path="/dashboard/rumah-ibadah/list"
                             element={<RumahIbadah />}
@@ -156,23 +112,18 @@ function App() {
                             path="/dashboard/rumah-ibadah/user/create"
                             element={<RumahIbadahCreate />}
                         />
-
-                        {/* <Route element={<RootLayoutUser />}> */}
                         <Route
                             path="/dashboard/user/beranda"
                             element={<UserPage />}
                         />
-
                         <Route
                             path="/dashboard/user/dokumen"
                             element={<UserPermohonan />}
                         />
-
                         <Route
                             path="/dashboard/user/progres/:id"
                             element={<UserStatus />}
                         />
-                        {/* </Route> */}
                     </Route>
                 </Route>
                 {/* <Route element={<ProtectedRouteUser />}>
@@ -185,7 +136,6 @@ function App() {
                         />
                     </Route>
                 </Route> */}
-
                 <Route path="*" element={<Navigate to="/404" />} />
                 <Route path="/404" element={<Page403 />} />
             </Routes>

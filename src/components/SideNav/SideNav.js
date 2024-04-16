@@ -28,7 +28,7 @@ export default function SideNav() {
         { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
         {
             link: "/dashboard/admin/periode",
-            label: "Periodisasi",
+            label: "Periode",
             icon: IconClockHour4,
         },
         {

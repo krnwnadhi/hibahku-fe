@@ -78,7 +78,7 @@ const Periode = () => {
 
     const items = [
         { title: "Home", href: "/dashboard" },
-        { title: "Periodisasi", href: "/dashboard/admin/periode" },
+        { title: "Periode", href: "/dashboard/admin/periode" },
     ].map((item, index) => (
         <Anchor href={item.href} key={index} size="sm" truncate="end">
             {item.title}
