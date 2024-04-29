@@ -7,6 +7,36 @@ import { basePersetujuanURL } from "../../../utils/baseURL";
 const resetFileDeleteAction = createAction("persetujuan/delete/reset");
 
 //get all persetujuan
+// export const getAllPersetujuanAction = createAsyncThunk(
+//     "persetujuan/getAllPersetujuan",
+//     async (data, { rejectWithValue, getState, dispatch }) => {
+//         const user = getState()?.auth?.userAuth;
+
+//         const config = {
+//             headers: {
+//                 Authorization: `Bearer ${user?.token}`,
+//                 "Access-Control-Allow-Origin": "*",
+//             },
+//         };
+
+//         await new Promise((resolve) => setTimeout(resolve, 1000));
+
+//         try {
+//             const { data } = await axios.get(
+//                 `${basePersetujuanURL}/list`,
+//                 config
+//             );
+//             return data;
+//         } catch (error) {
+//             if (!error?.response) {
+//                 throw error;
+//             }
+//             return rejectWithValue(error?.response?.data);
+//         }
+//     }
+// );
+
+//get all persetujuan Vanilla Fetch
 export const getAllPersetujuanAction = createAsyncThunk(
     "persetujuan/getAllPersetujuan",
     async (data, { rejectWithValue, getState, dispatch }) => {
@@ -22,16 +52,22 @@ export const getAllPersetujuanAction = createAsyncThunk(
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         try {
-            const { data } = await axios.get(
-                `${basePersetujuanURL}/list`,
-                config
-            );
+            const response = await fetch(`${basePersetujuanURL}/list`, {
+                method: "GET",
+                headers: {
+                    ...config.headers,
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                return rejectWithValue(errorData);
+            }
+
+            const data = await response.json();
             return data;
         } catch (error) {
-            if (!error?.response) {
-                throw error;
-            }
-            return rejectWithValue(error?.response?.data);
+            throw error;
         }
     }
 );
@@ -95,6 +131,7 @@ export const getDetailUserPersetujuanAction = createAsyncThunk(
         }
     }
 );
+
 //get detail User persetujuan
 export const changeStatusPersetujuanAction = createAsyncThunk(
     "persetujuan/changeStatus",

@@ -5,7 +5,7 @@
     bottom: 1.25rem;
     height: 3rem;
     z-index: 120;
-    /* width: 100%; */
+    width: fit-content;
     box-shadow: var(--mantine-shadow-md);
     border: rem(1px) solid
         light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-4));
@@ -31,16 +31,7 @@
     &,
     &:hover {
         &[data-active] {
-            color: var(--mantine-color-white);
+            color: var(--mantine-color-red);
         }
     }
 }
-
-/* .bottomLink {
-    text-decoration: none;
-    font-size: var(--mantine-font-size-sm);
-    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
-    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
-    border-radius: var(--mantine-radius-sm);
-    font-weight: 500;
-} */
