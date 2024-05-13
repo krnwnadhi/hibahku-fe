@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import AreaChartMantine from "../../components/Chart/AreaChartMantine";
 import BarChartMantine from "../../components/Chart/BarChartMantine";
+import PersetujuanDashboard from "./PersetujuanDashboard";
 import backgroundSvg from "../../assets/circle-scatter-haikei.svg";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
@@ -190,6 +191,7 @@ export default function Dashboard() {
                         <BarChartMantine />
                     </Paper>
                 </SimpleGrid> */}
+                <PersetujuanDashboard />
             </Container>
             {/* </BackgroundImage> */}
             {/* </Box> */}

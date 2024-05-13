@@ -5,6 +5,7 @@ import {
     Button,
     Center,
     Container,
+    Divider,
     Fieldset,
     FileInput,
     Group,
@@ -12,6 +13,7 @@ import {
     Modal,
     NumberInput,
     Paper,
+    Pill,
     ScrollArea,
     Space,
     Stack,
@@ -53,13 +55,8 @@ export default function UserPermohonan() {
     const { loading, isCreated, appError, serverError, permohonanCreated } =
         permohonan;
 
-    // useEffect(() => {
-    //     if (isCreated) {
-    //         navigate("/dashboard/user/beranda");
-    //     }
-    // }, [isCreated, navigate]);
+    console.log(permohonanCreated);
 
-    // const [opened, { open, close }] = useDisclosure(false);
     const [type, toggle] = useToggle(["masjid", "lembaga"]);
 
     const [show, setShow] = useState(false);
@@ -204,6 +201,52 @@ export default function UserPermohonan() {
             <Text ta="center">Terima Kasih</Text>
         </>
     );
+
+    const ValueComponent = ({ value }) => {
+        const formatBytes = (bytes, decimals = 2) => {
+            if (!+bytes) return "0 Bytes";
+
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = [
+                "Bytes",
+                "KB",
+                "MB",
+                "GB",
+                "TB",
+                "PB",
+                "EB",
+                "ZB",
+                "YB",
+            ];
+
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${
+                sizes[i]
+            }`;
+        };
+
+        if (value === null) {
+            return null;
+        }
+
+        if (Array.isArray(value)) {
+            return (
+                <Pill.Group>
+                    {value.map((file, index) => (
+                        <Pill key={index}>{file.name}</Pill>
+                    ))}
+                </Pill.Group>
+            );
+        }
+
+        return (
+            <Pill>
+                {value.name} - {formatBytes(value.size)}
+            </Pill>
+        );
+    };
 
     return (
         <>
@@ -398,10 +441,11 @@ export default function UserPermohonan() {
                                         />
                                         <FileInput
                                             label="1. File SURAT PERMOHONAN"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
                                             accept="application/pdf"
                                             clearable
                                             leftSection={icon}
+                                            valueComponent={ValueComponent}
                                             {...form.getInputProps(
                                                 "file_suratpermohonan"
                                             )}
@@ -409,10 +453,11 @@ export default function UserPermohonan() {
 
                                         <FileInput
                                             label="2. File PROPOSAL"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
                                             accept="application/pdf"
                                             clearable
                                             leftSection={icon}
+                                            valueComponent={ValueComponent}
                                             {...form.getInputProps(
                                                 "file_proposal"
                                             )}
@@ -420,38 +465,42 @@ export default function UserPermohonan() {
 
                                         <FileInput
                                             label="3. File RAB"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
                                             accept="application/pdf"
                                             clearable
                                             leftSection={icon}
+                                            valueComponent={ValueComponent}
                                             {...form.getInputProps("file_rab")}
                                         />
 
                                         <FileInput
                                             label="4. File SK Pengurus"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
                                             accept="application/pdf"
                                             clearable
                                             leftSection={icon}
+                                            valueComponent={ValueComponent}
                                             {...form.getInputProps("file_sk")}
                                         />
 
                                         <FileInput
                                             label="5. File KTP Pengurus"
-                                            description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
                                             accept="application/pdf"
                                             clearable
                                             leftSection={icon}
+                                            valueComponent={ValueComponent}
                                             {...form.getInputProps("file_ktp")}
                                         />
 
                                         {type === "masjid" && (
                                             <FileInput
                                                 label="6. File SIMAS REKOM"
-                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
+                                                valueComponent={ValueComponent}
                                                 {...form.getInputProps(
                                                     "file_asetrekom"
                                                 )}
@@ -461,10 +510,11 @@ export default function UserPermohonan() {
                                         {type === "masjid" && (
                                             <FileInput
                                                 label="7. File SUKET TIPOLOGI"
-                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
+                                                valueComponent={ValueComponent}
                                                 {...form.getInputProps(
                                                     "file_suket"
                                                 )}
@@ -474,10 +524,11 @@ export default function UserPermohonan() {
                                         {type === "lembaga" && (
                                             <FileInput
                                                 label="6. File IZIN OPERASIONAL"
-                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
+                                                valueComponent={ValueComponent}
                                                 {...form.getInputProps(
                                                     "file_izinoperasional"
                                                 )}
@@ -487,10 +538,11 @@ export default function UserPermohonan() {
                                         {type === "lembaga" && (
                                             <FileInput
                                                 label="7. File AKTA PENDIRIAN"
-                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
+                                                valueComponent={ValueComponent}
                                                 {...form.getInputProps(
                                                     "file_aktapendirian"
                                                 )}
@@ -500,10 +552,11 @@ export default function UserPermohonan() {
                                         {type === "lembaga" && (
                                             <FileInput
                                                 label="8. File PENGESAHAN KEMENKUMHAM"
-                                                description="Hanya PDF & Ukuran File Maksimal 1MB."
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
+                                                valueComponent={ValueComponent}
                                                 {...form.getInputProps(
                                                     "file_pengesahankemenkumham"
                                                 )}
@@ -542,17 +595,98 @@ export default function UserPermohonan() {
                     scrollAreaComponent={ScrollArea.Autosize}
                     onClose={handleClose}
                 >
-                    {permohonanCreated?.message === "Permohonan berhasil" ? (
+                    {/* {permohonanCreated?.message === "Permohonan berhasil" ? (
                         hibahkuSuccessModalNotification
                     ) : (
                         <Text ta="center" inherit>
-                            Terjadi Kesalahan! Silahkan refresh halaman & harap
-                            untuk mengulang upload file permohonan anda.
+                            <div>Terjadi Kesalahan!</div> Silahkan refresh
+                            halaman & harap untuk mengulang upload file
+                            permohonan anda.
                             <Text ta="center" c="red" inherit>
-                                {appError ? <>Pesan: {appError}</> : "Periksa"}
+                                {appError ? (
+                                    <Text>
+                                        {" "}
+                                        <div>Pesan: </div>
+                                        {appError}{" "}
+                                    </Text>
+                                ) : (
+                                    <Text>
+                                        <div>Pesan: </div> {serverError}
+                                    </Text>
+                                )}
                             </Text>
+                            <Button
+                                variant="subtle"
+                                onClick={() => {
+                                    window.location.reload();
+                                }}
+                            >
+                                Refresh
+                            </Button>
+                        </Text>
+                    )} */}
+                    {permohonanCreated && hibahkuSuccessModalNotification}
+
+                    {appError ? (
+                        <Text ta="center" inherit>
+                            <div>Terjadi Kesalahan!</div> Silahkan refresh
+                            halaman & harap untuk mengulang upload file
+                            permohonan anda.
+                            <Text ta="center" c="red" inherit>
+                                <Text>
+                                    <div>Pesan: </div>
+                                    {appError}{" "}
+                                </Text>
+                            </Text>
+                            <Button
+                                variant="subtle"
+                                onClick={() => {
+                                    window.location.reload();
+                                }}
+                            >
+                                Refresh
+                            </Button>
+                        </Text>
+                    ) : (
+                        <Text ta="center" inherit>
+                            <div>Terjadi Kesalahan!</div> Silahkan refresh
+                            halaman & harap untuk mengulang upload file
+                            permohonan anda.
+                            <Text ta="center" c="red" inherit>
+                                <Text>
+                                    <div>Pesan: </div> {serverError}
+                                </Text>
+                            </Text>
+                            <Button
+                                variant="subtle"
+                                onClick={() => {
+                                    window.location.reload();
+                                }}
+                            >
+                                Refresh
+                            </Button>
                         </Text>
                     )}
+                    {/* {serverError && (
+                        <Text ta="center" inherit>
+                            <div>Terjadi Kesalahan!</div> Silahkan refresh
+                            halaman & harap untuk mengulang upload file
+                            permohonan anda.
+                            <Text ta="center" c="red" inherit>
+                                <Text>
+                                    <div>Pesan: </div> {serverError}
+                                </Text>
+                            </Text>
+                            <Button
+                                variant="subtle"
+                                onClick={() => {
+                                    window.location.reload();
+                                }}
+                            >
+                                Refresh
+                            </Button>
+                        </Text>
+                    )} */}
                 </Modal>
             </Container>
             {/* </BackgroundImage> */}

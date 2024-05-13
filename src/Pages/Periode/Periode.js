@@ -139,7 +139,7 @@ const Periode = () => {
                         </Paper>
                         <Paper radius="md" shadow="sm" p="lg" withBorder>
                             <Text ta="center" fz="md" fw={700}>
-                                BUKA KEMBALI
+                                BUKA KEMBALI PERIODE
                             </Text>
                             <Text ta="center" c="green" fz="sm">
                                 {selesaiPeriodeFormat
