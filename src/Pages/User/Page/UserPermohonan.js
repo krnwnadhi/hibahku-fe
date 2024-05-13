@@ -595,36 +595,6 @@ export default function UserPermohonan() {
                     scrollAreaComponent={ScrollArea.Autosize}
                     onClose={handleClose}
                 >
-                    {/* {permohonanCreated?.message === "Permohonan berhasil" ? (
-                        hibahkuSuccessModalNotification
-                    ) : (
-                        <Text ta="center" inherit>
-                            <div>Terjadi Kesalahan!</div> Silahkan refresh
-                            halaman & harap untuk mengulang upload file
-                            permohonan anda.
-                            <Text ta="center" c="red" inherit>
-                                {appError ? (
-                                    <Text>
-                                        {" "}
-                                        <div>Pesan: </div>
-                                        {appError}{" "}
-                                    </Text>
-                                ) : (
-                                    <Text>
-                                        <div>Pesan: </div> {serverError}
-                                    </Text>
-                                )}
-                            </Text>
-                            <Button
-                                variant="subtle"
-                                onClick={() => {
-                                    window.location.reload();
-                                }}
-                            >
-                                Refresh
-                            </Button>
-                        </Text>
-                    )} */}
                     {permohonanCreated && hibahkuSuccessModalNotification}
 
                     {appError ? (
@@ -647,14 +617,17 @@ export default function UserPermohonan() {
                                 Refresh
                             </Button>
                         </Text>
-                    ) : (
+                    ) : null}
+
+                    {serverError ? (
                         <Text ta="center" inherit>
                             <div>Terjadi Kesalahan!</div> Silahkan refresh
                             halaman & harap untuk mengulang upload file
                             permohonan anda.
                             <Text ta="center" c="red" inherit>
                                 <Text>
-                                    <div>Pesan: </div> {serverError}
+                                    <div>Pesan: </div>
+                                    {serverError}{" "}
                                 </Text>
                             </Text>
                             <Button
@@ -666,30 +639,9 @@ export default function UserPermohonan() {
                                 Refresh
                             </Button>
                         </Text>
-                    )}
-                    {/* {serverError && (
-                        <Text ta="center" inherit>
-                            <div>Terjadi Kesalahan!</div> Silahkan refresh
-                            halaman & harap untuk mengulang upload file
-                            permohonan anda.
-                            <Text ta="center" c="red" inherit>
-                                <Text>
-                                    <div>Pesan: </div> {serverError}
-                                </Text>
-                            </Text>
-                            <Button
-                                variant="subtle"
-                                onClick={() => {
-                                    window.location.reload();
-                                }}
-                            >
-                                Refresh
-                            </Button>
-                        </Text>
-                    )} */}
+                    ) : null}
                 </Modal>
             </Container>
-            {/* </BackgroundImage> */}
         </>
     );
 }
