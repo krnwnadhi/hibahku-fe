@@ -1,7 +1,5 @@
 import {
     Anchor,
-    BackgroundImage,
-    Box,
     Breadcrumbs,
     Center,
     Container,
@@ -17,10 +15,6 @@ import {
 import { IconBuildingMosque, IconLicense, IconUser } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
-import AreaChartMantine from "../../components/Chart/AreaChartMantine";
-import BarChartMantine from "../../components/Chart/BarChartMantine";
-import PersetujuanDashboard from "./PersetujuanDashboard";
-import backgroundSvg from "../../assets/circle-scatter-haikei.svg";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
@@ -162,8 +156,6 @@ export default function Dashboard() {
 
     return (
         <>
-            {/* <Box maw={1300} h="1000px" mx="auto"> */}
-            {/* <BackgroundImage h="80vh" src={backgroundSvg} radius="md"> */}
             <Container size="xl">
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
@@ -171,30 +163,7 @@ export default function Dashboard() {
                 <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
 
                 <Space h="xl" />
-                {/* <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                    <Paper
-                        radius="md"
-                        withBorder
-                        p="lg"
-                        bg="var(--mantine-color-body)"
-                        shadow="lg"
-                    >
-                        <AreaChartMantine />
-                    </Paper>
-                    <Paper
-                        radius="md"
-                        withBorder
-                        p="lg"
-                        bg="var(--mantine-color-body)"
-                        shadow="lg"
-                    >
-                        <BarChartMantine />
-                    </Paper>
-                </SimpleGrid> */}
-                <PersetujuanDashboard />
             </Container>
-            {/* </BackgroundImage> */}
-            {/* </Box> */}
         </>
     );
 }

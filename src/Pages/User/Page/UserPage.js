@@ -28,7 +28,9 @@ import MenuMantine from "../../../components/Menu/MenuMantine";
 import UserInfo from "../components/UserInfo/UserInfo";
 import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import classes from "./UserPage.module.css";
+import dayjs from "dayjs";
 import { getAllPersetujuanAction } from "../../../redux/slices/persetujuan/persetujuanSlices";
+import { getPeriode } from "../../../redux/slices/periode/periodeSlices";
 import { nprogress } from "@mantine/nprogress";
 import { useToggle } from "@mantine/hooks";
 
@@ -75,6 +77,28 @@ export default function UserPage() {
     const persetujuanId =
         filteredResult?.length > 0 ? filteredResult[0].id : null;
     // console.log(persetujuanId);
+
+    useEffect(() => {
+        dispatch(getPeriode());
+    }, [dispatch]);
+
+    const periode = useSelector((state) => state?.periode);
+
+    const {
+        loading: loadingPeriode,
+        appError: appErrorPeriode,
+        serverError,
+    } = periode;
+
+    const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
+    const mulaiPeriodeFormat = dayjs(mulaiPeriode)
+        .locale("id")
+        .format("DD MMMM YYYY");
+
+    const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
+    const selesaiPeriodeFormat = dayjs(selesaiPeriode)
+        .locale("id")
+        .format("DD MMMM YYYY");
 
     const form = useForm({
         validateInputOnChange: true,
@@ -350,6 +374,38 @@ export default function UserPage() {
 
                     <Space h="md" />
 
+                    <Paper
+                        radius="md"
+                        p="xl"
+                        bg="var(--mantine-color-body)"
+                        withBorder
+                    >
+                        <Group grow>
+                            <Paper radius="md" shadow="sm" p="lg" withBorder>
+                                <Text ta="center" fz="md" fw={700}>
+                                    TUTUP PERIODE
+                                </Text>
+                                <Text ta="center" c="red" fz="sm">
+                                    {mulaiPeriodeFormat
+                                        ? mulaiPeriodeFormat
+                                        : "Tidak Ada Data"}
+                                </Text>
+                            </Paper>
+                            <Paper radius="md" shadow="sm" p="lg" withBorder>
+                                <Text ta="center" fz="md" fw={700}>
+                                    BUKA KEMBALI
+                                </Text>
+                                <Text ta="center" c="green" fz="sm">
+                                    {selesaiPeriodeFormat
+                                        ? selesaiPeriodeFormat
+                                        : "Tidak Ada Data"}
+                                </Text>
+                            </Paper>
+                        </Group>
+                    </Paper>
+
+                    <Space h="md" />
+
                     <form onSubmit={formOnSubmit}>
                         <Paper
                             radius="md"
@@ -450,7 +506,7 @@ export default function UserPage() {
 
                     <Space h="md" />
 
-                    <Paper
+                    {/* <Paper
                         radius="md"
                         p="xl"
                         bg="var(--mantine-color-body)"
@@ -475,7 +531,8 @@ export default function UserPage() {
                                 </Anchor>
                             </Text>
                         </Blockquote>
-                    </Paper>
+                    </Paper> */}
+
                     <Modal
                         opened={show}
                         closeOnEscape={false}
@@ -495,11 +552,6 @@ export default function UserPage() {
                             : cekStatus?.isUpload === true
                             ? hibahkuSuccessModalNotification
                             : hibahkuNotFoundModalNotification}
-                        {/* <Group mt="xl"> */}
-                        {/* <Button mt="xl" fullWidth onClick={handleClose}>
-                            Saya Mengerti
-                        </Button> */}
-                        {/* </Group> */}
                     </Modal>
                 </Paper>
 
