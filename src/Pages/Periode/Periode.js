@@ -4,8 +4,10 @@ import {
     Anchor,
     Breadcrumbs,
     Button,
+    Center,
     Container,
     Group,
+    Loader,
     LoadingOverlay,
     Paper,
     Space,
@@ -131,21 +133,33 @@ const Periode = () => {
                             <Text ta="center" fz="md" fw={700}>
                                 TUTUP PERIODE
                             </Text>
-                            <Text ta="center" c="red" fz="sm">
-                                {mulaiPeriodeFormat
-                                    ? mulaiPeriodeFormat
-                                    : "Tidak Ada Data"}
-                            </Text>
+                            {loading ? (
+                                <Center>
+                                    <Loader size="xs" />
+                                </Center>
+                            ) : (
+                                <Text ta="center" c="red" fz="sm">
+                                    {mulaiPeriodeFormat
+                                        ? mulaiPeriodeFormat
+                                        : "Tidak Ada Data"}
+                                </Text>
+                            )}
                         </Paper>
                         <Paper radius="md" shadow="sm" p="lg" withBorder>
                             <Text ta="center" fz="md" fw={700}>
                                 BUKA KEMBALI PERIODE
                             </Text>
-                            <Text ta="center" c="green" fz="sm">
-                                {selesaiPeriodeFormat
-                                    ? selesaiPeriodeFormat
-                                    : "Tidak Ada Data"}
-                            </Text>
+                            {loading ? (
+                                <Center>
+                                    <Loader size="xs" />
+                                </Center>
+                            ) : (
+                                <Text ta="center" c="green" fz="sm">
+                                    {selesaiPeriodeFormat
+                                        ? selesaiPeriodeFormat
+                                        : "Tidak Ada Data"}
+                                </Text>
+                            )}
                         </Paper>
                     </Group>
                     <form onSubmit={formOnSubmit}>

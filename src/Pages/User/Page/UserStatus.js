@@ -254,10 +254,6 @@ export default function UserStatus() {
                                             minWidth: "70vh",
                                         }}
                                     >
-                                        {/* <Table.Caption>
-                                            Terakhir diperbarui:{" "}
-                                            {lastTableCaption}
-                                        </Table.Caption> */}
                                         <Table.Thead>
                                             <Table.Tr>
                                                 <Table.Th ta="center">
