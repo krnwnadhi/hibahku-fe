@@ -107,7 +107,7 @@ export default function RootLayout() {
                             />
                         </Anchor>
                     )}
-                    <Code fw={500}>v1.0.1</Code>
+                    <Code fw={500}>v1.0.0</Code>
                 </Group>
 
                 <AppShell.Section component={ScrollArea} grow>

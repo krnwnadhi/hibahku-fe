@@ -119,58 +119,77 @@ const PersetujuanDetail = () => {
         {
             value: 1,
             description: "VERIFIKASI PERSYARATAN ADMINISTRASI",
+            keterangan: null,
         },
         {
             value: 2,
             description: "VERIFIKASI FAKTUAL(SURVEI LAPANGAN)",
+            keterangan: null,
         },
         {
             value: 3,
             description: "REKOMENDASI",
+            keterangan: null,
         },
         {
             value: 4,
             description: " PERTIMBANGAN TAPD",
+            keterangan: null,
         },
         {
             value: 5,
             description: "PENGANGGARAN",
+            keterangan: null,
         },
         {
             value: 6,
             description: " PENERBITAN SK SDH DAN DOKUMEN LAINNNYA",
+            keterangan: null,
         },
         {
             value: 7,
             description:
                 " PENANDATANGANAN NPHD, PAKTA INTEGRITAS, PERNYATAAN TANGGUNG JAWAB, DLL",
+            keterangan: null,
         },
+
         {
             value: 8,
             description: "PENCAIRAN DANA BANTUAN HIBAH",
+            keterangan: null,
         },
         {
             value: 9,
             description:
                 "LAPORAN PERTANGGUNGJAWABAN PENGGUNAAN DANA BANTUAN HIBAH",
+            keterangan: null,
         },
+
         {
             value: 10,
             description: "❎ BELUM DIPROSES",
+            keterangan: null,
         },
         {
             value: 11,
             description: "❌ DITOLAK",
+            keterangan: "FILE SALAH/TIDAK LENGKAP",
         },
     ];
 
-    function SelectOption({ value, description }) {
+    function SelectOption({ value, description, keterangan }) {
         return (
             <Group>
                 <div>
-                    <Text fz="sm" fw={500}>
-                        {value}. {description}
-                    </Text>
+                    {keterangan === null ? (
+                        <Text fz="sm" fw={500}>
+                            {value}. {description}
+                        </Text>
+                    ) : (
+                        <Text fz="sm" fw={500}>
+                            {value}. {description} - {keterangan}
+                        </Text>
+                    )}
                 </div>
             </Group>
         );

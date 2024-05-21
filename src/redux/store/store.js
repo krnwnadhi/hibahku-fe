@@ -15,7 +15,7 @@ const store = configureStore({
         persetujuan: persetujuanReducer,
         periode: periodeReducer,
     },
-    // devTools: false,
+    devTools: false,
 });
 
 export default store;
