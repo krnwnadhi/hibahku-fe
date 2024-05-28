@@ -44,11 +44,6 @@ export default function RootLayout() {
             layout="alt"
             header={{ height: 60 }}
             footer={{ height: 60 }}
-            // navbar={{
-            //     width: isMobile ? 50 : 300,
-            //     breakpoint: "sm",
-            //     collapsed: { mobile: !opened },
-            // }}
             navbar={{
                 width: 300,
                 breakpoint: "sm",
@@ -113,6 +108,7 @@ export default function RootLayout() {
                 <AppShell.Section component={ScrollArea} grow>
                     <SideNav />
                 </AppShell.Section>
+
                 <AppShell.Section>
                     {" "}
                     <Title order={5}>Selamat Datang, {user?.nama}!</Title>

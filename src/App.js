@@ -1,16 +1,13 @@
 import "react-toastify/dist/ReactToastify.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Slide, ToastContainer, toast } from "react-toastify";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Slide, ToastContainer } from "react-toastify";
+import { useCallback, useState } from "react";
 
-import AdminPage from "./Pages/Admin/AdminPage";
 import AdminUser from "./Pages/AdminUser/AdminUser";
 import Anonymous from "./Navigation/Anonymous";
 import AuthVerify from "./utils/AuthVerify";
 import Dashboard from "./Pages/Dashboard/Dashboard";
-import DashboardUser from "./Pages/Dashboard/DashboardUser";
 import IndexRekap from "./Pages/Rekap/IndexRekap";
 import Page403 from "./Pages/Error/Error 403/Page403";
 import Periode from "./Pages/Periode/Periode";
@@ -18,28 +15,18 @@ import Persetujuan from "./Pages/Persetujuan/Persetujuan";
 import PersetujuanApprove from "./Pages/Persetujuan/PersetujuanApprove";
 import PersetujuanDetail from "./Pages/Persetujuan/PersetujuanDetail";
 import ProtectedRoute from "./Navigation/ProtectedRoute";
-import ProtectedRouteUser from "./Navigation/ProtectedRouteUser";
 import Register from "./Pages/Auth/Register/Register";
-import RekapLembagaKeagamaan from "./Pages/Rekap/RekapLembagaKeagamaan";
-import RekapMasjid from "./Pages/Rekap/RekapMasjid";
 import RootLayout from "./components/Layout/RootLayout";
-import RootLayoutUser from "./components/Layout/RootLayoutUser";
 import RumahIbadah from "./Pages/Rumah Ibadah/RumahIbadah";
 import RumahIbadahCreate from "./Pages/Rumah Ibadah/RumahIbadahCreate";
 import SignIn from "./Pages/Auth/SignIn/SignIn";
 import UserPage from "./Pages/User/Page/UserPage";
 import UserPermohonan from "./Pages/User/Page/UserPermohonan";
 import UserStatus from "./Pages/User/Page/UserStatus";
-import dayjs from "dayjs";
 import { logoutUserAction } from "./redux/slices/auth/authSlices";
-import secureLocalStorage from "react-secure-storage";
 import { useComputedColorScheme } from "@mantine/core";
+import { useDispatch } from "react-redux";
 import { useNetwork } from "@mantine/hooks";
-
-// import customParseFormat from "dayjs/plugin/customParseFormat";
-
-// dayjs.extend(customParseFormat);
-// import NoPage from "./Pages/Error/NoPage";
 
 function App() {
     const computedColorScheme = useComputedColorScheme("light", {

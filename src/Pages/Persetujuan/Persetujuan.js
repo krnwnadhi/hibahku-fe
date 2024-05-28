@@ -370,7 +370,6 @@ const Persetujuan = () => {
         enableRowSelection: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
-        // rowNumberMode: "original",
         enableColumnPinning: true,
         initialState: {
             density: "xs",
@@ -388,7 +387,6 @@ const Persetujuan = () => {
         enableGrouping: true,
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
-        // enableRowActions: true,
         renderRowActions: ({ row }) => (
             <Box style={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
                 <ActionIcon
