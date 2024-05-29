@@ -1,4 +1,4 @@
-import { Button, Menu, rem, useMantineTheme } from "@mantine/core";
+import { Button, Group, Menu, rem, useMantineTheme } from "@mantine/core";
 import {
     IconCheck,
     IconChevronDown,
@@ -8,6 +8,7 @@ import {
 } from "@tabler/icons-react";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import React, { useEffect, useMemo, useState } from "react";
+import { download, generateCsv, mkConfig } from "export-to-csv";
 import { useDispatch, useSelector } from "react-redux";
 
 import autoTable from "jspdf-autotable";
@@ -494,6 +495,68 @@ const RekapLembagaKeagamaan = () => {
         );
     };
 
+    // handle excel
+    const csvConfig = mkConfig({
+        filename: `Rekap-Lembaga-Keagamaan-${dayjs()
+            .locale("id")
+            .format("DD-MMM-YYYY HH:mm:ss")}`,
+        fieldSeparator: ";",
+        decimalSeparator: ",",
+        useBom: true,
+        showColumnHeaders: true,
+        columnHeaders: [
+            "No.",
+            "Nama Lembaga Keagamaan",
+            "Alamat",
+            "No. NSPP/NSM",
+            "Pimpinan/Pengurus",
+            "No. Kontak",
+            "Surat Permohonan",
+            "Proposal",
+            "RAB",
+            "SK Pengurus",
+            "KTP Pengurus",
+            "IZIN OPERASIONAL",
+            "AKTA PENDIRIAN",
+            "PENGESAHAN KEMENKUMHAM",
+            "REKENING BANK JAMBI",
+            "USULAN DANA",
+            "PERUNTUKKAN DANA",
+        ],
+    });
+
+    const handleExportRows = (rows) => {
+        // const rowData = rows.map((row) => row.original);
+        const rowData = rows.map((row) => ({
+            "No.": row.index + 1,
+            "Nama Lembaga Keagamaan": row.original.Keagamaan.nama,
+            Alamat: row.original.Keagamaan.alamat,
+            "No. NSPP/NSM": row.original.keagamaanid,
+            "Pimpinan/Pengurus": row.original.User.nama,
+            "No. Kontak": row.original.User.notelpon,
+            "Surat Permohonan":
+                row.original.Suratpermohonan.namafile !== null ? "V" : "X",
+            Proposal: row.original.Proposal.namafile !== null ? "V" : "X",
+            RAB: row.original.Rab.namafile !== null ? "V" : "X",
+            "SK Pengurus": row.original.Sk.namafile !== null ? "V" : "X",
+            "KTP Pengurus": row.original.Ktp.namafile !== null ? "V" : "X",
+            "IZIN OPERASIONAL":
+                row.original.Izinoperasional.namafile !== null ? "V" : "X",
+            "AKTA PENDIRIAN":
+                row.original.Aktapendirian.namafile !== null ? "V" : "X",
+            "PENGESAHAN KEMENKUMHAM":
+                row.original.Pengesahankemenkumham.namafile !== null
+                    ? "V"
+                    : "X",
+            "REKENING BANK JAMBI": row.original.norek !== null ? "V" : "X",
+            "USULAN DANA": row.original.pengajuandana,
+            "PERUNTUKKAN DANA": row.original.tujuan,
+        }));
+        console.log(rowData);
+        const csv = generateCsv(csvConfig)(rowData);
+        download(csvConfig)(csv);
+    };
+
     const data = persetujuanListState;
 
     const table = useMantineReactTable({
@@ -539,100 +602,229 @@ const RekapLembagaKeagamaan = () => {
         },
         renderTopToolbarCustomActions: ({ table }) => (
             <>
-                {/* PDF START */}
-                <Menu
-                    transitionProps={{ transition: "pop-top-right" }}
-                    position="top-end"
-                    width={220}
-                    withinPortal
-                    trigger="click-hover"
-                    withArrow
-                    arrowPosition="center"
-                    openDelay={100}
-                    closeDelay={400}
-                >
-                    <Menu.Target>
-                        <Button
-                            rightSection={
-                                <IconChevronDown
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            leftSection={
-                                <IconFileTypePdf
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            size="xs"
-                            color={theme.colors.red[7]}
-                        >
-                            Pdf
-                        </Button>
-                    </Menu.Target>
-                    <Menu.Dropdown>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.blue[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={
-                                table.getPrePaginationRowModel().rows.length ===
-                                0
-                            }
-                            //export all rows, including from the next page, (still respects filtering and sorting)
-                            onClick={() =>
-                                handleExportRowsPDF(
+                <Group>
+                    {/* PDF START */}
+                    <Menu
+                        transitionProps={{ transition: "pop-top-right" }}
+                        position="top-end"
+                        width={220}
+                        withinPortal
+                        trigger="click-hover"
+                        withArrow
+                        arrowPosition="center"
+                        openDelay={100}
+                        closeDelay={400}
+                    >
+                        <Menu.Target>
+                            <Button
+                                rightSection={
+                                    <IconChevronDown
+                                        style={{
+                                            width: rem(18),
+                                            height: rem(18),
+                                        }}
+                                        stroke={1.5}
+                                    />
+                                }
+                                leftSection={
+                                    <IconFileTypePdf
+                                        style={{
+                                            width: rem(18),
+                                            height: rem(18),
+                                        }}
+                                        stroke={1.5}
+                                    />
+                                }
+                                size="xs"
+                                color={theme.colors.red[7]}
+                            >
+                                Pdf
+                            </Button>
+                        </Menu.Target>
+                        <Menu.Dropdown>
+                            <Menu.Item
+                                leftSection={
+                                    <IconFileExport
+                                        style={{
+                                            width: rem(16),
+                                            height: rem(16),
+                                        }}
+                                        color={theme.colors.blue[6]}
+                                        stroke={1.5}
+                                    />
+                                }
+                                disabled={
                                     table.getPrePaginationRowModel().rows
-                                )
-                            }
-                        >
-                            Export All Rows
-                        </Menu.Item>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.pink[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={table.getRowModel().rows.length === 0}
-                            //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
-                            onClick={() =>
-                                handleExportRowsPDF(table.getRowModel().rows)
-                            }
-                        >
-                            Export Page Rows
-                        </Menu.Item>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.green[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={
-                                !table.getIsSomeRowsSelected() &&
-                                !table.getIsAllRowsSelected()
-                            }
-                            //only export selected rows
-                            onClick={() =>
-                                handleExportRowsPDF(
-                                    table.getSelectedRowModel().rows
-                                )
-                            }
-                        >
-                            Export Selected Rows
-                        </Menu.Item>
-                    </Menu.Dropdown>
-                </Menu>
-                {/* PDF END */}
+                                        .length === 0
+                                }
+                                //export all rows, including from the next page, (still respects filtering and sorting)
+                                onClick={() =>
+                                    handleExportRowsPDF(
+                                        table.getPrePaginationRowModel().rows
+                                    )
+                                }
+                            >
+                                Export All Rows
+                            </Menu.Item>
+                            <Menu.Item
+                                leftSection={
+                                    <IconFileExport
+                                        style={{
+                                            width: rem(16),
+                                            height: rem(16),
+                                        }}
+                                        color={theme.colors.pink[6]}
+                                        stroke={1.5}
+                                    />
+                                }
+                                disabled={table.getRowModel().rows.length === 0}
+                                //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
+                                onClick={() =>
+                                    handleExportRowsPDF(
+                                        table.getRowModel().rows
+                                    )
+                                }
+                            >
+                                Export Page Rows
+                            </Menu.Item>
+                            <Menu.Item
+                                leftSection={
+                                    <IconFileExport
+                                        style={{
+                                            width: rem(16),
+                                            height: rem(16),
+                                        }}
+                                        color={theme.colors.green[6]}
+                                        stroke={1.5}
+                                    />
+                                }
+                                disabled={
+                                    !table.getIsSomeRowsSelected() &&
+                                    !table.getIsAllRowsSelected()
+                                }
+                                //only export selected rows
+                                onClick={() =>
+                                    handleExportRowsPDF(
+                                        table.getSelectedRowModel().rows
+                                    )
+                                }
+                            >
+                                Export Selected Rows
+                            </Menu.Item>
+                        </Menu.Dropdown>
+                    </Menu>
+                    {/* PDF END */}
+
+                    {/* EXCEL START */}
+                    <Menu
+                        transitionProps={{ transition: "pop-top-right" }}
+                        position="top-end"
+                        width={220}
+                        withinPortal
+                        trigger="click-hover"
+                        withArrow
+                        arrowPosition="center"
+                        openDelay={100}
+                        closeDelay={400}
+                    >
+                        <Menu.Target>
+                            <Button
+                                rightSection={
+                                    <IconChevronDown
+                                        style={{
+                                            width: rem(18),
+                                            height: rem(18),
+                                        }}
+                                        stroke={1.5}
+                                    />
+                                }
+                                leftSection={
+                                    <IconFileTypePdf
+                                        style={{
+                                            width: rem(18),
+                                            height: rem(18),
+                                        }}
+                                        stroke={1.5}
+                                    />
+                                }
+                                size="xs"
+                                color={theme.colors.green[7]}
+                            >
+                                Excel
+                            </Button>
+                        </Menu.Target>
+                        <Menu.Dropdown>
+                            <Menu.Item
+                                leftSection={
+                                    <IconFileExport
+                                        style={{
+                                            width: rem(16),
+                                            height: rem(16),
+                                        }}
+                                        color={theme.colors.blue[6]}
+                                        stroke={1.5}
+                                    />
+                                }
+                                disabled={
+                                    table.getPrePaginationRowModel().rows
+                                        .length === 0
+                                }
+                                //export all rows, including from the next page, (still respects filtering and sorting)
+                                onClick={() =>
+                                    handleExportRows(
+                                        table.getPrePaginationRowModel().rows
+                                    )
+                                }
+                            >
+                                Export All Rows
+                            </Menu.Item>
+                            <Menu.Item
+                                leftSection={
+                                    <IconFileExport
+                                        style={{
+                                            width: rem(16),
+                                            height: rem(16),
+                                        }}
+                                        color={theme.colors.pink[6]}
+                                        stroke={1.5}
+                                    />
+                                }
+                                disabled={table.getRowModel().rows.length === 0}
+                                //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
+                                onClick={() =>
+                                    handleExportRows(table.getRowModel().rows)
+                                }
+                            >
+                                Export Page Rows
+                            </Menu.Item>
+                            <Menu.Item
+                                leftSection={
+                                    <IconFileExport
+                                        style={{
+                                            width: rem(16),
+                                            height: rem(16),
+                                        }}
+                                        color={theme.colors.green[6]}
+                                        stroke={1.5}
+                                    />
+                                }
+                                disabled={
+                                    !table.getIsSomeRowsSelected() &&
+                                    !table.getIsAllRowsSelected()
+                                }
+                                //only export selected rows
+                                onClick={() =>
+                                    handleExportRows(
+                                        table.getSelectedRowModel().rows
+                                    )
+                                }
+                            >
+                                Export Selected Rows
+                            </Menu.Item>
+                        </Menu.Dropdown>
+                    </Menu>
+                    {/* EXCEL END */}
+                </Group>
             </>
         ),
     });

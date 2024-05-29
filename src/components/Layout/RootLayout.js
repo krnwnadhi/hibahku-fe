@@ -20,23 +20,16 @@ import SideNav from "../SideNav/SideNav";
 import { useSelector } from "react-redux";
 
 export default function RootLayout() {
-    const [opened, { toggle }] = useDisclosure();
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
 
     const computedColorScheme = useComputedColorScheme("dark", {
         getInitialValueInEffect: true,
     });
-    const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
 
     const user = useSelector((state) => state?.auth?.userAuth);
-    // console.log(user);
-
-    // const withouSidebarRoutess = ["/dashboard/user"];
 
     const { pathname } = useLocation();
-    // if (withouSidebarRoutes.some((item) => pathname.includes(item)))
-    //     return null;
 
     return (
         <AppShell

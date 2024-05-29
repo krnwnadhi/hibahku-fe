@@ -15,10 +15,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 export default function SideNav() {
-    // const url = window.location.pathname;
-    // // console.log(url);
     const location = useLocation();
-    // console.log(location.pathname);
 
     const [active, setActive] = useState(location?.pathname);
 
@@ -84,7 +81,6 @@ export default function SideNav() {
             to={item.link}
             key={item.label}
             onClick={(event) => {
-                // event.preventDefault();
                 setActive(item.label);
             }}
         >
@@ -100,29 +96,6 @@ export default function SideNav() {
             ) : (
                 <div className={classes.navbarMain}>{linksUser}</div>
             )}
-
-            {/* <div className={classes.footer}>
-                <a
-                    href="#"
-                    className={classes.link}
-                    onClick={(event) => event.preventDefault()}
-                >
-                    <IconSwitchHorizontal
-                        className={classes.linkIcon}
-                        stroke={1.5}
-                    />
-                    <span>Change account</span>
-                </a>
-
-                <a
-                    href="/#"
-                    className={classes.link}
-                    // onClick={(event) => event.preventDefault()}
-                >
-                    <IconLogout className={classes.linkIcon} stroke={1.5} />
-                    <span>Logout</span>
-                </a>
-            </div> */}
         </nav>
     );
 }

@@ -474,7 +474,7 @@ const RekapMasjid = () => {
         doc.save(
             `Rekap-Rumah-Ibadah-${dayjs()
                 .locale("id")
-                .format("DD-MMM-YYYY HH:mm")}`
+                .format("DD-MMM-YYYY HH:mm:ss")}`
         );
     };
 
@@ -482,10 +482,9 @@ const RekapMasjid = () => {
     const csvConfig = mkConfig({
         filename: `Rekap-Rumah-Ibadah-${dayjs()
             .locale("id")
-            .format("DD-MMM-YYYY HH:mm")}`,
+            .format("DD-MMM-YYYY HH:mm:ss")}`,
         fieldSeparator: ";",
         decimalSeparator: ",",
-        // useKeysAsHeaders: true,
         useBom: true,
         showColumnHeaders: true,
         columnHeaders: [
@@ -503,49 +502,10 @@ const RekapMasjid = () => {
             "SIMAS/REKOM",
             "SUKET TIPOLOGI",
             "REKENING BANK JAMBI",
+            "USULAN DANA",
+            "PERUNTUKKAN DANA",
         ],
     });
-
-    // const handleExportRows = (rows) => {
-    //     console.log(rows);
-    //     const rowData = rows.map((row) => {
-    //         const {
-    //             Keagamaan,
-    //             keagamaanid,
-    //             User,
-    //             Suratpermohonan,
-    //             Proposal,
-    //             Rab,
-    //             Sk,
-    //             Ktp,
-    //             Asetrekom,
-    //             Suket,
-    //             norek,
-    //             pengajuandana,
-    //             tujuan,
-    //         } = row.original;
-    //         return [
-    //             row.index + 1,
-    //             Keagamaan.nama,
-    //             Keagamaan.alamat,
-    //             formatNumber(keagamaanid),
-    //             User.nama,
-    //             User.notelpon,
-    //             Suratpermohonan.namafile !== null ? "V" : "X",
-    //             Proposal.namafile !== null ? "V" : "X",
-    //             Rab.namafile !== null ? "V" : "X",
-    //             Sk.namafile !== null ? "V" : "X",
-    //             Ktp.namafile !== null ? "V" : "X",
-    //             Asetrekom.namafile !== null ? "V" : "X",
-    //             Suket.namafile !== null ? "V" : "X",
-    //             norek !== null ? "V" : "X",
-    //             formatCurrency(pengajuandana),
-    //             tujuan,
-    //         ];
-    //     });
-    //     const csv = generateCsv(csvConfig)(rowData);
-    //     download(csvConfig)(csv);
-    // };
 
     const handleExportRows = (rows) => {
         // const rowData = rows.map((row) => row.original);
@@ -565,6 +525,8 @@ const RekapMasjid = () => {
             "SIMAS/REKOM": row.original.Asetrekom.namafile !== null ? "V" : "X",
             "SUKET TIPOLOGI": row.original.Suket.namafile !== null ? "V" : "X",
             "REKENING BANK JAMBI": row.original.norek !== null ? "V" : "X",
+            "USULAN DANA": row.original.pengajuandana,
+            "PERUNTUKKAN DANA": row.original.tujuan,
         }));
         console.log(rowData);
         const csv = generateCsv(csvConfig)(rowData);
@@ -837,6 +799,7 @@ const RekapMasjid = () => {
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
+                    {/* EXCEL END */}
                 </Group>
             </>
         ),
