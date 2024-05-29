@@ -88,7 +88,6 @@ root.render(
                 <DatesProvider
                     settings={{
                         locale: "id",
-                        // timezone: "UTC",
                         consistentWeeks: true,
                     }}
                 >

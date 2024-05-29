@@ -56,15 +56,9 @@ export const createPermohonan = createAsyncThunk(
 
             return data;
         } catch (error) {
-            // console.log(
-            //     "error: ",
-            //     error,
-            //     "errorResponse: ",
-            //     error?.response?.data
-            // );
-            // if (!error?.response) {
-            //     throw error;
-            // }
+            if (!error?.response) {
+                throw error;
+            }
             return rejectWithValue(error?.response?.data);
         }
     }

@@ -61,7 +61,7 @@ const RekapLembagaKeagamaan = () => {
 
             setPersetujuanListState(filteredLembagaKeagamaan);
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     };
 
@@ -397,10 +397,6 @@ const RekapLembagaKeagamaan = () => {
                 0: {
                     halign: "center",
                 },
-                // 4: {
-                //     halign: "center",
-                //     cellWidth: 15,
-                // },
                 6: {
                     halign: "center",
                     cellWidth: "auto",
@@ -526,7 +522,6 @@ const RekapLembagaKeagamaan = () => {
     });
 
     const handleExportRows = (rows) => {
-        // const rowData = rows.map((row) => row.original);
         const rowData = rows.map((row) => ({
             "No.": row.index + 1,
             "Nama Lembaga Keagamaan": row.original.Keagamaan.nama,
@@ -552,7 +547,7 @@ const RekapLembagaKeagamaan = () => {
             "USULAN DANA": row.original.pengajuandana,
             "PERUNTUKKAN DANA": row.original.tujuan,
         }));
-        console.log(rowData);
+
         const csv = generateCsv(csvConfig)(rowData);
         download(csvConfig)(csv);
     };

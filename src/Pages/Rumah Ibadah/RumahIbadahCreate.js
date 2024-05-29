@@ -24,21 +24,19 @@ import { IconArrowLeft, IconCaretUpDown } from "@tabler/icons-react";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
-import { useDisclosure, useToggle } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
 
 import DarkButton from "../User/components/DarkButton/DarkButton";
 import MenuMantine from "../../components/Menu/MenuMantine";
-import backgroundSvg from "../../assets/circle-scatter-haikei2.svg";
 import { createRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { nprogress } from "@mantine/nprogress";
+import { useToggle } from "@mantine/hooks";
 
 const RumahIbadahCreate = () => {
     const navigate = useNavigate();
 
     const [type, toggle] = useToggle(["masjid", "lembaga"]);
 
-    const [opened, { open, close }] = useDisclosure(false);
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -195,28 +193,19 @@ const RumahIbadahCreate = () => {
     const dispatch = useDispatch();
 
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
-    const { appError, serverError, loading, createRumahIbadah } = rumahIbadah;
+    const { appError, loading, createRumahIbadah } = rumahIbadah;
 
     const formOnSubmit = form.onSubmit(async (values) => {
         try {
-            // console.log(values);
             dispatch(createRumahIbadahAction(values));
             form.reset();
             form.clearErrors();
             setValueWilayah(null);
             setValue(null);
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     });
-
-    // if (createRumahIbadah?.data) {
-    //     toast.success(createRumahIbadah?.message);
-    //     return <Navigate to="/dashboard/user/beranda" replace={true} />;
-    // }
-    // else {
-    //     toast.error(appError);
-    // }
 
     const hibahkuErrorModalNotification = (
         <>
@@ -312,7 +301,6 @@ const RumahIbadahCreate = () => {
 
     return (
         <>
-            {/* <BackgroundImage h="100vh" src={backgroundSvg} radius="md"> */}
             <Container size="sm" mt={-15} mb={-65}>
                 <Paper
                     p="lg"
@@ -510,7 +498,6 @@ const RumahIbadahCreate = () => {
                                                 component="button"
                                                 type="button"
                                                 pointer
-                                                // rightSection={<Combobox.Chevron />}
                                                 onClick={() =>
                                                     comboboxWilayah.toggleDropdown()
                                                 }
@@ -652,7 +639,6 @@ const RumahIbadahCreate = () => {
                                     type="submit"
                                     radius="md"
                                     loading={loading}
-                                    // disabled={loading}
                                     disabled={!form.isValid()}
                                     onClick={handleShow}
                                 >
@@ -667,8 +653,6 @@ const RumahIbadahCreate = () => {
             {/* MODAL */}
             <Modal
                 opened={show}
-                // onClose={handleClose}
-                // title="HIBAHKU"
                 centered
                 overlayProps={{
                     backgroundOpacity: 0.55,
@@ -685,7 +669,6 @@ const RumahIbadahCreate = () => {
                     ? hibahkuErrorModalNotification
                     : hibahkuSuccessModalNotification}
             </Modal>
-            {/* </BackgroundImage> */}
         </>
     );
 };

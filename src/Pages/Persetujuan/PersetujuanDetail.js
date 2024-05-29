@@ -3,7 +3,6 @@ import {
     Avatar,
     Breadcrumbs,
     Button,
-    CloseButton,
     Combobox,
     Container,
     Grid,
@@ -13,7 +12,6 @@ import {
     LoadingOverlay,
     Paper,
     SimpleGrid,
-    Skeleton,
     Space,
     Stack,
     Text,
@@ -53,18 +51,8 @@ const PersetujuanDetail = () => {
     const [loadingFetch, setLoadingFetch] = useState(false);
 
     const persetujuan = useSelector((state) => state?.persetujuan);
-    const {
-        loading,
-        appError,
-        serverError,
-        detailAdminPersetujuan,
-        isDeleted,
-        changeStatus,
-    } = persetujuan;
-
-    // const prosesId = detailAdminPersetujuan?.map((x) => x?.Proses?.id);
-    // const prosesIdtoString = prosesId?.toString();
-    // console.log(prosesIdtoString);
+    const { loading, detailAdminPersetujuan, isDeleted, changeStatus } =
+        persetujuan;
 
     const namaKategori = detailAdminPersetujuan?.map(
         (x) => x?.Keagamaan?.Kategori?.nama
@@ -74,22 +62,17 @@ const PersetujuanDetail = () => {
         validateInputOnChange: true,
         initialValues: {
             id: params.id,
-            // newStatus: "",
             newProses: "",
         },
 
         validate: {
             id: isNotEmpty("Harap diisi"),
-            // newStatus: isNotEmpty("Harap diisi"),
             newProses: isNotEmpty("Harap diisi"),
         },
     });
 
     const formOnSubmit = form.onSubmit((values) => {
-        // console.log(values);
         dispatch(changeStatusPersetujuanAction(values));
-        // form.reset()
-        // form.clearErrors();
     });
 
     useEffect(() => {
@@ -198,7 +181,6 @@ const PersetujuanDetail = () => {
     // Status Start
     const comboboxStatus = useCombobox({
         onDropdownClose: () => comboboxStatus.resetSelectedOption(),
-        // onDropdownOpen: () => comboboxStatus.selectNextOption(),
     });
 
     const [statusValue, setStatusValue] = useState();
@@ -239,7 +221,6 @@ const PersetujuanDetail = () => {
     // Proses End
 
     useEffect(() => {
-        // dispatch(getAllPersetujuanAction());
         dispatch(getDetailAdminPersetujuanAction(params?.id));
     }, [dispatch, params]);
 
@@ -1124,7 +1105,6 @@ const PersetujuanDetail = () => {
                             color="red"
                             leftSection={<IconTrash size={14} />}
                             onClick={openDeleteModal}
-                            // loading={loading}
                             disabled={loading}
                         >
                             Hapus
@@ -1141,7 +1121,6 @@ const PersetujuanDetail = () => {
         {
             title: `Detail - ${params.id}`,
             href: `/dashboard/admin/persetujuan/detail/${params.id}`,
-            // href: `/dashboard/admin/persetujuan/${params.id}`,
         },
     ].map((item, index) => (
         <Anchor href={item.href} key={index} size="sm" truncate="end">

@@ -5,7 +5,6 @@ import {
     Button,
     Center,
     Container,
-    Divider,
     Fieldset,
     FileInput,
     Group,
@@ -45,17 +44,12 @@ export default function UserPermohonan() {
         getInitialValueInEffect: true,
     });
 
-    const [errorMsg, setErrorMsg] = useState("");
-
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
     const permohonan = useSelector((state) => state?.permohonan);
-    const { loading, isCreated, appError, serverError, permohonanCreated } =
-        permohonan;
-
-    console.log(permohonanCreated);
+    const { loading, appError, serverError, permohonanCreated } = permohonan;
 
     const [type, toggle] = useToggle(["masjid", "lembaga"]);
 
@@ -70,19 +64,6 @@ export default function UserPermohonan() {
             setShow(true);
         }, 2000);
     };
-
-    const persetujuan = useSelector((state) => state?.persetujuan);
-    const { persetujuanList } = persetujuan;
-
-    const user = useSelector((state) => state?.auth?.userAuth);
-    const { nik } = user;
-
-    const filteredResult = persetujuanList?.result?.filter((item) => {
-        return nik === item?.userid;
-    });
-
-    const persetujuanId =
-        filteredResult?.length > 0 ? filteredResult[0].id : null;
 
     const form = useForm({
         validateInputOnChange: true,
@@ -109,10 +90,7 @@ export default function UserPermohonan() {
                 "ID SIMAS Min. 10 angka"
             ),
             tujuan: hasLength({ min: 5, max: 50 }, "Tujuan minimal 5 karakter"),
-            // pengajuandana: hasLength(
-            //     { min: 3, max: 20 },
-            //     "Pengajuan dana minimal 3 angka"
-            // ),
+
             norek: hasLength({ min: 8, max: 10 }, "Min. 8 karakter"),
             file_ktp: isNotEmpty(
                 "Tidak Boleh Kosong. Silahkan Upload File KTP."
@@ -123,11 +101,6 @@ export default function UserPermohonan() {
             file_sk: isNotEmpty("Tidak Boleh Kosong"),
             file_proposal: isNotEmpty("Tidak Boleh Kosong"),
             file_suratpermohonan: isNotEmpty("Tidak Boleh Kosong"),
-            // file_suket: isNotEmpty("Tidak Boleh Kosong"),
-            // file_asetrekom: isNotEmpty("Tidak Boleh Kosong"),
-            // file_izinoperasional: isNotEmpty("Tidak Boleh Kosong"),
-            // file_aktapendirian: isNotEmpty("Tidak Boleh Kosong"),
-            // file_pengesahankemenkumham: isNotEmpty("Tidak Boleh Kosong"),
         },
     });
 
@@ -140,14 +113,8 @@ export default function UserPermohonan() {
     }, [loading]);
 
     const formOnSubmit = form.onSubmit((values) => {
-        console.log(values);
         dispatch(createPermohonan(values));
-        // form.clearErrors();
-        // form.reset();
     });
-
-    // const dates = useDatesContext();
-    // console.log(dates);
 
     const icon = (
         <IconFileTypePdf
@@ -250,7 +217,6 @@ export default function UserPermohonan() {
 
     return (
         <>
-            {/* <BackgroundImage h="100vh" src={backgroundSvg} radius="md"> */}
             <Container size="sm" mt={-15} mb={-65}>
                 <Paper
                     p="lg"
@@ -278,7 +244,6 @@ export default function UserPermohonan() {
 
                 <Paper
                     bg="var(--mantine-color-blueGray-light)"
-                    // style={{ minHeight: "calc(110vh - 90px)" }}
                     h="90vh"
                     p="xl"
                     withBorder
@@ -309,23 +274,6 @@ export default function UserPermohonan() {
                                                 ? "LEMBAGA KEAGAMAAN"
                                                 : "MASJID"}
                                         </Button>
-
-                                        {/* <TextInput
-                                            type="number"
-                                            label="ID SIMAS/NSPP/NSM"
-                                            description="Masukkan ID SIMAS/NSPP/NSM yang akan menerima HIBAH"
-                                            value={form.values.keagamaanid}
-                                            onChange={(event) =>
-                                                form.setFieldValue(
-                                                    "keagamaanid",
-                                                    event.currentTarget.value
-                                                )
-                                            }
-                                            error={
-                                                form.errors.keagamaanid &&
-                                                "10-20 Karakter"
-                                            }
-                                        /> */}
 
                                         {type === "masjid" && (
                                             <TextInput

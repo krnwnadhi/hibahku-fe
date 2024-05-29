@@ -5,11 +5,7 @@ import React from "react";
 
 const DateFormatter = ({ date }) => {
     return (
-        <Moment
-            locale="id"
-            format="DD MMMM YYYY"
-            // fromNow
-        >
+        <Moment locale="id" format="DD MMMM YYYY">
             {date}
         </Moment>
     );

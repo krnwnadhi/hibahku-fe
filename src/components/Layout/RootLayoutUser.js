@@ -13,7 +13,6 @@ export default function RootLayoutUser() {
         <AppShell
             header={{ height: 60, collapsed: !pinned, offset: false }}
             padding="md"
-            // disabled
         >
             <AppShell.Header>
                 <Group h="100%" px="md">

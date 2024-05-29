@@ -56,11 +56,10 @@ const RekapMasjid = () => {
                 .map((item) => {
                     return item;
                 });
-            console.log(filteredMasjid);
 
             setPersetujuanListState(filteredMasjid);
         } catch (error) {
-            console.error(error);
+            throw new Error(error);
         }
     };
 
@@ -508,7 +507,6 @@ const RekapMasjid = () => {
     });
 
     const handleExportRows = (rows) => {
-        // const rowData = rows.map((row) => row.original);
         const rowData = rows.map((row) => ({
             "No.": row.index + 1,
             "Nama Rumah Ibadah": row.original.Keagamaan.nama,
@@ -528,7 +526,7 @@ const RekapMasjid = () => {
             "USULAN DANA": row.original.pengajuandana,
             "PERUNTUKKAN DANA": row.original.tujuan,
         }));
-        console.log(rowData);
+
         const csv = generateCsv(csvConfig)(rowData);
         download(csvConfig)(csv);
     };

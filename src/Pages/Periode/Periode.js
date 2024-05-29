@@ -32,13 +32,9 @@ import { toast } from "react-toastify";
 import { useForm } from "@mantine/form";
 
 const Periode = () => {
-    const [openAlert, setOpenAlert] = useState(false);
     const [loadingToast, setLoadingToast] = useState(false);
 
     dayjs.extend(customParseFormat);
-
-    const todaysDate = moment().format("YYYY-MM-DD");
-    console.log(todaysDate);
 
     const dispatch = useDispatch();
 
@@ -56,7 +52,7 @@ const Periode = () => {
 
     const periode = useSelector((state) => state?.periode);
 
-    const { loading, appError, serverError } = periode;
+    const { loading } = periode;
 
     const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
     const mulaiPeriodeFormat = dayjs(mulaiPeriode)
@@ -69,7 +65,6 @@ const Periode = () => {
         .format("DD MMMM YYYY");
 
     const formOnSubmit = form.onSubmit((values) => {
-        console.log(values);
         dispatch(createPeriode(values));
         form.reset();
         form.clearErrors();
@@ -163,72 +158,6 @@ const Periode = () => {
                         </Paper>
                     </Group>
                     <form onSubmit={formOnSubmit}>
-                        {/* <TextInput
-                            component={MaskedInput}
-                            mask={[
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                "-",
-                                /\d/,
-                                /\d/,
-                                "-",
-                                /\d/,
-                                /\d/,
-                            ]}
-                            guide
-                            placeholder="YYYY-MM-DD"
-                            label="Tutup Periode HIBAHKU"
-                            description="Cth. 2024-06-01"
-                            value={form.values.mulai}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "mulai",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.mulai &&
-                                "Tidak sesuai format YYYY-MM-DD"
-                            }
-                            radius="md"
-                        />
-
-                        <Space h="md" />
-
-                        <TextInput
-                            component={MaskedInput}
-                            mask={[
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                "-",
-                                /\d/,
-                                /\d/,
-                                "-",
-                                /\d/,
-                                /\d/,
-                            ]}
-                            guide
-                            placeholder="YYYY-MM-DD"
-                            label="Buka Kembali Periode HIBAHKU"
-                            description="Cth. 2025-01-01"
-                            value={form.values.selesai}
-                            onChange={(event) =>
-                                form.setFieldValue(
-                                    "selesai",
-                                    event.currentTarget.value
-                                )
-                            }
-                            error={
-                                form.errors.selesai &&
-                                "Tidak sesuai format YYYY-MM-DD"
-                            }
-                            radius="md"
-                        /> */}
-
                         <DatePickerInput
                             mt={25}
                             valueFormat="DD MMMM YYYY"

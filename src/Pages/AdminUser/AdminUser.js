@@ -4,36 +4,22 @@ import {
     Badge,
     Box,
     Breadcrumbs,
-    Button,
     Container,
     Group,
-    Menu,
-    rem,
     useMantineTheme,
 } from "@mantine/core";
-import {
-    IconChevronDown,
-    IconEdit,
-    IconFileExport,
-    IconFileTypeCsv,
-    IconFileTypePdf,
-} from "@tabler/icons-react";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import React, { useEffect, useMemo, useState } from "react";
-import { download, generateCsv, mkConfig } from "export-to-csv";
 import { useDispatch, useSelector } from "react-redux";
 
-import autoTable from "jspdf-autotable";
+import { IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import { baseUserURL } from "../../utils/baseURL";
-import dayjs from "dayjs";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
-import jsPDF from "jspdf";
 import { nprogress } from "@mantine/nprogress";
 
 const AdminUser = () => {
     const dispatch = useDispatch();
-    const theme = useMantineTheme();
     const { colorScheme } = useMantineTheme();
 
     useEffect(() => {
@@ -58,11 +44,10 @@ const AdminUser = () => {
             };
             const response = await axios.get(`${baseUserURL}/getusers`, config);
             const result = response?.data?.result;
-            console.log(result);
 
             setUsersListState(result);
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     };
 
@@ -158,7 +143,6 @@ const AdminUser = () => {
                 header: "Dibuat",
                 filterVariant: "date-range",
                 sortingFn: "datetime",
-                // enableColumnFilter: false,
                 enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
                 Cell: ({ cell }) =>
                     cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
@@ -166,118 +150,6 @@ const AdminUser = () => {
         ],
         []
     );
-
-    // // Handle Excel
-    // const handleExportRowsExcel = (rows) => {
-    //     const rowData = rows.map((row) => {
-    //         return {
-    //             NIK: row.original.nik,
-    //             Nama: row.original.nama,
-    //             NoHp: row.original.notelpon,
-    //             Role: row.original.Role.nama,
-    //             Dibuat: dayjs(row.original.createdAt)
-    //                 .locale("id")
-    //                 .format("DD MMM YYYY"),
-    //         };
-    //     });
-    //     const csvConfig = mkConfig({
-    //         fieldSeparator: ";",
-    //         decimalSeparator: ".",
-    //         useKeysAsHeaders: true,
-    //         filename: `User-${dayjs()
-    //             .locale("id")
-    //             .format("DD-MMM-YYYY HH_mm_ss")}`,
-    //     });
-
-    //     const csv = generateCsv(csvConfig)(rowData);
-    //     download(csvConfig)(csv);
-    // };
-
-    // Handle PDF
-    const handleExportRowsPDF = (rows) => {
-        const doc = new jsPDF({
-            orientation: "landscape",
-            compress: true,
-        });
-
-        const tableData = rows.map((row) => {
-            const { id, nama, notelpon, Role, createdAt } = row.original;
-            return [
-                row.index + 1,
-                id,
-                nama,
-                notelpon === null ? "Tidak Ada Data" : notelpon,
-                Role.nama,
-                dayjs(createdAt).locale("id").format("DD MMM YYYY"),
-            ];
-        });
-
-        const tableHeaders = columns.map((c) => c.header);
-
-        autoTable(doc, {
-            head: [tableHeaders],
-            body: tableData,
-            startY: 40,
-            headStyles: {
-                fillColor: "white",
-                textColor: "black",
-                lineWidth: 0.1,
-                lineColor: "black",
-            },
-            bodyStyles: {
-                fillColor: "white",
-                textColor: "black",
-                lineWidth: 0.1,
-                lineColor: "black",
-                valign: "top",
-            },
-            theme: "grid",
-            allSectionHooks: true,
-            willDrawPage: () => {
-                doc.setFontSize(12);
-                doc.setFont("times", "bold");
-                doc.text(
-                    "DAFTAR REKAPITULASI PERMOHONAN BANTUAN HIBAH RUMAH IBADAH",
-                    150,
-                    22,
-                    "center"
-                );
-                doc.setFontSize(12);
-                doc.text("PEMERINTAH PROVINSI JAMBI", 150, 27, "center");
-                doc.setFontSize(12);
-                doc.text(
-                    `TAHUN ${new Date().getFullYear()}`,
-                    150,
-                    32,
-                    "center"
-                );
-            },
-        });
-
-        autoTable(doc, {
-            willDrawPage: () => {
-                doc.setFontSize(10);
-                doc.setFont("times", "");
-                doc.text(
-                    `Jambi,        ${dayjs()
-                        .locale("id")
-                        .format("MMMM")} ${dayjs().format("YYYY")}`,
-                    230,
-                    175
-                );
-                doc.setFontSize(10);
-                doc.text("KEPALA BIRO KESRA", 230, 179);
-                doc.setFontSize(10);
-                doc.text("H. SULAIMAN, S.Ag.", 230, 195);
-                doc.setFontSize(10);
-                doc.text("Pembina Tk. I", 230, 199);
-                doc.setFontSize(10);
-                doc.text("NIP. 19721001 200012 1 002", 230, 203);
-            },
-        });
-
-        doc.save(`User-${dayjs().locale("id").format("DD-MMM-YYYY HH_mm_ss")}`);
-    };
 
     const data = usersListState;
 
@@ -306,7 +178,6 @@ const AdminUser = () => {
         enableColumnResizing: true,
         positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
-        // enableRowNumbers: true,
         rowNumberMode: "original",
         initialState: {
             density: "xs",
@@ -321,7 +192,6 @@ const AdminUser = () => {
         enableGrouping: true,
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
-        // enableRowActions: true,
         renderRowActions: ({ row }) => (
             <Box style={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
                 <ActionIcon
@@ -338,199 +208,6 @@ const AdminUser = () => {
         mantineSearchTextInputProps: {
             placeholder: "Cari",
         },
-        renderTopToolbarCustomActions: ({ table }) => (
-            <Group p="xs" justify="space-between">
-                {/* EXCEL START */}
-                {/* <Menu
-                    transitionProps={{ transition: "pop-top-right" }}
-                    position="top-end"
-                    width={220}
-                    withinPortal
-                    trigger="click-hover"
-                    withArrow
-                    arrowPosition="center"
-                    openDelay={100}
-                    closeDelay={400}
-                >
-                    <Menu.Target>
-                        <Button
-                            rightSection={
-                                <IconChevronDown
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            leftSection={
-                                <IconFileTypeCsv
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            size="xs"
-                            color={theme.colors.green[7]}
-                        >
-                            Excel
-                        </Button>
-                    </Menu.Target>
-                    <Menu.Dropdown>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.blue[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={
-                                table.getPrePaginationRowModel().rows.length ===
-                                0
-                            }
-                            //export all rows, including from the next page, (still respects filtering and sorting)
-                            onClick={() =>
-                                handleExportRowsExcel(
-                                    table.getPrePaginationRowModel().rows
-                                )
-                            }
-                        >
-                            Export All Rows
-                        </Menu.Item>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.pink[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={table.getRowModel().rows.length === 0}
-                            //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
-                            onClick={() =>
-                                handleExportRowsExcel(table.getRowModel().rows)
-                            }
-                        >
-                            Export Page Rows
-                        </Menu.Item>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.green[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={
-                                !table.getIsSomeRowsSelected() &&
-                                !table.getIsAllRowsSelected()
-                            }
-                            //only export selected rows
-                            onClick={() =>
-                                handleExportRowsExcel(
-                                    table.getSelectedRowModel().rows
-                                )
-                            }
-                        >
-                            Export Selected Rows
-                        </Menu.Item>
-                    </Menu.Dropdown>
-                </Menu> */}
-                {/* EXCEL END */}
-
-                {/* PDF START */}
-                {/* <Menu
-                    transitionProps={{ transition: "pop-top-right" }}
-                    position="top-end"
-                    width={220}
-                    withinPortal
-                    trigger="click-hover"
-                    withArrow
-                    arrowPosition="center"
-                    openDelay={100}
-                    closeDelay={400}
-                >
-                    <Menu.Target>
-                        <Button
-                            rightSection={
-                                <IconChevronDown
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            leftSection={
-                                <IconFileTypePdf
-                                    style={{ width: rem(18), height: rem(18) }}
-                                    stroke={1.5}
-                                />
-                            }
-                            size="xs"
-                            color={theme.colors.red[7]}
-                        >
-                            Pdf
-                        </Button>
-                    </Menu.Target>
-                    <Menu.Dropdown>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.blue[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={
-                                table.getPrePaginationRowModel().rows.length ===
-                                0
-                            }
-                            //export all rows, including from the next page, (still respects filtering and sorting)
-                            onClick={() =>
-                                handleExportRowsPDF(
-                                    table.getPrePaginationRowModel().rows
-                                )
-                            }
-                        >
-                            Export All Rows
-                        </Menu.Item>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.pink[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={table.getRowModel().rows.length === 0}
-                            //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
-                            onClick={() =>
-                                handleExportRowsPDF(table.getRowModel().rows)
-                            }
-                        >
-                            Export Page Rows
-                        </Menu.Item>
-                        <Menu.Item
-                            leftSection={
-                                <IconFileExport
-                                    style={{ width: rem(16), height: rem(16) }}
-                                    color={theme.colors.green[6]}
-                                    stroke={1.5}
-                                />
-                            }
-                            disabled={
-                                !table.getIsSomeRowsSelected() &&
-                                !table.getIsAllRowsSelected()
-                            }
-                            //only export selected rows
-                            onClick={() =>
-                                handleExportRowsPDF(
-                                    table.getSelectedRowModel().rows
-                                )
-                            }
-                        >
-                            Export Selected Rows
-                        </Menu.Item>
-                    </Menu.Dropdown>
-                </Menu> */}
-                {/* PDF END */}
-            </Group>
-        ),
     });
 
     return (

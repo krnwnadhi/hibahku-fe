@@ -1,48 +1,14 @@
 import "react-toastify/dist/ReactToastify.css";
 
-import {
-    Button,
-    Container,
-    Divider,
-    Group,
-    List,
-    TextInput,
-} from "@mantine/core";
-import { useDispatch, useSelector } from "react-redux";
+import { Button, Divider, Group } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 
-import MaskedInput from "react-text-mask";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
 import { toast } from "react-toastify";
-import { useNetwork } from "@mantine/hooks";
-
-// export default function AdminPage() {
-//     const dispatch = useDispatch();
-
-//     useEffect(() => {
-//         dispatch(getAllUsersAction());
-//     }, [dispatch]);
-
-//     return (
-//         <Paper shadow="xs" p="xl">
-//             aksas
-//         </Paper>
-//     );
-// }
-
-// export default function AdminPage() {
-//     const notify = () => toast.success("Success Notification !");
-
-//     return (
-//         <>
-//             <Button onClick={notify}>Click Me!</Button>
-//         </>
-//     );
-// }
+import { useDispatch } from "react-redux";
 
 const AdminPage = () => {
     const [loading, setLoading] = useState(false);
-    const networkStatus = useNetwork();
 
     const handleUpdateClick = () => {
         toast.info("Updating...");

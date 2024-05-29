@@ -13,7 +13,6 @@ import {
     Title,
     useComputedColorScheme,
 } from "@mantine/core";
-import { Link, useParams } from "react-router-dom";
 import {
     getAllPersetujuanAction,
     getDetailUserPersetujuanAction,
@@ -22,27 +21,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
+import { Link } from "react-router-dom";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import classes from "./UserPage.module.css";
 import dayjs from "dayjs";
 import { nprogress } from "@mantine/nprogress";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-// import backgroundSvg from "../../../assets/circle-scatter-haikei2.svg";
-
-// import { useDisclosure } from "@mantine/hooks";
-
 dayjs.extend(relativeTime);
 
 export default function UserStatus() {
-    const { id } = useParams();
-
     const user = useSelector((state) => state?.auth?.userAuth);
     const { nik } = user;
-    console.log(nik);
 
-    // const [opened, { open, close }] = useDisclosure(false);
-    // const [show, setShow] = useState(false);
     const dispatch = useDispatch();
 
     const computedColorScheme = useComputedColorScheme("light", {
@@ -50,13 +41,6 @@ export default function UserStatus() {
     });
 
     const [value, setValue] = useState("progres");
-
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => {
-    //     setTimeout(() => {
-    //         setShow(true);
-    //     }, 2000);
-    // };
 
     useEffect(() => {
         dispatch(getAllPersetujuanAction());
@@ -69,17 +53,12 @@ export default function UserStatus() {
     const persetujuan = useSelector((state) => state?.persetujuan);
     const { loading, persetujuanList, detailUserPersetujuan } = persetujuan;
 
-    console.log(persetujuanList);
-
     const filteredResult = persetujuanList?.result?.filter((item) => {
         return nik === item?.userid;
     });
-    console.log(filteredResult);
 
     const persetujuanId =
         filteredResult?.length > 0 ? filteredResult[0].id : null;
-
-    console.log(persetujuanId);
 
     const dataSegmentedControl = [
         {
@@ -123,13 +102,6 @@ export default function UserStatus() {
         PROSES: "blue",
         DITOLAK: "red",
     };
-
-    const tableCaption = detailUserPersetujuan?.map((item) =>
-        dayjs(item?.updatedAt).locale("id").fromNow()
-    );
-
-    const lastTableCaption = tableCaption?.slice(-1);
-    console.log(lastTableCaption);
 
     useEffect(() => {
         loading ? nprogress.start() : nprogress.complete();

@@ -1,18 +1,11 @@
 import { ActionIcon, Avatar, Group, Menu, Text, rem } from "@mantine/core";
-import {
-    IconDotsVertical,
-    IconLogout,
-    IconSettings,
-} from "@tabler/icons-react";
+import { IconDotsVertical, IconLogout } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import { logoutUserAction } from "../../redux/slices/auth/authSlices";
 
-// import classes from "./MenuMantine.module.css";
-
 export default function MenuMantine() {
-    // const theme = useMantineTheme();
     const dispatch = useDispatch();
 
     const logOut = () => {
@@ -20,7 +13,7 @@ export default function MenuMantine() {
     };
 
     const user = useSelector((state) => state?.auth?.userAuth);
-    const { nama, nik, role } = user;
+    const { nama, nik } = user;
 
     return (
         <Group justify="center">
@@ -37,7 +30,6 @@ export default function MenuMantine() {
                         <IconDotsVertical
                             style={{ width: rem(16), height: rem(16) }}
                             stroke={1.5}
-                            // color="var(--mantine-color-black)"
                         />
                     </ActionIcon>
                 </Menu.Target>
@@ -58,27 +50,6 @@ export default function MenuMantine() {
                     </Menu.Item>
 
                     <Menu.Divider />
-
-                    {/* {role === 1 && (
-                        <>
-                            <Menu.Label>Settings</Menu.Label>
-                            <Menu.Item
-                                leftSection={
-                                    <IconSettings
-                                        style={{
-                                            width: rem(16),
-                                            height: rem(16),
-                                        }}
-                                        stroke={1.5}
-                                    />
-                                }
-                                component={Link}
-                                to="/dashboard/admin"
-                            >
-                                Account settings
-                            </Menu.Item>
-                        </>
-                    )} */}
 
                     <Menu.Item
                         leftSection={

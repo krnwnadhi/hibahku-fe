@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import axios from "axios";
 import { basePeriodeURL } from "../../../utils/baseURL";
@@ -8,7 +8,6 @@ export const createPeriode = createAsyncThunk(
     "periode/create",
     async (periode, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
-        // console.log(user);
 
         const config = {
             headers: {
@@ -40,7 +39,6 @@ export const getPeriode = createAsyncThunk(
     "periode/get",
     async (periode, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
-        // console.log(user);
 
         const config = {
             headers: {

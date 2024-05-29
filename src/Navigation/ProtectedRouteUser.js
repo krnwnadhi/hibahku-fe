@@ -5,7 +5,6 @@ import secureLocalStorage from "react-secure-storage";
 const ProtectedRouteUser = ({ children, ...rest }) => {
     const item = JSON.parse(secureLocalStorage.getItem("logInfo"));
     const role = item?.role;
-    console.log(role);
 
     return role ? <Outlet /> : <Navigate to="/signin" />;
 };

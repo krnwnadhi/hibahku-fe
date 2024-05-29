@@ -23,7 +23,6 @@ const DarkButton = () => {
                     )
                 }
                 variant="subtle"
-                // size="xl"
                 aria-label="Toggle color scheme"
             >
                 {computedColorScheme === "light" ? (

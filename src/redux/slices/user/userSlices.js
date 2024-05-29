@@ -8,7 +8,6 @@ export const getAllUsersAction = createAsyncThunk(
     "user/getAll",
     async (data, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
-        // console.log(user);
 
         const config = {
             headers: {
@@ -36,7 +35,6 @@ export const getSingleUsersAction = createAsyncThunk(
     "user/getSingle",
     async (id, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
-        // console.log(user);
 
         const config = {
             headers: {

@@ -7,21 +7,16 @@ import { useSelector } from "react-redux";
 
 export default function Page403() {
     const user = useSelector((state) => state?.auth?.userAuth);
-    console.log(user);
 
     return (
         <Container
-            // className={classes.root}
             style={{ height: 300, paddingTop: "50px", fontSize: "48px" }}
         >
-            {/* <div className={classes.label}>404</div> */}
-
             <Player
                 src="https://lottie.host/11e4395a-c697-4b5b-8d45-8184de180521/v5Pcbyr6A1.json"
                 loop
                 autoplay
                 style={{ height: "300px" }}
-                // background="red"
             />
 
             <Title className={classes.title}>

@@ -6,36 +6,6 @@ import { basePersetujuanURL } from "../../../utils/baseURL";
 // //action to redirect
 const resetFileDeleteAction = createAction("persetujuan/delete/reset");
 
-//get all persetujuan
-// export const getAllPersetujuanAction = createAsyncThunk(
-//     "persetujuan/getAllPersetujuan",
-//     async (data, { rejectWithValue, getState, dispatch }) => {
-//         const user = getState()?.auth?.userAuth;
-
-//         const config = {
-//             headers: {
-//                 Authorization: `Bearer ${user?.token}`,
-//                 "Access-Control-Allow-Origin": "*",
-//             },
-//         };
-
-//         await new Promise((resolve) => setTimeout(resolve, 1000));
-
-//         try {
-//             const { data } = await axios.get(
-//                 `${basePersetujuanURL}/list`,
-//                 config
-//             );
-//             return data;
-//         } catch (error) {
-//             if (!error?.response) {
-//                 throw error;
-//             }
-//             return rejectWithValue(error?.response?.data);
-//         }
-//     }
-// );
-
 //get all persetujuan Vanilla Fetch
 export const getAllPersetujuanAction = createAsyncThunk(
     "persetujuan/getAllPersetujuan",
@@ -84,8 +54,6 @@ export const getDetailAdminPersetujuanAction = createAsyncThunk(
                 "Access-Control-Allow-Origin": "*",
             },
         };
-
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
             const { data } = await axios.get(

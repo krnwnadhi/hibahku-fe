@@ -45,15 +45,11 @@ export default function Dashboard() {
         dispatch(getAllUsersAction());
     }, [dispatch]);
 
-    //
     const user = useSelector((state) => state?.auth?.userAuth);
 
-    //
     const allUsersList = useSelector((state) => state?.users);
     const { loading, usersList } = allUsersList;
-    // console.log(usersList?.result?.length);
 
-    //
     const allRumahIbadah = useSelector(
         (state) => state?.rumahIbadah?.rumahIbadahList
     );
@@ -113,8 +109,6 @@ export default function Dashboard() {
                             sections={[
                                 { value: stat.progress, color: stat.color },
                             ]}
-                            // component={<Anchor />}
-                            // href={stat.link}
                             label={
                                 <Center>
                                     <Icon

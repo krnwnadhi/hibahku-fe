@@ -5,8 +5,6 @@ import {
     Box,
     Breadcrumbs,
     Container,
-    Popover,
-    Text,
     Tooltip,
     useMantineTheme,
 } from "@mantine/core";
@@ -34,7 +32,6 @@ const Persetujuan = () => {
 
     const persetujuan = useSelector((state) => state?.persetujuan);
     const { loading, persetujuanList = [] } = persetujuan;
-    // console.log(persetujuanList);
 
     const [persetujuanListState, setPersetujuanListState] = useState([
         persetujuanList,
@@ -55,11 +52,8 @@ const Persetujuan = () => {
             const result = response?.data?.result;
 
             setPersetujuanListState(result);
-            // setTotalItems(response.data.totalItems);
-            // setTotalPage(response.data.totalPage);
-            // setPages(response.data.page);
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     };
 
@@ -332,7 +326,6 @@ const Persetujuan = () => {
                 header: "Dibuat",
                 filterVariant: "date-range",
                 sortingFn: "datetime",
-                // enableColumnFilter: false,
                 enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
                 Cell: ({ cell }) =>
                     cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string

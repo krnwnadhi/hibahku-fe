@@ -167,7 +167,6 @@ export default function SignIn(props) {
                                 <Anchor
                                     component={Link}
                                     type="button"
-                                    // c="dimmed"
                                     to="/register"
                                     size="xs"
                                     ta="center"
@@ -211,7 +210,6 @@ export default function SignIn(props) {
                             target="_blank"
                             rel="noopener noreferrer"
                             ta="center"
-                            // c="dark"
                         >
                             Biro Kesra Provinsi Jambi
                         </Anchor>{" "}
@@ -223,7 +221,6 @@ export default function SignIn(props) {
                             target="_blank"
                             rel="noopener noreferrer"
                             ta="center"
-                            // c="dark"
                         >
                             Diskominfo Provinsi Jambi
                         </Anchor>{" "}

@@ -58,7 +58,6 @@ export default function Register(props) {
 
     //select state from store
     const storeData = useSelector((store) => store?.auth);
-    // console.log(storeData);
     const { loading, appError, serverError, registered } = storeData;
 
     useEffect(() => {
@@ -122,8 +121,6 @@ export default function Register(props) {
                         <form
                             onSubmit={form.onSubmit((values) => {
                                 dispatch(registerUserAction(values));
-                                // form.reset();
-                                // form.clearErrors();
                             })}
                         >
                             <Stack>
@@ -202,7 +199,6 @@ export default function Register(props) {
                                 <Anchor
                                     component={Link}
                                     type="button"
-                                    // c="dimmed"
                                     to="/signin"
                                     size="xs"
                                 >

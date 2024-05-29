@@ -1,6 +1,5 @@
 import {
     Anchor,
-    Blockquote,
     Button,
     Center,
     Container,
@@ -18,12 +17,12 @@ import {
     Title,
     useComputedColorScheme,
 } from "@mantine/core";
-import { IconCaretUpDown, IconInfoCircle } from "@tabler/icons-react";
 import { hasLength, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DarkButton from "../components/DarkButton/DarkButton";
+import { IconCaretUpDown } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import MenuMantine from "../../../components/Menu/MenuMantine";
 import UserInfo from "../components/UserInfo/UserInfo";
@@ -69,15 +68,12 @@ export default function UserPage() {
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
     const { loading, cekStatus, appError } = rumahIbadah;
 
-    //
     const filteredResult = persetujuanList?.result?.filter((item) => {
         return nik === item?.userid;
     });
-    // console.log(filteredResult);
 
     const persetujuanId =
         filteredResult?.length > 0 ? filteredResult[0].id : null;
-    // console.log(persetujuanId);
 
     useEffect(() => {
         dispatch(getPeriode());
@@ -85,11 +81,7 @@ export default function UserPage() {
 
     const periode = useSelector((state) => state?.periode);
 
-    const {
-        loading: loadingPeriode,
-        appError: appErrorPeriode,
-        serverError,
-    } = periode;
+    const { loading: loadingPeriode } = periode;
 
     const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
     const mulaiPeriodeFormat = dayjs(mulaiPeriode)
@@ -328,7 +320,6 @@ export default function UserPage() {
 
     return (
         <>
-            {/* <BackgroundImage h="100vh" src={backgroundSvg} radius="md"> */}
             <Container size="sm" mt={-15} mb={-65}>
                 <Paper
                     bg={
@@ -519,33 +510,6 @@ export default function UserPage() {
 
                     <Space h="md" />
 
-                    {/* <Paper
-                        radius="md"
-                        p="xl"
-                        bg="var(--mantine-color-body)"
-                        withBorder
-                    >
-                        <Blockquote
-                            color="blue"
-                            cite="– Admin"
-                            icon={<IconInfoCircle />}
-                            // mt="xl"
-                        >
-                            <Text fs="italic" size="sm">
-                                Contoh File/Dokumen dapat anda download pada
-                                link berikut:
-                                <Anchor
-                                    href="https://www.google.com/"
-                                    target="_blank"
-                                >
-                                    <Text c="blue" fs="italic">
-                                        "CONTOH DOKUMEN"
-                                    </Text>
-                                </Anchor>
-                            </Text>
-                        </Blockquote>
-                    </Paper> */}
-
                     <Modal
                         opened={show}
                         closeOnEscape={false}
@@ -579,7 +543,6 @@ export default function UserPage() {
                     />
                 </Center>
             </Container>
-            {/* </BackgroundImage> */}
         </>
     );
 }

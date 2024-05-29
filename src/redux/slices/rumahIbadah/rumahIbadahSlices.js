@@ -8,7 +8,6 @@ export const getAllRumahIbadahAction = createAsyncThunk(
     "rumahIbadah/getAll",
     async (data, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
-        // console.log(user);
 
         const config = {
             headers: {
@@ -39,7 +38,6 @@ export const createRumahIbadahAction = createAsyncThunk(
     "rumahIbadah/create",
     async (dataRumahIbadah, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
-        // console.log(user);
 
         const config = {
             headers: {
@@ -71,7 +69,6 @@ export const cekStatusRumahIbadahAction = createAsyncThunk(
     "rumahIbadah/cekStatus",
     async (id, { rejectWithValue, getState, dispatch }) => {
         const user = getState()?.auth?.userAuth;
-        // console.log(user);
 
         const config = {
             headers: {
