@@ -18,6 +18,10 @@ export const createPeriode = createAsyncThunk(
 
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
+        // new Promise((resolve) => {
+        //     setTimeout(() => resolve(null), 3000);
+        //   });
+
         try {
             const { data } = await axios.post(
                 `${basePeriodeURL}`,
