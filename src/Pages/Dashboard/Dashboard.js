@@ -11,7 +11,6 @@ import {
     SimpleGrid,
     Stack,
     Text,
-    Title,
     rem,
 } from "@mantine/core";
 import { IconBuildingMosque, IconLicense, IconUser } from "@tabler/icons-react";
@@ -20,8 +19,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
-import { logoutUserAction } from "../../redux/slices/auth/authSlices";
-import { modals } from "@mantine/modals";
 import { nprogress } from "@mantine/nprogress";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

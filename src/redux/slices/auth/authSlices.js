@@ -3,6 +3,7 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseAuthURL } from "../../../utils/baseURL";
 import secureLocalStorage from "react-secure-storage";
+import { toast } from "react-toastify";
 
 const resetRegisterAction = createAction("auth/register/reset");
 const resetLoginAction = createAction("auth/login/reset");
@@ -82,10 +83,10 @@ const userLoginFormStorage = secureLocalStorage.getItem("logInfo")
 export const logoutUserAction = createAsyncThunk(
     "auth/logout",
     async (userData, { rejectWithValue, getState, dispatch }) => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
         try {
             secureLocalStorage.removeItem("logInfo");
-
-            // await new Promise((resolve) => setTimeout(resolve, 2000));
 
             dispatch(resetLogoutAction());
         } catch (error) {
@@ -169,6 +170,10 @@ const authSlices = createSlice({
             state.loading = true;
             state.appError = undefined;
             state.serverError = undefined;
+            toast("Loading...", {
+                isLoading: true,
+                autoClose: false, // Don't auto-close for loading
+            });
         });
 
         //reset state
@@ -182,11 +187,14 @@ const authSlices = createSlice({
             state.loading = false;
             state.appError = undefined;
             state.serverError = undefined;
+            toast.dismiss();
+            toast.success("Logout Berhasil!");
         });
         builder.addCase(logoutUserAction.rejected, (state, action) => {
             state.loading = false;
             state.appError = action?.payload?.message;
             state.serverError = action?.error?.message;
+            toast.error(action?.payload?.message || action?.error?.message);
         });
     },
 });

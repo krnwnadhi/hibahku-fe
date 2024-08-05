@@ -101,11 +101,6 @@ export default function RootLayout() {
                 <AppShell.Section component={ScrollArea} grow>
                     <SideNav />
                 </AppShell.Section>
-
-                <AppShell.Section>
-                    {" "}
-                    <Title order={5}>Selamat Datang, {user?.nama}!</Title>
-                </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
                 <Outlet />

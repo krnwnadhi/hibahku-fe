@@ -1,13 +1,16 @@
-import { ActionIcon, Avatar, Group, Menu, Text, rem } from "@mantine/core";
+import { ActionIcon, Group, Menu, Text, rem } from "@mantine/core";
 import { IconDotsVertical, IconLogout } from "@tabler/icons-react";
+import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Link } from "react-router-dom";
 import { logoutUserAction } from "../../redux/slices/auth/authSlices";
 import { modals } from "@mantine/modals";
 
 export default function MenuMantine() {
     const dispatch = useDispatch();
+
+    const user = useSelector((state) => state?.auth);
+    const { isLogout } = user;
 
     const openDeleteModal = () =>
         modals.openConfirmModal({
@@ -17,11 +20,19 @@ export default function MenuMantine() {
             labels: { confirm: "Log Out", cancel: "Batal" },
             confirmProps: { color: "red" },
             onCancel: () => console.log("Cancel"),
-            onConfirm: () => dispatch(logoutUserAction()),
+
+            onConfirm: () => {
+                dispatch(logoutUserAction());
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            },
         });
 
-    const user = useSelector((state) => state?.auth?.userAuth);
-    const { nama, nik } = user;
+    // //redirect
+    if (isLogout) {
+        return <Navigate to="/signin" replace={true} />;
+    }
 
     return (
         <Group justify="center">
@@ -42,7 +53,7 @@ export default function MenuMantine() {
                     </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
-                    <Menu.Item>
+                    {/* <Menu.Item>
                         <Group>
                             <Avatar
                                 radius="xl"
@@ -57,7 +68,7 @@ export default function MenuMantine() {
                         </Group>
                     </Menu.Item>
 
-                    <Menu.Divider />
+                    <Menu.Divider /> */}
 
                     <Menu.Item
                         leftSection={
@@ -68,7 +79,6 @@ export default function MenuMantine() {
                         }
                         component={Link}
                         onClick={openDeleteModal}
-                        to="/signin"
                     >
                         Logout
                     </Menu.Item>
