@@ -4,13 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import { logoutUserAction } from "../../redux/slices/auth/authSlices";
+import { modals } from "@mantine/modals";
 
 export default function MenuMantine() {
     const dispatch = useDispatch();
 
-    const logOut = () => {
-        dispatch(logoutUserAction());
-    };
+    const openDeleteModal = () =>
+        modals.openConfirmModal({
+            title: "Logout",
+            centered: true,
+            children: <Text size="sm">Anda yakin ingin logout?</Text>,
+            labels: { confirm: "Log Out", cancel: "Batal" },
+            confirmProps: { color: "red" },
+            onCancel: () => console.log("Cancel"),
+            onConfirm: () => dispatch(logoutUserAction()),
+        });
 
     const user = useSelector((state) => state?.auth?.userAuth);
     const { nama, nik } = user;
@@ -59,7 +67,7 @@ export default function MenuMantine() {
                             />
                         }
                         component={Link}
-                        onClick={logOut}
+                        onClick={openDeleteModal}
                         to="/signin"
                     >
                         Logout

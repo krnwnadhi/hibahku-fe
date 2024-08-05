@@ -2,7 +2,6 @@ import {
     Anchor,
     Avatar,
     Breadcrumbs,
-    Button,
     Center,
     Container,
     Group,
@@ -10,9 +9,9 @@ import {
     Paper,
     RingProgress,
     SimpleGrid,
-    Space,
     Stack,
     Text,
+    Title,
     rem,
 } from "@mantine/core";
 import { IconBuildingMosque, IconLicense, IconUser } from "@tabler/icons-react";
@@ -79,7 +78,7 @@ export default function Dashboard() {
             icon: "listTempat",
         },
         {
-            label: "Users",
+            label: "Pengguna",
             stats: usersList?.result?.length,
             progress: usersList?.result?.length,
             color: "red",
@@ -95,51 +94,24 @@ export default function Dashboard() {
         }
     }, [user, navigate]);
 
-    const openDeleteModal = () =>
-        modals.openConfirmModal({
-            title: "Logout",
-            centered: true,
-            children: <Text size="sm">Anda yakin ingin logout?</Text>,
-            labels: { confirm: "Log Out", cancel: "Batal" },
-            confirmProps: { color: "red" },
-            onCancel: () => console.log("Cancel"),
-            onConfirm: () => dispatch(logoutUserAction()),
-        });
-
     const UserInfo = () => {
         return (
-            <Paper
-                radius="md"
-                shadow="md"
-                withBorder
-                p="lg"
-                bg="var(--mantine-color-body)"
-            >
+            <Paper radius="md" shadow="md" withBorder p="xl">
                 <Avatar
-                    size={80}
+                    size={50}
                     radius={120}
                     mx="auto"
                     key={user?.nama}
-                    name={user?.nama}
+                    src={`https://ui-avatars.com/api/?name=${user?.nama}&background=random`}
                     color="initials"
+                    alt="Admin"
                 />
-
                 <Text ta="center" fz="md" fw={700} mt="md">
-                    {user?.nama}
+                    Selamat Datang, {user?.nama}
                 </Text>
                 <Text ta="center" c="dimmed" fz="xs">
-                    {user?.email}
+                    {user?.nik}
                 </Text>
-
-                <Button
-                    variant="subtle"
-                    color="red"
-                    fullWidth
-                    mt="md"
-                    onClick={openDeleteModal}
-                >
-                    LOG OUT
-                </Button>
             </Paper>
         );
     };
@@ -210,7 +182,7 @@ export default function Dashboard() {
                     {items}
                 </Breadcrumbs>
 
-                <Stack gap="xl">
+                <Stack gap="md">
                     <UserInfo />
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
                 </Stack>
