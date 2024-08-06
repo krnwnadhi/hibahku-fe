@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DarkButton from "../../User/components/DarkButton/DarkButton";
 import backgroundSvg from "../../../assets/wave-signin.svg";
 import { loginUserAction } from "../../../redux/slices/auth/authSlices";
+import { modals } from "@mantine/modals";
 import { nprogress } from "@mantine/nprogress";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -69,7 +70,27 @@ export default function SignIn(props) {
         const abortController = new AbortController();
 
         if (appError && appError) {
-            toast.error(appError);
+            modals.openConfirmModal({
+                title: serverError,
+                centered: true,
+                closeOnEscape: false,
+                closeOnClickOutside: false,
+                withCloseButton: false,
+                transitionProps: {
+                    transition: "fade",
+                    duration: 600,
+                    timingFunction: "linear",
+                },
+                children: (
+                    <Text size="sm" ta="justify">
+                        {appError}
+                    </Text>
+                ),
+                labels: { confirm: "Muat Ulang Halaman", cancel: "Kembali" },
+                onCancel: () => window.location.reload(),
+                onConfirm: () => window.location.reload(),
+            });
+
             nprogress.start();
         }
 
@@ -171,7 +192,7 @@ export default function SignIn(props) {
                                     size="xs"
                                     ta="center"
                                 >
-                                    NIK Tidak terdaftar? Register disini.
+                                    NIK Tidak terdaftar? Daftar disini.
                                 </Anchor>
                                 <DarkButton />
                             </Group>

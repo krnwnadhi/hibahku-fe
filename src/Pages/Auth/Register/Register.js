@@ -14,18 +14,19 @@ import {
     TextInput,
     useComputedColorScheme,
 } from "@mantine/core";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 
 import DarkButton from "../../User/components/DarkButton/DarkButton";
 import backgroundSvg from "../../../assets/wave-signin.svg";
+import { modals } from "@mantine/modals";
 import { nprogress } from "@mantine/nprogress";
 import { registerUserAction } from "../../../redux/slices/auth/authSlices";
-import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 export default function Register(props) {
+    const navigate = useNavigate();
     const computedColorScheme = useComputedColorScheme("dark", {
         getInitialValueInEffect: true,
     });
@@ -62,7 +63,26 @@ export default function Register(props) {
 
     useEffect(() => {
         if (appError || serverError) {
-            toast.error(appError);
+            modals.openConfirmModal({
+                title: serverError,
+                centered: true,
+                closeOnEscape: false,
+                closeOnClickOutside: false,
+                withCloseButton: false,
+                transitionProps: {
+                    transition: "fade",
+                    duration: 600,
+                    timingFunction: "linear",
+                },
+                children: (
+                    <Text size="sm" ta="justify">
+                        {appError}
+                    </Text>
+                ),
+                labels: { confirm: "Muat Ulang Halaman", cancel: "Kembali" },
+                onCancel: () => window.location.reload(),
+                onConfirm: () => window.location.reload(),
+            });
         }
     }, [appError, serverError, registered, loading]);
 
@@ -76,10 +96,31 @@ export default function Register(props) {
 
     //redirect
     if (registered) {
-        toast.success(
-            "Register berhasil, Silahkan login menggunakan NIK yang telah terdaftar"
-        );
-        return <Navigate to="/signin" replace={false} />;
+        modals.openConfirmModal({
+            title: registered.message,
+            centered: true,
+            closeOnEscape: false,
+            closeOnClickOutside: false,
+            withCloseButton: false,
+            transitionProps: {
+                transition: "fade",
+                duration: 600,
+                timingFunction: "linear",
+            },
+
+            children: (
+                <Text size="sm">
+                    Silahkan kembali ke halaman login dan login menggunakan NIK
+                    & Password yang telah terdaftar!"
+                </Text>
+            ),
+            labels: { confirm: "Ke Halaman Login", cancel: "Kembali" },
+            onCancel: () => window.location.reload(),
+            onConfirm: () => {
+                navigate("/signin");
+                window.location.reload();
+            },
+        });
     }
 
     return (
@@ -221,7 +262,7 @@ export default function Register(props) {
                                     radius="md"
                                     disabled={!form.isValid()}
                                 >
-                                    Register
+                                    Daftar
                                 </Button>
                             )}
                         </form>

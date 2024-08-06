@@ -128,11 +128,6 @@ const authSlices = createSlice({
             state.loading = false;
             state.appError = action?.payload?.message;
             state.serverError = action?.error?.message;
-            if (state.appError) {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
-            }
         });
 
         //login user
@@ -158,11 +153,6 @@ const authSlices = createSlice({
             state.loading = false;
             state.appError = action?.payload?.message;
             state.serverError = action?.error?.message;
-            if (state.appError) {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 4000);
-            }
         });
 
         //logout user
@@ -172,7 +162,7 @@ const authSlices = createSlice({
             state.serverError = undefined;
             toast("Loading...", {
                 isLoading: true,
-                autoClose: false, // Don't auto-close for loading
+                autoClose: false,
             });
         });
 
