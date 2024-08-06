@@ -16,9 +16,11 @@ import {
 import { IconBuildingMosque, IconLicense, IconUser } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
+import dayjs from "dayjs";
 import { getAllPersetujuanAction } from "../../redux/slices/persetujuan/persetujuanSlices";
 import { getAllRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllUsersAction } from "../../redux/slices/user/userSlices";
+import { getPeriode } from "../../redux/slices/periode/periodeSlices";
 import { nprogress } from "@mantine/nprogress";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -44,10 +46,10 @@ export default function Dashboard() {
         dispatch(getAllPersetujuanAction());
         dispatch(getAllRumahIbadahAction());
         dispatch(getAllUsersAction());
+        dispatch(getPeriode());
     }, [dispatch]);
 
     const user = useSelector((state) => state?.auth?.userAuth);
-    console.log(user);
 
     const allUsersList = useSelector((state) => state?.users);
     const { loading, usersList } = allUsersList;
@@ -110,6 +112,59 @@ export default function Dashboard() {
                     {user?.nik}
                 </Text>
             </Paper>
+        );
+    };
+
+    const periode = useSelector((state) => state?.periode);
+
+    const { loading: loadingPeriode } = periode;
+
+    const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
+    const mulaiPeriodeFormat = dayjs(mulaiPeriode)
+        .locale("id")
+        .format("DD MMMM YYYY");
+
+    const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
+    const selesaiPeriodeFormat = dayjs(selesaiPeriode)
+        .locale("id")
+        .format("DD MMMM YYYY");
+
+    const PeriodeDashboard = () => {
+        return (
+            <Group grow>
+                <Paper radius="md" shadow="sm" p="lg" withBorder>
+                    <Text ta="center" fz="md" fw={700}>
+                        TUTUP PERIODE
+                    </Text>
+                    {loadingPeriode ? (
+                        <Center>
+                            <Loader size="xs" />
+                        </Center>
+                    ) : (
+                        <Text ta="center" c="red" fz="sm">
+                            {mulaiPeriodeFormat
+                                ? mulaiPeriodeFormat
+                                : "Tidak Ada Data"}
+                        </Text>
+                    )}
+                </Paper>
+                <Paper radius="md" shadow="sm" p="lg" withBorder>
+                    <Text ta="center" fz="md" fw={700}>
+                        BUKA KEMBALI PERIODE
+                    </Text>
+                    {loading ? (
+                        <Center>
+                            <Loader size="xs" />
+                        </Center>
+                    ) : (
+                        <Text ta="center" c="green" fz="sm">
+                            {selesaiPeriodeFormat
+                                ? selesaiPeriodeFormat
+                                : "Tidak Ada Data"}
+                        </Text>
+                    )}
+                </Paper>
+            </Group>
         );
     };
 
@@ -181,6 +236,7 @@ export default function Dashboard() {
 
                 <Stack gap="md">
                     <UserInfo />
+                    <PeriodeDashboard />
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
                 </Stack>
             </Container>

@@ -20,7 +20,6 @@ export default function MenuMantine() {
             labels: { confirm: "Log Out", cancel: "Batal" },
             confirmProps: { color: "red" },
             onCancel: () => console.log("Cancel"),
-
             onConfirm: () => {
                 dispatch(logoutUserAction());
                 setTimeout(() => {
@@ -53,23 +52,6 @@ export default function MenuMantine() {
                     </ActionIcon>
                 </Menu.Target>
                 <Menu.Dropdown>
-                    {/* <Menu.Item>
-                        <Group>
-                            <Avatar
-                                radius="xl"
-                                src={`https://ui-avatars.com/api/?name=${nama}&background=random`}
-                            />
-                            <div>
-                                <Text fw={500}>{nama}</Text>
-                                <Text size="xs" c="dimmed">
-                                    {nik}
-                                </Text>
-                            </div>
-                        </Group>
-                    </Menu.Item>
-
-                    <Menu.Divider /> */}
-
                     <Menu.Item
                         leftSection={
                             <IconLogout
