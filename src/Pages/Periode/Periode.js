@@ -12,7 +12,6 @@ import {
     Paper,
     Space,
     Text,
-    Title,
     rem,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
@@ -32,6 +31,7 @@ import { toast } from "react-toastify";
 import { useForm } from "@mantine/form";
 
 const Periode = () => {
+    // eslint-disable-next-line no-unused-vars
     const [loadingToast, setLoadingToast] = useState(false);
 
     dayjs.extend(customParseFormat);
@@ -85,14 +85,13 @@ const Periode = () => {
     const handleLoadingClick = () => {
         toast("Loading...", {
             isLoading: true,
-            autoClose: false, // Don't auto-close for loading
+            autoClose: false,
         });
 
-        // Simulate a loading process
         setLoadingToast(true);
         setTimeout(() => {
             setLoadingToast(false);
-            toast.dismiss(); // Dismiss the loading toast
+            toast.dismiss();
             toast.success(
                 "Periode Berhasil Di perbarui. Halaman akan reload secara otomatis."
             );
@@ -157,6 +156,7 @@ const Periode = () => {
                             )}
                         </Paper>
                     </Group>
+
                     <form onSubmit={formOnSubmit}>
                         <DatePickerInput
                             mt={25}
@@ -173,9 +173,12 @@ const Periode = () => {
                             }
                             value={moment(form?.values?.mulai)}
                             onChange={(date) => {
+                                const selectedDate =
+                                    moment(date).format("YYYY-MM-DD");
+                                form.setFieldValue("mulai", selectedDate);
                                 form.setFieldValue(
-                                    "mulai",
-                                    moment(date).format("YYYY-MM-DD")
+                                    "minDateSelesai",
+                                    selectedDate
                                 );
                             }}
                         />
@@ -186,7 +189,11 @@ const Periode = () => {
                             valueFormat="DD MMMM YYYY"
                             label="Buka Kembali Periode Hibahku"
                             placeholder="Pilih Tanggal"
-                            minDate={new Date()}
+                            minDate={
+                                form?.values?.minDateSelesai
+                                    ? new Date(form?.values?.minDateSelesai)
+                                    : new Date()
+                            }
                             leftSectionPointerEvents="none"
                             leftSection={
                                 <IconCalendar
