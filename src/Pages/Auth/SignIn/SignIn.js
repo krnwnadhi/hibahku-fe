@@ -71,7 +71,7 @@ export default function SignIn(props) {
 
         if (appError && appError) {
             modals.openConfirmModal({
-                title: serverError,
+                title: "Gagal",
                 centered: true,
                 closeOnEscape: false,
                 closeOnClickOutside: false,

@@ -234,7 +234,7 @@ export default function Dashboard() {
                     {items}
                 </Breadcrumbs>
 
-                <Stack gap="md">
+                <Stack gap="lg">
                     <UserInfo />
                     <PeriodeDashboard />
                     <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
