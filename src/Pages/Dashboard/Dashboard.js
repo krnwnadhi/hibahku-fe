@@ -50,6 +50,7 @@ export default function Dashboard() {
     }, [dispatch]);
 
     const user = useSelector((state) => state?.auth?.userAuth);
+    console.log(user);
 
     const allUsersList = useSelector((state) => state?.users);
     const { loading, usersList } = allUsersList;

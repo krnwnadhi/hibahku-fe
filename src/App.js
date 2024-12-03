@@ -2,7 +2,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
-import { useCallback, useState } from "react";
 
 import AdminUser from "./Pages/AdminUser/AdminUser";
 import Anonymous from "./Navigation/Anonymous";
@@ -24,20 +23,16 @@ import UserPage from "./Pages/User/Page/UserPage";
 import UserPermohonan from "./Pages/User/Page/UserPermohonan";
 import UserStatus from "./Pages/User/Page/UserStatus";
 import { logoutUserAction } from "./redux/slices/auth/authSlices";
+import { useCallback } from "react";
 import { useComputedColorScheme } from "@mantine/core";
 import { useDispatch } from "react-redux";
-import { useNetwork } from "@mantine/hooks";
 
 function App() {
     const computedColorScheme = useComputedColorScheme("light", {
         getInitialValueInEffect: true,
     });
 
-    const [loading, setLoading] = useState(false);
-
     const dispatch = useDispatch();
-
-    const networkStatus = useNetwork();
 
     const logOut = useCallback(() => {
         dispatch(logoutUserAction());
