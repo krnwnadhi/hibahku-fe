@@ -68,7 +68,7 @@ export default function RumahIbadah() {
     }, [loading]);
 
     const items = [
-        { title: "Home", href: "/dashboard" },
+        { title: "Beranda", href: "/dashboard" },
         { title: "List Rumah Ibadah", href: "/dashboard/rumah-ibadah/list" },
     ].map((item, index) => (
         <Anchor href={item.href} key={index} size="sm" truncate="end">

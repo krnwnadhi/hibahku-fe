@@ -6,8 +6,6 @@ import {
     Group,
     Image,
     ScrollArea,
-    Title,
-    em,
     useComputedColorScheme,
 } from "@mantine/core";
 import { Outlet, useLocation } from "react-router-dom";
@@ -27,7 +25,7 @@ export default function RootLayout() {
         getInitialValueInEffect: true,
     });
 
-    const user = useSelector((state) => state?.auth?.userAuth);
+    // const user = useSelector((state) => state?.auth?.userAuth);
 
     const { pathname } = useLocation();
 

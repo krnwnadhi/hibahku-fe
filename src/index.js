@@ -1,4 +1,4 @@
-import "./index.module.css";
+import "./index.css";
 import "@mantine/core/styles/global.css";
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";

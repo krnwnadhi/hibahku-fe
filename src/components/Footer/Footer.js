@@ -6,7 +6,7 @@ import React from "react";
 const Footer = () => {
     return (
         <Text size="sm" align="center" c="dimmed">
-            Copyright © 2023{" "}
+            Copyright © 2024{" "}
             <Anchor
                 component={Link}
                 type="button"

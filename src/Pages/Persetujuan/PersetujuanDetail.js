@@ -1116,7 +1116,7 @@ const PersetujuanDetail = () => {
     ));
 
     const items = [
-        { title: "Home", href: "/dashboard" },
+        { title: "Beranda", href: "/dashboard" },
         { title: "Persetujuan", href: "/dashboard/admin/persetujuan" },
         {
             title: `Detail - ${params.id}`,

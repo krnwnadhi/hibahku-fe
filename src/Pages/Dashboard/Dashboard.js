@@ -31,7 +31,7 @@ const icons = {
     listUser: IconUser,
 };
 
-const items = [{ title: "Home", href: "/dashboard" }].map((item, index) => (
+const items = [{ title: "Beranda", href: "/dashboard" }].map((item, index) => (
     <Anchor href={item.href} key={index} size="sm" truncate="end">
         {item.title}
     </Anchor>
@@ -50,7 +50,7 @@ export default function Dashboard() {
     }, [dispatch]);
 
     const user = useSelector((state) => state?.auth?.userAuth);
-    console.log(user);
+    // console.log(user);
 
     const allUsersList = useSelector((state) => state?.users);
     const { loading, usersList } = allUsersList;
@@ -62,27 +62,44 @@ export default function Dashboard() {
         (state) => state?.persetujuan?.persetujuanList
     );
 
+    // Filter rumahIbadahList by masjid kategoriid = 2
+    const filteredRumahIbadah = allRumahIbadah?.result?.filter(
+        (item) => item?.kategoriid === 2
+    );
+
+    // Filter rumahIbadahList by lembaga keagamaan kategoriid = 1
+    const filteredLembagaKeagamaan = allRumahIbadah?.result?.filter(
+        (item) => item?.kategoriid === 1
+    );
+
     const data = [
         {
             label: "Persetujuan",
             stats: allPersetujuan?.result?.length,
             progress: allPersetujuan?.result?.length,
-            color: "teal",
+            color: "red",
             icon: "persetujuan",
-        },
-        {
-            label: "Rumah Ibadah",
-            stats: allRumahIbadah?.result?.length,
-            progress: allRumahIbadah?.result?.length,
-            color: "blue",
-            icon: "listTempat",
         },
         {
             label: "Pengguna",
             stats: usersList?.result?.length,
             progress: usersList?.result?.length,
-            color: "red",
+            color: "violet",
             icon: "listUser",
+        },
+        {
+            label: "Rumah Ibadah",
+            stats: filteredRumahIbadah?.length,
+            progress: filteredRumahIbadah?.length,
+            color: "green",
+            icon: "listTempat",
+        },
+        {
+            label: "Lembaga Keagamaan",
+            stats: filteredLembagaKeagamaan?.length,
+            progress: filteredLembagaKeagamaan?.length,
+            color: "blue",
+            icon: "listTempat",
         },
     ];
 
@@ -96,7 +113,7 @@ export default function Dashboard() {
 
     const UserInfo = () => {
         return (
-            <Paper radius="md" shadow="md" withBorder p="xl">
+            <Paper radius="md" shadow="md" withBorder p="lg">
                 <Avatar
                     size={50}
                     radius={120}
@@ -135,7 +152,7 @@ export default function Dashboard() {
             <Group grow>
                 <Paper radius="md" shadow="sm" p="lg" withBorder>
                     <Text ta="center" fz="md" fw={700}>
-                        TUTUP PERIODE
+                        AKHIR PERIODE
                     </Text>
                     {loadingPeriode ? (
                         <Center>
@@ -151,7 +168,7 @@ export default function Dashboard() {
                 </Paper>
                 <Paper radius="md" shadow="sm" p="lg" withBorder>
                     <Text ta="center" fz="md" fw={700}>
-                        BUKA KEMBALI PERIODE
+                        AWAL PERIODE
                     </Text>
                     {loading ? (
                         <Center>
@@ -235,10 +252,10 @@ export default function Dashboard() {
                     {items}
                 </Breadcrumbs>
 
-                <Stack gap="lg">
+                <Stack gap="md">
                     <UserInfo />
                     <PeriodeDashboard />
-                    <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
+                    <SimpleGrid cols={{ base: 1, sm: 2 }}>{stats}</SimpleGrid>
                 </Stack>
             </Container>
         </>

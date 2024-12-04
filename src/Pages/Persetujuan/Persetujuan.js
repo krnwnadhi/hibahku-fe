@@ -148,7 +148,7 @@ const Persetujuan = () => {
     };
 
     const items = [
-        { title: "Home", href: "/dashboard" },
+        { title: "Beranda", href: "/dashboard" },
         { title: "Persetujuan", href: "/dashboard/admin/persetujuan" },
     ].map((item, index) => (
         <Anchor href={item.href} key={index} size="sm" truncate="end">
@@ -396,6 +396,7 @@ const Persetujuan = () => {
         mantineSearchTextInputProps: {
             placeholder: "Cari",
         },
+        // mantineTableContainerProps: { sx: { minHeight: "500px" } },
     });
 
     useEffect(() => {

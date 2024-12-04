@@ -223,7 +223,7 @@ export default function SignIn(props) {
                     <Space h="md" />
 
                     <Text size="sm" align="center">
-                        Copyright © 2023{" "}
+                        Copyright © 2024{" "}
                         <Anchor
                             component={Link}
                             type="button"

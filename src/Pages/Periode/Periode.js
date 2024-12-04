@@ -74,7 +74,7 @@ const Periode = () => {
     });
 
     const items = [
-        { title: "Home", href: "/dashboard" },
+        { title: "Beranda", href: "/dashboard" },
         { title: "Periode", href: "/dashboard/admin/periode" },
     ].map((item, index) => (
         <Anchor href={item.href} key={index} size="sm" truncate="end">
@@ -125,7 +125,7 @@ const Periode = () => {
                     <Group grow>
                         <Paper radius="md" shadow="sm" p="lg" withBorder>
                             <Text ta="center" fz="md" fw={700}>
-                                TUTUP PERIODE
+                                AKHIR PERIODE
                             </Text>
                             {loading ? (
                                 <Center>
@@ -141,7 +141,7 @@ const Periode = () => {
                         </Paper>
                         <Paper radius="md" shadow="sm" p="lg" withBorder>
                             <Text ta="center" fz="md" fw={700}>
-                                BUKA KEMBALI PERIODE
+                                AWAL PERIODE
                             </Text>
                             {loading ? (
                                 <Center>
