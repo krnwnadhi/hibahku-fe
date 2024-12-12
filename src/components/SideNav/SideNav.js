@@ -2,9 +2,7 @@ import {
     IconClockHour4,
     IconLicense,
     IconReportAnalytics,
-    IconUserSquare,
 } from "@tabler/icons-react";
-import { Link, useLocation } from "react-router-dom";
 
 import { Anchor } from "@mantine/core";
 import { IconBuildingMosque } from "@tabler/icons-react";
@@ -12,6 +10,7 @@ import { IconHome2 } from "@tabler/icons-react";
 import { IconTimeline } from "@tabler/icons-react";
 import { IconUser } from "@tabler/icons-react";
 import classes from "./SideNav.module.css";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 
