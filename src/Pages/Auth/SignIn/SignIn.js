@@ -100,9 +100,13 @@ export default function SignIn(props) {
         };
     }, [appError, serverError, loading, userAuth]);
 
-    if (userAuth?.token) {
+    if (userAuth?.token && userAuth?.role === 1) {
         toast.success("Sukses");
         return <Navigate to="/dashboard" replace={true} />;
+    }
+
+    if (userAuth?.token && userAuth?.role === 2) {
+        return <Navigate to="/dashboard/user/beranda" replace={true} />;
     }
 
     const formOnSubmit = form.onSubmit((values) => {

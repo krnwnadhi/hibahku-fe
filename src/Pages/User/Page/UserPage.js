@@ -1,5 +1,7 @@
 import {
     Anchor,
+    Avatar,
+    Breadcrumbs,
     Button,
     Center,
     Container,
@@ -21,11 +23,8 @@ import { hasLength, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import DarkButton from "../components/DarkButton/DarkButton";
 import { IconCaretUpDown } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import MenuMantine from "../../../components/Menu/MenuMantine";
-import UserInfo from "../components/UserInfo/UserInfo";
 import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import classes from "./UserPage.module.css";
 import dayjs from "dayjs";
@@ -59,21 +58,21 @@ export default function UserPage() {
         dispatch(getAllPersetujuanAction());
     }, [dispatch]);
 
-    const persetujuan = useSelector((state) => state?.persetujuan);
-    const { persetujuanList } = persetujuan;
+    // const persetujuan = useSelector((state) => state?.persetujuan);
+    // const { persetujuanList } = persetujuan;
 
     const user = useSelector((state) => state?.auth?.userAuth);
-    const { nik } = user;
+    // const { nik } = user;
 
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
     const { loading, cekStatus, appError } = rumahIbadah;
 
-    const filteredResult = persetujuanList?.result?.filter((item) => {
-        return nik === item?.userid;
-    });
+    // const filteredResult = persetujuanList?.result?.filter((item) => {
+    //     return nik === item?.userid;
+    // });
 
-    const persetujuanId =
-        filteredResult?.length > 0 ? filteredResult[0].id : null;
+    // const persetujuanId =
+    //     filteredResult?.length > 0 ? filteredResult[0].id : null;
 
     useEffect(() => {
         dispatch(getPeriode());
@@ -112,36 +111,44 @@ export default function UserPage() {
         form.clearErrors();
     });
 
-    const dataSegmentedControl = [
-        {
-            value: "home",
-            label: (
-                <Link
-                    to={"/dashboard/user/beranda"}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Beranda</Text>
-                </Link>
-            ),
-        },
-        {
-            value: "progres",
-            label: (
-                <Link
-                    to={`/dashboard/user/progres/${persetujuanId}`}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Progres</Text>
-                </Link>
-            ),
-        },
-    ];
+    const items = [{ title: "Beranda", href: "/dashboard" }].map(
+        (item, index) => (
+            <Anchor href={item.href} key={index} size="sm" truncate="end">
+                {item.title}
+            </Anchor>
+        )
+    );
+
+    // const dataSegmentedControl = [
+    //     {
+    //         value: "home",
+    //         label: (
+    //             <Link
+    //                 to={"/dashboard/user/beranda"}
+    //                 style={{
+    //                     textDecoration: "none",
+    //                     color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
+    //                 }}
+    //             >
+    //                 <Text>Beranda</Text>
+    //             </Link>
+    //         ),
+    //     },
+    //     {
+    //         value: "progres",
+    //         label: (
+    //             <Link
+    //                 to={`/dashboard/user/progres/${persetujuanId}`}
+    //                 style={{
+    //                     textDecoration: "none",
+    //                     color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
+    //                 }}
+    //             >
+    //                 <Text>Progres</Text>
+    //             </Link>
+    //         ),
+    //     },
+    // ];
 
     const hibahkuSuccessModalNotification = (
         <>
@@ -318,221 +325,201 @@ export default function UserPage() {
         };
     }, [loading]);
 
+    const UserInfo = () => {
+        return (
+            <Paper radius="md" shadow="md" withBorder p="lg">
+                <Avatar
+                    size={50}
+                    radius={120}
+                    mx="auto"
+                    key={user?.nama}
+                    src={`https://ui-avatars.com/api/?name=${user?.nama}&background=random`}
+                    color="initials"
+                    alt="Admin"
+                />
+                <Text ta="center" fz="md" fw={700} mt="md">
+                    Selamat Datang, {user?.nama}
+                </Text>
+                <Text ta="center" c="dimmed" fz="xs">
+                    {user?.nik}
+                </Text>
+                <Text ta="center" c="dimmed" fz="xs">
+                    {user?.notelpon}
+                </Text>
+            </Paper>
+        );
+    };
+
     return (
         <>
-            <Container size="sm" mt={-15} mb={-65}>
-                <Paper
-                    bg={
-                        computedColorScheme === "dark"
-                            ? "var(--mantine-color-gray-9)"
-                            : "var(--mantine-color-blueGray-light)"
-                    }
-                    p="md"
-                    withBorder
-                >
-                    <Group justify="space-between" gap="xl">
-                        {computedColorScheme === "light" ? (
-                            <Image
-                                loading="lazy"
-                                radius="md"
-                                w={200}
-                                fit="contain"
-                                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                                fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
-                            />
+            <Container size="xl">
+                <Breadcrumbs separator="→" mt="xs" mb="lg">
+                    {items}
+                </Breadcrumbs>
+
+                <UserInfo />
+
+                <Space h="md" />
+
+                <Group grow>
+                    <Paper radius="md" shadow="sm" p="lg" withBorder>
+                        <Text ta="center" fz="md" fw={700}>
+                            TUTUP PERIODE
+                        </Text>
+                        {loadingPeriode ? (
+                            <Center>
+                                <Loader size="xs" />
+                            </Center>
                         ) : (
-                            <Image
-                                loading="lazy"
-                                radius="md"
-                                w={200}
-                                fit="contain"
-                                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                                fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
-                            />
+                            <Text ta="center" c="red" fz="sm">
+                                {mulaiPeriodeFormat
+                                    ? mulaiPeriodeFormat
+                                    : "Tidak Ada Data"}
+                            </Text>
                         )}
-                        <Group gap="xs">
-                            <DarkButton />
-                            <MenuMantine />
-                        </Group>
-                    </Group>
-                </Paper>
+                    </Paper>
+                    <Paper radius="md" shadow="sm" p="lg" withBorder>
+                        <Text ta="center" fz="md" fw={700}>
+                            BUKA KEMBALI
+                        </Text>
+                        {loadingPeriode ? (
+                            <Center>
+                                <Loader size="xs" />
+                            </Center>
+                        ) : (
+                            <Text ta="center" c="green" fz="sm">
+                                {selesaiPeriodeFormat
+                                    ? selesaiPeriodeFormat
+                                    : "Tidak Ada Data"}
+                            </Text>
+                        )}
+                    </Paper>
+                </Group>
 
-                <Paper
-                    bg="var(--mantine-color-blueGray-light)"
-                    p="md"
-                    withBorder
-                >
-                    <UserInfo />
+                <Space h="md" />
 
-                    <Space h="md" />
-
+                <form onSubmit={formOnSubmit}>
                     <Paper
                         radius="md"
                         p="xl"
                         bg="var(--mantine-color-body)"
                         withBorder
+                        shadow="md"
                     >
-                        <Group grow>
-                            <Paper radius="md" shadow="sm" p="lg" withBorder>
-                                <Text ta="center" fz="md" fw={700}>
-                                    TUTUP PERIODE
-                                </Text>
-                                {loadingPeriode ? (
-                                    <Center>
-                                        <Loader size="xs" />
-                                    </Center>
-                                ) : (
-                                    <Text ta="center" c="red" fz="sm">
-                                        {mulaiPeriodeFormat
-                                            ? mulaiPeriodeFormat
-                                            : "Tidak Ada Data"}
-                                    </Text>
-                                )}
-                            </Paper>
-                            <Paper radius="md" shadow="sm" p="lg" withBorder>
-                                <Text ta="center" fz="md" fw={700}>
-                                    BUKA KEMBALI
-                                </Text>
-                                {loadingPeriode ? (
-                                    <Center>
-                                        <Loader size="xs" />
-                                    </Center>
-                                ) : (
-                                    <Text ta="center" c="green" fz="sm">
-                                        {selesaiPeriodeFormat
-                                            ? selesaiPeriodeFormat
-                                            : "Tidak Ada Data"}
-                                    </Text>
-                                )}
-                            </Paper>
-                        </Group>
-                    </Paper>
+                        <Text ta="center" c="dimmed" size="xs">
+                            Silahkan mengisi data ID SIMAS/No. NSPP/NSM yang
+                            akan menerima bantuan HIBAH dibawah ini terlebih
+                            dahulu:
+                        </Text>
 
-                    <Space h="md" />
+                        <Space h="md" />
 
-                    <form onSubmit={formOnSubmit}>
-                        <Paper
-                            radius="md"
-                            p="xl"
-                            bg="var(--mantine-color-body)"
-                            withBorder
-                            shadow="md"
+                        <Button
+                            onClick={() => toggle()}
+                            variant="light"
+                            radius="lg"
+                            fullWidth
+                            rightSection={<IconCaretUpDown size={14} />}
                         >
-                            <Text ta="center" c="dimmed" size="xs">
-                                Silahkan mengisi data ID SIMAS/No. NSPP/NSM yang
-                                akan menerima bantuan HIBAH dibawah ini terlebih
-                                dahulu:
-                            </Text>
+                            {type === "lembaga"
+                                ? "LEMBAGA KEAGAMAAN"
+                                : "RUMAH IBADAH"}
+                        </Button>
 
-                            <Space h="md" />
+                        <Stack>
+                            {type === "masjid" && (
+                                <TextInput
+                                    mt={15}
+                                    type="number"
+                                    label="ID Rumah Ibadah"
+                                    description="ID SIMAS Min. 15 angka & Tanpa TITIK"
+                                    placeholder="Contoh: 011051001000000"
+                                    value={form.values.id}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "id",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                    error={
+                                        form.errors.id &&
+                                        "ID SIMAS wajib terdiri dari 15 Angka & Tanpa TITIK"
+                                    }
+                                    onKeyDown={(e) =>
+                                        exceptThisSymbols.includes(e.key) &&
+                                        e.preventDefault()
+                                    }
+                                    radius="md"
+                                    disabled={loading}
+                                />
+                            )}
 
-                            <Button
-                                onClick={() => toggle()}
-                                variant="light"
-                                radius="lg"
-                                fullWidth
-                                rightSection={<IconCaretUpDown size={14} />}
-                            >
-                                {type === "lembaga"
-                                    ? "LEMBAGA KEAGAMAAN"
-                                    : "RUMAH IBADAH"}
-                            </Button>
+                            {type === "lembaga" && (
+                                <TextInput
+                                    mt={15}
+                                    type="number"
+                                    label="No. NSPP/NSM"
+                                    description="No. NSPP/NSM Min. 12 angka "
+                                    placeholder="Contoh : 500015020000"
+                                    value={form.values.id}
+                                    onChange={(event) =>
+                                        form.setFieldValue(
+                                            "id",
+                                            event.currentTarget.value
+                                        )
+                                    }
+                                    error={
+                                        form.errors.id &&
+                                        "No. NSPP/NSM Min. 12 Angka"
+                                    }
+                                    onKeyDown={(e) =>
+                                        exceptThisSymbols.includes(e.key) &&
+                                        e.preventDefault()
+                                    }
+                                    radius="md"
+                                    disabled={loading}
+                                />
+                            )}
+                        </Stack>
+                        <Button
+                            type="submit"
+                            variant="subtle"
+                            fullWidth
+                            radius="md"
+                            mt="md"
+                            loading={loading}
+                            onClick={handleShow}
+                            disabled={!form.isValid()}
+                        >
+                            Cek Status
+                        </Button>
+                    </Paper>
+                </form>
 
-                            <Stack>
-                                {type === "masjid" && (
-                                    <TextInput
-                                        mt={15}
-                                        type="number"
-                                        label="ID Rumah Ibadah"
-                                        description="ID SIMAS Min. 15 angka & Tanpa TITIK"
-                                        placeholder="Contoh: 011051001000000"
-                                        value={form.values.id}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "id",
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        error={
-                                            form.errors.id &&
-                                            "ID SIMAS wajib terdiri dari 15 Angka & Tanpa TITIK"
-                                        }
-                                        onKeyDown={(e) =>
-                                            exceptThisSymbols.includes(e.key) &&
-                                            e.preventDefault()
-                                        }
-                                        radius="md"
-                                        disabled={loading}
-                                    />
-                                )}
+                <Space h="md" />
 
-                                {type === "lembaga" && (
-                                    <TextInput
-                                        mt={15}
-                                        type="number"
-                                        label="No. NSPP/NSM"
-                                        description="No. NSPP/NSM Min. 12 angka "
-                                        placeholder="Contoh : 500015020000"
-                                        value={form.values.id}
-                                        onChange={(event) =>
-                                            form.setFieldValue(
-                                                "id",
-                                                event.currentTarget.value
-                                            )
-                                        }
-                                        error={
-                                            form.errors.id &&
-                                            "No. NSPP/NSM Min. 12 Angka"
-                                        }
-                                        onKeyDown={(e) =>
-                                            exceptThisSymbols.includes(e.key) &&
-                                            e.preventDefault()
-                                        }
-                                        radius="md"
-                                        disabled={loading}
-                                    />
-                                )}
-                            </Stack>
-                            <Button
-                                type="submit"
-                                variant="subtle"
-                                fullWidth
-                                radius="md"
-                                mt="md"
-                                loading={loading}
-                                onClick={handleShow}
-                                disabled={!form.isValid()}
-                            >
-                                Cek Status
-                            </Button>
-                        </Paper>
-                    </form>
+                <Modal
+                    opened={show}
+                    closeOnEscape={false}
+                    closeOnClickOutside={false}
+                    withCloseButton={false}
+                    centered
+                    overlayProps={{
+                        backgroundOpacity: 0.55,
+                        blur: 3,
+                    }}
+                    yOffset="15vh"
+                    xOffset={0}
+                    scrollAreaComponent={ScrollArea.Autosize}
+                >
+                    {appError
+                        ? hibahkuFailedModalNotification
+                        : cekStatus?.isUpload === true
+                        ? hibahkuSuccessModalNotification
+                        : hibahkuNotFoundModalNotification}
+                </Modal>
 
-                    <Space h="md" />
-
-                    <Modal
-                        opened={show}
-                        closeOnEscape={false}
-                        closeOnClickOutside={false}
-                        withCloseButton={false}
-                        centered
-                        overlayProps={{
-                            backgroundOpacity: 0.55,
-                            blur: 3,
-                        }}
-                        yOffset="15vh"
-                        xOffset={0}
-                        scrollAreaComponent={ScrollArea.Autosize}
-                    >
-                        {appError
-                            ? hibahkuFailedModalNotification
-                            : cekStatus?.isUpload === true
-                            ? hibahkuSuccessModalNotification
-                            : hibahkuNotFoundModalNotification}
-                    </Modal>
-                </Paper>
-
-                <Center>
+                {/* <Center>
                     <SegmentedControl
                         radius="xl"
                         size="md"
@@ -541,7 +528,7 @@ export default function UserPage() {
                         onChange={setValue}
                         data={dataSegmentedControl}
                     />
-                </Center>
+                </Center> */}
             </Container>
         </>
     );

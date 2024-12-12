@@ -1,5 +1,5 @@
 import { ActionIcon, Group, Menu, Text, rem } from "@mantine/core";
-import { IconDotsVertical, IconLogout } from "@tabler/icons-react";
+import { IconDotsVertical, IconLogout, IconUser } from "@tabler/icons-react";
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -38,14 +38,14 @@ export default function MenuMantine() {
             <Menu
                 trigger="hover"
                 withArrow
-                width={300}
+                width={200}
                 position="bottom"
                 transitionProps={{ transition: "pop" }}
                 withinPortal
             >
                 <Menu.Target>
                     <ActionIcon variant="transparent">
-                        <IconDotsVertical
+                        <IconUser
                             style={{ width: rem(16), height: rem(16) }}
                             stroke={1.5}
                         />

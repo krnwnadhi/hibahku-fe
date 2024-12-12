@@ -9,6 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Anchor } from "@mantine/core";
 import { IconBuildingMosque } from "@tabler/icons-react";
 import { IconHome2 } from "@tabler/icons-react";
+import { IconTimeline } from "@tabler/icons-react";
 import { IconUser } from "@tabler/icons-react";
 import classes from "./SideNav.module.css";
 import { useSelector } from "react-redux";
@@ -20,6 +21,19 @@ export default function SideNav() {
     const [active, setActive] = useState(location?.pathname);
 
     const userRole = useSelector((state) => state?.auth?.userAuth);
+
+    const persetujuan = useSelector((state) => state?.persetujuan);
+    const { persetujuanList } = persetujuan;
+
+    const user = useSelector((state) => state?.auth?.userAuth);
+    const { nik } = user ?? {};
+
+    const filteredResult = persetujuanList?.result?.filter((item) => {
+        return nik === item?.userid;
+    });
+
+    const persetujuanId =
+        filteredResult?.length > 0 ? parseInt(filteredResult[0]?.id) : "";
 
     const dataAdmin = [
         { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
@@ -70,23 +84,36 @@ export default function SideNav() {
     const dataUser = [
         {
             link: "/dashboard/user/beranda",
-            label: "User",
-            icon: IconUserSquare,
+            label: "Dashboard",
+            icon: IconHome2,
+        },
+        // {
+        //     link: "/dashboard/user/dokumen",
+        //     label: "Permohonan",
+        //     icon: IconUserSquare,
+        // },
+        {
+            link: `/dashboard/user/progres/${persetujuanId}`,
+            label: "Progress",
+            icon: IconTimeline,
         },
     ];
 
     const linksUser = dataUser.map((item) => (
-        <Link
+        <Anchor
             className={classes.link}
-            to={item.link}
+            data-active={item.link === active || undefined}
+            href={item.link}
             key={item.label}
             onClick={(event) => {
                 setActive(item.label);
             }}
+            p="sm"
+            underline="never"
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />
             <span>{item.label}</span>
-        </Link>
+        </Anchor>
     ));
 
     return (

@@ -1,12 +1,21 @@
-import { Navigate, Outlet } from "react-router-dom";
-
+import { Navigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 
-const ProtectedRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ children, requiredRole }) => {
     const item = JSON.parse(secureLocalStorage.getItem("logInfo"));
     const token = item?.token;
+    const role = item?.role;
 
-    return token ? <Outlet /> : <Navigate to="/signin" />;
+    // If the user is not authenticated (no token), redirect to /signin
+    if (!item || !token) {
+        return <Navigate to="/signin" />;
+    }
+
+    if (requiredRole && role !== requiredRole) {
+        return <Navigate to="/unauthorized" />;
+    }
+
+    return children;
 };
 
-export default ProtectedRoute;
+export default PrivateRoute;
