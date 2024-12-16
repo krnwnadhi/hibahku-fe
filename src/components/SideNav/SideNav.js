@@ -72,7 +72,7 @@ export default function SideNav() {
             onClick={(event) => {
                 setActive(item.label);
             }}
-            p="sm"
+            p="md"
             underline="never"
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />
@@ -86,11 +86,6 @@ export default function SideNav() {
             label: "Dashboard",
             icon: IconHome2,
         },
-        // {
-        //     link: "/dashboard/user/dokumen",
-        //     label: "Permohonan",
-        //     icon: IconUserSquare,
-        // },
         {
             link: `/dashboard/user/progres/${persetujuanId}`,
             label: "Progress",
@@ -98,22 +93,47 @@ export default function SideNav() {
         },
     ];
 
-    const linksUser = dataUser.map((item) => (
-        <Anchor
-            className={classes.link}
-            data-active={item.link === active || undefined}
-            href={item.link}
-            key={item.label}
-            onClick={(event) => {
-                setActive(item.label);
-            }}
-            p="sm"
-            underline="never"
-        >
-            <item.icon className={classes.linkIcon} stroke={1.5} />
-            <span>{item.label}</span>
-        </Anchor>
-    ));
+    const dataUserNoPersetujuanId = [
+        {
+            link: "/dashboard/user/beranda",
+            label: "Dashboard",
+            icon: IconHome2,
+        },
+    ];
+
+    const linksUser = persetujuanId
+        ? dataUser?.map((item) => (
+              <Anchor
+                  className={classes.link}
+                  data-active={item.link === active || undefined}
+                  href={item.link}
+                  key={item.label}
+                  onClick={(event) => {
+                      setActive(item.label);
+                  }}
+                  p="sm"
+                  // underline="never"
+              >
+                  <item.icon className={classes.linkIcon} stroke={1.5} />
+                  <span>{item.label}</span>
+              </Anchor>
+          ))
+        : dataUserNoPersetujuanId?.map((item) => (
+              <Anchor
+                  className={classes.link}
+                  data-active={item.link === active || undefined}
+                  href={item.link}
+                  key={item.label}
+                  onClick={(event) => {
+                      setActive(item.label);
+                  }}
+                  p="sm"
+                  // underline="never"
+              >
+                  <item.icon className={classes.linkIcon} stroke={1.5} />
+                  <span>{item.label}</span>
+              </Anchor>
+          ));
 
     return (
         <nav className={classes.navbar}>

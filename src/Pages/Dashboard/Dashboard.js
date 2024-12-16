@@ -113,7 +113,16 @@ export default function Dashboard() {
 
     const UserInfo = () => {
         return (
-            <Paper radius="md" shadow="md" withBorder p="lg">
+            <Paper
+                radius="md"
+                shadow="md"
+                withBorder
+                p="lg"
+                style={{
+                    backgroundColor:
+                        "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                }}
+            >
                 <Avatar
                     size={50}
                     radius={120}
@@ -150,7 +159,16 @@ export default function Dashboard() {
     const PeriodeDashboard = () => {
         return (
             <Group grow>
-                <Paper radius="md" shadow="sm" p="lg" withBorder>
+                <Paper
+                    radius="md"
+                    shadow="sm"
+                    p="lg"
+                    withBorder
+                    style={{
+                        backgroundColor:
+                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                    }}
+                >
                     <Text ta="center" fz="md" fw={700}>
                         AKHIR PERIODE
                     </Text>
@@ -166,7 +184,16 @@ export default function Dashboard() {
                         </Text>
                     )}
                 </Paper>
-                <Paper radius="md" shadow="sm" p="lg" withBorder>
+                <Paper
+                    radius="md"
+                    shadow="sm"
+                    p="lg"
+                    withBorder
+                    style={{
+                        backgroundColor:
+                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                    }}
+                >
                     <Text ta="center" fz="md" fw={700}>
                         AWAL PERIODE
                     </Text>
@@ -196,6 +223,10 @@ export default function Dashboard() {
                 shadow="lg"
                 p="xs"
                 key={stat.label}
+                style={{
+                    backgroundColor:
+                        "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                }}
             >
                 <Container>
                     <Group>

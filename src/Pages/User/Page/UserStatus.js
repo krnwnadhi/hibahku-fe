@@ -60,36 +60,36 @@ export default function UserStatus() {
     const persetujuanId =
         filteredResult?.length > 0 ? filteredResult[0].id : null;
 
-    const dataSegmentedControl = [
-        {
-            value: "home",
-            label: (
-                <Link
-                    to={"/dashboard/user/beranda"}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Beranda</Text>
-                </Link>
-            ),
-        },
-        {
-            value: "progres",
-            label: (
-                <Link
-                    to={`/dashboard/user/progres/${persetujuanId}`}
-                    style={{
-                        textDecoration: "none",
-                        color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-                    }}
-                >
-                    <Text>Progres</Text>
-                </Link>
-            ),
-        },
-    ];
+    // const dataSegmentedControl = [
+    //     {
+    //         value: "home",
+    //         label: (
+    //             <Link
+    //                 to={"/dashboard/user/beranda"}
+    //                 style={{
+    //                     textDecoration: "none",
+    //                     color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
+    //                 }}
+    //             >
+    //                 <Text>Beranda</Text>
+    //             </Link>
+    //         ),
+    //     },
+    //     {
+    //         value: "progres",
+    //         label: (
+    //             <Link
+    //                 to={`/dashboard/user/progres/${persetujuanId}`}
+    //                 style={{
+    //                     textDecoration: "none",
+    //                     color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
+    //                 }}
+    //             >
+    //                 <Text>Progres</Text>
+    //             </Link>
+    //         ),
+    //     },
+    // ];
 
     const statusColors = {
         PROSES: "blue",
@@ -249,7 +249,7 @@ export default function UserStatus() {
                         )}
                     </Paper>
                 </Paper>
-                <Center>
+                {/* <Center>
                     <SegmentedControl
                         radius="xl"
                         size="md"
@@ -259,7 +259,7 @@ export default function UserStatus() {
                         data={dataSegmentedControl}
                         fullWidth
                     />
-                </Center>
+                </Center> */}
             </Container>
         </>
     );
