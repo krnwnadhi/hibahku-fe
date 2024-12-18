@@ -366,169 +366,166 @@ export default function UserPage() {
                     {items}
                 </Breadcrumbs>
 
-                <UserInfo />
+                <Stack gap="md">
+                    <UserInfo />
 
-                <Space h="md" />
-
-                <Group grow>
-                    <Paper
-                        radius="md"
-                        shadow="sm"
-                        p="lg"
-                        withBorder
-                        style={{
-                            backgroundColor:
-                                "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                        }}
-                    >
-                        <Text ta="center" fz="md" fw={700}>
-                            TUTUP PERIODE
-                        </Text>
-                        {loadingPeriode ? (
-                            <Center>
-                                <Loader size="xs" />
-                            </Center>
-                        ) : (
-                            <Text ta="center" c="red" fz="sm">
-                                {mulaiPeriodeFormat
-                                    ? mulaiPeriodeFormat
-                                    : "Tidak Ada Data"}
-                            </Text>
-                        )}
-                    </Paper>
-                    <Paper
-                        radius="md"
-                        shadow="sm"
-                        p="lg"
-                        withBorder
-                        style={{
-                            backgroundColor:
-                                "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                        }}
-                    >
-                        <Text ta="center" fz="md" fw={700}>
-                            BUKA KEMBALI
-                        </Text>
-                        {loadingPeriode ? (
-                            <Center>
-                                <Loader size="xs" />
-                            </Center>
-                        ) : (
-                            <Text ta="center" c="green" fz="sm">
-                                {selesaiPeriodeFormat
-                                    ? selesaiPeriodeFormat
-                                    : "Tidak Ada Data"}
-                            </Text>
-                        )}
-                    </Paper>
-                </Group>
-
-                <Space h="md" />
-
-                <form onSubmit={formOnSubmit}>
-                    <Paper
-                        radius="md"
-                        p="xl"
-                        bg="var(--mantine-color-body)"
-                        withBorder
-                        shadow="md"
-                        style={{
-                            backgroundColor:
-                                "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                        }}
-                    >
-                        <Text ta="center" c="dimmed" size="xs">
-                            Silahkan mengisi data ID SIMAS/No. NSPP/NSM yang
-                            akan menerima bantuan HIBAH dibawah ini terlebih
-                            dahulu:
-                        </Text>
-
-                        <Space h="md" />
-
-                        <Button
-                            onClick={() => toggle()}
-                            variant="light"
-                            radius="lg"
-                            fullWidth
-                            rightSection={<IconCaretUpDown size={14} />}
-                        >
-                            {type === "lembaga"
-                                ? "LEMBAGA KEAGAMAAN"
-                                : "RUMAH IBADAH"}
-                        </Button>
-
-                        <Stack>
-                            {type === "masjid" && (
-                                <TextInput
-                                    mt={15}
-                                    type="number"
-                                    label="ID Rumah Ibadah"
-                                    description="ID SIMAS Min. 15 angka & Tanpa TITIK"
-                                    placeholder="Contoh: 011051001000000"
-                                    value={form.values.id}
-                                    onChange={(event) =>
-                                        form.setFieldValue(
-                                            "id",
-                                            event.currentTarget.value
-                                        )
-                                    }
-                                    error={
-                                        form.errors.id &&
-                                        "ID SIMAS wajib terdiri dari 15 Angka & Tanpa TITIK"
-                                    }
-                                    onKeyDown={(e) =>
-                                        exceptThisSymbols.includes(e.key) &&
-                                        e.preventDefault()
-                                    }
-                                    radius="md"
-                                    disabled={loading}
-                                />
-                            )}
-
-                            {type === "lembaga" && (
-                                <TextInput
-                                    mt={15}
-                                    type="number"
-                                    label="No. NSPP/NSM"
-                                    description="No. NSPP/NSM Min. 12 angka "
-                                    placeholder="Contoh : 500015020000"
-                                    value={form.values.id}
-                                    onChange={(event) =>
-                                        form.setFieldValue(
-                                            "id",
-                                            event.currentTarget.value
-                                        )
-                                    }
-                                    error={
-                                        form.errors.id &&
-                                        "No. NSPP/NSM Min. 12 Angka"
-                                    }
-                                    onKeyDown={(e) =>
-                                        exceptThisSymbols.includes(e.key) &&
-                                        e.preventDefault()
-                                    }
-                                    radius="md"
-                                    disabled={loading}
-                                />
-                            )}
-                        </Stack>
-                        <Button
-                            type="submit"
-                            variant="subtle"
-                            fullWidth
+                    <Group grow>
+                        <Paper
                             radius="md"
-                            mt="md"
-                            loading={loading}
-                            onClick={handleShow}
-                            disabled={!form.isValid()}
+                            shadow="sm"
+                            p="lg"
+                            withBorder
+                            style={{
+                                backgroundColor:
+                                    "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                            }}
                         >
-                            Cek Status
-                        </Button>
-                    </Paper>
-                </form>
+                            <Text ta="center" fz="md" fw={700}>
+                                TUTUP PERIODE
+                            </Text>
+                            {loadingPeriode ? (
+                                <Center>
+                                    <Loader size="xs" />
+                                </Center>
+                            ) : (
+                                <Text ta="center" c="red" fz="sm">
+                                    {mulaiPeriodeFormat
+                                        ? mulaiPeriodeFormat
+                                        : "Tidak Ada Data"}
+                                </Text>
+                            )}
+                        </Paper>
+                        <Paper
+                            radius="md"
+                            shadow="sm"
+                            p="lg"
+                            withBorder
+                            style={{
+                                backgroundColor:
+                                    "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                            }}
+                        >
+                            <Text ta="center" fz="md" fw={700}>
+                                BUKA KEMBALI
+                            </Text>
+                            {loadingPeriode ? (
+                                <Center>
+                                    <Loader size="xs" />
+                                </Center>
+                            ) : (
+                                <Text ta="center" c="green" fz="sm">
+                                    {selesaiPeriodeFormat
+                                        ? selesaiPeriodeFormat
+                                        : "Tidak Ada Data"}
+                                </Text>
+                            )}
+                        </Paper>
+                    </Group>
 
-                <Space h="md" />
+                    <form onSubmit={formOnSubmit}>
+                        <Paper
+                            radius="md"
+                            p="xl"
+                            withBorder
+                            shadow="md"
+                            style={{
+                                backgroundColor:
+                                    "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                            }}
+                        >
+                            <Text ta="center" c="dimmed" size="xs">
+                                Silahkan mengisi data ID SIMAS/No. NSPP/NSM yang
+                                akan menerima bantuan HIBAH dibawah ini terlebih
+                                dahulu:
+                            </Text>
 
+                            <Space h="md" />
+
+                            <Button
+                                onClick={() => toggle()}
+                                variant="light"
+                                radius="lg"
+                                fullWidth
+                                rightSection={<IconCaretUpDown size={14} />}
+                            >
+                                {type === "lembaga"
+                                    ? "LEMBAGA KEAGAMAAN"
+                                    : "RUMAH IBADAH"}
+                            </Button>
+
+                            <Stack gap="xs">
+                                {type === "masjid" && (
+                                    <TextInput
+                                        mt={15}
+                                        type="number"
+                                        label="ID Rumah Ibadah"
+                                        description="ID SIMAS Min. 15 angka & Tanpa TITIK"
+                                        placeholder="Contoh: 011051001000000"
+                                        value={form.values.id}
+                                        onChange={(event) =>
+                                            form.setFieldValue(
+                                                "id",
+                                                event.currentTarget.value
+                                            )
+                                        }
+                                        error={
+                                            form.errors.id &&
+                                            "ID SIMAS wajib terdiri dari 15 Angka & Tanpa TITIK"
+                                        }
+                                        onKeyDown={(e) =>
+                                            exceptThisSymbols.includes(e.key) &&
+                                            e.preventDefault()
+                                        }
+                                        radius="md"
+                                        disabled={loading}
+                                    />
+                                )}
+
+                                {type === "lembaga" && (
+                                    <TextInput
+                                        mt={15}
+                                        type="number"
+                                        label="No. NSPP/NSM"
+                                        description="No. NSPP/NSM Min. 12 angka "
+                                        placeholder="Contoh : 500015020000"
+                                        value={form.values.id}
+                                        onChange={(event) =>
+                                            form.setFieldValue(
+                                                "id",
+                                                event.currentTarget.value
+                                            )
+                                        }
+                                        error={
+                                            form.errors.id &&
+                                            "No. NSPP/NSM Min. 12 Angka"
+                                        }
+                                        onKeyDown={(e) =>
+                                            exceptThisSymbols.includes(e.key) &&
+                                            e.preventDefault()
+                                        }
+                                        radius="md"
+                                        disabled={loading}
+                                    />
+                                )}
+                            </Stack>
+
+                            <Button
+                                type="submit"
+                                variant="subtle"
+                                fullWidth
+                                radius="md"
+                                mt="md"
+                                loading={loading}
+                                onClick={handleShow}
+                                disabled={!form.isValid()}
+                            >
+                                Cek Status
+                            </Button>
+                        </Paper>
+                    </form>
+                </Stack>
+
+                {/* MODAL */}
                 <Modal
                     opened={show}
                     closeOnEscape={false}

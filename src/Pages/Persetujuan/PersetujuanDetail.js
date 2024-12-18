@@ -286,6 +286,10 @@ const PersetujuanDetail = () => {
                             radius="md"
                             shadow="md"
                             p="lg"
+                            style={{
+                                backgroundColor:
+                                    "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                            }}
                         >
                             <Container>
                                 <Stack gap="lg">
@@ -351,6 +355,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -384,6 +392,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -417,6 +429,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -449,6 +465,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -483,6 +503,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -515,6 +539,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -549,6 +577,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -581,6 +613,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -623,6 +659,10 @@ const PersetujuanDetail = () => {
                             radius="md"
                             shadow="md"
                             p="lg"
+                            style={{
+                                backgroundColor:
+                                    "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                            }}
                         >
                             <Container>
                                 <Stack gap="lg">
@@ -688,6 +728,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -721,6 +765,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -754,6 +802,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -786,6 +838,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -820,6 +876,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -852,6 +912,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -886,6 +950,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -918,6 +986,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -956,6 +1028,10 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
+                                    style={{
+                                        backgroundColor:
+                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                                    }}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -989,106 +1065,127 @@ const PersetujuanDetail = () => {
                         <TextInput disabled {...form.getInputProps("id")} />
                     </VisuallyHidden>
 
-                    {/* Status Start */}
-                    <Combobox
-                        store={comboboxStatus}
-                        withinPortal={false}
-                        onOptionSubmit={(value) => {
-                            setStatusValue(value);
-                            form.setFieldValue("newStatus", value);
-                            comboboxStatus.closeDropdown();
-                        }}
-                        transitionProps={{
-                            duration: 200,
-                            transition: "pop",
+                    <Paper
+                        radius="md"
+                        shadow="md"
+                        withBorder
+                        p="lg"
+                        style={{
+                            backgroundColor:
+                                "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
                         }}
                     >
-                        <Combobox.Target>
-                            <InputBase
-                                label="Status"
-                                description={`Status saat ini : ${item?.Status?.nama}`}
-                                component="button"
-                                type="button"
-                                pointer
-                                rightSectionPointerEvents="none"
-                                rightSection={<Combobox.Chevron />}
-                                onClick={() => comboboxStatus.toggleDropdown()}
-                                error={form.errors.newStatus && "Harap diisi"}
-                                disabled
-                            >
-                                {selectedOptionStatus ? (
-                                    <SelectOption {...selectedOptionStatus} />
-                                ) : (
-                                    <Input.Placeholder>
-                                        {item?.Status?.nama}
-                                    </Input.Placeholder>
-                                )}
-                            </InputBase>
-                        </Combobox.Target>
+                        {/* Status Start */}
+                        <Combobox
+                            store={comboboxStatus}
+                            withinPortal={false}
+                            onOptionSubmit={(value) => {
+                                setStatusValue(value);
+                                form.setFieldValue("newStatus", value);
+                                comboboxStatus.closeDropdown();
+                            }}
+                            transitionProps={{
+                                duration: 200,
+                                transition: "pop",
+                            }}
+                        >
+                            <Combobox.Target>
+                                <InputBase
+                                    label="Status"
+                                    description={`Status saat ini : ${item?.Status?.nama}`}
+                                    component="button"
+                                    type="button"
+                                    pointer
+                                    rightSectionPointerEvents="none"
+                                    rightSection={<Combobox.Chevron />}
+                                    onClick={() =>
+                                        comboboxStatus.toggleDropdown()
+                                    }
+                                    error={
+                                        form.errors.newStatus && "Harap diisi"
+                                    }
+                                    disabled
+                                >
+                                    {selectedOptionStatus ? (
+                                        <SelectOption
+                                            {...selectedOptionStatus}
+                                        />
+                                    ) : (
+                                        <Input.Placeholder>
+                                            {item?.Status?.nama}
+                                        </Input.Placeholder>
+                                    )}
+                                </InputBase>
+                            </Combobox.Target>
 
-                        <Combobox.Dropdown>
-                            <Combobox.Options
-                                mah={200}
-                                type="scroll"
-                                style={{ overflowY: "auto" }}
-                            >
-                                {optionsStatus}
-                            </Combobox.Options>
-                        </Combobox.Dropdown>
-                    </Combobox>
+                            <Combobox.Dropdown>
+                                <Combobox.Options
+                                    mah={200}
+                                    type="scroll"
+                                    style={{ overflowY: "auto" }}
+                                >
+                                    {optionsStatus}
+                                </Combobox.Options>
+                            </Combobox.Dropdown>
+                        </Combobox>
 
-                    {/* Status End */}
+                        {/* Status End */}
 
-                    {/* Proses Start */}
+                        {/* Proses Start */}
 
-                    <Combobox
-                        store={comboboxProses}
-                        withinPortal={false}
-                        onOptionSubmit={(value) => {
-                            setProsesValue(value);
-                            form.setFieldValue("newProses", value);
-                            comboboxProses.closeDropdown();
-                        }}
-                        transitionProps={{
-                            duration: 200,
-                            transition: "pop",
-                        }}
-                    >
-                        <Combobox.Target>
-                            <InputBase
-                                label="Proses"
-                                description={`Proses saat ini : ${item?.Proses?.nama}`}
-                                component="button"
-                                type="button"
-                                pointer
-                                rightSectionPointerEvents="none"
-                                rightSection={<Combobox.Chevron />}
-                                onClick={() => comboboxProses.toggleDropdown()}
-                                error={form.errors.newProses && "Harap diisi"}
-                                disabled={loading}
-                            >
-                                {SelectOptionProses ? (
-                                    <SelectOption {...SelectOptionProses} />
-                                ) : (
-                                    <Input.Placeholder>
-                                        Pilih Proses
-                                    </Input.Placeholder>
-                                )}
-                            </InputBase>
-                        </Combobox.Target>
+                        <Combobox
+                            store={comboboxProses}
+                            withinPortal={false}
+                            onOptionSubmit={(value) => {
+                                setProsesValue(value);
+                                form.setFieldValue("newProses", value);
+                                comboboxProses.closeDropdown();
+                            }}
+                            transitionProps={{
+                                duration: 200,
+                                transition: "pop",
+                            }}
+                        >
+                            <Combobox.Target>
+                                <InputBase
+                                    label="Proses"
+                                    description={`Proses saat ini : ${item?.Proses?.nama}`}
+                                    component="button"
+                                    type="button"
+                                    pointer
+                                    rightSectionPointerEvents="none"
+                                    rightSection={<Combobox.Chevron />}
+                                    onClick={() =>
+                                        comboboxProses.toggleDropdown()
+                                    }
+                                    error={
+                                        form.errors.newProses && "Harap diisi"
+                                    }
+                                    disabled={loading}
+                                >
+                                    {SelectOptionProses ? (
+                                        <SelectOption {...SelectOptionProses} />
+                                    ) : (
+                                        <Input.Placeholder>
+                                            Pilih Proses
+                                        </Input.Placeholder>
+                                    )}
+                                </InputBase>
+                            </Combobox.Target>
 
-                        <Combobox.Dropdown>
-                            <Combobox.Options
-                                mah={200}
-                                type="scroll"
-                                style={{ overflowY: "auto" }}
-                            >
-                                {optionsProses}
-                            </Combobox.Options>
-                        </Combobox.Dropdown>
-                    </Combobox>
+                            <Combobox.Dropdown>
+                                <Combobox.Options
+                                    mah={200}
+                                    type="scroll"
+                                    style={{ overflowY: "auto" }}
+                                >
+                                    {optionsProses}
+                                </Combobox.Options>
+                            </Combobox.Dropdown>
+                        </Combobox>
 
-                    {/* Proses End */}
+                        {/* Proses End */}
+                    </Paper>
 
                     <Group grow>
                         <Button

@@ -301,36 +301,16 @@ const RumahIbadahCreate = () => {
 
     return (
         <>
-            <Container size="sm" mt={-15} mb={-65}>
+            <Container size="lg">
                 <Paper
-                    p="lg"
-                    withBorder
-                    bg={
-                        computedColorScheme === "dark"
-                            ? "var(--mantine-color-gray-9)"
-                            : "var(--mantine-color-blueGray-light)"
-                    }
-                >
-                    <Group justify="space-between" gap="xl">
-                        <Button
-                            variant="subtle"
-                            leftSection={<IconArrowLeft size={14} />}
-                            onClick={() => navigate(-1)}
-                            radius="md"
-                        >
-                            Kembali
-                        </Button>
-                        <Group gap="xs">
-                            <DarkButton />
-                            <MenuMantine />
-                        </Group>
-                    </Group>
-                </Paper>
-                <Paper
-                    bg="var(--mantine-color-blueGray-light)"
                     p="xl"
                     withBorder
                     shadow="md"
+                    radius="md"
+                    style={{
+                        backgroundColor:
+                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                    }}
                 >
                     <Paper radius="md" p="md" bg="var(--mantine-color-body)">
                         <form onSubmit={formOnSubmit}>

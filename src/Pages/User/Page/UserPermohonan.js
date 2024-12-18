@@ -217,36 +217,15 @@ export default function UserPermohonan() {
 
     return (
         <>
-            <Container size="sm" mt={-15} mb={-65}>
+            <Container size="lg">
                 <Paper
-                    p="lg"
-                    withBorder
-                    bg={
-                        computedColorScheme === "dark"
-                            ? "var(--mantine-color-gray-9)"
-                            : "var(--mantine-color-blueGray-light)"
-                    }
-                >
-                    <Group justify="space-between" gap="xl">
-                        <Button
-                            variant="subtle"
-                            leftSection={<IconArrowLeft size={14} />}
-                            onClick={() => navigate(-1)}
-                        >
-                            Kembali
-                        </Button>
-                        <Group gap="xs">
-                            <DarkButton />
-                            <MenuMantine />
-                        </Group>
-                    </Group>
-                </Paper>
-
-                <Paper
-                    bg="var(--mantine-color-blueGray-light)"
                     h="90vh"
                     p="xl"
                     withBorder
+                    style={{
+                        backgroundColor:
+                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                    }}
                 >
                     <ScrollArea h="80vh">
                         <Paper
@@ -528,6 +507,7 @@ export default function UserPermohonan() {
                         </Paper>
                     </ScrollArea>
                 </Paper>
+
                 <Modal
                     opened={show}
                     closeOnEscape={false}
@@ -567,7 +547,7 @@ export default function UserPermohonan() {
                         </Text>
                     ) : null}
 
-                    {serverError ? (
+                    {/* {serverError ? (
                         <Text ta="center" inherit>
                             <div>Terjadi Kesalahan!</div> Silahkan refresh
                             halaman & harap untuk mengulang upload file
@@ -587,7 +567,7 @@ export default function UserPermohonan() {
                                 Refresh
                             </Button>
                         </Text>
-                    ) : null}
+                    ) : null} */}
                 </Modal>
             </Container>
         </>

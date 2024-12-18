@@ -108,7 +108,7 @@ const Periode = () => {
 
     return (
         <>
-            <Container size="xl" pos="relative">
+            <Container size="lg" pos="relative">
                 <LoadingOverlay
                     visible={loading}
                     zIndex={1000}
@@ -121,7 +121,17 @@ const Periode = () => {
 
                 <Space h="md" />
 
-                <Paper radius="md" shadow="md" p="xl" withBorder mih="70vh">
+                <Paper
+                    radius="md"
+                    shadow="md"
+                    p="xl"
+                    withBorder
+                    mih="70vh"
+                    style={{
+                        backgroundColor:
+                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                    }}
+                >
                     <Group grow>
                         <Paper radius="md" shadow="sm" p="lg" withBorder>
                             <Text ta="center" fz="md" fw={700}>

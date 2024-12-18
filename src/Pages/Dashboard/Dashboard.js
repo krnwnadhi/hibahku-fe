@@ -278,7 +278,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <Container size="xl">
+            <Container size="lg">
                 <Breadcrumbs separator="→" mt="xs" mb="lg">
                     {items}
                 </Breadcrumbs>

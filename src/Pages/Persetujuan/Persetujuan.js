@@ -5,6 +5,7 @@ import {
     Box,
     Breadcrumbs,
     Container,
+    Paper,
     Tooltip,
     useMantineTheme,
 } from "@mantine/core";
@@ -414,13 +415,25 @@ const Persetujuan = () => {
                     {items}
                 </Breadcrumbs>
 
-                <MantineReactTable
-                    table={table}
-                    enableStickyHeader
-                    mantineTableContainerProps={{
-                        style: { minHeight: 500 },
+                <Paper
+                    radius="md"
+                    shadow="md"
+                    p="xl"
+                    withBorder
+                    mih="70vh"
+                    style={{
+                        backgroundColor:
+                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
                     }}
-                />
+                >
+                    <MantineReactTable
+                        table={table}
+                        enableStickyHeader
+                        mantineTableContainerProps={{
+                            style: { minHeight: 500 },
+                        }}
+                    />
+                </Paper>
             </Container>
         </>
     );
