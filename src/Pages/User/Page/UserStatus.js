@@ -1,18 +1,34 @@
 import {
+    ActionIcon,
     Badge,
+    Button,
     Center,
     Container,
     Divider,
     Group,
-    Image,
+    List,
     Loader,
+    Modal,
+    NumberFormatter,
     Paper,
-    SegmentedControl,
+    Popover,
+    ScrollArea,
+    Stack,
     Table,
     Text,
+    ThemeIcon,
     Title,
+    rem,
     useComputedColorScheme,
 } from "@mantine/core";
+import {
+    IconBuildingBank,
+    IconBuildingMosque,
+    IconChecks,
+    IconCoins,
+    IconQuestionMark,
+    IconUser,
+} from "@tabler/icons-react";
 import {
     getAllPersetujuanAction,
     getDetailUserPersetujuanAction,
@@ -20,27 +36,23 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import DarkButton from "../components/DarkButton/DarkButton";
-import { Link } from "react-router-dom";
-import MenuMantine from "../../../components/Menu/MenuMantine";
-import classes from "./UserPage.module.css";
 import dayjs from "dayjs";
 import { nprogress } from "@mantine/nprogress";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useDisclosure } from "@mantine/hooks";
 
 dayjs.extend(relativeTime);
 
 export default function UserStatus() {
+    const [opened, { open, close }] = useDisclosure(false);
+
+    const [modalStatus, setModalStatus] = useState(false);
+    const [modalProses, setModalProses] = useState(false);
+
     const user = useSelector((state) => state?.auth?.userAuth);
     const { nik } = user;
 
     const dispatch = useDispatch();
-
-    const computedColorScheme = useComputedColorScheme("light", {
-        getInitialValueInEffect: true,
-    });
-
-    const [value, setValue] = useState("progres");
 
     useEffect(() => {
         dispatch(getAllPersetujuanAction());
@@ -59,37 +71,6 @@ export default function UserStatus() {
 
     const persetujuanId =
         filteredResult?.length > 0 ? filteredResult[0].id : null;
-
-    // const dataSegmentedControl = [
-    //     {
-    //         value: "home",
-    //         label: (
-    //             <Link
-    //                 to={"/dashboard/user/beranda"}
-    //                 style={{
-    //                     textDecoration: "none",
-    //                     color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-    //                 }}
-    //             >
-    //                 <Text>Beranda</Text>
-    //             </Link>
-    //         ),
-    //     },
-    //     {
-    //         value: "progres",
-    //         label: (
-    //             <Link
-    //                 to={`/dashboard/user/progres/${persetujuanId}`}
-    //                 style={{
-    //                     textDecoration: "none",
-    //                     color: "light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1))",
-    //                 }}
-    //             >
-    //                 <Text>Progres</Text>
-    //             </Link>
-    //         ),
-    //     },
-    // ];
 
     const statusColors = {
         PROSES: "blue",
@@ -119,6 +100,146 @@ export default function UserStatus() {
                 </Text>
             </Table.Td>
             <Table.Td ta="center">
+                <Button size="xs" variant="light" onClick={open}>
+                    Detail
+                </Button>
+                <Modal
+                    opened={opened}
+                    onClose={close}
+                    centered
+                    scrollAreaComponent={ScrollArea.Autosize}
+                    title="Detail Pengajuan HIBAH"
+                    size="auto"
+                >
+                    {/* Modal content */}
+                    <List spacing="xs" size="sm" center>
+                        <Stack gap="sm">
+                            <List.Item
+                                icon={
+                                    <ThemeIcon
+                                        color="blue"
+                                        size={24}
+                                        radius="xl"
+                                    >
+                                        <IconUser
+                                            style={{
+                                                width: rem(16),
+                                                height: rem(16),
+                                            }}
+                                        />
+                                    </ThemeIcon>
+                                }
+                            >
+                                <Group>
+                                    <Text size="sm">
+                                        Pengurus: {item?.User?.nama}
+                                    </Text>
+                                    <Divider size="sm" orientation="vertical" />
+                                    <Text size="sm">
+                                        No. HP: {item?.User?.notelpon}
+                                    </Text>
+                                </Group>
+                            </List.Item>
+
+                            <List.Item
+                                icon={
+                                    <ThemeIcon
+                                        color="blue"
+                                        size={24}
+                                        radius="xl"
+                                    >
+                                        <IconBuildingMosque
+                                            style={{
+                                                width: rem(16),
+                                                height: rem(16),
+                                            }}
+                                        />
+                                    </ThemeIcon>
+                                }
+                            >
+                                <Group>
+                                    <Text size="sm">
+                                        {" "}
+                                        {item?.Keagamaan?.nama}
+                                    </Text>
+                                    <Divider size="sm" orientation="vertical" />
+                                    <Text size="sm">
+                                        Wilayah: {item?.Keagamaan?.wilayah}
+                                    </Text>
+                                </Group>
+                            </List.Item>
+
+                            <List.Item
+                                icon={
+                                    <ThemeIcon
+                                        color="blue"
+                                        size={24}
+                                        radius="xl"
+                                    >
+                                        <IconBuildingBank
+                                            style={{
+                                                width: rem(16),
+                                                height: rem(16),
+                                            }}
+                                        />
+                                    </ThemeIcon>
+                                }
+                            >
+                                <Text size="sm">
+                                    Rekening Bank Jambi: {item?.norek}
+                                </Text>
+                            </List.Item>
+
+                            <List.Item
+                                icon={
+                                    <ThemeIcon
+                                        color="blue"
+                                        size={24}
+                                        radius="xl"
+                                    >
+                                        <IconChecks
+                                            style={{
+                                                width: rem(16),
+                                                height: rem(16),
+                                            }}
+                                        />
+                                    </ThemeIcon>
+                                }
+                            >
+                                <Text size="sm"> Tujuan: {item?.tujuan}</Text>
+                            </List.Item>
+                            <List.Item
+                                icon={
+                                    <ThemeIcon
+                                        color="blue"
+                                        size={24}
+                                        radius="xl"
+                                    >
+                                        <IconCoins
+                                            style={{
+                                                width: rem(16),
+                                                height: rem(16),
+                                            }}
+                                        />
+                                    </ThemeIcon>
+                                }
+                            >
+                                <Text size="sm">
+                                    {" "}
+                                    Jumlah Dana Pengajuan:{" "}
+                                    <NumberFormatter
+                                        prefix="Rp "
+                                        value={item?.pengajuandana}
+                                        thousandSeparator="."
+                                        decimalSeparator=","
+                                    />
+                                </Text>
+                            </List.Item>
+                        </Stack>
+                    </List>
+                </Modal>
+            </Table.Td>
+            <Table.Td ta="center">
                 <Text size="xs" ta="center">
                     {item?.keagamaanid}
                 </Text>
@@ -132,6 +253,7 @@ export default function UserStatus() {
                     {item?.Status?.nama}
                 </Badge>
             </Table.Td>
+
             <Table.Td ta="center">
                 <Badge
                     color={prosesColors[item?.Proses?.nama]}
@@ -141,6 +263,7 @@ export default function UserStatus() {
                     {item?.Proses?.nama}
                 </Badge>
             </Table.Td>
+
             <Table.Td>
                 <Text size="xs" ta="center">
                     {item?.Proses?.keterangan}
@@ -158,9 +281,9 @@ export default function UserStatus() {
 
     return (
         <>
-            <Container size="lg" mih="50vh">
+            <Container size="xl" mih="50vh">
                 <Paper
-                    p="xl"
+                    p="xs"
                     radius="md"
                     h="80vh"
                     withBorder
@@ -172,7 +295,9 @@ export default function UserStatus() {
                     <Title order={3} ta="center" mt="md" mb={30}>
                         Status Permohonan
                     </Title>
+
                     <Divider h="xl" />
+
                     {persetujuanId === null ? (
                         loading ? (
                             <Center>
@@ -184,7 +309,204 @@ export default function UserStatus() {
                             </Title>
                         )
                     ) : (
-                        <Paper p="md" radius="md" withBorder>
+                        <Paper p="xs" radius="md" withBorder>
+                            <Group gap="xs" mb="sm">
+                                {/* MODAL STATUS */}
+                                <Modal
+                                    opened={modalStatus}
+                                    onClose={() => setModalStatus(false)}
+                                    title="TAHAPAN STATUS"
+                                    centered
+                                >
+                                    <List type="ordered" size="xs">
+                                        <Stack gap="md">
+                                            <List.Item>
+                                                <Badge
+                                                    color="blue"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    PROSES
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    DISETUJUI
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="red"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    DITOLAK
+                                                </Badge>
+                                            </List.Item>
+                                        </Stack>
+                                    </List>
+                                </Modal>
+                                <Button
+                                    variant="subtle"
+                                    onClick={() => setModalStatus(true)}
+                                    rightSection={
+                                        <IconQuestionMark
+                                            size={16}
+                                            style={{
+                                                marginLeft: -5,
+                                            }}
+                                        />
+                                    }
+                                    size="xs"
+                                    mr={-10}
+                                >
+                                    Status
+                                </Button>
+                                {/*  */}&#x2022;{/* Modal Proses */}
+                                <Modal
+                                    opened={modalProses}
+                                    onClose={() => setModalProses(false)}
+                                    title="TAHAPAN PROSES"
+                                    centered
+                                    size="auto"
+                                >
+                                    <List type="ordered" size="xs">
+                                        <Stack gap="xs">
+                                            <List.Item>
+                                                <Badge
+                                                    color="blue"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    DALAM PROSES
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    VERIFIKASI PERSYARATAN
+                                                    ADMINISTRASI
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    VERIFIKASI FAKTUAL(SURVEI
+                                                    LAPANGAN)
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    REKOMENDASI
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    PERTIMBANGAN TAPD
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    PENGANGGARAN
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    PENERBITAN SK SDH DAN
+                                                    DOKUMEN LAINNNYA
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    PENANDATANGANAN NPHD, PAKTA
+                                                    INTEGRITAS, PERNYATAAN
+                                                    TANGGUNG JAWAB, DLL
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    PENCAIRAN DANA BANTUAN HIBAH
+                                                </Badge>
+                                            </List.Item>
+                                            <List.Item>
+                                                <Badge
+                                                    color="green"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    LAPORAN PERTANGGUNGJAWABAN
+                                                    PENGGUNAAN DANA BANTUAN
+                                                    HIBAH
+                                                </Badge>
+                                            </List.Item>
+
+                                            <List.Item>
+                                                <Badge
+                                                    color="red"
+                                                    variant="outline"
+                                                    size="xs"
+                                                >
+                                                    DITOLAK
+                                                </Badge>
+                                            </List.Item>
+                                        </Stack>
+                                    </List>
+                                </Modal>
+                                <Button
+                                    variant="subtle"
+                                    onClick={() => setModalProses(true)}
+                                    rightSection={
+                                        <IconQuestionMark
+                                            size={16}
+                                            style={{
+                                                marginLeft: -5,
+                                            }}
+                                        />
+                                    }
+                                    size="xs"
+                                    ml={-10}
+                                >
+                                    Proses
+                                </Button>
+                                {/*  */}
+                            </Group>
+
+                            <Divider h="md" />
+
                             <Table.ScrollContainer minWidth={500}>
                                 <Table
                                     highlightOnHover
@@ -200,6 +522,9 @@ export default function UserStatus() {
                                     <Table.Thead>
                                         <Table.Tr>
                                             <Table.Th ta="center">No.</Table.Th>
+                                            <Table.Th ta="center">
+                                                Detail
+                                            </Table.Th>
                                             <Table.Th ta="center">
                                                 No. SIMAS/NSPP
                                             </Table.Th>
