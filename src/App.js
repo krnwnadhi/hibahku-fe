@@ -55,64 +55,7 @@ function App() {
                 theme={computedColorScheme}
                 transition={Slide}
             />
-            {/* <Routes>
-                <Route element={<Anonymous />}>
-                    <Route path="/" element={<SignIn />} />
-                    <Route path="/signin" element={<SignIn />} />
-                    <Route path="/register" element={<Register />} />
-                </Route>
-                <Route element={<ProtectedRoute />}>
-                    <Route path="/dashboard" element={<RootLayout />}>
-                        <Route index element={<Dashboard />} />
-                        <Route
-                            path="/dashboard/admin/persetujuan"
-                            element={<Persetujuan />}
-                        />
-                        <Route
-                            path="/dashboard/admin/persetujuan/:id"
-                            element={<PersetujuanApprove />}
-                        />
-                        <Route
-                            path="/dashboard/admin/persetujuan/detail/:id"
-                            element={<PersetujuanDetail />}
-                        />
-                        <Route
-                            path="/dashboard/admin/list"
-                            element={<AdminUser />}
-                        />
-                        <Route
-                            path="/dashboard/admin/periode"
-                            element={<Periode />}
-                        />
-                        <Route
-                            path="/dashboard/admin/rekap/:tabValue"
-                            element={<IndexRekap />}
-                        />
-                        <Route
-                            path="/dashboard/rumah-ibadah/list"
-                            element={<RumahIbadah />}
-                        />
-                        <Route
-                            path="/dashboard/rumah-ibadah/user/create"
-                            element={<RumahIbadahCreate />}
-                        />
-                        <Route
-                            path="/dashboard/user/beranda"
-                            element={<UserPage />}
-                        />
-                        <Route
-                            path="/dashboard/user/dokumen"
-                            element={<UserPermohonan />}
-                        />
-                        <Route
-                            path="/dashboard/user/progres/:id"
-                            element={<UserStatus />}
-                        />
-                    </Route>
-                </Route>
-                <Route path="*" element={<Navigate to="/404" />} />
-                <Route path="/404" element={<Page403 />} />
-            </Routes> */}
+          
 
             <Routes>
                 {/* Public Routes */}
