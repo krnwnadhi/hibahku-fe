@@ -72,6 +72,10 @@ export default function Dashboard() {
         (item) => item?.kategoriid === 1
     );
 
+    const cardStyles = {
+        backgroundColor: "light-dark(#FCFCFC, #1E1E1E)",
+    };
+
     const data = [
         {
             label: "Persetujuan",
@@ -113,16 +117,7 @@ export default function Dashboard() {
 
     const UserInfo = () => {
         return (
-            <Paper
-                radius="md"
-                shadow="md"
-                withBorder
-                p="lg"
-                style={{
-                    backgroundColor:
-                        "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                }}
-            >
+            <Paper radius="md" shadow="md" withBorder p="lg" style={cardStyles}>
                 <Avatar
                     size={50}
                     radius={120}
@@ -164,10 +159,7 @@ export default function Dashboard() {
                     shadow="sm"
                     p="lg"
                     withBorder
-                    style={{
-                        backgroundColor:
-                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                    }}
+                    style={cardStyles}
                 >
                     <Text ta="center" fz="md" fw={700}>
                         AKHIR PERIODE
@@ -189,10 +181,7 @@ export default function Dashboard() {
                     shadow="sm"
                     p="lg"
                     withBorder
-                    style={{
-                        backgroundColor:
-                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                    }}
+                    style={cardStyles}
                 >
                     <Text ta="center" fz="md" fw={700}>
                         AWAL PERIODE
@@ -223,10 +212,7 @@ export default function Dashboard() {
                 shadow="lg"
                 p="xs"
                 key={stat.label}
-                style={{
-                    backgroundColor:
-                        "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                }}
+                style={cardStyles}
             >
                 <Container>
                     <Group>

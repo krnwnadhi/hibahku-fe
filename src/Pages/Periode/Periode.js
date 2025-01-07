@@ -82,6 +82,10 @@ const Periode = () => {
         </Anchor>
     ));
 
+    const cardStyles = {
+        backgroundColor: "light-dark(#FCFCFC, #1E1E1E)",
+    };
+
     const handleLoadingClick = () => {
         toast("Loading...", {
             isLoading: true,
@@ -127,10 +131,7 @@ const Periode = () => {
                     p="xl"
                     withBorder
                     mih="70vh"
-                    style={{
-                        backgroundColor:
-                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                    }}
+                    style={cardStyles}
                 >
                     <Group grow>
                         <Paper radius="md" shadow="sm" p="lg" withBorder>

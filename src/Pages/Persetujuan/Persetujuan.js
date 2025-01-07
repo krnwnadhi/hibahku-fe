@@ -422,8 +422,7 @@ const Persetujuan = () => {
                     withBorder
                     mih="70vh"
                     style={{
-                        backgroundColor:
-                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
+                        backgroundColor: "light-dark(#FCFCFC, #1E1E1E)",
                     }}
                 >
                     <MantineReactTable

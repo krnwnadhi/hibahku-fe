@@ -83,6 +83,10 @@ const PersetujuanDetail = () => {
         };
     }, [loading]);
 
+    const cardStyles = {
+        backgroundColor: "light-dark(#FCFCFC, #1E1E1E)",
+    };
+
     const statusInput = [
         {
             value: 1,
@@ -286,10 +290,7 @@ const PersetujuanDetail = () => {
                             radius="md"
                             shadow="md"
                             p="lg"
-                            style={{
-                                backgroundColor:
-                                    "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                            }}
+                            style={cardStyles}
                         >
                             <Container>
                                 <Stack gap="lg">
@@ -355,10 +356,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -392,10 +390,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -429,10 +424,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -465,10 +457,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -503,10 +492,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -539,10 +525,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -577,10 +560,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -613,10 +593,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -659,10 +636,7 @@ const PersetujuanDetail = () => {
                             radius="md"
                             shadow="md"
                             p="lg"
-                            style={{
-                                backgroundColor:
-                                    "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                            }}
+                            style={cardStyles}
                         >
                             <Container>
                                 <Stack gap="lg">
@@ -728,10 +702,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -765,10 +736,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -802,10 +770,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -838,10 +803,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -876,10 +838,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -912,10 +871,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -950,10 +906,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -986,10 +939,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -1028,10 +978,7 @@ const PersetujuanDetail = () => {
                                     radius="md"
                                     shadow="md"
                                     p="xl"
-                                    style={{
-                                        backgroundColor:
-                                            "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                                    }}
+                                    style={cardStyles}
                                 >
                                     <Stack gap="xl">
                                         <Group justify="center" gap="sm">
@@ -1070,10 +1017,7 @@ const PersetujuanDetail = () => {
                         shadow="md"
                         withBorder
                         p="lg"
-                        style={{
-                            backgroundColor:
-                                "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9))",
-                        }}
+                        style={cardStyles}
                     >
                         {/* Status Start */}
                         <Combobox
