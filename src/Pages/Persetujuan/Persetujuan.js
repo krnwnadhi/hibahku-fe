@@ -424,7 +424,7 @@ const Persetujuan = () => {
                     style={{
                         backgroundColor: "light-dark(#FCFCFC, #1E1E1E)",
                     }}
-                >
+                >xa
                     <MantineReactTable
                         table={table}
                         enableStickyHeader

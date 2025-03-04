@@ -71,7 +71,7 @@ export default function RootLayout() {
                         size="sm"
                     />
                     {computedColorScheme === "light" ? (
-                        <Anchor href="/dashboard">
+                        <Anchor href="/">
                             <Image
                                 loading="lazy"
                                 radius="md"
@@ -82,7 +82,7 @@ export default function RootLayout() {
                             />
                         </Anchor>
                     ) : (
-                        <Anchor href="/dashboard">
+                        <Anchor href="/">
                             <Image
                                 loading="lazy"
                                 radius="md"
