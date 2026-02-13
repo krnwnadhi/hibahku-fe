@@ -4,7 +4,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
 
 import AdminUser from "./Pages/AdminUser/AdminUser";
-import Anonymous from "./Navigation/Anonymous";
 import AuthVerify from "./utils/AuthVerify";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import IndexRekap from "./Pages/Rekap/IndexRekap";
@@ -14,7 +13,6 @@ import Persetujuan from "./Pages/Persetujuan/Persetujuan";
 import PersetujuanApprove from "./Pages/Persetujuan/PersetujuanApprove";
 import PersetujuanDetail from "./Pages/Persetujuan/PersetujuanDetail";
 import PrivateRoute from "./Navigation/ProtectedRoute";
-import ProtectedRoute from "./Navigation/ProtectedRoute";
 import Register from "./Pages/Auth/Register/Register";
 import RootLayout from "./components/Layout/RootLayout";
 import RumahIbadah from "./Pages/Rumah Ibadah/RumahIbadah";
@@ -36,8 +34,8 @@ function App() {
 
     const dispatch = useDispatch();
 
-    const logOut = useCallback(() => {
-        dispatch(logoutUserAction());
+    const logOut = useCallback(async () => {
+        await dispatch(logoutUserAction());
     }, [dispatch]);
 
     return (
@@ -55,7 +53,6 @@ function App() {
                 theme={computedColorScheme}
                 transition={Slide}
             />
-          
 
             <Routes>
                 {/* Public Routes */}

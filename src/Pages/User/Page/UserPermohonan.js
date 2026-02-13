@@ -82,25 +82,34 @@ export default function UserPermohonan() {
             file_izinoperasional: null,
             file_aktapendirian: null,
             file_pengesahankemenkumham: null,
+            file_npwp: null,
+            file_suratdomisili: null,
+            file_suratpernyataankeabsahan: null,
+            file_suratpernyataantidakhibah: null,
+            file_suratrekomkemenag: null,
         },
 
         validate: {
             keagamaanid: hasLength(
                 { min: 10, max: 20 },
-                "ID SIMAS Min. 10 angka"
+                "ID SIMAS Min. 10 angka",
             ),
             tujuan: hasLength({ min: 5, max: 50 }, "Tujuan minimal 5 karakter"),
 
             norek: hasLength({ min: 8, max: 10 }, "Min. 8 karakter"),
             file_ktp: isNotEmpty(
-                "Tidak Boleh Kosong. Silahkan Upload File KTP."
+                "Tidak Boleh Kosong. Silahkan Upload File KTP.",
             ),
             file_rab: isNotEmpty(
-                "Tidak Boleh Kosong. Silahkan Upload File RAB"
+                "Tidak Boleh Kosong. Silahkan Upload File RAB",
             ),
             file_sk: isNotEmpty("Tidak Boleh Kosong"),
             file_proposal: isNotEmpty("Tidak Boleh Kosong"),
             file_suratpermohonan: isNotEmpty("Tidak Boleh Kosong"),
+            file_suratdomisili: isNotEmpty("Tidak Boleh Kosong"),
+            file_suratpernyataankeabsahan: isNotEmpty("Tidak Boleh Kosong"),
+            file_suratpernyataantidakhibah: isNotEmpty("Tidak Boleh Kosong"),
+            file_suratrekomkemenag: isNotEmpty("Tidak Boleh Kosong"),
         },
     });
 
@@ -266,7 +275,7 @@ export default function UserPermohonan() {
                                                     form.setFieldValue(
                                                         "keagamaanid",
                                                         event.currentTarget
-                                                            .value
+                                                            .value,
                                                     )
                                                 }
                                                 error={
@@ -275,7 +284,7 @@ export default function UserPermohonan() {
                                                 }
                                                 onKeyDown={(e) =>
                                                     exceptThisSymbols.includes(
-                                                        e.key
+                                                        e.key,
                                                     ) && e.preventDefault()
                                                 }
                                                 radius="md"
@@ -295,7 +304,7 @@ export default function UserPermohonan() {
                                                     form.setFieldValue(
                                                         "keagamaanid",
                                                         event.currentTarget
-                                                            .value
+                                                            .value,
                                                     )
                                                 }
                                                 error={
@@ -304,7 +313,7 @@ export default function UserPermohonan() {
                                                 }
                                                 onKeyDown={(e) =>
                                                     exceptThisSymbols.includes(
-                                                        e.key
+                                                        e.key,
                                                     ) && e.preventDefault()
                                                 }
                                                 radius="md"
@@ -320,7 +329,7 @@ export default function UserPermohonan() {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "tujuan",
-                                                    event.currentTarget.value
+                                                    event.currentTarget.value,
                                                 )
                                             }
                                             error={
@@ -341,7 +350,7 @@ export default function UserPermohonan() {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "pengajuandana",
-                                                    event
+                                                    event,
                                                 )
                                             }
                                             error={
@@ -357,7 +366,7 @@ export default function UserPermohonan() {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "norek",
-                                                    event.currentTarget.value
+                                                    event.currentTarget.value,
                                                 )
                                             }
                                             error={
@@ -366,32 +375,33 @@ export default function UserPermohonan() {
                                             }
                                             maxLength={10}
                                         />
+
                                         <FileInput
-                                            label="1. File SURAT PERMOHONAN"
+                                            label="1. Surat Permohonan Bantuan Hibah"
                                             description="Hanya PDF & Ukuran File Maksimal 5MB."
                                             accept="application/pdf"
                                             clearable
                                             leftSection={icon}
                                             valueComponent={ValueComponent}
                                             {...form.getInputProps(
-                                                "file_suratpermohonan"
+                                                "file_suratpermohonan",
                                             )}
                                         />
 
                                         <FileInput
-                                            label="2. File PROPOSAL"
+                                            label="2. Proposal"
                                             description="Hanya PDF & Ukuran File Maksimal 5MB."
                                             accept="application/pdf"
                                             clearable
                                             leftSection={icon}
                                             valueComponent={ValueComponent}
                                             {...form.getInputProps(
-                                                "file_proposal"
+                                                "file_proposal",
                                             )}
                                         />
 
                                         <FileInput
-                                            label="3. File RAB"
+                                            label="3. Rencana Anggaran Biaya (RAB)"
                                             description="Hanya PDF & Ukuran File Maksimal 5MB."
                                             accept="application/pdf"
                                             clearable
@@ -400,41 +410,141 @@ export default function UserPermohonan() {
                                             {...form.getInputProps("file_rab")}
                                         />
 
-                                        <FileInput
-                                            label="4. File SK Pengurus"
-                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
-                                            accept="application/pdf"
-                                            clearable
-                                            leftSection={icon}
-                                            valueComponent={ValueComponent}
-                                            {...form.getInputProps("file_sk")}
-                                        />
-
-                                        <FileInput
-                                            label="5. File KTP Pengurus"
-                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
-                                            accept="application/pdf"
-                                            clearable
-                                            leftSection={icon}
-                                            valueComponent={ValueComponent}
-                                            {...form.getInputProps("file_ktp")}
-                                        />
-
                                         {type === "masjid" && (
                                             <FileInput
-                                                label="6. File SIMAS REKOM"
+                                                label="4. SK Pengurus Rumah Ibadah terbaru(masih berlaku)"
                                                 description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
                                                 valueComponent={ValueComponent}
                                                 {...form.getInputProps(
-                                                    "file_asetrekom"
+                                                    "file_sk",
+                                                )}
+                                            />
+                                        )}
+
+                                        {type === "lembaga" && (
+                                            <FileInput
+                                                label="4. SK Pengurus Yayasan/Lembaga terbaru(masih berlaku)"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_sk",
                                                 )}
                                             />
                                         )}
 
                                         {type === "masjid" && (
+                                            <FileInput
+                                                label="5. KTP Ketua Pengurus Rumah Ibadah"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_ktp",
+                                                )}
+                                            />
+                                        )}
+
+                                        {type === "lembaga" && (
+                                            <FileInput
+                                                label="5. KTP Ketua Pengurus Yayasan/Lembaga"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_ktp",
+                                                )}
+                                            />
+                                        )}
+
+                                        {type === "masjid" && (
+                                            <FileInput
+                                                label="6. Surat Pernyataan Keabsahan dokumen dari Ketua Pengurus Rumah Ibadah"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_suratpernyataankeabsahan",
+                                                )}
+                                            />
+                                        )}
+
+                                        {type === "lembaga" && (
+                                            <FileInput
+                                                label="6. Surat Pernyataan Keabsahan dokumen dari Ketua Pengurus Yayasan/Lembaga"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_suratpernyataankeabsahan",
+                                                )}
+                                            />
+                                        )}
+
+                                        <FileInput
+                                            label="7. Surat Pernyataan Tidak sedang menerima hibah sejenis dari APBD pada tahun anggaran yang sama"
+                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                            accept="application/pdf"
+                                            clearable
+                                            leftSection={icon}
+                                            valueComponent={ValueComponent}
+                                            {...form.getInputProps(
+                                                "file_suratpernyataantidakhibah",
+                                            )}
+                                        />
+
+                                        <FileInput
+                                            label="8. Surat Rekomendasi dari Kementerian Agama Kabupaten/Kota"
+                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                            accept="application/pdf"
+                                            clearable
+                                            leftSection={icon}
+                                            valueComponent={ValueComponent}
+                                            {...form.getInputProps(
+                                                "file_suratrekomkemenag",
+                                            )}
+                                        />
+
+                                        <FileInput
+                                            label="9. Surat Keterangan Domisili dari pemerintah setempat"
+                                            description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                            accept="application/pdf"
+                                            clearable
+                                            leftSection={icon}
+                                            valueComponent={ValueComponent}
+                                            {...form.getInputProps(
+                                                "file_suratdomisili",
+                                            )}
+                                        />
+
+                                        {type === "masjid" && (
+                                            <FileInput
+                                                label="10. Surat Keterangan terdaftar ID Rumah Ibadah dalam Sistem Informasi di Kementerian Agama Republik Indonesia"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_asetrekom",
+                                                )}
+                                            />
+                                        )}
+
+                                        {/* {type === "masjid" && (
                                             <FileInput
                                                 label="7. File SUKET TIPOLOGI"
                                                 description="Hanya PDF & Ukuran File Maksimal 5MB."
@@ -443,49 +553,63 @@ export default function UserPermohonan() {
                                                 leftSection={icon}
                                                 valueComponent={ValueComponent}
                                                 {...form.getInputProps(
-                                                    "file_suket"
+                                                    "file_suket",
                                                 )}
                                             />
-                                        )}
+                                        )} */}
 
                                         {type === "lembaga" && (
                                             <FileInput
-                                                label="6. File IZIN OPERASIONAL"
+                                                label="10. Izin Operasional yang masih aktif dari Kementerian Agama Republik Indonesia"
                                                 description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
                                                 valueComponent={ValueComponent}
                                                 {...form.getInputProps(
-                                                    "file_izinoperasional"
+                                                    "file_izinoperasional",
                                                 )}
                                             />
                                         )}
 
                                         {type === "lembaga" && (
                                             <FileInput
-                                                label="7. File AKTA PENDIRIAN"
+                                                label="11. Akta Notaris Pendirian (*Khusus Yayasan)"
                                                 description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
                                                 valueComponent={ValueComponent}
                                                 {...form.getInputProps(
-                                                    "file_aktapendirian"
+                                                    "file_aktapendirian",
                                                 )}
                                             />
                                         )}
 
                                         {type === "lembaga" && (
                                             <FileInput
-                                                label="8. File PENGESAHAN KEMENKUMHAM"
+                                                label="12. Pengesahan pendirian badan hukum dari Kementerian Hukum Republik Indonesia"
                                                 description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
                                                 leftSection={icon}
                                                 valueComponent={ValueComponent}
                                                 {...form.getInputProps(
-                                                    "file_pengesahankemenkumham"
+                                                    "file_pengesahankemenkumham",
+                                                )}
+                                            />
+                                        )}
+
+                                        {type === "lembaga" && (
+                                            <FileInput
+                                                label="13. NPWP Yayasan/Lembaga"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_npwp",
                                                 )}
                                             />
                                         )}

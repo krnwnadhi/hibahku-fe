@@ -247,7 +247,7 @@ export default function UserPage() {
 
             <Text ta="center">{appError && appError}</Text>
 
-            <Space h="md" />
+            {/* <Space h="md" /> */}
 
             <Text ta="center">Terima Kasih</Text>
 

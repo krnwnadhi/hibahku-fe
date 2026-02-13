@@ -32,26 +32,43 @@ export const createPermohonan = createAsyncThunk(
             formData.append("file_proposal", permohonan?.file_proposal);
             formData.append(
                 "file_suratpermohonan",
-                permohonan?.file_suratpermohonan
+                permohonan?.file_suratpermohonan,
             );
             formData.append("file_asetrekom", permohonan?.file_asetrekom);
             formData.append(
                 "file_izinoperasional",
-                permohonan?.file_izinoperasional
+                permohonan?.file_izinoperasional,
             );
             formData.append(
                 "file_aktapendirian",
-                permohonan?.file_aktapendirian
+                permohonan?.file_aktapendirian,
             );
             formData.append(
                 "file_pengesahankemenkumham",
-                permohonan?.file_pengesahankemenkumham
+                permohonan?.file_pengesahankemenkumham,
+            );
+            formData.append("file_npwp", permohonan?.file_npwp);
+            formData.append(
+                "file_suratdomisili",
+                permohonan?.file_suratdomisili,
+            );
+            formData.append(
+                "file_suratpernyataankeabsahan",
+                permohonan?.file_suratpernyataankeabsahan,
+            );
+            formData.append(
+                "file_suratpernyataantidakhibah",
+                permohonan?.file_suratpernyataantidakhibah,
+            );
+            formData.append(
+                "file_suratrekomkemenag",
+                permohonan?.file_suratrekomkemenag,
             );
 
             const { data } = await axios.post(
                 `${basePermohonanURL}/uploads`,
                 formData,
-                config
+                config,
             );
 
             return data;
@@ -61,7 +78,7 @@ export const createPermohonan = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
 //SLICES
