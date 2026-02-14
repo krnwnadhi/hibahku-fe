@@ -87,6 +87,7 @@ export default function UserPermohonan() {
             file_suratpernyataankeabsahan: null,
             file_suratpernyataantidakhibah: null,
             file_suratrekomkemenag: null,
+            file_norekening: null,
         },
 
         validate: {
@@ -358,6 +359,7 @@ export default function UserPermohonan() {
                                                 "Pengajuan dana minimal 3 angka"
                                             }
                                         />
+
                                         <TextInput
                                             type="number"
                                             label="No. Rekening Bank Jambi"
@@ -544,20 +546,6 @@ export default function UserPermohonan() {
                                             />
                                         )}
 
-                                        {/* {type === "masjid" && (
-                                            <FileInput
-                                                label="7. File SUKET TIPOLOGI"
-                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
-                                                accept="application/pdf"
-                                                clearable
-                                                leftSection={icon}
-                                                valueComponent={ValueComponent}
-                                                {...form.getInputProps(
-                                                    "file_suket",
-                                                )}
-                                            />
-                                        )} */}
-
                                         {type === "lembaga" && (
                                             <FileInput
                                                 label="10. Izin Operasional yang masih aktif dari Kementerian Agama Republik Indonesia"
@@ -568,6 +556,20 @@ export default function UserPermohonan() {
                                                 valueComponent={ValueComponent}
                                                 {...form.getInputProps(
                                                     "file_izinoperasional",
+                                                )}
+                                            />
+                                        )}
+
+                                        {type === "masjid" && (
+                                            <FileInput
+                                                label="10. Rekening Bank Jambi atas nama Yayasan/Lembaga yang masih Aktif;"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_norekening",
                                                 )}
                                             />
                                         )}
@@ -610,6 +612,34 @@ export default function UserPermohonan() {
                                                 valueComponent={ValueComponent}
                                                 {...form.getInputProps(
                                                     "file_npwp",
+                                                )}
+                                            />
+                                        )}
+
+                                        {type === "lembaga" && (
+                                            <FileInput
+                                                label="14. NSPP/NSM dari Kementerian Agama Republik Indonesia"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_suket",
+                                                )}
+                                            />
+                                        )}
+
+                                        {type === "lembaga" && (
+                                            <FileInput
+                                                label="15. Rekening Bank Jambi atas nama Yayasan/Lembaga yang masih Aktif;"
+                                                description="Hanya PDF & Ukuran File Maksimal 5MB."
+                                                accept="application/pdf"
+                                                clearable
+                                                leftSection={icon}
+                                                valueComponent={ValueComponent}
+                                                {...form.getInputProps(
+                                                    "file_norekening",
                                                 )}
                                             />
                                         )}

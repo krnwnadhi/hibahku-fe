@@ -64,6 +64,7 @@ export const createPermohonan = createAsyncThunk(
                 "file_suratrekomkemenag",
                 permohonan?.file_suratrekomkemenag,
             );
+            formData.append("file_norekening", permohonan?.file_norekening);
 
             const { data } = await axios.post(
                 `${basePermohonanURL}/uploads`,
