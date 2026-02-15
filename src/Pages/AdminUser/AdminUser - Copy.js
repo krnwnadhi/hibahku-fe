@@ -1,0 +1,256 @@
+import {
+    ActionIcon,
+    Anchor,
+    Badge,
+    Breadcrumbs,
+    Container,
+    Text,
+    Tooltip,
+    useMantineTheme,
+} from "@mantine/core";
+import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
+import {
+    deleteUserAction,
+    getAllUsersAction,
+} from "../../redux/slices/user/userSlices";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+
+import { IconTrash } from "@tabler/icons-react";
+import { modals } from "@mantine/modals";
+import { nprogress } from "@mantine/nprogress";
+import { toast } from "react-toastify";
+
+const AdminUser = () => {
+    const dispatch = useDispatch();
+    const { colorScheme } = useMantineTheme();
+
+    useEffect(() => {
+        dispatch(getAllUsersAction());
+    }, [dispatch]);
+
+    const users = useSelector((state) => state?.users);
+    const { loading, usersList = [] } = users;
+
+    const [usersListState, setUsersListState] = useState([usersList]);
+
+    useEffect(() => {
+        // Pastikan usersList ada dan merupakan sebuah Array
+        if (usersList && Array.isArray(usersList)) {
+            setUsersListState(usersList);
+        } else if (usersList?.result) {
+            // Jika Redux menyimpan object yang membungkus property 'result'
+            setUsersListState(usersList.result);
+        }
+    }, [usersList]);
+
+    useEffect(() => {
+        // Cukup panggil action Redux
+        dispatch(getAllUsersAction());
+        window.scrollTo(0, 0);
+    }, [dispatch]);
+
+    const items = [
+        { title: "Beranda", href: "/dashboard" },
+        { title: "List User", href: "/dashboard/admin/list" },
+    ].map((item, index) => (
+        <Anchor href={item.href} key={index} size="sm" truncate="end">
+            {item.title}
+        </Anchor>
+    ));
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+
+        return () => {
+            nprogress.reset();
+        };
+    }, [loading]);
+
+    const columns = useMemo(
+        () => [
+            {
+                header: "No",
+                id: "id",
+                Cell: ({ row }) => {
+                    return <> {row.index + 1} </>;
+                },
+                enableColumnOrdering: false,
+                enableColumnFilterModes: false,
+                enableColumnFilter: false,
+                enableColumnSortModes: false,
+                enableGrouping: false,
+                enableSorting: false,
+                enableColumnActions: false,
+                enableResizing: false,
+                size: 55,
+            },
+            {
+                accessorKey: "nik",
+                header: "NIK",
+                enableClickToCopy: true,
+                minSize: 175,
+                maxSize: 300,
+                size: 250,
+            },
+            {
+                accessorKey: "nama",
+                header: "Nama",
+                minSize: 150,
+                maxSize: 275,
+                size: 225,
+            },
+            {
+                accessorKey: "notelpon",
+                accessorFn: (dataRow) => dataRow?.notelpon,
+                id: "notelpon",
+                header: "No. HP",
+                minSize: 150,
+                maxSize: 275,
+                size: 225,
+                Cell: ({ cell }) =>
+                    cell.getValue() === null
+                        ? "Tidak Ada Data"
+                        : cell.getValue(),
+            },
+            {
+                accessorKey: "Role.nama",
+                header: "Role",
+                Cell: ({ cell }) => (
+                    <Badge
+                        size="sm"
+                        color={cell.getValue() === "ADMIN" ? "red" : "green"}
+                    >
+                        {cell.getValue()}
+                    </Badge>
+                ),
+            },
+            {
+                accessorFn: (row) => {
+                    const sDay = new Date(row.createdAt);
+                    sDay.setHours(0, 0, 0, 0);
+                    return sDay;
+                },
+                enableGrouping: false,
+                id: "createdAt",
+                header: "Dibuat",
+                filterVariant: "date-range",
+                sortingFn: "datetime",
+                enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+                Cell: ({ cell }) =>
+                    cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
+            },
+        ],
+        [],
+    );
+
+    //DELETE action
+    const openDeleteConfirmModal = (row) =>
+        modals.openConfirmModal({
+            title: "Hapus Pengguna?",
+            children: (
+                <Text size="sm">
+                    Apakah anda yakin ingin menghapus pengguna dengan NIK :
+                    {row.original.nik} bernama : {row.original.nama}? Aksi ini
+                    tidak bisa dibatalkan.
+                </Text>
+            ),
+            labels: { confirm: "Hapus", cancel: "Batal" },
+            confirmProps: { color: "red" },
+            onConfirm: async () => {
+                try {
+                    // 1. Eksekusi hapus dan unwrap untuk menangkap error jika ada
+                    await dispatch(deleteUserAction(row.original.id)).unwrap();
+
+                    // 2. Notifikasi Sukses
+                    toast.success(
+                        `User ${row.original.nama} berhasil dihapus!`,
+                        {
+                            position: "top-right",
+                            autoClose: 3000,
+                        },
+                    );
+
+                    // 3. Reload Data (Refresh tabel tanpa refresh browser)
+                    dispatch(getAllUsersAction());
+                } catch (error) {
+                    // 4. Notifikasi Gagal
+                    toast.error(error?.message || "Gagal menghapus user", {
+                        position: "top-right",
+                    });
+                }
+            },
+        });
+
+    const data = usersListState;
+
+    const table = useMantineReactTable({
+        enableEditing: true,
+        mantineTableProps: {
+            withColumnBorders: true,
+            style: {
+                fontSize: "12px",
+            },
+        },
+
+        withBorder: colorScheme === "light",
+        sx: {
+            "thead > tr": {
+                backgroundColor: "inherit",
+            },
+            "thead > tr > th": {
+                backgroundColor: "inherit",
+            },
+            "tbody > tr > td": {
+                backgroundColor: "inherit",
+            },
+        },
+        columns,
+        data,
+        enableRowSelection: true,
+        enableColumnResizing: true,
+        positionToolbarAlertBanner: "bottom",
+        enableColumnOrdering: true,
+        rowNumberMode: "original",
+        initialState: {
+            density: "xs",
+        },
+        state: {
+            showProgressBars: loading,
+            isLoading: loading,
+        },
+        mantinePaginationProps: {
+            rowsPerPageOptions: ["10", "25", "50"],
+        },
+        enableGrouping: true,
+        paginationDisplayMode: "pages",
+        enableFullScreenToggle: false,
+
+        renderRowActions: ({ row }) => (
+            <Tooltip label="Hapus">
+                <ActionIcon
+                    color="red"
+                    onClick={() => openDeleteConfirmModal(row)}
+                >
+                    <IconTrash size={18} />
+                </ActionIcon>
+            </Tooltip>
+        ),
+        mantineSearchTextInputProps: {
+            placeholder: "Cari",
+        },
+    });
+
+    return (
+        <>
+            <Container size="xl" pos="relative">
+                <Breadcrumbs separator="→" mt="xs" mb="lg">
+                    {items}
+                </Breadcrumbs>
+                <MantineReactTable table={table} enableStickyHeader />
+            </Container>
+        </>
+    );
+};
+
+export default AdminUser;

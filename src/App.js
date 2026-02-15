@@ -2,8 +2,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Slide, ToastContainer } from "react-toastify";
+import { useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
 
-import AdminUser from "./Pages/AdminUser/AdminUser";
+import AdminUser from "./Pages/AdminUser/AdminUser.js";
 import AuthVerify from "./utils/AuthVerify";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import IndexRekap from "./Pages/Rekap/IndexRekap";
@@ -24,13 +25,14 @@ import UserPermohonan from "./Pages/User/Page/UserPermohonan";
 import UserStatus from "./Pages/User/Page/UserStatus";
 import { logoutUserAction } from "./redux/slices/auth/authSlices";
 import { useCallback } from "react";
-import { useComputedColorScheme } from "@mantine/core";
 import { useDispatch } from "react-redux";
 
 function App() {
     const computedColorScheme = useComputedColorScheme("light", {
         getInitialValueInEffect: true,
     });
+
+    const { colorScheme } = useMantineColorScheme();
 
     const dispatch = useDispatch();
 
@@ -50,7 +52,8 @@ function App() {
                 rtl={false}
                 pauseOnFocusLoss
                 pauseOnHover
-                theme={computedColorScheme}
+                // theme={computedColorScheme}
+                theme={colorScheme}
                 transition={Slide}
             />
 

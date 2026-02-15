@@ -2,78 +2,80 @@ import {
     ActionIcon,
     Anchor,
     Badge,
-    Box,
     Breadcrumbs,
     Container,
-    Group,
+    Text,
+    Tooltip,
     useMantineTheme,
 } from "@mantine/core";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
-import React, { useEffect, useMemo, useState } from "react";
+import {
+    deleteUserAction,
+    getAllUsersAction,
+} from "../../redux/slices/user/userSlices";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { IconEdit } from "@tabler/icons-react";
-import axios from "axios";
-import { baseUserURL } from "../../utils/baseURL";
-import { getAllUsersAction } from "../../redux/slices/user/userSlices";
+import { IconTrash } from "@tabler/icons-react";
+import { modals } from "@mantine/modals";
 import { nprogress } from "@mantine/nprogress";
+import { toast } from "react-toastify";
+
+// Import actions
 
 const AdminUser = () => {
     const dispatch = useDispatch();
     const { colorScheme } = useMantineTheme();
 
-    useEffect(() => {
+    // 1. Ambil data langsung dari Redux (Single Source of Truth)
+    const { loading, usersList = [] } = useSelector((state) => state?.users);
+
+    // 2. Fungsi Fetch Data (Memoized untuk mencegah re-render loop)
+    const fetchData = useCallback(() => {
         dispatch(getAllUsersAction());
     }, [dispatch]);
 
-    const user = useSelector((state) => state?.auth?.userAuth);
-    const { token } = user;
-
-    const users = useSelector((state) => state?.users);
-    const { loading, usersList = [] } = users;
-
-    const [usersListState, setUsersListState] = useState([usersList]);
-
-    const getUsersList = async () => {
-        try {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Access-Control-Allow-Origin": "*",
-                },
-            };
-            const response = await axios.get(`${baseUserURL}/getusers`, config);
-            const result = response?.data?.result;
-
-            setUsersListState(result);
-        } catch (error) {
-            throw new Error(error);
-        }
-    };
-
+    // 3. Efek saat komponen dimuat (Mount)
     useEffect(() => {
-        getUsersList();
+        fetchData();
         window.scrollTo(0, 0);
-        // eslint-disable-next-line
-    }, []);
+    }, [fetchData]);
 
-    const items = [
-        { title: "Beranda", href: "/dashboard" },
-        { title: "List User", href: "/dashboard/admin/list" },
-    ].map((item, index) => (
-        <Anchor href={item.href} key={index} size="sm" truncate="end">
-            {item.title}
-        </Anchor>
-    ));
-
+    // 4. Efek untuk Progress Bar (NProgress)
     useEffect(() => {
         loading ? nprogress.start() : nprogress.complete();
-
-        return () => {
-            nprogress.reset();
-        };
+        return () => nprogress.reset();
     }, [loading]);
 
+    // 5. Fungsi Hapus User
+    const handleOpenDeleteModal = (row) => {
+        const { id, nama, nik } = row.original;
+
+        modals.openConfirmModal({
+            title: "Hapus Pengguna?",
+            centered: true,
+            children: (
+                <Text size="sm">
+                    Apakah anda yakin ingin menghapus pengguna dengan NIK:{" "}
+                    <b>{nik}</b> & Nama: <b>{nama}</b>? Aksi ini tidak bisa
+                    dibatalkan.
+                </Text>
+            ),
+            labels: { confirm: "Hapus", cancel: "Batal" },
+            confirmProps: { color: "red" },
+            onConfirm: async () => {
+                try {
+                    await dispatch(deleteUserAction(id)).unwrap();
+                    toast.success(`User ${nama} berhasil dihapus!`);
+                    fetchData(); // Refresh data tanpa reload halaman
+                } catch (error) {
+                    toast.error(error?.message || "Gagal menghapus user");
+                }
+            },
+        });
+    };
+
+    // 6. Definisi Kolom Tabel (Memoized untuk Performa)
     const columns = useMemo(
         () => [
             {
@@ -96,29 +98,17 @@ const AdminUser = () => {
                 accessorKey: "nik",
                 header: "NIK",
                 enableClickToCopy: true,
-                minSize: 175,
-                maxSize: 300,
-                size: 250,
+                size: 200,
             },
             {
                 accessorKey: "nama",
                 header: "Nama",
-                minSize: 150,
-                maxSize: 275,
-                size: 225,
+                size: 200,
             },
             {
                 accessorKey: "notelpon",
-                accessorFn: (dataRow) => dataRow?.notelpon,
-                id: "notelpon",
                 header: "No. HP",
-                minSize: 150,
-                maxSize: 275,
-                size: 225,
-                Cell: ({ cell }) =>
-                    cell.getValue() === null
-                        ? "Tidak Ada Data"
-                        : cell.getValue(),
+                Cell: ({ cell }) => cell.getValue() || "Tidak Ada Data",
             },
             {
                 accessorKey: "Role.nama",
@@ -133,92 +123,70 @@ const AdminUser = () => {
                 ),
             },
             {
-                accessorFn: (row) => {
-                    const sDay = new Date(row.createdAt);
-                    sDay.setHours(0, 0, 0, 0);
-                    return sDay;
-                },
-                enableGrouping: false,
-                id: "createdAt",
+                accessorKey: "createdAt",
                 header: "Dibuat",
-                filterVariant: "date-range",
-                sortingFn: "datetime",
-                enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
                 Cell: ({ cell }) =>
-                    cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
+                    new Date(cell.getValue()).toLocaleDateString("id-ID"),
             },
         ],
-        []
+        [],
     );
 
-    const data = usersListState;
-
+    // 7. Konfigurasi Mantine React Table
     const table = useMantineReactTable({
-        mantineTableProps: {
-            withColumnBorders: true,
-            style: {
-                fontSize: "12px",
-            },
-        },
-        withBorder: colorScheme === "light",
-        sx: {
-            "thead > tr": {
-                backgroundColor: "inherit",
-            },
-            "thead > tr > th": {
-                backgroundColor: "inherit",
-            },
-            "tbody > tr > td": {
-                backgroundColor: "inherit",
-            },
-        },
         columns,
-        data,
-        enableRowSelection: true,
+        data: usersList, // Menggunakan data Redux langsung (SOLUSI BUG RELOAD)
+        enableEditing: true,
         enableColumnResizing: true,
-        positionToolbarAlertBanner: "bottom",
         enableColumnOrdering: true,
-        rowNumberMode: "original",
+        positionToolbarAlertBanner: "bottom",
         initialState: {
             density: "xs",
+            pagination: { pageSize: 10 },
         },
         state: {
-            showProgressBars: loading,
             isLoading: loading,
-        },
-        mantinePaginationProps: {
-            rowsPerPageOptions: ["5", "10", "20"],
+            showProgressBars: loading,
         },
         enableGrouping: true,
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
         renderRowActions: ({ row }) => (
-            <Box style={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
+            <Tooltip label="Hapus">
                 <ActionIcon
                     color="red"
-                    size={18}
-                    onClick={() => {
-                        table.setEditingRow(row);
-                    }}
+                    onClick={() => handleOpenDeleteModal(row)}
                 >
-                    <IconEdit />
+                    <IconTrash size={18} />
                 </ActionIcon>
-            </Box>
+            </Tooltip>
         ),
+        mantineTableProps: {
+            withColumnBorders: true,
+            sx: { fontSize: "12px" },
+        },
         mantineSearchTextInputProps: {
             placeholder: "Cari",
         },
     });
 
+    // Breadcrumbs items
+    const breadcrumbItems = [
+        { title: "Beranda", href: "/dashboard" },
+        { title: "List User", href: "/dashboard/admin/list" },
+    ].map((item, index) => (
+        <Anchor href={item.href} key={index} size="sm">
+            {item.title}
+        </Anchor>
+    ));
+
     return (
-        <>
-            <Container size="xl" pos="relative">
-                <Breadcrumbs separator="→" mt="xs" mb="lg">
-                    {items}
-                </Breadcrumbs>
-                <MantineReactTable table={table} enableStickyHeader />
-            </Container>
-        </>
+        <Container size="xl">
+            <Breadcrumbs separator="→" mt="xs" mb="lg">
+                {breadcrumbItems}
+            </Breadcrumbs>
+            <MantineReactTable table={table} />
+        </Container>
     );
 };
 

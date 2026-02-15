@@ -562,7 +562,7 @@ export default function UserPermohonan() {
 
                                         {type === "masjid" && (
                                             <FileInput
-                                                label="10. Rekening Bank Jambi atas nama Yayasan/Lembaga yang masih Aktif;"
+                                                label="11. Rekening Bank Jambi atas nama Yayasan/Lembaga yang masih Aktif;"
                                                 description="Hanya PDF & Ukuran File Maksimal 5MB."
                                                 accept="application/pdf"
                                                 clearable
