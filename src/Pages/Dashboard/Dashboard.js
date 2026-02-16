@@ -50,26 +50,25 @@ export default function Dashboard() {
     }, [dispatch]);
 
     const user = useSelector((state) => state?.auth?.userAuth);
-    // console.log(user);
 
     const allUsersList = useSelector((state) => state?.users);
     const { loading, usersList } = allUsersList;
 
     const allRumahIbadah = useSelector(
-        (state) => state?.rumahIbadah?.rumahIbadahList
+        (state) => state?.rumahIbadah?.rumahIbadahList,
     );
     const allPersetujuan = useSelector(
-        (state) => state?.persetujuan?.persetujuanList
+        (state) => state?.persetujuan?.persetujuanList,
     );
 
     // Filter rumahIbadahList by masjid kategoriid = 2
     const filteredRumahIbadah = allRumahIbadah?.result?.filter(
-        (item) => item?.kategoriid === 2
+        (item) => item?.kategoriid === 2,
     );
 
     // Filter rumahIbadahList by lembaga keagamaan kategoriid = 1
     const filteredLembagaKeagamaan = allRumahIbadah?.result?.filter(
-        (item) => item?.kategoriid === 1
+        (item) => item?.kategoriid === 1,
     );
 
     const cardStyles = {
@@ -86,8 +85,8 @@ export default function Dashboard() {
         },
         {
             label: "Pengguna",
-            stats: usersList?.result?.length,
-            progress: usersList?.result?.length,
+            stats: usersList?.length,
+            progress: usersList?.length,
             color: "violet",
             icon: "listUser",
         },

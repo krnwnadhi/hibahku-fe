@@ -55,7 +55,7 @@ const PersetujuanDetail = () => {
         persetujuan;
 
     const namaKategori = detailAdminPersetujuan?.map(
-        (x) => x?.Keagamaan?.Kategori?.nama
+        (x) => x?.Keagamaan?.Kategori?.nama,
     );
 
     const form = useForm({
@@ -189,7 +189,7 @@ const PersetujuanDetail = () => {
 
     const [statusValue, setStatusValue] = useState();
     const selectedOptionStatus = statusInput.find(
-        (item) => item?.value === statusValue
+        (item) => item?.value === statusValue,
     );
 
     const optionsStatus = statusInput.map((item) => (
@@ -210,7 +210,7 @@ const PersetujuanDetail = () => {
 
     const [prosesValue, setProsesValue] = useState();
     const SelectOptionProses = keteranganInput.find(
-        (item) => item?.value === prosesValue
+        (item) => item?.value === prosesValue,
     );
 
     const optionsProses = keteranganInput.map((item) => (
@@ -238,9 +238,9 @@ const PersetujuanDetail = () => {
             children: (
                 <Text size="sm">
                     {`Apakah Anda yakin ingin menghapus persetujuan ${detailAdminPersetujuan?.map(
-                        (x) => x?.Keagamaan?.nama
+                        (x) => x?.Keagamaan?.nama,
                     )} oleh ${detailAdminPersetujuan?.map(
-                        (x) => x?.User?.nama
+                        (x) => x?.User?.nama,
                     )}?`}
                 </Text>
             ),
@@ -373,7 +373,7 @@ const PersetujuanDetail = () => {
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratpermohonan?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -407,7 +407,7 @@ const PersetujuanDetail = () => {
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Proposal?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Proposal?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -433,14 +433,14 @@ const PersetujuanDetail = () => {
                                                 ta="center"
                                                 fz={isMobile ? "xs" : "sm"}
                                             >
-                                                RAB
+                                                Rencana Anggaran Biaya
                                             </Text>
                                         </Group>
                                         <Text
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Rab?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Rab?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -473,7 +473,7 @@ const PersetujuanDetail = () => {
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Sk?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Sk?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -501,14 +501,14 @@ const PersetujuanDetail = () => {
                                                 ta="center"
                                                 fz={isMobile ? "xs" : "sm"}
                                             >
-                                                KTP
+                                                KTP Pengurus
                                             </Text>
                                         </Group>
                                         <Text
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Ktp?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -518,6 +518,7 @@ const PersetujuanDetail = () => {
                                     </Stack>
                                 </Paper>
                             </Grid.Col>
+
                             <Grid.Col span={6}>
                                 <Paper
                                     height={SECONDARY_COL_HEIGHT}
@@ -534,14 +535,14 @@ const PersetujuanDetail = () => {
                                                 ta="center"
                                                 fz={isMobile ? "xs" : "sm"}
                                             >
-                                                SIMAS/Rekom
+                                                ID SIMAS
                                             </Text>
                                         </Group>
                                         <Text
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Asetrekom?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Asetrekom?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -569,19 +570,19 @@ const PersetujuanDetail = () => {
                                                 ta="center"
                                                 fz={isMobile ? "xs" : "sm"}
                                             >
-                                                Suket Tipologi
+                                                Rekening Bank Jambi
                                             </Text>
                                         </Group>
                                         <Text
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Suket?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Norekening?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
-                                            {item?.Suket?.namafile}
+                                            {item?.Norekening?.namafile}
                                         </Text>
                                     </Stack>
                                 </Paper>
@@ -612,6 +613,152 @@ const PersetujuanDetail = () => {
                                             truncate="end"
                                         >
                                             {item?.norek}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+
+                        {/*  */}
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Surat Domisili
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratdomisili?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Suratdomisili?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Rekomendasi Kemenag
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratrekomkemenag?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Suratrekomkemenag?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Pernyataan Tidak Hibah
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratpernyataantidakhibah?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {
+                                                item?.Suratpernyataantidakhibah
+                                                    ?.namafile
+                                            }
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconBuildingBank size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Pernyataan Keabsahan
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratpernyataankeabsahan?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {
+                                                item?.Suratpernyataankeabsahan
+                                                    ?.namafile
+                                            }
                                         </Text>
                                     </Stack>
                                 </Paper>
@@ -719,7 +866,7 @@ const PersetujuanDetail = () => {
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Suratpermohonan?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratpermohonan?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -753,7 +900,7 @@ const PersetujuanDetail = () => {
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Proposal?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Proposal?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -779,14 +926,14 @@ const PersetujuanDetail = () => {
                                                 ta="center"
                                                 fz={isMobile ? "xs" : "sm"}
                                             >
-                                                RAB
+                                                Rencana Anggaran Biaya
                                             </Text>
                                         </Group>
                                         <Text
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Rab?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Rab?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -819,7 +966,7 @@ const PersetujuanDetail = () => {
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Sk?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Sk?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -847,14 +994,14 @@ const PersetujuanDetail = () => {
                                                 ta="center"
                                                 fz={isMobile ? "xs" : "sm"}
                                             >
-                                                KTP
+                                                KTP Pengurus
                                             </Text>
                                         </Group>
                                         <Text
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Ktp?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Ktp?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -864,6 +1011,289 @@ const PersetujuanDetail = () => {
                                     </Stack>
                                 </Paper>
                             </Grid.Col>
+
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                NSPP/NSM
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suket?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Suket?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Rekening Bank Jambi
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Norekening?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Norekening?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconBuildingBank size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Rekening Bank 9
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            truncate="end"
+                                        >
+                                            {item?.norek}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+
+                        {/* Baris 4 */}
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Surat Domisili
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratdomisili?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Suratdomisili?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Rekomendasi Kemenag
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratrekomkemenag?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Suratrekomkemenag?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                Pernyataan Tidak Hibah
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratpernyataantidakhibah?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {
+                                                item?.Suratpernyataantidakhibah
+                                                    ?.namafile
+                                            }
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconBuildingBank size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                                truncate="end"
+                                            >
+                                                Pernyataan Keabsahan
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Suratpernyataankeabsahan?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {
+                                                item?.Suratpernyataankeabsahan
+                                                    ?.namafile
+                                            }
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+                        </Grid>
+
+                        {/* Baris 5 */}
+                        <Grid gutter="md">
+                            <Grid.Col span={6}>
+                                <Paper
+                                    height={SECONDARY_COL_HEIGHT}
+                                    withBorder
+                                    radius="md"
+                                    shadow="md"
+                                    p="xl"
+                                    style={cardStyles}
+                                >
+                                    <Stack gap="xl">
+                                        <Group justify="center" gap="sm">
+                                            <IconDownload size={16} />
+                                            <Text
+                                                ta="center"
+                                                fz={isMobile ? "xs" : "sm"}
+                                            >
+                                                NPWP
+                                            </Text>
+                                        </Group>
+                                        <Text
+                                            ta="center"
+                                            fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Npwp?.namafile}`}
+                                            truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {item?.Npwp?.namafile}
+                                        </Text>
+                                    </Stack>
+                                </Paper>
+                            </Grid.Col>
+
                             <Grid.Col span={6}>
                                 <Paper
                                     height={SECONDARY_COL_HEIGHT}
@@ -887,7 +1317,7 @@ const PersetujuanDetail = () => {
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Izinoperasional?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Izinoperasional?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -915,47 +1345,14 @@ const PersetujuanDetail = () => {
                                                 ta="center"
                                                 fz={isMobile ? "xs" : "sm"}
                                             >
-                                                Akta Pendirian
+                                                Pengesahan Kemenhum
                                             </Text>
                                         </Group>
                                         <Text
                                             ta="center"
                                             fz="xs"
                                             component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Aktapendirian?.namafile}`}
-                                            truncate="end"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            {item?.Aktapendirian?.namafile}
-                                        </Text>
-                                    </Stack>
-                                </Paper>
-                            </Grid.Col>
-                            <Grid.Col span={6}>
-                                <Paper
-                                    height={SECONDARY_COL_HEIGHT}
-                                    withBorder
-                                    radius="md"
-                                    shadow="md"
-                                    p="xl"
-                                    style={cardStyles}
-                                >
-                                    <Stack gap="xl">
-                                        <Group justify="center" gap="sm">
-                                            <IconDownload size={16} />{" "}
-                                            <Text
-                                                ta="center"
-                                                fz={isMobile ? "xs" : "sm"}
-                                            >
-                                                Pengesahan
-                                            </Text>
-                                        </Group>
-                                        <Text
-                                            ta="center"
-                                            fz="xs"
-                                            component={Anchor}
-                                            href={`${basePersetujuanURL}/download/${item?.Pengesahankemenkumham?.namafile}`}
+                                            href={`${basePersetujuanURL}/preview/${item?.Pengesahankemenkumham?.namafile}`}
                                             truncate="end"
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -968,10 +1365,7 @@ const PersetujuanDetail = () => {
                                     </Stack>
                                 </Paper>
                             </Grid.Col>
-                        </Grid>
-                        {/*  */}
-                        <Grid gutter="md">
-                            <Grid.Col span={isMobile ? 12 : 24}>
+                            <Grid.Col span={6}>
                                 <Paper
                                     height={SECONDARY_COL_HEIGHT}
                                     withBorder
@@ -988,15 +1382,19 @@ const PersetujuanDetail = () => {
                                                 fz={isMobile ? "xs" : "sm"}
                                                 truncate="end"
                                             >
-                                                Rekening Bank 9
+                                                Akta Notaris Pendirian
                                             </Text>
                                         </Group>
                                         <Text
                                             ta="center"
                                             fz="xs"
+                                            component={Anchor}
+                                            href={`${basePersetujuanURL}/preview/${item?.Aktapendirian?.namafile}`}
                                             truncate="end"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                         >
-                                            {item?.norek}
+                                            {item?.Aktapendirian?.namafile}
                                         </Text>
                                     </Stack>
                                 </Paper>
