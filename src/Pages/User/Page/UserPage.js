@@ -101,7 +101,7 @@ export default function UserPage() {
         validate: {
             id: hasLength(
                 { min: 12, max: 15 },
-                "Min. 12 Angka & Maks. 15 Angka"
+                "Min. 12 Angka & Maks. 15 Angka",
             ),
         },
     });
@@ -116,7 +116,7 @@ export default function UserPage() {
             <Anchor href={item.href} key={index} size="sm" truncate="end">
                 {item.title}
             </Anchor>
-        )
+        ),
     );
 
     // const dataSegmentedControl = [
@@ -287,23 +287,12 @@ export default function UserPage() {
                     DATA TIDAK DITEMUKAN!
                 </Text>{" "}
                 <Space h="sm" />
-                Silahkan cek kembali ID SIMAS/NSPP yang ingin menerima bantuan
-                HIBAH & Harap mendaftarkan Rumah Ibadah / Lembaga Pendidikan
-                Keagamaan terlebih dahulu.
+                Silahkan cek kembali ID SIMAS/NSPP/NSM yang ingin menerima
+                bantuan HIBAH & Harap mendaftarkan Rumah Ibadah / Lembaga
+                Pendidikan Keagamaan terlebih dahulu.
             </Text>
 
             <Space h="md" />
-
-            <Text ta="center">
-                Klik link dibawah ini untuk mendaftarkan Rumah Ibadah / Lembaga
-                Pendidikan Keagamaan{" "}
-            </Text>
-
-            <Text ta="center" fs="italic">
-                <Anchor href="/dashboard/rumah-ibadah/user/create">
-                    "KLIK DISINI"
-                </Anchor>
-            </Text>
 
             <Space h="md" />
 
@@ -465,7 +454,7 @@ export default function UserPage() {
                                         onChange={(event) =>
                                             form.setFieldValue(
                                                 "id",
-                                                event.currentTarget.value
+                                                event.currentTarget.value,
                                             )
                                         }
                                         error={
@@ -492,7 +481,7 @@ export default function UserPage() {
                                         onChange={(event) =>
                                             form.setFieldValue(
                                                 "id",
-                                                event.currentTarget.value
+                                                event.currentTarget.value,
                                             )
                                         }
                                         error={
@@ -543,8 +532,8 @@ export default function UserPage() {
                     {appError
                         ? hibahkuFailedModalNotification
                         : cekStatus?.isUpload === true
-                        ? hibahkuSuccessModalNotification
-                        : hibahkuNotFoundModalNotification}
+                          ? hibahkuSuccessModalNotification
+                          : hibahkuNotFoundModalNotification}
                 </Modal>
 
                 {/* <Center>
