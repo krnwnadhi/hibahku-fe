@@ -11,7 +11,6 @@ import {
     Modal,
     Paper,
     ScrollArea,
-    SegmentedControl,
     Space,
     Stack,
     Text,
@@ -24,9 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import { IconCaretUpDown } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
 import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
-import classes from "./UserPage.module.css";
 import dayjs from "dayjs";
 import { getAllPersetujuanAction } from "../../../redux/slices/persetujuan/persetujuanSlices";
 import { getPeriode } from "../../../redux/slices/periode/periodeSlices";
@@ -358,7 +355,7 @@ export default function UserPage() {
                 <Stack gap="md">
                     <UserInfo />
 
-                    <Group grow>
+                    {/* <Group grow>
                         <Paper
                             radius="md"
                             shadow="sm"
@@ -409,7 +406,7 @@ export default function UserPage() {
                                 </Text>
                             )}
                         </Paper>
-                    </Group>
+                    </Group> */}
 
                     <form onSubmit={formOnSubmit}>
                         <Paper
@@ -423,7 +420,7 @@ export default function UserPage() {
                             }}
                         >
                             <Text ta="center" c="dimmed" size="xs">
-                                Silahkan mengisi data ID SIMAS/No. NSPP/NSM yang
+                                Silahkan mengisi data ID SIMAS/NSPP/NSM yang
                                 akan menerima bantuan HIBAH dibawah ini terlebih
                                 dahulu:
                             </Text>

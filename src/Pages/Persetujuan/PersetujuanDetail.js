@@ -1683,7 +1683,6 @@ const FileCard = ({ label, fileName, icon: Icon = IconFileDescription }) => (
             p="md"
             style={{
                 transition: "all 0.5s ease",
-                // cursor: "pointer",
                 backgroundColor: "var(--mantine-color-body)",
             }}
             className="file-card-hover"
@@ -1694,14 +1693,7 @@ const FileCard = ({ label, fileName, icon: Icon = IconFileDescription }) => (
                 </ThemeIcon>
 
                 <Stack gap={2} align="center" style={{ width: "100%" }}>
-                    <Text
-                        fz="xs"
-                        fw={700}
-                        ta="center"
-                        // c="dimmed"
-                        tt="uppercase"
-                        lts={1}
-                    >
+                    <Text fz="xs" fw={700} ta="center" tt="uppercase" lts={1}>
                         {label}
                     </Text>
                     <br />
@@ -1718,7 +1710,6 @@ const FileCard = ({ label, fileName, icon: Icon = IconFileDescription }) => (
                             }
                             target="_blank"
                             rel="noopener noreferrer"
-                            // truncate="end"
                             fw={500}
                             style={{ maxWidth: "100%" }}
                         >

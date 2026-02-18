@@ -44,7 +44,7 @@ const RekapLembagaKeagamaan = () => {
             };
             const response = await axios.get(
                 `${basePersetujuanURL}/list`,
-                config
+                config,
             );
             const result = response?.data?.result;
             const filteredLembagaKeagamaan = result
@@ -281,7 +281,7 @@ const RekapLembagaKeagamaan = () => {
                 },
             },
         ],
-        []
+        [],
     );
 
     // Handle PDF
@@ -446,7 +446,7 @@ const RekapLembagaKeagamaan = () => {
                     "DAFTAR REKAPITULASI PERMOHONAN BANTUAN HIBAH LEMBAGA KEAGAMAAN",
                     220,
                     22,
-                    "center"
+                    "center",
                 );
                 doc.setFontSize(12);
                 doc.text("PEMERINTAH PROVINSI JAMBI", 220, 27, "center");
@@ -455,7 +455,7 @@ const RekapLembagaKeagamaan = () => {
                     `TAHUN ${new Date().getFullYear()}`,
                     220,
                     32,
-                    "center"
+                    "center",
                 );
             },
         });
@@ -471,7 +471,7 @@ const RekapLembagaKeagamaan = () => {
                         .locale("id")
                         .format("MMMM")} ${dayjs().format("YYYY")}`,
                     355,
-                    250
+                    250,
                 );
                 doc.setFontSize(10);
                 doc.text("KEPALA BIRO KESRA", 355, 254);
@@ -487,9 +487,112 @@ const RekapLembagaKeagamaan = () => {
         doc.save(
             `Rekap-Lembaga-Keagamaan-${dayjs()
                 .locale("id")
-                .format("DD-MMM-YYYY HH:mm")}`
+                .format("DD-MMM-YYYY HH:mm")}`,
         );
     };
+
+    // // UPDATE: Penambahan pengecekan null pada fungsi PDF
+    // const handleExportRowsPDF = (rows) => {
+    //     const doc = new jsPDF({
+    //         orientation: "landscape",
+    //         compress: true,
+    //         format: "a3",
+    //     });
+
+    //     const tableData = rows.map((row) => {
+    //         const {
+    //             Keagamaan,
+    //             keagamaanid,
+    //             User,
+    //             Suratpermohonan,
+    //             Proposal,
+    //             Rab,
+    //             Sk,
+    //             Ktp,
+    //             Izinoperasional,
+    //             Aktapendirian,
+    //             Pengesahankemenkumham,
+    //             norek,
+    //             pengajuandana,
+    //             tujuan,
+    //         } = row.original;
+
+    //         // UPDATE: Menggunakan optional chaining (?.) dan fallback "-"
+    //         // untuk menghindari "Cannot read properties of null"
+    //         return [
+    //             row.index + 1,
+    //             Keagamaan?.nama || "-",
+    //             Keagamaan?.alamat || "-",
+    //             keagamaanid || "-",
+    //             User?.nama || "-",
+    //             User?.notelpon || "-",
+    //             Suratpermohonan?.namafile ? "V" : "X", // Cek jika Suratpermohonan ada dan punya namafile
+    //             Proposal?.namafile ? "V" : "X",
+    //             Rab?.namafile ? "V" : "X",
+    //             Sk?.namafile ? "V" : "X",
+    //             Ktp?.namafile ? "V" : "X",
+    //             Izinoperasional?.namafile ? "V" : "X",
+    //             Aktapendirian?.namafile ? "V" : "X",
+    //             Pengesahankemenkumham?.namafile ? "V" : "X",
+    //             norek ? "V" : "X",
+    //             formatCurrency(pengajuandana || 0),
+    //             tujuan || "-",
+    //         ];
+    //     });
+
+    //     autoTable(doc, {
+    //         // ... konfigurasi autoTable tetap sama
+    //         rowPageBreak: "auto",
+    //         startY: 40,
+    //         head: [
+    //             [
+    //                 { content: "No", rowSpan: 2 },
+    //                 { content: "Nama Lembaga", rowSpan: 2 },
+    //                 { content: "Alamat", rowSpan: 2 },
+    //                 { content: "No. NSPP/NSM", rowSpan: 2 },
+    //                 { content: "Pimpinan/ Pengurus", rowSpan: 2 },
+    //                 { content: "No. Kontak", rowSpan: 2 },
+    //                 { content: "Persyaratan Administrasi", colSpan: 9 },
+    //                 { content: "Usulan Dana", rowSpan: 2 },
+    //                 { content: "Peruntukkan Dana", rowSpan: 2 },
+    //             ],
+    //             [
+    //                 { content: "Surat Permohonan" },
+    //                 { content: "Proposal" },
+    //                 { content: "RAB" },
+    //                 { content: "SK Pengurus" },
+    //                 { content: "KTP Pengurus" },
+    //                 { content: "Izin Operasional" },
+    //                 { content: "Akta Pendirian" },
+    //                 { content: "Pengesahan Kemenkumham" },
+    //                 { content: "Rekening Bank Jambi" },
+    //             ],
+    //         ],
+    //         body: tableData,
+    //         // ... styles tetap sama
+    //         styles: { fontSize: 10 },
+    //         headStyles: {
+    //             fillColor: "white",
+    //             textColor: "black",
+    //             lineWidth: 0.1,
+    //             lineColor: "black",
+    //             halign: "center",
+    //         },
+    //         bodyStyles: {
+    //             fillColor: "white",
+    //             textColor: "black",
+    //             lineWidth: 0.1,
+    //             lineColor: "black",
+    //             valign: "top",
+    //         },
+    //         theme: "grid",
+    //     });
+
+    //     // ... sisa logika doc.save tetap sama
+    //     doc.save(
+    //         `Rekap-Lembaga-Keagamaan-${dayjs().format("DD-MMM-YYYY")}.pdf`,
+    //     );
+    // };
 
     // handle excel
     const csvConfig = mkConfig({
@@ -551,6 +654,32 @@ const RekapLembagaKeagamaan = () => {
         const csv = generateCsv(csvConfig)(rowData);
         download(csvConfig)(csv);
     };
+
+    // // UPDATE: Penambahan pengecekan null pada fungsi Excel/CSV
+    // const handleExportRows = (rows) => {
+    //     const rowData = rows.map((row) => ({
+    //         "No.": row.index + 1,
+    //         "Nama Lembaga Keagamaan": row.original.Keagamaan?.nama || "-",
+    //         "Alamat": row.original.Keagamaan?.alamat || "-",
+    //         "No. NSPP/NSM": row.original.keagamaanid || "-",
+    //         "Pimpinan/Pengurus": row.original.User?.nama || "-",
+    //         "No. Kontak": row.original.User?.notelpon || "-",
+    //         "Surat Permohonan": row.original.Suratpermohonan?.namafile ? "V" : "X",
+    //         "Proposal": row.original.Proposal?.namafile ? "V" : "X",
+    //         "RAB": row.original.Rab?.namafile ? "V" : "X",
+    //         "SK Pengurus": row.original.Sk?.namafile ? "V" : "X",
+    //         "KTP Pengurus": row.original.Ktp?.namafile ? "V" : "X",
+    //         "IZIN OPERASIONAL": row.original.Izinoperasional?.namafile ? "V" : "X",
+    //         "AKTA PENDIRIAN": row.original.Aktapendirian?.namafile ? "V" : "X",
+    //         "PENGESAHAN KEMENKUMHAM": row.original.Pengesahankemenkumham?.namafile ? "V" : "X",
+    //         "REKENING BANK JAMBI": row.original.norek ? "V" : "X",
+    //         "USULAN DANA": row.original.pengajuandana || 0,
+    //         "PERUNTUKKAN DANA": row.original.tujuan || "-",
+    //     }));
+
+    //     const csv = generateCsv(csvConfig)(rowData);
+    //     download(csvConfig)(csv);
+    // };
 
     const data = persetujuanListState;
 
@@ -655,7 +784,7 @@ const RekapLembagaKeagamaan = () => {
                                 //export all rows, including from the next page, (still respects filtering and sorting)
                                 onClick={() =>
                                     handleExportRowsPDF(
-                                        table.getPrePaginationRowModel().rows
+                                        table.getPrePaginationRowModel().rows,
                                     )
                                 }
                             >
@@ -676,7 +805,7 @@ const RekapLembagaKeagamaan = () => {
                                 //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
                                 onClick={() =>
                                     handleExportRowsPDF(
-                                        table.getRowModel().rows
+                                        table.getRowModel().rows,
                                     )
                                 }
                             >
@@ -700,7 +829,7 @@ const RekapLembagaKeagamaan = () => {
                                 //only export selected rows
                                 onClick={() =>
                                     handleExportRowsPDF(
-                                        table.getSelectedRowModel().rows
+                                        table.getSelectedRowModel().rows,
                                     )
                                 }
                             >
@@ -767,7 +896,7 @@ const RekapLembagaKeagamaan = () => {
                                 //export all rows, including from the next page, (still respects filtering and sorting)
                                 onClick={() =>
                                     handleExportRows(
-                                        table.getPrePaginationRowModel().rows
+                                        table.getPrePaginationRowModel().rows,
                                     )
                                 }
                             >
@@ -810,7 +939,7 @@ const RekapLembagaKeagamaan = () => {
                                 //only export selected rows
                                 onClick={() =>
                                     handleExportRows(
-                                        table.getSelectedRowModel().rows
+                                        table.getSelectedRowModel().rows,
                                     )
                                 }
                             >

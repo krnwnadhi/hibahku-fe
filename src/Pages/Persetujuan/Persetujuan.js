@@ -48,7 +48,7 @@ const Persetujuan = () => {
             };
             const response = await axios.get(
                 `${basePersetujuanURL}/list`,
-                config
+                config,
             );
             const result = response?.data?.result;
 
@@ -332,7 +332,7 @@ const Persetujuan = () => {
                     cell.getValue()?.toLocaleDateString("id-ID"), //render Date as a string
             },
         ],
-        []
+        [],
     );
 
     const data = persetujuanListState;
