@@ -1682,8 +1682,8 @@ const FileCard = ({ label, fileName, icon: Icon = IconFileDescription }) => (
             radius="lg"
             p="md"
             style={{
-                transition: "all 0.2s ease",
-                cursor: "pointer",
+                transition: "all 0.5s ease",
+                // cursor: "pointer",
                 backgroundColor: "var(--mantine-color-body)",
             }}
             className="file-card-hover"
@@ -1886,7 +1886,7 @@ const PersetujuanDetail = () => {
                         shadow="sm"
                         p="xl"
                         style={{
-                            maxWidth: 600,
+                            maxWidth: 800,
                             margin: "0 auto",
                             width: "100%",
                         }}
@@ -1908,13 +1908,7 @@ const PersetujuanDetail = () => {
                                 </Text>
                             </Stack>
 
-                            <Paper
-                                withBorder
-                                p="md"
-                                radius="md"
-                                w="100%"
-                                // style={{ backgroundColor: "#fdfdfd" }}
-                            >
+                            <Paper withBorder p="md" radius="md" w="100%">
                                 <Stack gap={4} align="center">
                                     <Text
                                         fz="xs"

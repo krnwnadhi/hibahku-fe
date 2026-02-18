@@ -36,11 +36,11 @@ export default function SideNav() {
 
     const dataAdmin = [
         { link: "/dashboard", label: "Dashboard", icon: IconHome2 },
-        {
-            link: "/dashboard/admin/periode",
-            label: "Periode",
-            icon: IconClockHour4,
-        },
+        // {
+        //     link: "/dashboard/admin/periode",
+        //     label: "Periode",
+        //     icon: IconClockHour4,
+        // },
         {
             link: "/dashboard/admin/persetujuan",
             label: "Persetujuan",

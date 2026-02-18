@@ -136,70 +136,70 @@ export default function Dashboard() {
         );
     };
 
-    const periode = useSelector((state) => state?.periode);
+    // const periode = useSelector((state) => state?.periode);
 
-    const { loading: loadingPeriode } = periode;
+    // const { loading: loadingPeriode } = periode;
 
-    const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
-    const mulaiPeriodeFormat = dayjs(mulaiPeriode)
-        .locale("id")
-        .format("DD MMMM YYYY");
+    // const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
+    // const mulaiPeriodeFormat = dayjs(mulaiPeriode)
+    //     .locale("id")
+    //     .format("DD MMMM YYYY");
 
-    const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
-    const selesaiPeriodeFormat = dayjs(selesaiPeriode)
-        .locale("id")
-        .format("DD MMMM YYYY");
+    // const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
+    // const selesaiPeriodeFormat = dayjs(selesaiPeriode)
+    //     .locale("id")
+    //     .format("DD MMMM YYYY");
 
-    const PeriodeDashboard = () => {
-        return (
-            <Group grow>
-                <Paper
-                    radius="md"
-                    shadow="sm"
-                    p="lg"
-                    withBorder
-                    style={cardStyles}
-                >
-                    <Text ta="center" fz="md" fw={700}>
-                        AKHIR PERIODE
-                    </Text>
-                    {loadingPeriode ? (
-                        <Center>
-                            <Loader size="xs" />
-                        </Center>
-                    ) : (
-                        <Text ta="center" c="red" fz="sm">
-                            {mulaiPeriodeFormat
-                                ? mulaiPeriodeFormat
-                                : "Tidak Ada Data"}
-                        </Text>
-                    )}
-                </Paper>
-                <Paper
-                    radius="md"
-                    shadow="sm"
-                    p="lg"
-                    withBorder
-                    style={cardStyles}
-                >
-                    <Text ta="center" fz="md" fw={700}>
-                        AWAL PERIODE
-                    </Text>
-                    {loading ? (
-                        <Center>
-                            <Loader size="xs" />
-                        </Center>
-                    ) : (
-                        <Text ta="center" c="green" fz="sm">
-                            {selesaiPeriodeFormat
-                                ? selesaiPeriodeFormat
-                                : "Tidak Ada Data"}
-                        </Text>
-                    )}
-                </Paper>
-            </Group>
-        );
-    };
+    // const PeriodeDashboard = () => {
+    //     return (
+    //         <Group grow>
+    //             <Paper
+    //                 radius="md"
+    //                 shadow="sm"
+    //                 p="lg"
+    //                 withBorder
+    //                 style={cardStyles}
+    //             >
+    //                 <Text ta="center" fz="md" fw={700}>
+    //                     AKHIR PERIODE
+    //                 </Text>
+    //                 {loadingPeriode ? (
+    //                     <Center>
+    //                         <Loader size="xs" />
+    //                     </Center>
+    //                 ) : (
+    //                     <Text ta="center" c="red" fz="sm">
+    //                         {mulaiPeriodeFormat
+    //                             ? mulaiPeriodeFormat
+    //                             : "Tidak Ada Data"}
+    //                     </Text>
+    //                 )}
+    //             </Paper>
+    //             <Paper
+    //                 radius="md"
+    //                 shadow="sm"
+    //                 p="lg"
+    //                 withBorder
+    //                 style={cardStyles}
+    //             >
+    //                 <Text ta="center" fz="md" fw={700}>
+    //                     AWAL PERIODE
+    //                 </Text>
+    //                 {loading ? (
+    //                     <Center>
+    //                         <Loader size="xs" />
+    //                     </Center>
+    //                 ) : (
+    //                     <Text ta="center" c="green" fz="sm">
+    //                         {selesaiPeriodeFormat
+    //                             ? selesaiPeriodeFormat
+    //                             : "Tidak Ada Data"}
+    //                     </Text>
+    //                 )}
+    //             </Paper>
+    //         </Group>
+    //     );
+    // };
 
     const stats = data.map((stat) => {
         const Icon = icons[stat.icon];
@@ -270,7 +270,7 @@ export default function Dashboard() {
 
                 <Stack gap="md">
                     <UserInfo />
-                    <PeriodeDashboard />
+                    {/* <PeriodeDashboard /> */}
                     <SimpleGrid cols={{ base: 1, sm: 2 }}>{stats}</SimpleGrid>
                 </Stack>
             </Container>
