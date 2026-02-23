@@ -475,12 +475,12 @@ const RekapLembagaKeagamaan = () => {
                 );
                 doc.setFontSize(10);
                 doc.text("KEPALA BIRO KESRA", 355, 254);
+                // doc.setFontSize(10);
+                // doc.text("Drs. AMRULSYAH", 355, 275);
                 doc.setFontSize(10);
-                doc.text("H. SULAIMAN, S.Ag", 355, 275);
+                doc.text("Drs. AMRULSYAH", 355, 279);
                 doc.setFontSize(10);
-                doc.text("Pembina Tk. I", 355, 279);
-                doc.setFontSize(10);
-                doc.text("NIP. 19721001 200012 1 002", 355, 284);
+                doc.text("NIP. 19700107 199101 1 001", 355, 284);
             },
         });
 

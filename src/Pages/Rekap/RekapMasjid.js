@@ -43,7 +43,7 @@ const RekapMasjid = () => {
             };
             const response = await axios.get(
                 `${basePersetujuanURL}/list`,
-                config
+                config,
             );
             const result = response?.data?.result;
             const filteredMasjid = result
@@ -104,7 +104,7 @@ const RekapMasjid = () => {
         // Format the string using the desired pattern
         return `${str.slice(0, 2)}.${str.slice(2, 3)}.${str.slice(
             3,
-            5
+            5,
         )}.${str.slice(5, 7)}.${str.slice(7, 9)}.${str.slice(9)}`;
     };
 
@@ -273,7 +273,7 @@ const RekapMasjid = () => {
                 },
             },
         ],
-        []
+        [],
     );
 
     // Handle PDF
@@ -302,21 +302,21 @@ const RekapMasjid = () => {
             } = row.original;
             return [
                 row.index + 1,
-                Keagamaan.nama,
-                Keagamaan.alamat,
-                formatNumber(keagamaanid),
-                User.nama,
-                User.notelpon,
-                Suratpermohonan.namafile !== null ? "V" : "X",
-                Proposal.namafile !== null ? "V" : "X",
-                Rab.namafile !== null ? "V" : "X",
-                Sk.namafile !== null ? "V" : "X",
-                Ktp.namafile !== null ? "V" : "X",
-                Asetrekom.namafile !== null ? "V" : "X",
-                Suket.namafile !== null ? "V" : "X",
+                Keagamaan?.nama || "-",
+                Keagamaan?.alamat || "-",
+                formatNumber(keagamaanid || 0),
+                User?.nama || "-",
+                User?.notelpon || "-",
+                Suratpermohonan?.namafile ? "V" : "X", // Cek jika tidak null dan ada namafile
+                Proposal?.namafile ? "V" : "X",
+                Rab?.namafile ? "V" : "X",
+                Sk?.namafile ? "V" : "X",
+                Ktp?.namafile ? "V" : "X",
+                Asetrekom?.namafile ? "V" : "X",
+                Suket?.namafile ? "V" : "X",
                 norek !== null ? "V" : "X",
-                formatCurrency(pengajuandana),
-                tujuan,
+                formatCurrency(pengajuandana || 0),
+                tujuan || "-",
             ];
         });
 
@@ -432,7 +432,7 @@ const RekapMasjid = () => {
                     "DAFTAR REKAPITULASI PERMOHONAN BANTUAN HIBAH RUMAH IBADAH",
                     225,
                     22,
-                    "center"
+                    "center",
                 );
                 doc.setFontSize(12);
                 doc.text("PEMERINTAH PROVINSI JAMBI", 225, 27, "center");
@@ -441,7 +441,7 @@ const RekapMasjid = () => {
                     `TAHUN ${new Date().getFullYear()}`,
                     225,
                     32,
-                    "center"
+                    "center",
                 );
             },
         });
@@ -457,23 +457,23 @@ const RekapMasjid = () => {
                         .locale("id")
                         .format("MMMM")} ${dayjs().format("YYYY")}`,
                     355,
-                    250
+                    250,
                 );
                 doc.setFontSize(10);
                 doc.text("KEPALA BIRO KESRA", 355, 254);
+                // doc.setFontSize(10);
+                // doc.text("Drs. AMRULSYAH", 355, 275);
                 doc.setFontSize(10);
-                doc.text("H. SULAIMAN, S.Ag", 355, 275);
+                doc.text("Drs. AMRULSYAH", 355, 279);
                 doc.setFontSize(10);
-                doc.text("Pembina Tk. I", 355, 279);
-                doc.setFontSize(10);
-                doc.text("NIP. 19721001 200012 1 002", 355, 284);
+                doc.text("NIP. 19700107 199101 1 001", 355, 284);
             },
         });
 
         doc.save(
             `Rekap-Rumah-Ibadah-${dayjs()
                 .locale("id")
-                .format("DD-MMM-YYYY HH:mm:ss")}`
+                .format("DD-MMM-YYYY HH:mm:ss")}`,
         );
     };
 
@@ -509,22 +509,23 @@ const RekapMasjid = () => {
     const handleExportRows = (rows) => {
         const rowData = rows.map((row) => ({
             "No.": row.index + 1,
-            "Nama Rumah Ibadah": row.original.Keagamaan.nama,
-            Alamat: row.original.Keagamaan.alamat,
-            "ID Rumah Ibadah": row.original.keagamaanid,
-            "Nama Ketua/Pengurus": row.original.User.nama,
-            "No. Kontak": row.original.User.notelpon,
-            "Surat Permohonan":
-                row.original.Suratpermohonan.namafile !== null ? "V" : "X",
-            Proposal: row.original.Proposal.namafile !== null ? "V" : "X",
-            RAB: row.original.Rab.namafile !== null ? "V" : "X",
-            "SK Pengurus": row.original.Sk.namafile !== null ? "V" : "X",
-            "KTP Pengurus": row.original.Ktp.namafile !== null ? "V" : "X",
-            "SIMAS/REKOM": row.original.Asetrekom.namafile !== null ? "V" : "X",
-            "SUKET TIPOLOGI": row.original.Suket.namafile !== null ? "V" : "X",
+            "Nama Rumah Ibadah": row.original.Keagamaan?.nama || "-",
+            Alamat: row.original.Keagamaan?.alamat || "-",
+            "ID Rumah Ibadah": row.original.keagamaanid || "-",
+            "Nama Ketua/Pengurus": row.original.User?.nama || "-",
+            "No. Kontak": row.original.User?.notelpon || "-",
+            "Surat Permohonan": row.original.Suratpermohonan?.namafile
+                ? "V"
+                : "X",
+            Proposal: row.original.Proposal?.namafile ? "V" : "X",
+            RAB: row.original.Rab?.namafile ? "V" : "X",
+            "SK Pengurus": row.original.Sk?.namafile ? "V" : "X",
+            "KTP Pengurus": row.original.Ktp?.namafile ? "V" : "X",
+            "SIMAS/REKOM": row.original.Asetrekom?.namafile ? "V" : "X",
+            "SUKET TIPOLOGI": row.original.Suket?.namafile ? "V" : "X",
             "REKENING BANK JAMBI": row.original.norek !== null ? "V" : "X",
-            "USULAN DANA": row.original.pengajuandana,
-            "PERUNTUKKAN DANA": row.original.tujuan,
+            "USULAN DANA": row.original.pengajuandana || 0,
+            "PERUNTUKKAN DANA": row.original.tujuan || "-",
         }));
 
         const csv = generateCsv(csvConfig)(rowData);
@@ -634,7 +635,7 @@ const RekapMasjid = () => {
                                 //export all rows, including from the next page, (still respects filtering and sorting)
                                 onClick={() =>
                                     handleExportRowsPDF(
-                                        table.getPrePaginationRowModel().rows
+                                        table.getPrePaginationRowModel().rows,
                                     )
                                 }
                             >
@@ -655,7 +656,7 @@ const RekapMasjid = () => {
                                 //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
                                 onClick={() =>
                                     handleExportRowsPDF(
-                                        table.getRowModel().rows
+                                        table.getRowModel().rows,
                                     )
                                 }
                             >
@@ -679,7 +680,7 @@ const RekapMasjid = () => {
                                 //only export selected rows
                                 onClick={() =>
                                     handleExportRowsPDF(
-                                        table.getSelectedRowModel().rows
+                                        table.getSelectedRowModel().rows,
                                     )
                                 }
                             >
@@ -746,7 +747,7 @@ const RekapMasjid = () => {
                                 //export all rows, including from the next page, (still respects filtering and sorting)
                                 onClick={() =>
                                     handleExportRows(
-                                        table.getPrePaginationRowModel().rows
+                                        table.getPrePaginationRowModel().rows,
                                     )
                                 }
                             >
@@ -789,7 +790,7 @@ const RekapMasjid = () => {
                                 //only export selected rows
                                 onClick={() =>
                                     handleExportRows(
-                                        table.getSelectedRowModel().rows
+                                        table.getSelectedRowModel().rows,
                                     )
                                 }
                             >
