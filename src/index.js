@@ -82,7 +82,11 @@ const theme = createTheme({
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <MantineProvider theme={theme} colorSchemeManager={colorSchemeManager}>
+    <MantineProvider
+        theme={theme}
+        colorSchemeManager={colorSchemeManager}
+        defaultColorScheme="dark"
+    >
         <Provider store={store}>
             <ModalsProvider>
                 <BrowserRouter>
@@ -98,5 +102,5 @@ root.render(
                 </BrowserRouter>
             </ModalsProvider>
         </Provider>
-    </MantineProvider>
+    </MantineProvider>,
 );

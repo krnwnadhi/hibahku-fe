@@ -8,6 +8,7 @@ import AdminUser from "./Pages/AdminUser/AdminUser.js";
 import AuthVerify from "./utils/AuthVerify";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import IndexRekap from "./Pages/Rekap/IndexRekap";
+import LandingPage from "./Pages/Landing/LandingPage.js";
 import Page403 from "./Pages/Error/Error 403/Page403";
 import Periode from "./Pages/Periode/Periode";
 import Persetujuan from "./Pages/Persetujuan/Persetujuan";
@@ -59,7 +60,8 @@ function App() {
 
             <Routes>
                 {/* Public Routes */}
-                <Route path="/" element={<SignIn />} />
+                <Route path="/" element={<LandingPage />} />
+                {/* <Route path="/" element={<SignIn />} /> */}
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/register" element={<Register />} />
 

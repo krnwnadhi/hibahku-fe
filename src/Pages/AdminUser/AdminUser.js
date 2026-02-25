@@ -25,7 +25,6 @@ import { toast } from "react-toastify";
 
 const AdminUser = () => {
     const dispatch = useDispatch();
-    const { colorScheme } = useMantineTheme();
 
     // 1. Ambil data langsung dari Redux (Single Source of Truth)
     const { loading, usersList = [] } = useSelector((state) => state?.users);
@@ -151,16 +150,26 @@ const AdminUser = () => {
         enableGrouping: true,
         paginationDisplayMode: "pages",
         enableFullScreenToggle: false,
-        renderRowActions: ({ row }) => (
-            <Tooltip label="Hapus">
-                <ActionIcon
-                    color="red"
-                    onClick={() => handleOpenDeleteModal(row)}
-                >
-                    <IconTrash size={18} />
-                </ActionIcon>
-            </Tooltip>
-        ),
+        renderRowActions: ({ row }) => {
+            // Cek apakah user di baris ini memiliki role ADMIN
+            const isAdmin = row.original.Role?.nama === "ADMIN";
+
+            // Jika Admin, jangan tampilkan tombol hapus
+            if (isAdmin) {
+                return null;
+            }
+
+            return (
+                <Tooltip label="Hapus">
+                    <ActionIcon
+                        color="red"
+                        onClick={() => handleOpenDeleteModal(row)}
+                    >
+                        <IconTrash size={18} />
+                    </ActionIcon>
+                </Tooltip>
+            );
+        },
         mantineTableProps: {
             withColumnBorders: true,
             sx: { fontSize: "12px" },
