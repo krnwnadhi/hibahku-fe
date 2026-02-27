@@ -126,35 +126,39 @@ export default function Register(props) {
     return (
         <>
             <BackgroundImage h="100vh" src={backgroundSvg}>
-                <Container size={450} pt={50}>
+                <Container size={450} pt={25}>
                     <LoadingOverlay
                         visible={loading}
                         zIndex={1000}
                         overlayProps={{ radius: "sm", blur: 1 }}
                     />
-                    <Anchor href="/">
+                    <Group>
+                        <Anchor href="/">
+                            <Image
+                                loading="lazy"
+                                radius="md"
+                                w={250}
+                                fit="contain"
+                                src={
+                                    computedColorScheme === "light"
+                                        ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                                        : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                                }
+                                fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                            />
+                        </Anchor>
                         <Image
-                            loading="lazy"
-                            radius="md"
-                            w={400}
+                            w={125}
                             fit="contain"
                             src={
-                                computedColorScheme === "light"
-                                    ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                                    : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                                computedColorScheme === "dark"
+                                    ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
+                                    : "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
                             }
-                            fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
                         />
-                    </Anchor>
+                    </Group>
 
-                    <Paper
-                        radius="md"
-                        mt={20}
-                        p="xl"
-                        withBorder
-                        shadow="lg"
-                        {...props}
-                    >
+                    <Paper radius="md" p="xl" withBorder shadow="lg" {...props}>
                         <form
                             onSubmit={form.onSubmit((values) => {
                                 dispatch(registerUserAction(values));

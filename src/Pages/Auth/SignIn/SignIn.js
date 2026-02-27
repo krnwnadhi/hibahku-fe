@@ -117,7 +117,7 @@ export default function SignIn(props) {
     return (
         <>
             <BackgroundImage h="100vh" src={backgroundSvg}>
-                <Container size={450} pt={50}>
+                <Container size={450} pt={25}>
                     <LoadingOverlay
                         visible={loading}
                         zIndex={1000}
