@@ -124,18 +124,20 @@ export default function SignIn(props) {
                         overlayProps={{ radius: "sm", blur: 1 }}
                     />
                     <Group>
-                        <Image
-                            loading="lazy"
-                            radius="md"
-                            w={250}
-                            fit="contain"
-                            src={
-                                computedColorScheme === "light"
-                                    ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                                    : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                            }
-                            fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
-                        />
+                        <Anchor href="/">
+                            <Image
+                                loading="lazy"
+                                radius="md"
+                                w={250}
+                                fit="contain"
+                                src={
+                                    computedColorScheme === "light"
+                                        ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                                        : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                                }
+                                fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                            />
+                        </Anchor>
                         <Image
                             w={125}
                             fit="contain"
