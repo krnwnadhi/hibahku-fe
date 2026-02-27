@@ -863,11 +863,7 @@ export default function LandingPage() {
                                         radius="md"
                                         w={200}
                                         fit="contain"
-                                        src={
-                                            computedColorScheme === "dark"
-                                                ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                                                : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                                        }
+                                        src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
                                         fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
                                     />
                                     <Image
@@ -889,7 +885,8 @@ export default function LandingPage() {
                                     Biro Kesra Setda Provinsi Jambi
                                 </Text>
                                 <Text size="xs" style={{ opacity: 0.6 }}>
-                                    © 2026. All Rights Reserved.
+                                    © 2026. Diskominfo Prov Jambi. All Rights
+                                    Reserved.
                                 </Text>
                             </Stack>
                         </SimpleGrid>
