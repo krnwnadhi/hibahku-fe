@@ -21,7 +21,7 @@ export const getAllRumahIbadahAction = createAsyncThunk(
         try {
             const { data } = await axios.get(
                 `${baseRumahIbadahURL}/list`,
-                config
+                config,
             );
             return data;
         } catch (error) {
@@ -30,7 +30,7 @@ export const getAllRumahIbadahAction = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
 //Create Masjid
@@ -52,7 +52,7 @@ export const createRumahIbadahAction = createAsyncThunk(
             const { data } = await axios.post(
                 `${baseRumahIbadahURL}/create`,
                 dataRumahIbadah,
-                config
+                config,
             );
             return data;
         } catch (error) {
@@ -61,7 +61,7 @@ export const createRumahIbadahAction = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
 //cek Status
@@ -83,7 +83,7 @@ export const cekStatusRumahIbadahAction = createAsyncThunk(
             const { data } = await axios.post(
                 `${baseCekStatusURL}`,
                 id,
-                config
+                // config
             );
 
             return data;
@@ -93,7 +93,7 @@ export const cekStatusRumahIbadahAction = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
 const rumahIbadah = createSlice({
@@ -143,7 +143,7 @@ const rumahIbadah = createSlice({
                 state.loading = false;
                 state.appError = undefined;
                 state.serverError = undefined;
-            }
+            },
         );
         builder.addCase(
             cekStatusRumahIbadahAction.rejected,
@@ -151,7 +151,7 @@ const rumahIbadah = createSlice({
                 state.loading = false;
                 state.appError = action?.payload?.message;
                 state.serverError = action?.error?.message;
-            }
+            },
         );
     },
 });

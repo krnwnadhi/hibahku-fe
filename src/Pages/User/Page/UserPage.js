@@ -3,11 +3,8 @@ import {
     Avatar,
     Breadcrumbs,
     Button,
-    Center,
     Container,
-    Group,
     Image,
-    Loader,
     Modal,
     Paper,
     ScrollArea,
@@ -33,10 +30,6 @@ import { useToggle } from "@mantine/hooks";
 export default function UserPage() {
     const dispatch = useDispatch();
     const [type, toggle] = useToggle(["masjid", "lembaga"]);
-
-    const computedColorScheme = useComputedColorScheme("light", {
-        getInitialValueInEffect: true,
-    });
 
     const [show, setShow] = useState(false);
 
@@ -80,14 +73,8 @@ export default function UserPage() {
     const { loading: loadingPeriode } = periode;
 
     const mulaiPeriode = periode?.getPeriode?.map((x) => x.mulai);
-    const mulaiPeriodeFormat = dayjs(mulaiPeriode)
-        .locale("id")
-        .format("DD MMMM YYYY");
 
     const selesaiPeriode = periode?.getPeriode?.map((x) => x.selesai);
-    const selesaiPeriodeFormat = dayjs(selesaiPeriode)
-        .locale("id")
-        .format("DD MMMM YYYY");
 
     const form = useForm({
         validateInputOnChange: true,

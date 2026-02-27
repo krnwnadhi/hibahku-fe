@@ -1,6 +1,7 @@
 import {
     Accordion,
     ActionIcon,
+    Anchor,
     AppShell,
     Badge,
     Box,
@@ -8,9 +9,11 @@ import {
     Container,
     Divider,
     Group,
+    Image,
     List,
     Paper,
     SimpleGrid,
+    Space,
     Stack,
     Text,
     TextInput,
@@ -34,14 +37,21 @@ import {
     IconSun,
     IconX,
 } from "@tabler/icons-react";
+import { hasLength, useForm } from "@mantine/form";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
+import { cekStatusRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { modals } from "@mantine/modals";
-import { useState } from "react";
+import { nprogress } from "@mantine/nprogress";
 
 export default function LandingPage() {
+    const dispatch = useDispatch();
+    const rumahIbadah = useSelector((state) => state?.rumahIbadah);
+    const { loading, cekStatus, appError } = rumahIbadah;
+
     const { setColorScheme } = useMantineColorScheme();
-    const [searchQuery, setSearchQuery] = useState("");
     const computedColorScheme = useComputedColorScheme("light", {
         getInitialValueInEffect: true,
     });
@@ -50,145 +60,148 @@ export default function LandingPage() {
         setColorScheme(computedColorScheme === "dark" ? "light" : "dark");
     };
 
-    const handleCheckStatus = () => {
-        // 1. Validasi awal: jika kosong, jangan lakukan apa-apa
-        if (!searchQuery.trim()) return;
-
-        const query = searchQuery.trim().toUpperCase();
-
-        // 2. Logika Pengecekan: Pisahkan antara Error dan Sukses secara tegas
-        if (query === "HB-ERROR") {
-            // TAMPILAN MODAL ERROR
-            modals.open({
-                title: (
-                    <Text fw={700} c="red">
-                        Pencarian Gagal
+    const showErrorModal = (query) => {
+        modals.open({
+            title: (
+                <Text fw={700} c="red">
+                    Pencarian Gagal
+                </Text>
+            ),
+            centered: true,
+            radius: "md",
+            children: (
+                <Stack align="center" py="md">
+                    <ThemeIcon
+                        color="red"
+                        size={60}
+                        radius="xl"
+                        variant="light"
+                    >
+                        <IconAlertCircle size={34} />
+                    </ThemeIcon>
+                    <Text fw={700} size="lg">
+                        Data Tidak Ditemukan
                     </Text>
-                ),
-                centered: true,
-                radius: "md",
-                children: (
-                    <Stack align="center" py="md">
-                        <ThemeIcon
-                            color="red"
-                            size={60}
-                            radius="xl"
-                            variant="light"
+                    <Text size="sm" c="dimmed" ta="center">
+                        Maaf, nomor registrasi <b>{query}</b> tidak terdaftar di
+                        sistem HIBAHKU. Pastikan kode yang Anda masukkan sudah
+                        benar.
+                    </Text>
+                    <Button
+                        fullWidth
+                        color="red"
+                        mt="md"
+                        radius="md"
+                        onClick={() => modals.closeAll()}
+                    >
+                        Coba Lagi
+                    </Button>
+                </Stack>
+            ),
+        });
+    };
+
+    const showSuccessModal = (query) => {
+        modals.open({
+            title: <Text fw={700}>Detail Progres Hibah</Text>,
+            centered: true,
+            radius: "lg",
+            size: "lg",
+            children: (
+                <Stack gap="md">
+                    <Box
+                        p="md"
+                        style={{
+                            borderRadius: "12px",
+                            backgroundColor:
+                                computedColorScheme === "dark"
+                                    ? "rgba(25, 113, 194, 0.1)"
+                                    : "#f0f7ff",
+                            border: `1px solid ${computedColorScheme === "dark" ? "#1c7ed6" : "#d0ebff"}`,
+                        }}
+                    >
+                        <Group justify="space-between">
+                            <Box>
+                                <Text size="xs" c="dimmed" fw={700}>
+                                    NOMOR REGISTRASI
+                                </Text>
+                                <Text fw={900} size="xl" c="blue.5">
+                                    {query}
+                                </Text>
+                            </Box>
+                            <Badge size="lg" variant="filled" color="blue.6">
+                                Tahap Verifikasi
+                            </Badge>
+                        </Group>
+                    </Box>
+
+                    <Timeline
+                        active={1}
+                        bulletSize={30}
+                        lineWidth={2}
+                        color="blue"
+                        mt="md"
+                    >
+                        <Timeline.Item
+                            bullet={<IconFileText size={16} />}
+                            title="Berkas Diterima"
                         >
-                            <IconAlertCircle size={34} />
-                        </ThemeIcon>
-                        <Text fw={700} size="lg">
-                            Data Tidak Ditemukan
-                        </Text>
-                        <Text size="sm" c="dimmed" ta="center">
-                            Maaf, nomor registrasi <b>{query}</b> tidak
-                            terdaftar di sistem HIBAHKU. Pastikan kode yang Anda
-                            masukkan sudah benar.
-                        </Text>
-                        <Button
-                            fullWidth
-                            color="red"
-                            mt="md"
-                            radius="md"
-                            onClick={() => modals.closeAll()}
+                            <Text c="dimmed" size="xs">
+                                Dokumen digital berhasil diunggah.
+                            </Text>
+                        </Timeline.Item>
+                        <Timeline.Item
+                            bullet={<IconClock size={16} />}
+                            title="Verifikasi Administrasi"
                         >
-                            Coba Lagi
-                        </Button>
-                    </Stack>
-                ),
-            });
+                            <Text c="dimmed" size="xs">
+                                Sedang diperiksa oleh tim Biro Kesra.
+                            </Text>
+                            <Badge
+                                variant="dot"
+                                color="orange"
+                                size="sm"
+                                mt={5}
+                            >
+                                Proses
+                            </Badge>
+                        </Timeline.Item>
+                        <Timeline.Item
+                            bullet={<IconCircleCheck size={16} />}
+                            title="Survey Lapangan"
+                        >
+                            <Text c="dimmed" size="xs">
+                                Menunggu jadwal peninjauan fisik.
+                            </Text>
+                        </Timeline.Item>
+                    </Timeline>
+
+                    <Button
+                        fullWidth
+                        mt="md"
+                        radius="md"
+                        onClick={() => modals.closeAll()}
+                    >
+                        Selesai
+                    </Button>
+                </Stack>
+            ),
+        });
+    };
+
+    const handleCheckStatus = (values) => {
+        const query = values.id.trim().toUpperCase();
+        if (!query) return;
+
+        if (query === "123") {
+            showErrorModal(query);
         } else {
-            // TAMPILAN MODAL SUKSES (DATA DITEMUKAN)
-            modals.open({
-                title: <Text fw={700}>Detail Progres Hibah</Text>,
-                centered: true,
-                radius: "lg",
-                size: "lg",
-                children: (
-                    <Stack gap="md">
-                        <Box
-                            p="md"
-                            style={{
-                                borderRadius: "12px",
-                                backgroundColor:
-                                    computedColorScheme === "dark"
-                                        ? "rgba(25, 113, 194, 0.1)"
-                                        : "#f0f7ff",
-                                border: `1px solid ${computedColorScheme === "dark" ? "#1c7ed6" : "#d0ebff"}`,
-                            }}
-                        >
-                            <Group justify="space-between">
-                                <Box>
-                                    <Text size="xs" c="dimmed" fw={700}>
-                                        NOMOR REGISTRASI
-                                    </Text>
-                                    <Text fw={900} size="xl" c="blue.5">
-                                        {query}
-                                    </Text>
-                                </Box>
-                                <Badge
-                                    size="lg"
-                                    variant="filled"
-                                    color="blue.6"
-                                >
-                                    Tahap Verifikasi
-                                </Badge>
-                            </Group>
-                        </Box>
-
-                        <Timeline
-                            active={1}
-                            bulletSize={30}
-                            lineWidth={2}
-                            color="blue"
-                            mt="md"
-                        >
-                            <Timeline.Item
-                                bullet={<IconFileText size={16} />}
-                                title="Berkas Diterima"
-                            >
-                                <Text c="dimmed" size="xs">
-                                    Dokumen digital berhasil diunggah.
-                                </Text>
-                            </Timeline.Item>
-                            <Timeline.Item
-                                bullet={<IconClock size={16} />}
-                                title="Verifikasi Administrasi"
-                            >
-                                <Text c="dimmed" size="xs">
-                                    Sedang diperiksa oleh tim Biro Kesra.
-                                </Text>
-                                <Badge
-                                    variant="dot"
-                                    color="orange"
-                                    size="sm"
-                                    mt={5}
-                                >
-                                    Proses
-                                </Badge>
-                            </Timeline.Item>
-                            <Timeline.Item
-                                bullet={<IconCircleCheck size={16} />}
-                                title="Survey Lapangan"
-                            >
-                                <Text c="dimmed" size="xs">
-                                    Menunggu jadwal peninjauan fisik.
-                                </Text>
-                            </Timeline.Item>
-                        </Timeline>
-
-                        <Button
-                            fullWidth
-                            mt="md"
-                            radius="md"
-                            onClick={() => modals.closeAll()}
-                        >
-                            Selesai
-                        </Button>
-                    </Stack>
-                ),
-            });
+            // Jalankan Aksi Redux
+            dispatch(cekStatusRumahIbadahAction(values));
+            // Tampilkan Modal Progres
+            showSuccessModal(query);
         }
+        form.reset();
     };
 
     // Fungsi untuk smooth scroll ke bagian persyaratan
@@ -199,7 +212,134 @@ export default function LandingPage() {
         }
     };
 
-    const loginUrl = "http://localhost:3010/signin";
+    const exceptThisSymbols = ["e", "E", "+", "-", ".", ","];
+
+    const form = useForm({
+        validateInputOnChange: true,
+        initialValues: {
+            id: "",
+        },
+    });
+
+    const formOnSubmit = form.onSubmit((values) => {
+        dispatch(cekStatusRumahIbadahAction(values));
+        form.clearErrors();
+    });
+
+    // --- CLEAN CODE: MODAL CONTENT HELPERS ---
+    const ModalHeader = () => (
+        <Stack align="center" gap="xs">
+            <Image
+                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1703043173/Coat_of_arms_of_Jambi.svg_iultjk.png"
+                w={100}
+                // w="auto"
+                fit="contain"
+            />
+            <Title ta="center" order={4}>
+                BIRO KESRA SETDA PROVINSI JAMBI
+            </Title>
+        </Stack>
+    );
+
+    useEffect(() => {
+        loading ? nprogress.start() : nprogress.complete();
+        return () => nprogress.reset();
+    }, [loading]);
+
+    useEffect(() => {
+        if (loading || (!cekStatus && !appError)) return;
+
+        const modalConfig = {
+            centered: true,
+            withCloseButton: false,
+            closeOnClickOutside: false,
+            closeOnEscape: false,
+            radius: "md",
+            overlayProps: { backgroundOpacity: 0.55, blur: 3 },
+        };
+
+        if (appError || form.values.id.toUpperCase() === "123") {
+            modals.open({
+                ...modalConfig,
+                children: (
+                    <Stack gap="md" py="md">
+                        <ModalHeader />
+                        <Text ta="center" c="red" fw={700}>
+                            MAAF
+                        </Text>
+                        <Text size="sm" ta="center">
+                            ID SIMAS/NSM/NSPP telah terdaftar di database
+                            HIBAHKU, namun telah menerima bantuan serupa
+                            sebelumnya.
+                        </Text>
+                        {appError && (
+                            <Text size="xs" c="red" ta="center" fs="italic">
+                                {appError}
+                            </Text>
+                        )}
+                        <Button
+                            fullWidth
+                            onClick={() => modals.closeAll()}
+                            color="red"
+                        >
+                            Saya Mengerti
+                        </Button>
+                    </Stack>
+                ),
+            });
+        } else if (cekStatus) {
+            if (cekStatus.isUpload) {
+                modals.open({
+                    ...modalConfig,
+                    size: "md",
+                    children: (
+                        <Stack gap="md" py="md">
+                            <ModalHeader />
+                            <Text ta="center" c="green" fw={700}>
+                                SELAMAT
+                            </Text>
+                            <Text ta="center">
+                                ID SIMAS/NSM/NSPP anda telah terdaftar di
+                                database HIBAHKU. Permohonan Hibah Anda{" "}
+                                <b>DAPAT DILANJUTKAN</b>.
+                            </Text>
+                            <Text ta="center" size="sm">
+                                Silahkan MASUK/DAFTAR untuk membuat akun.
+                            </Text>
+                            <Button fullWidth onClick={() => modals.closeAll()}>
+                                Selesai
+                            </Button>
+                        </Stack>
+                    ),
+                });
+            } else {
+                modals.open({
+                    ...modalConfig,
+                    children: (
+                        <Stack gap="md" py="md" ta="center">
+                            <ModalHeader />
+                            <Text c="red" fw={700}>
+                                DATA TIDAK DITEMUKAN!
+                            </Text>
+                            <Text size="sm">
+                                Pastikan ID SIMAS/NSPP/NSM benar atau sudah
+                                terdaftar di sistem. Silahkan hubungi Biro Kesra
+                                setda Provinsi Jambi untuk melakukan proses
+                                pendaftaran.
+                            </Text>
+                            <Button
+                                fullWidth
+                                onClick={() => modals.closeAll()}
+                                color="gray"
+                            >
+                                Tutup
+                            </Button>
+                        </Stack>
+                    ),
+                });
+            }
+        }
+    }, [cekStatus, appError, loading]);
 
     return (
         <AppShell header={{ height: 70 }}>
@@ -213,20 +353,29 @@ export default function LandingPage() {
             >
                 <Container size="lg" h="100%">
                     <Group justify="space-between" h="100%">
-                        <Title order={3} fw={900} c="blue.7">
-                            HIBAH
-                            <Text
-                                span
-                                c={
+                        <Group justify="space-between" h="100%">
+                            <Image
+                                loading="lazy"
+                                radius="md"
+                                w={200}
+                                fit="contain"
+                                src={
                                     computedColorScheme === "dark"
-                                        ? "white"
-                                        : "dark"
+                                        ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                                        : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
                                 }
-                            >
-                                KU
-                            </Text>
-                        </Title>
-
+                                fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                            />
+                            <Image
+                                height={80}
+                                src={
+                                    computedColorScheme === "dark"
+                                        ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
+                                        : "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
+                                }
+                                visibleFrom="sm"
+                            />
+                        </Group>
                         <Group gap="xs">
                             <ActionIcon
                                 onClick={toggleColorScheme}
@@ -243,7 +392,7 @@ export default function LandingPage() {
 
                             <Button
                                 component={Link}
-                                to={loginUrl}
+                                to="/signin"
                                 variant="filled"
                                 color="blue.7"
                                 radius="xl"
@@ -337,29 +486,14 @@ export default function LandingPage() {
                                 )}
                             </Title>
 
-                            {/* <Text
-                                size="lg"
-                                c={
-                                    computedColorScheme === "dark"
-                                        ? "dimmed"
-                                        : "white"
-                                }
-                                fw={400}
-                                maw={700}
-                            >
-                                Mewujudkan tata kelola bantuan hibah yang
-                                transparan, akuntabel, dan tepat sasaran melalui
-                                digitalisasi. <br />
-                            </Text> */}
-
                             <Group mt="lg">
                                 <Button
                                     size="lg"
                                     radius="xl"
                                     color="white"
                                     c="blue.7"
-                                    component="a"
-                                    href={loginUrl}
+                                    component={Link}
+                                    to="/signin"
                                     rightSection={
                                         <IconChevronRight size={18} />
                                     }
@@ -441,7 +575,7 @@ export default function LandingPage() {
                 </Container>
 
                 {/* --- Check Status Section --- */}
-                <Container size="lg" pt={80}>
+                <Container size="lg" py={80}>
                     <Paper
                         p="xl"
                         radius="lg"
@@ -457,61 +591,74 @@ export default function LandingPage() {
                             border: `1px solid ${computedColorScheme === "dark" ? "#373A40" : "#d0ebff"}`,
                         }}
                     >
-                        <Stack align="center" gap="md">
-                            <Title order={3}>Cek Status Pengajuan</Title>
-                            <Text size="sm" c="dimmed" ta="center">
-                                Masukkan nomor registrasi untuk melihat tahap
-                                bantuan Anda.
-                            </Text>
+                        <form onSubmit={formOnSubmit}>
+                            <Stack align="center" gap="md">
+                                <Title order={3}>
+                                    Cek Database Rumah Ibadah/Lembaga Keagamaan
+                                </Title>
+                                <Text size="sm" c="dimmed" ta="center">
+                                    Silahkan isi ID SIMAS/NSPP/NSM yang akan
+                                    menerima bantuan sistem HIBAHKU. <br />
+                                    Contoh:
+                                    011051001000000(SIMAS)/500015020000(NSM/NSPP)
+                                </Text>
 
-                            <Group w="100%" mt="sm">
-                                <TextInput
-                                    placeholder="Contoh: HB-2026-XXXX"
-                                    size="lg"
-                                    radius="md"
-                                    flex={1}
-                                    value={searchQuery}
-                                    onChange={(event) =>
-                                        setSearchQuery(
-                                            event.currentTarget.value,
-                                        )
-                                    }
-                                    rightSection={
-                                        searchQuery && (
-                                            <ActionIcon
-                                                variant="subtle"
-                                                color="gray"
-                                                onClick={() =>
-                                                    setSearchQuery("")
-                                                }
-                                            >
-                                                <IconX size={16} />
-                                            </ActionIcon>
-                                        )
-                                    }
-                                />
-                                <Button
-                                    size="lg"
-                                    radius="md"
-                                    color="blue.6"
-                                    onClick={handleCheckStatus}
-                                    disabled={!searchQuery}
-                                >
-                                    Cek Sekarang
-                                </Button>
-                            </Group>
-                            <Text size="xs" c="dimmed">
-                                Gunakan kode <b>HB-ERROR</b> untuk melihat
-                                tampilan data tidak ditemukan.
-                            </Text>
-                        </Stack>
+                                <Group w="100%" mt="sm">
+                                    <TextInput
+                                        type="number"
+                                        required
+                                        placeholder="Hanya angka tanpa titik"
+                                        size="lg"
+                                        radius="md"
+                                        flex={1}
+                                        {...form.getInputProps("id")}
+                                        onKeyDown={(e) =>
+                                            exceptThisSymbols.includes(e.key) &&
+                                            e.preventDefault()
+                                        }
+                                        rightSection={
+                                            form.values.id && (
+                                                <ActionIcon
+                                                    variant="subtle"
+                                                    color="gray"
+                                                    onClick={() =>
+                                                        form.setFieldValue(
+                                                            "id",
+                                                            "",
+                                                        )
+                                                    }
+                                                >
+                                                    <IconX size={16} />
+                                                </ActionIcon>
+                                            )
+                                        }
+                                    />
+                                    <Button
+                                        type="submit"
+                                        size="lg"
+                                        radius="md"
+                                        color="blue.6"
+                                        loading={loading}
+                                    >
+                                        Cek
+                                    </Button>
+                                </Group>
+                                <Text size="xs" c="dimmed" ta="center">
+                                    Apabila ID SIMAS/NSPP/NSM tidak ditemukan
+                                    pada sistem HIBAHKU, silahkan hubungi Biro
+                                    Kesra Setda Provinsi Jambi untuk
+                                    mendaftarkan ID SIMAS/NSPP/NSM ke sistem
+                                    HIBAHKU.
+                                </Text>
+                            </Stack>
+                        </form>
                     </Paper>
                 </Container>
 
                 {/* --- Persyaratan Section --- */}
                 <Box
                     id="seksi-persyaratan" // ID untuk target smooth scroll
-                    py={80}
+                    // py={80}
                     bg={computedColorScheme === "dark" ? "dark.9" : "gray.0"}
                 >
                     <Container size="lg" py={80}>
@@ -556,6 +703,12 @@ export default function LandingPage() {
                                             </ThemeIcon>
                                         }
                                     >
+                                        <Text c="dimmed" fs="italic" size="sm">
+                                            *Pastikan seluruh dokumen yang di
+                                            upload dalam format .pdf dan ukuran
+                                            maksimal tiap dokumen 500kb
+                                        </Text>
+                                        <br />
                                         <List.Item>
                                             Surat permohonan bantuan hibah
                                         </List.Item>
@@ -600,7 +753,6 @@ export default function LandingPage() {
                                     </List>
                                 </Accordion.Panel>
                             </Accordion.Item>
-
                             {/* --- LEMBAGA KEAGAMAAN --- */}
                             <Accordion.Item
                                 value="pendidikan"
@@ -630,6 +782,12 @@ export default function LandingPage() {
                                             </ThemeIcon>
                                         }
                                     >
+                                        <Text c="dimmed" fs="italic" size="sm">
+                                            *Pastikan seluruh dokumen yang di
+                                            upload dalam format .pdf dan ukuran
+                                            maksimal tiap dokumen 500kb
+                                        </Text>
+                                        <br />
                                         <List.Item>
                                             Surat permohonan bantuan hibah
                                         </List.Item>
@@ -699,17 +857,29 @@ export default function LandingPage() {
                     <Container size="lg">
                         <SimpleGrid cols={{ base: 1, sm: 2 }}>
                             <Stack gap="xs">
-                                <Title order={4}>HIBAHKU JAMBI</Title>
-                                <Text
-                                    size="sm"
-                                    style={{ opacity: 0.7 }}
-                                    maw={400}
-                                >
-                                    Sistem informasi pengelolaan hibah rumah
-                                    ibadah Pemerintah Provinsi Jambi. Mendukung
-                                    transparansi data demi pembangunan
-                                    masyarakat yang religius.
-                                </Text>
+                                <Group>
+                                    <Image
+                                        loading="lazy"
+                                        radius="md"
+                                        w={200}
+                                        fit="contain"
+                                        src={
+                                            computedColorScheme === "dark"
+                                                ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                                                : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                                        }
+                                        fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                                    />
+                                    <Image
+                                        height={80}
+                                        src={
+                                            computedColorScheme === "dark"
+                                                ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
+                                                : "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
+                                        }
+                                        visibleFrom="sm"
+                                    />
+                                </Group>
                             </Stack>
                             <Stack
                                 align={{ base: "flex-start", sm: "flex-end" }}
