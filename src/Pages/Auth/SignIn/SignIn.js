@@ -41,7 +41,7 @@ export default function SignIn(props) {
         validate: {
             nik: hasLength(
                 { min: 15, max: 18 },
-                "Nik berupa angka yang terdiri dari 15-18 Karakter"
+                "Nik berupa angka yang terdiri dari 15-18 Karakter",
             ),
             password: hasLength({ min: 8 }, "Password minimal 8 karakter"),
         },
@@ -123,33 +123,30 @@ export default function SignIn(props) {
                         zIndex={1000}
                         overlayProps={{ radius: "sm", blur: 1 }}
                     />
-                    {computedColorScheme === "light" ? (
+                    <Group>
                         <Image
                             loading="lazy"
                             radius="md"
-                            w={400}
+                            w={250}
                             fit="contain"
-                            src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                            src={
+                                computedColorScheme === "light"
+                                    ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                                    : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                            }
                             fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
                         />
-                    ) : (
                         <Image
-                            loading="lazy"
-                            radius="md"
-                            w={400}
+                            w={125}
                             fit="contain"
-                            src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                            fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
+                            src={
+                                computedColorScheme === "dark"
+                                    ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
+                                    : "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
+                            }
                         />
-                    )}
-                    <Paper
-                        radius="md"
-                        mt={20}
-                        p="xl"
-                        withBorder
-                        shadow="md"
-                        {...props}
-                    >
+                    </Group>
+                    <Paper radius="md" p="xl" withBorder shadow="md" {...props}>
                         <form onSubmit={formOnSubmit}>
                             <Stack>
                                 <TextInput
@@ -160,7 +157,7 @@ export default function SignIn(props) {
                                     onChange={(event) =>
                                         form.setFieldValue(
                                             "nik",
-                                            event.currentTarget.value
+                                            event.currentTarget.value,
                                         )
                                     }
                                     error={
@@ -177,7 +174,7 @@ export default function SignIn(props) {
                                     onChange={(event) =>
                                         form.setFieldValue(
                                             "password",
-                                            event.currentTarget.value
+                                            event.currentTarget.value,
                                         )
                                     }
                                     error={

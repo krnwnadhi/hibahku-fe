@@ -43,13 +43,13 @@ export default function Register(props) {
         validate: {
             nik: hasLength(
                 16,
-                "Nik berupa angka yang terdiri dari 16 Karakter"
+                "Nik berupa angka yang terdiri dari 16 Karakter",
             ),
             nama: isNotEmpty("Nama tidak boleh kosong"),
             password: hasLength({ min: 8 }, "Password minimal 8 karakter"),
             notelpon: hasLength(
                 { min: 6, max: 14 },
-                "No Handphone Min. 6 Angka & Maks. 14 Angka"
+                "No Handphone Min. 6 Angka & Maks. 14 Angka",
             ),
         },
     });
@@ -132,25 +132,19 @@ export default function Register(props) {
                         zIndex={1000}
                         overlayProps={{ radius: "sm", blur: 1 }}
                     />
-                    {computedColorScheme === "light" ? (
-                        <Image
-                            loading="lazy"
-                            radius="md"
-                            w={400}
-                            fit="contain"
-                            src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                            fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
-                        />
-                    ) : (
-                        <Image
-                            loading="lazy"
-                            radius="md"
-                            w={400}
-                            fit="contain"
-                            src="https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                            fallbackSrc="https://placehold.co/500x100/1A1B1E/FFFFFF/png?text=HIBAHKU+LOGO"
-                        />
-                    )}
+                    <Image
+                        loading="lazy"
+                        radius="md"
+                        w={400}
+                        fit="contain"
+                        src={
+                            computedColorScheme === "light"
+                                ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                                : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                        }
+                        fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                    />
+
                     <Paper
                         radius="md"
                         mt={20}
@@ -173,7 +167,7 @@ export default function Register(props) {
                                     onChange={(event) =>
                                         form.setFieldValue(
                                             "nik",
-                                            event.currentTarget.value
+                                            event.currentTarget.value,
                                         )
                                     }
                                     error={
@@ -190,7 +184,7 @@ export default function Register(props) {
                                     onChange={(event) =>
                                         form.setFieldValue(
                                             "nama",
-                                            event.currentTarget.value
+                                            event.currentTarget.value,
                                         )
                                     }
                                     error={
@@ -208,7 +202,7 @@ export default function Register(props) {
                                     onChange={(event) =>
                                         form.setFieldValue(
                                             "notelpon",
-                                            event.currentTarget.value
+                                            event.currentTarget.value,
                                         )
                                     }
                                     error={
@@ -225,7 +219,7 @@ export default function Register(props) {
                                     onChange={(event) =>
                                         form.setFieldValue(
                                             "password",
-                                            event.currentTarget.value
+                                            event.currentTarget.value,
                                         )
                                     }
                                     error={
