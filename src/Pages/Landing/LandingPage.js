@@ -534,7 +534,7 @@ export default function LandingPage() {
                                 title: "Transparansi Publik",
                                 desc: "Pantau setiap tahap pengajuan secara terbuka dan akuntabel.",
                                 icon: IconShieldCheck,
-                                col: "cyan",
+                                col: "blue",
                             },
                             {
                                 title: "Verifikasi Digital",
@@ -560,6 +560,9 @@ export default function LandingPage() {
                                         ? "dark.6"
                                         : "white"
                                 }
+                                style={{
+                                    borderBottom: `4px solid var(--mantine-color-${item.col}-6)`,
+                                }}
                             >
                                 <ThemeIcon
                                     variant="light"
@@ -580,87 +583,6 @@ export default function LandingPage() {
                     </SimpleGrid>
                 </Container>
 
-                {/* --- Check Status Section --- */}
-                <Container size="lg" pt={100}>
-                    <Paper
-                        p="xl"
-                        radius="lg"
-                        withBorder
-                        bg={
-                            computedColorScheme === "dark" ? "dark.7" : "blue.0"
-                        }
-                        style={{
-                            boxShadow:
-                                computedColorScheme === "dark"
-                                    ? "none"
-                                    : "0 10px 30px rgba(0,0,0,0.05)",
-                            border: `1px solid ${computedColorScheme === "dark" ? "#373A40" : "#d0ebff"}`,
-                        }}
-                    >
-                        <form onSubmit={formOnSubmit}>
-                            <Stack align="center" gap="md">
-                                <Title order={3} ta="center">
-                                    Cek Database Rumah Ibadah/Lembaga Keagamaan
-                                </Title>
-                                <Text size="sm" c="dimmed" ta="center">
-                                    Silahkan isi ID SIMAS/NSPP/NSM yang akan
-                                    menerima bantuan sistem HIBAHKU. <br />
-                                    Contoh:
-                                    011051001000000(SIMAS)/500015020000(NSM/NSPP)
-                                </Text>
-
-                                <Group w="100%" mt="sm">
-                                    <TextInput
-                                        type="number"
-                                        required
-                                        placeholder="Hanya angka tanpa titik"
-                                        size="lg"
-                                        radius="md"
-                                        flex={1}
-                                        {...form.getInputProps("id")}
-                                        onKeyDown={(e) =>
-                                            exceptThisSymbols.includes(e.key) &&
-                                            e.preventDefault()
-                                        }
-                                        rightSection={
-                                            form.values.id && (
-                                                <ActionIcon
-                                                    variant="subtle"
-                                                    color="gray"
-                                                    onClick={() =>
-                                                        form.setFieldValue(
-                                                            "id",
-                                                            "",
-                                                        )
-                                                    }
-                                                >
-                                                    <IconX size={16} />
-                                                </ActionIcon>
-                                            )
-                                        }
-                                    />
-                                    <Button
-                                        type="submit"
-                                        size="lg"
-                                        radius="md"
-                                        color="blue.6"
-                                        loading={loading}
-                                    >
-                                        Cek
-                                    </Button>
-                                </Group>
-                                <Text size="xs" c="dimmed" ta="center">
-                                    Apabila ID SIMAS/NSPP/NSM tidak ditemukan
-                                    pada sistem HIBAHKU, silahkan hubungi Biro
-                                    Kesra Setda Provinsi Jambi untuk
-                                    mendaftarkan ID SIMAS/NSPP/NSM ke sistem
-                                    HIBAHKU.
-                                </Text>
-                            </Stack>
-                        </form>
-                    </Paper>
-                </Container>
-
                 {/* --- Prosedur Section --- */}
                 <Container size="lg" py={40}>
                     <Box mt={60}>
@@ -674,7 +596,7 @@ export default function LandingPage() {
                                 PROSEDUR
                             </Badge>
                             <Title order={2} ta="center" fw={800}>
-                                Tahapan Pengajuan Hibah
+                                Tahapan Pengajuan HIBAHKU
                             </Title>
                             <Divider color="blue.5" size="xl" w={60} />
                         </Stack>
@@ -722,6 +644,7 @@ export default function LandingPage() {
                                         position: "relative",
                                         overflow: "hidden",
                                         transition: "transform 0.2s ease",
+                                        borderBottom: `4px solid var(--mantine-color-${item.color}-6)`,
                                     }}
                                 >
                                     {/* Nomor Langkah sebagai Background */}
@@ -961,6 +884,87 @@ export default function LandingPage() {
                         </Accordion>
                     </Container>
                 </Box>
+
+                {/* --- Check Status Section --- */}
+                <Container size="lg" py={80}>
+                    <Paper
+                        p="xl"
+                        radius="lg"
+                        withBorder
+                        bg={
+                            computedColorScheme === "dark" ? "dark.7" : "blue.0"
+                        }
+                        style={{
+                            boxShadow:
+                                computedColorScheme === "dark"
+                                    ? "none"
+                                    : "0 10px 30px rgba(0,0,0,0.05)",
+                            border: `1px solid ${computedColorScheme === "dark" ? "#373A40" : "#d0ebff"}`,
+                        }}
+                    >
+                        <form onSubmit={formOnSubmit}>
+                            <Stack align="center" gap="md">
+                                <Title order={3} ta="center">
+                                    Cek Database Rumah Ibadah/Lembaga Keagamaan
+                                </Title>
+                                <Text size="sm" c="dimmed" ta="center">
+                                    Silahkan isi ID SIMAS/NSPP/NSM yang akan
+                                    menerima bantuan sistem HIBAHKU. <br />
+                                    Contoh:
+                                    011051001000000(SIMAS)/500015020000(NSM/NSPP)
+                                </Text>
+
+                                <Group w="100%" mt="sm">
+                                    <TextInput
+                                        type="number"
+                                        required
+                                        placeholder="Hanya angka tanpa titik"
+                                        size="lg"
+                                        radius="md"
+                                        flex={1}
+                                        {...form.getInputProps("id")}
+                                        onKeyDown={(e) =>
+                                            exceptThisSymbols.includes(e.key) &&
+                                            e.preventDefault()
+                                        }
+                                        rightSection={
+                                            form.values.id && (
+                                                <ActionIcon
+                                                    variant="subtle"
+                                                    color="gray"
+                                                    onClick={() =>
+                                                        form.setFieldValue(
+                                                            "id",
+                                                            "",
+                                                        )
+                                                    }
+                                                >
+                                                    <IconX size={16} />
+                                                </ActionIcon>
+                                            )
+                                        }
+                                    />
+                                    <Button
+                                        type="submit"
+                                        size="lg"
+                                        radius="md"
+                                        color="blue.6"
+                                        loading={loading}
+                                    >
+                                        Cek
+                                    </Button>
+                                </Group>
+                                <Text size="xs" c="dimmed" ta="center">
+                                    Apabila ID SIMAS/NSPP/NSM tidak ditemukan
+                                    pada sistem HIBAHKU, silahkan hubungi Biro
+                                    Kesra Setda Provinsi Jambi untuk
+                                    mendaftarkan ID SIMAS/NSPP/NSM ke sistem
+                                    HIBAHKU.
+                                </Text>
+                            </Stack>
+                        </form>
+                    </Paper>
+                </Container>
 
                 {/* --- SECTION: STATUS & ALUR PROSES DETAIL --- */}
                 {/* <Container size="lg" py={20}>
