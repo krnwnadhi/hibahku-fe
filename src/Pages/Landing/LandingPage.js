@@ -1,7 +1,6 @@
 import {
     Accordion,
     ActionIcon,
-    Anchor,
     AppShell,
     Badge,
     Box,
@@ -13,44 +12,38 @@ import {
     List,
     Paper,
     SimpleGrid,
-    Space,
     Stack,
     Text,
     TextInput,
     ThemeIcon,
-    Timeline,
     Title,
     rem,
     useComputedColorScheme,
     useMantineColorScheme,
 } from "@mantine/core";
 import {
-    IconAlertCircle,
     IconBuildingMosque,
     IconChevronRight,
     IconCircleCheck,
-    IconClock,
     IconCloudUpload,
     IconFileCheck,
-    IconFileText,
     IconLockAccess,
     IconMoon,
     IconSchool,
     IconSettingsCheck,
     IconShieldCheck,
     IconSun,
-    IconTruckDelivery,
     IconUserPlus,
     IconX,
 } from "@tabler/icons-react";
-import { hasLength, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { cekStatusRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { modals } from "@mantine/modals";
 import { nprogress } from "@mantine/nprogress";
+import { useEffect } from "react";
+import { useForm } from "@mantine/form";
 
 export default function LandingPage() {
     const dispatch = useDispatch();
