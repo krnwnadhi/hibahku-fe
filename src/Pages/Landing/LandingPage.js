@@ -20,6 +20,7 @@ import {
     ThemeIcon,
     Timeline,
     Title,
+    rem,
     useComputedColorScheme,
     useMantineColorScheme,
 } from "@mantine/core";
@@ -29,12 +30,17 @@ import {
     IconChevronRight,
     IconCircleCheck,
     IconClock,
+    IconCloudUpload,
     IconFileCheck,
     IconFileText,
     IconLockAccess,
     IconMoon,
     IconSchool,
+    IconSettingsCheck,
+    IconShieldCheck,
     IconSun,
+    IconTruckDelivery,
+    IconUserPlus,
     IconX,
 } from "@tabler/icons-react";
 import { hasLength, useForm } from "@mantine/form";
@@ -525,10 +531,10 @@ export default function LandingPage() {
                     <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
                         {[
                             {
-                                title: "Pendataan Digital",
-                                desc: "Sistem pencatatan rumah ibadah yang terstruktur.",
-                                icon: IconBuildingMosque,
-                                col: "blue",
+                                title: "Transparansi Publik",
+                                desc: "Pantau setiap tahap pengajuan secara terbuka dan akuntabel.",
+                                icon: IconShieldCheck,
+                                col: "cyan",
                             },
                             {
                                 title: "Verifikasi Digital",
@@ -575,7 +581,7 @@ export default function LandingPage() {
                 </Container>
 
                 {/* --- Check Status Section --- */}
-                <Container size="lg" py={80}>
+                <Container size="lg" pt={100}>
                     <Paper
                         p="xl"
                         radius="lg"
@@ -593,7 +599,7 @@ export default function LandingPage() {
                     >
                         <form onSubmit={formOnSubmit}>
                             <Stack align="center" gap="md">
-                                <Title order={3}>
+                                <Title order={3} ta="center">
                                     Cek Database Rumah Ibadah/Lembaga Keagamaan
                                 </Title>
                                 <Text size="sm" c="dimmed" ta="center">
@@ -655,6 +661,106 @@ export default function LandingPage() {
                     </Paper>
                 </Container>
 
+                {/* --- Prosedur Section --- */}
+                <Container size="lg" py={40}>
+                    <Box mt={60}>
+                        <Stack gap="xs" mb={40} align="center">
+                            <Badge
+                                variant="filled"
+                                color="blue.1"
+                                c="blue.7"
+                                radius="sm"
+                            >
+                                PROSEDUR
+                            </Badge>
+                            <Title order={2} ta="center" fw={800}>
+                                Tahapan Pengajuan Hibah
+                            </Title>
+                            <Divider color="blue.5" size="xl" w={60} />
+                        </Stack>
+
+                        <SimpleGrid
+                            cols={{ base: 1, sm: 2, md: 4 }}
+                            spacing="xl"
+                        >
+                            {[
+                                {
+                                    step: "01",
+                                    title: "Registrasi Akun",
+                                    desc: "Daftarkan Akun Anda sebagai Ketua Pengurus menggunakan NIK.",
+                                    icon: <IconUserPlus size={24} />,
+                                    color: "blue",
+                                },
+                                {
+                                    step: "02",
+                                    title: "Unggah Berkas",
+                                    desc: "Isi formulir dan unggah dokumen persyaratan dalam format PDF.",
+                                    icon: <IconCloudUpload size={24} />,
+                                    color: "cyan",
+                                },
+                                {
+                                    step: "03",
+                                    title: "Verifikasi Data",
+                                    desc: "Tim HIBAHKU melakukan validasi dokumen dan survei lapangan jika diperlukan.",
+                                    icon: <IconSettingsCheck size={24} />,
+                                    color: "indigo",
+                                },
+                                {
+                                    step: "04",
+                                    title: "Pencairan Dana",
+                                    desc: "Dana hibah disalurkan langsung ke rekening lembaga setelah SK terbit.",
+                                    icon: <IconCircleCheck size={24} />,
+                                    color: "green",
+                                },
+                            ].map((item, index) => (
+                                <Paper
+                                    key={index}
+                                    p="xl"
+                                    radius="lg"
+                                    withBorder
+                                    style={{
+                                        position: "relative",
+                                        overflow: "hidden",
+                                        transition: "transform 0.2s ease",
+                                    }}
+                                >
+                                    {/* Nomor Langkah sebagai Background */}
+                                    <Text
+                                        style={{
+                                            position: "absolute",
+                                            right: -10,
+                                            top: -5,
+                                            fontSize: rem(80),
+                                            fontWeight: 900,
+                                            opacity: 0.05,
+                                            userSelect: "none",
+                                        }}
+                                    >
+                                        {item.step}
+                                    </Text>
+
+                                    <ThemeIcon
+                                        variant="light"
+                                        size={48}
+                                        radius="md"
+                                        color={item.color}
+                                        mb="lg"
+                                    >
+                                        {item.icon}
+                                    </ThemeIcon>
+
+                                    <Text fw={700} mb="xs" size="lg">
+                                        {item.title}
+                                    </Text>
+                                    <Text size="sm" c="dimmed" lh={1.6}>
+                                        {item.desc}
+                                    </Text>
+                                </Paper>
+                            ))}
+                        </SimpleGrid>
+                    </Box>
+                </Container>
+
                 {/* --- Persyaratan Section --- */}
                 <Box
                     id="seksi-persyaratan" // ID untuk target smooth scroll
@@ -663,7 +769,15 @@ export default function LandingPage() {
                 >
                     <Container size="lg" py={80}>
                         <Stack align="center" mb={40}>
-                            <Title order={2} ta="center">
+                            <Badge
+                                variant="filled"
+                                color="blue.1"
+                                c="blue.7"
+                                radius="sm"
+                            >
+                                Syarat
+                            </Badge>
+                            <Title order={2} ta="center" fw={800}>
                                 Persyaratan Dokumen
                             </Title>
                             <Divider color="blue.5" size="xl" w={60} />
@@ -847,6 +961,174 @@ export default function LandingPage() {
                         </Accordion>
                     </Container>
                 </Box>
+
+                {/* --- SECTION: STATUS & ALUR PROSES DETAIL --- */}
+                {/* <Container size="lg" py={20}>
+                    <Box
+                        mt={80}
+                        py={60}
+                        style={{
+                            borderTop: `1px solid ${computedColorScheme === "dark" ? "#373A40" : "#f1f3f5"}`,
+                        }}
+                    >
+                        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={50}>
+                            <Stack gap="xl">
+                                <Box>
+                                    <Badge variant="light" color="blue" mb="xs">
+                                        INFORMASI
+                                    </Badge>
+                                    <Title order={3} fw={800}>
+                                        Status Pengajuan
+                                    </Title>
+                                    <Text c="dimmed" size="sm">
+                                        Memahami indikator status pada akun Anda
+                                    </Text>
+                                </Box>
+
+                                <Stack gap="md">
+                                    {[
+                                        {
+                                            label: "DISETUJUI",
+                                            color: "green",
+                                            desc: "Permohonan memenuhi syarat dan lanjut ke tahap penganggaran/pencairan.",
+                                        },
+                                        {
+                                            label: "DITOLAK",
+                                            color: "red",
+                                            desc: "Permohonan tidak memenuhi kriteria atau dokumen tidak valid.",
+                                        },
+                                        {
+                                            label: "BELUM DIPROSES",
+                                            color: "gray",
+                                            desc: "Permohonan telah diterima dan sedang dalam antrean verifikasi.",
+                                        },
+                                    ].map((status, i) => (
+                                        <Paper
+                                            key={i}
+                                            p="md"
+                                            radius="md"
+                                            withBorder
+                                            shadow="xs"
+                                        >
+                                            <Group wrap="nowrap">
+                                                <ThemeIcon
+                                                    color={status.color}
+                                                    variant="light"
+                                                    size="xl"
+                                                >
+                                                    <IconCircleCheck
+                                                        size={20}
+                                                    />
+                                                </ThemeIcon>
+                                                <Box>
+                                                    <Text
+                                                        fw={700}
+                                                        size="sm"
+                                                        c={status.color}
+                                                    >
+                                                        {status.label}
+                                                    </Text>
+                                                    <Text size="xs" c="dimmed">
+                                                        {status.desc}
+                                                    </Text>
+                                                </Box>
+                                            </Group>
+                                        </Paper>
+                                    ))}
+                                </Stack>
+                            </Stack>
+
+                            <Stack gap="xl">
+                                <Box>
+                                    <Badge
+                                        variant="light"
+                                        color="indigo"
+                                        mb="xs"
+                                    >
+                                        ALUR KERJA
+                                    </Badge>
+                                    <Title order={3} fw={800}>
+                                        Tahapan Proses Internal
+                                    </Title>
+                                    <Text c="dimmed" size="sm">
+                                        Rangkaian verifikasi hingga dana
+                                        diterima
+                                    </Text>
+                                </Box>
+
+                                <Paper
+                                    withBorder
+                                    p="xl"
+                                    radius="lg"
+                                    shadow="md"
+                                >
+                                    <Timeline
+                                        active={-1}
+                                        bulletSize={26}
+                                        lineWidth={2}
+                                    >
+                                        {[
+                                            {
+                                                t: "Verifikasi Administrasi",
+                                                d: "Pemeriksaan dokumen digital persyaratan.",
+                                            },
+                                            {
+                                                t: "Verifikasi Faktual",
+                                                d: "Survei lapangan oleh tim teknis ke lokasi.",
+                                            },
+                                            {
+                                                t: "Rekomendasi",
+                                                d: "Pemberian catatan kelayakan instansi.",
+                                            },
+                                            {
+                                                t: "Pertimbangan TAPD",
+                                                d: "Pembahasan anggaran oleh tim daerah.",
+                                            },
+                                            {
+                                                t: "Penganggaran",
+                                                d: "Alokasi dana ke dalam DPA Biro Kesra.",
+                                            },
+                                            {
+                                                t: "Penerbitan SK",
+                                                d: "Penerbitan SK Gubernur & dokumen lainnya.",
+                                            },
+                                            {
+                                                t: "Penandatanganan NPHD",
+                                                d: "NPHD, Pakta Integritas, & Pertanggungjawaban.",
+                                            },
+                                            {
+                                                t: "Pencairan Dana",
+                                                d: "Transfer dana hibah ke rekening lembaga.",
+                                            },
+                                            {
+                                                t: "Laporan Pertanggungjawaban",
+                                                d: "Kewajiban pelaporan penggunaan dana (LPJ).",
+                                            },
+                                        ].map((item, i) => (
+                                            <Timeline.Item
+                                                key={i}
+                                                bullet={
+                                                    <Text size="xs" fw={700}>
+                                                        {i + 1}
+                                                    </Text>
+                                                }
+                                                title={
+                                                    <Text fw={700} size="sm">
+                                                        {item.t}
+                                                    </Text>
+                                                }
+                                            >
+                                                <Text size="xs" c="dimmed">
+                                                    {item.d}
+                                                </Text>
+                                            </Timeline.Item>
+                                        ))}
+                                    </Timeline>
+                                </Paper>
+                            </Stack>
+                        </SimpleGrid>
+                    </Box>
+                </Container> */}
 
                 {/* --- Footer --- */}
                 <Box
