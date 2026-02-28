@@ -735,7 +735,7 @@ export default function LandingPage() {
                 </Box>
 
                 {/* --- Check Status Section --- */}
-                <Container size="lg" py={80}>
+                {/* <Container size="lg" py={80}>
                     <Paper
                         p="xl"
                         radius="lg"
@@ -813,7 +813,7 @@ export default function LandingPage() {
                             </Stack>
                         </form>
                     </Paper>
-                </Container>
+                </Container> */}
 
                 {/* --- SECTION: STATUS & ALUR PROSES DETAIL --- */}
                 {/* <Container size="lg" py={20}>

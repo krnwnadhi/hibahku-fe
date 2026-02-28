@@ -1,21 +1,21 @@
 {
-    "short_name": "Hibahku",
+    "short_name": "HIBAHKU",
     "name": "Hibahku - Biro Kesra Setda Provinsi Jambi",
     "description": "Sistem Informasi Digitalisasi Tata Kelola Hibah Rumah Ibadah Provinsi Jambi",
     "icons": [
         {
-            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
+            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/c_thumb,w_200,g_face/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
             "sizes": "64x64 32x32 24x24 16x16",
             "type": "image/png"
         },
         {
-            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
+            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/c_thumb,w_200,g_face/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
+            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/c_thumb,w_200,g_face/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
             "sizes": "512x512",
             "type": "image/png"
         }
