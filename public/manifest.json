@@ -1,25 +1,27 @@
 {
-    "short_name": "HIBAHKU",
-    "name": "Hibahku",
+    "short_name": "Hibahku",
+    "name": "Hibahku - Biro Kesra Setda Provinsi Jambi",
+    "description": "Sistem Informasi Digitalisasi Tata Kelola Hibah Rumah Ibadah Provinsi Jambi",
     "icons": [
         {
-            "src": "favicon.ico",
+            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
             "sizes": "64x64 32x32 24x24 16x16",
-            "type": "image/x-icon"
+            "type": "image/png"
         },
         {
-            "src": "logo192.png",
+            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
+            "sizes": "192x192",
             "type": "image/png",
-            "sizes": "192x192"
+            "purpose": "any maskable"
         },
         {
-            "src": "logo512.png",
-            "type": "image/png",
-            "sizes": "512x512"
+            "src": "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907965/channels4_profile-removebg-preview_2_wfr3lx.png",
+            "sizes": "512x512",
+            "type": "image/png"
         }
     ],
     "start_url": ".",
     "display": "standalone",
-    "theme_color": "#000000",
+    "theme_color": "#1971c2",
     "background_color": "#ffffff"
 }
