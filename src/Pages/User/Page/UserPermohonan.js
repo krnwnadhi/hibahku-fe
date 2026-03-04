@@ -7,7 +7,6 @@ import {
     Container,
     Fieldset,
     FileInput,
-    Group,
     Image,
     Modal,
     NumberInput,
@@ -20,36 +19,22 @@ import {
     TextInput,
     Title,
     rem,
-    useComputedColorScheme,
 } from "@mantine/core";
-import {
-    IconArrowLeft,
-    IconCaretUpDown,
-    IconFileTypePdf,
-} from "@tabler/icons-react";
+import { IconCaretUpDown, IconFileTypePdf } from "@tabler/icons-react";
 import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import DarkButton from "../components/DarkButton/DarkButton";
-import MenuMantine from "../../../components/Menu/MenuMantine";
 import { createPermohonan } from "../../../redux/slices/permohonan/permohonanSlices";
 import dayjs from "dayjs";
 import { nprogress } from "@mantine/nprogress";
-import { useNavigate } from "react-router-dom";
 import { useToggle } from "@mantine/hooks";
 
 export default function UserPermohonan() {
-    const computedColorScheme = useComputedColorScheme("light", {
-        getInitialValueInEffect: true,
-    });
-
-    const navigate = useNavigate();
-
     const dispatch = useDispatch();
 
     const permohonan = useSelector((state) => state?.permohonan);
-    const { loading, appError, serverError, permohonanCreated } = permohonan;
+    const { loading, appError, permohonanCreated } = permohonan;
 
     const [type, toggle] = useToggle(["masjid", "lembaga"]);
 
@@ -111,6 +96,8 @@ export default function UserPermohonan() {
             file_suratpernyataankeabsahan: isNotEmpty("Tidak Boleh Kosong"),
             file_suratpernyataantidakhibah: isNotEmpty("Tidak Boleh Kosong"),
             file_suratrekomkemenag: isNotEmpty("Tidak Boleh Kosong"),
+            file_asetrekom: isNotEmpty("Tidak Boleh Kosong"),
+            file_norekening: isNotEmpty("Tidak Boleh Kosong"),
         },
     });
 

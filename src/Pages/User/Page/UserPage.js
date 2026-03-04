@@ -19,6 +19,7 @@ import {
 } from "@mantine/core";
 import {
     IconChartLine,
+    IconCheck,
     IconChevronRight,
     IconClock,
     IconFileText,
@@ -108,109 +109,128 @@ export default function UserPage() {
             <Container size="md">
                 <UserInfo />
                 {persetujuanId ? (
-                    <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
-                        {/* Card 1: Status Utama (Live dari API) */}
-                        <Paper withBorder p="xl" radius="md" shadow="sm">
-                            <Stack gap="xs">
-                                <Group justify="space-between">
-                                    <Text size="xs" c="dimmed" fw={700}>
-                                        STATUS PENGAJUAN
-                                    </Text>
-                                    <ThemeIcon
-                                        variant="light"
-                                        color="blue"
-                                        radius="xl"
-                                    >
-                                        <IconChartLine size={18} />
-                                    </ThemeIcon>
-                                </Group>
+                    // <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
+                    //     {/* Card 1: Status Utama (Live dari API) */}
+                    //     <Paper withBorder p="xl" radius="md" shadow="sm">
+                    //         <Stack gap="xs">
+                    //             <Group justify="space-between">
+                    //                 <Text size="xs" c="dimmed" fw={700}>
+                    //                     STATUS PENGAJUAN
+                    //                 </Text>
+                    //                 <ThemeIcon
+                    //                     variant="light"
+                    //                     color="blue"
+                    //                     radius="xl"
+                    //                 >
+                    //                     <IconChartLine size={18} />
+                    //                 </ThemeIcon>
+                    //             </Group>
 
-                                <Skeleton visible={loading}>
-                                    <Title order={2}>
-                                        {persetujuanList?.status || "Draft"}
-                                    </Title>
-                                </Skeleton>
+                    //             <Skeleton visible={loading}>
+                    //                 <Title order={2}>
+                    //                     {persetujuanList?.status || "Draft"}
+                    //                 </Title>
+                    //             </Skeleton>
 
-                                <Badge
-                                    color="blue.1"
-                                    c="blue.7"
-                                    variant="filled"
-                                    radius="sm"
-                                    fullWidth
-                                >
-                                    Menunggu Verifikasi Internal
-                                </Badge>
-                            </Stack>
-                        </Paper>
+                    //             <Badge
+                    //                 color="blue.1"
+                    //                 c="blue.7"
+                    //                 variant="filled"
+                    //                 radius="sm"
+                    //                 fullWidth
+                    //             >
+                    //                 Menunggu Verifikasi Internal
+                    //             </Badge>
+                    //         </Stack>
+                    //     </Paper>
 
-                        {/* Card 2: Progres Dokumen (Visual) */}
-                        <Paper withBorder p="xl" radius="md" shadow="sm">
-                            <Stack gap="xs">
-                                <Text size="xs" c="dimmed" fw={700}>
-                                    KELENGKAPAN BERKAS
-                                </Text>
-                                <Skeleton visible={loading}>
-                                    <Group justify="space-between" mb={5}>
-                                        <Text fw={700} size="xl">
-                                            {persetujuanList?.percentComplete ||
-                                                "65"}
-                                            %
-                                        </Text>
-                                        <Text size="xs" c="dimmed">
-                                            12 dari 18 File
-                                        </Text>
-                                    </Group>
-                                    <Progress
-                                        value={
-                                            persetujuanList?.percentComplete ||
-                                            65
-                                        }
-                                        size="lg"
-                                        radius="xl"
-                                        striped
-                                        animated
-                                    />
-                                </Skeleton>
-                                <Text size="xs" c="dimmed" mt="xs">
-                                    Silahkan lengkapi dokumen yang kurang.
-                                </Text>
-                            </Stack>
-                        </Paper>
+                    //     {/* Card 2: Progres Dokumen (Visual) */}
+                    //     <Paper withBorder p="xl" radius="md" shadow="sm">
+                    //         <Stack gap="xs">
+                    //             <Text size="xs" c="dimmed" fw={700}>
+                    //                 KELENGKAPAN BERKAS
+                    //             </Text>
+                    //             <Skeleton visible={loading}>
+                    //                 <Group justify="space-between" mb={5}>
+                    //                     <Text fw={700} size="xl">
+                    //                         {persetujuanList?.percentComplete ||
+                    //                             "65"}
+                    //                         %
+                    //                     </Text>
+                    //                     <Text size="xs" c="dimmed">
+                    //                         12 dari 18 File
+                    //                     </Text>
+                    //                 </Group>
+                    //                 <Progress
+                    //                     value={
+                    //                         persetujuanList?.percentComplete ||
+                    //                         65
+                    //                     }
+                    //                     size="lg"
+                    //                     radius="xl"
+                    //                     striped
+                    //                     animated
+                    //                 />
+                    //             </Skeleton>
+                    //             <Text size="xs" c="dimmed" mt="xs">
+                    //                 Silahkan lengkapi dokumen yang kurang.
+                    //             </Text>
+                    //         </Stack>
+                    //     </Paper>
 
-                        {/* Card 3: Timeline Terakhir */}
-                        <Paper withBorder p="xl" radius="md" shadow="sm">
-                            <Stack gap="xs">
-                                <Text size="xs" c="dimmed" fw={700}>
-                                    UPDATE TERAKHIR
-                                </Text>
-                                <Skeleton visible={loading}>
-                                    <Stack gap={5}>
-                                        <Text fw={700} size="sm" lineClamp={1}>
-                                            {persetujuanList?.lastUpdateTitle ||
-                                                "Verifikasi Lapangan"}
-                                        </Text>
-                                        <Group gap={5}>
-                                            <IconClock size={12} color="gray" />
-                                            <Text size="xs" c="dimmed">
-                                                {persetujuanList?.lastUpdateDate ||
-                                                    "2 jam yang lalu"}
-                                            </Text>
-                                        </Group>
-                                    </Stack>
-                                </Skeleton>
-                                <Button
-                                    variant="light"
-                                    size="compact-xs"
-                                    mt="sm"
-                                    rightSection={
-                                        <IconChevronRight size={14} />
-                                    }
-                                >
-                                    Lihat Log Aktivitas
-                                </Button>
-                            </Stack>
-                        </Paper>
-                    </SimpleGrid>
+                    //     {/* Card 3: Timeline Terakhir */}
+                    //     <Paper withBorder p="xl" radius="md" shadow="sm">
+                    //         <Stack gap="xs">
+                    //             <Text size="xs" c="dimmed" fw={700}>
+                    //                 UPDATE TERAKHIR
+                    //             </Text>
+                    //             <Skeleton visible={loading}>
+                    //                 <Stack gap={5}>
+                    //                     <Text fw={700} size="sm" lineClamp={1}>
+                    //                         {persetujuanList?.lastUpdateTitle ||
+                    //                             "Verifikasi Lapangan"}
+                    //                     </Text>
+                    //                     <Group gap={5}>
+                    //                         <IconClock size={12} color="gray" />
+                    //                         <Text size="xs" c="dimmed">
+                    //                             {persetujuanList?.lastUpdateDate ||
+                    //                                 "2 jam yang lalu"}
+                    //                         </Text>
+                    //                     </Group>
+                    //                 </Stack>
+                    //             </Skeleton>
+                    //             <Button
+                    //                 variant="light"
+                    //                 size="compact-xs"
+                    //                 mt="sm"
+                    //                 rightSection={
+                    //                     <IconChevronRight size={14} />
+                    //                 }
+                    //             >
+                    //                 Lihat Log Aktivitas
+                    //             </Button>
+                    //         </Stack>
+                    //     </Paper>
+                    // </SimpleGrid>
+                    <Center>
+                        <Alert
+                            variant="light"
+                            color="blue"
+                            title="INFO"
+                            icon={<IconCheck />}
+                        >
+                            PERMOHONAN ANDA TELAH BERHASIL DIAJUKAN. SILAHKAN
+                            MENUJU TAB PROGRESS UNTUK MELIHAT PERKEMBANGAN
+                            PROSES PERMOHONAN ANDA.
+                            <Divider my="sm" />
+                            <Text
+                                component={Link}
+                                to={`/dashboard/user/progres/${persetujuanId}`}
+                            >
+                                KLIK DISINI
+                            </Text>
+                        </Alert>
+                    </Center>
                 ) : (
                     <Center>
                         <Alert

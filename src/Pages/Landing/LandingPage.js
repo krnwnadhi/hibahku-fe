@@ -352,7 +352,7 @@ export default function LandingPage() {
                         by Diskominfo Provinsi Jambi
                     </Text>
                     <Text ta="center" size="xs" style={{ opacity: 0.6 }}>
-                        <Code fw={500}>v1.1.0</Code>
+                        <Code fw={500}>v1.2.0</Code>
                     </Text>
                 </Stack>
             </Drawer>
