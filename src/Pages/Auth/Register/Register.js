@@ -2,6 +2,7 @@ import {
     Anchor,
     BackgroundImage,
     Button,
+    Center,
     Container,
     Group,
     Image,
@@ -132,31 +133,29 @@ export default function Register(props) {
                         zIndex={1000}
                         overlayProps={{ radius: "sm", blur: 1 }}
                     />
-                    <Group>
-                        <Anchor href="/">
+                    <Center>
+                        <Group gap="xs" wrap="nowrap">
+                            <Anchor href="/">
+                                <Image
+                                    loading="lazy"
+                                    radius="md"
+                                    w={{ base: 175, xs: 200, sm: 250 }} // Responsif lebar logo
+                                    fit="contain"
+                                    src={
+                                        computedColorScheme === "light"
+                                            ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                                            : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                                    }
+                                    fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                                />
+                            </Anchor>
                             <Image
-                                loading="lazy"
-                                radius="md"
-                                w={250}
+                                w={{ base: 100, xs: 115, sm: 135 }}
                                 fit="contain"
-                                src={
-                                    computedColorScheme === "light"
-                                        ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
-                                        : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
-                                }
-                                fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
+                                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
                             />
-                        </Anchor>
-                        <Image
-                            w={125}
-                            fit="contain"
-                            src={
-                                computedColorScheme === "dark"
-                                    ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
-                                    : "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
-                            }
-                        />
-                    </Group>
+                        </Group>
+                    </Center>
 
                     <Paper radius="md" p="xl" withBorder shadow="lg" {...props}>
                         <form
