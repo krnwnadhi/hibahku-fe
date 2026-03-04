@@ -234,6 +234,12 @@ export default function LandingPage() {
                                         : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
                                 }
                             />
+
+                            <Image
+                                height={70}
+                                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
+                                visibleFrom="md" // Hanya muncul dari ukuran medium ke atas
+                            />
                         </Group>
 
                         {/* Sisi Kanan: Action Section */}
@@ -340,7 +346,10 @@ export default function LandingPage() {
                     </Button>
 
                     <Text ta="center" size="xs" style={{ opacity: 0.6 }}>
-                        © 2026. HIBAHKU. Diskominfo Prov Jambi.
+                        © 2026. Biro Kesra Setda Provinsi Jambi
+                    </Text>
+                    <Text ta="center" size="xs" style={{ opacity: 0.6 }}>
+                        by Diskominfo Provinsi Jambi
                     </Text>
                     <Text ta="center" size="xs" style={{ opacity: 0.6 }}>
                         <Code fw={500}>v1.1.0</Code>
