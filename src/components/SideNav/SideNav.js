@@ -1,5 +1,6 @@
 import {
     IconClockHour4,
+    IconFileAnalytics,
     IconLicense,
     IconReportAnalytics,
 } from "@tabler/icons-react";
@@ -87,6 +88,11 @@ export default function SideNav() {
             icon: IconHome2,
         },
         {
+            link: "/dashboard/user/dokumen",
+            label: "Permohonan",
+            icon: IconFileAnalytics,
+        },
+        {
             link: `/dashboard/user/progres/${persetujuanId}`,
             label: "Progress",
             icon: IconTimeline,
@@ -98,6 +104,11 @@ export default function SideNav() {
             link: "/dashboard/user/beranda",
             label: "Dashboard",
             icon: IconHome2,
+        },
+        {
+            link: "/dashboard/user/dokumen",
+            label: "Permohonan",
+            icon: IconFileAnalytics,
         },
     ];
 
@@ -112,7 +123,6 @@ export default function SideNav() {
                       setActive(item.label);
                   }}
                   p="sm"
-                  // underline="never"
               >
                   <item.icon className={classes.linkIcon} stroke={1.5} />
                   <span>{item.label}</span>
@@ -134,6 +144,22 @@ export default function SideNav() {
                   <span>{item.label}</span>
               </Anchor>
           ));
+
+    // const linksUser = dataUser?.map((item) => (
+    //     <Anchor
+    //         className={classes.link}
+    //         data-active={item.link === active || undefined}
+    //         href={item.link}
+    //         key={item.label}
+    //         onClick={(event) => {
+    //             setActive(item.label);
+    //         }}
+    //         p="sm"
+    //     >
+    //         <item.icon className={classes.linkIcon} stroke={1.5} />
+    //         <span>{item.label}</span>
+    //     </Anchor>
+    // ));
 
     return (
         <nav className={classes.navbar}>

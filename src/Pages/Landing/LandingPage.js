@@ -4,12 +4,16 @@ import {
     AppShell,
     Badge,
     Box,
+    Burger,
     Button,
+    Code,
     Container,
     Divider,
+    Drawer,
     Group,
     Image,
     List,
+    NavLink,
     Paper,
     SimpleGrid,
     Stack,
@@ -27,6 +31,8 @@ import {
     IconCircleCheck,
     IconCloudUpload,
     IconFileCheck,
+    IconHome,
+    IconInfoCircle,
     IconLockAccess,
     IconMoon,
     IconSchool,
@@ -42,6 +48,7 @@ import { Link } from "react-router-dom";
 import { cekStatusRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { modals } from "@mantine/modals";
 import { nprogress } from "@mantine/nprogress";
+import { useDisclosure } from "@mantine/hooks";
 import { useEffect } from "react";
 import { useForm } from "@mantine/form";
 
@@ -49,6 +56,8 @@ export default function LandingPage() {
     const dispatch = useDispatch();
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
     const { loading, cekStatus, appError } = rumahIbadah;
+    // Logic untuk buka/tutup Drawer
+    const [opened, { open, close }] = useDisclosure(false);
 
     const { setColorScheme } = useMantineColorScheme();
     const computedColorScheme = useComputedColorScheme("light", {
@@ -208,30 +217,27 @@ export default function LandingPage() {
             >
                 <Container size="lg" h="100%">
                     <Group justify="space-between" h="100%">
-                        <Group justify="space-between" h="100%">
+                        {/* Sisi Kiri: Logo Section */}
+                        <Group gap="xs" wrap="nowrap">
+                            <Burger
+                                opened={opened}
+                                onClick={open}
+                                hiddenFrom="sm" // Hilang di Desktop
+                                size="sm"
+                            />
                             <Image
                                 loading="lazy"
-                                radius="md"
-                                w={200}
-                                fit="contain"
+                                w={{ base: 120, xs: 150, sm: 200 }} // Responsif lebar logo
                                 src={
                                     computedColorScheme === "dark"
                                         ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
                                         : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
                                 }
-                                fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
-                            />
-                            <Image
-                                height={80}
-                                src={
-                                    computedColorScheme === "dark"
-                                        ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
-                                        : "https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
-                                }
-                                visibleFrom="sm"
                             />
                         </Group>
-                        <Group gap="xs">
+
+                        {/* Sisi Kanan: Action Section */}
+                        <Group gap={{ base: 5, xs: "xs" }} wrap="nowrap">
                             <ActionIcon
                                 onClick={toggleColorScheme}
                                 variant="subtle"
@@ -245,6 +251,7 @@ export default function LandingPage() {
                                 )}
                             </ActionIcon>
 
+                            {/* Tombol Login Desktop */}
                             <Button
                                 component={Link}
                                 to="/signin"
@@ -253,13 +260,93 @@ export default function LandingPage() {
                                 radius="xl"
                                 size="sm"
                                 px="xl"
+                                visibleFrom="xs"
                             >
-                                Masuk/Daftar
+                                Masuk
                             </Button>
+
+                            {/* Tombol Login Mobile (Hanya Ikon) */}
+                            {/* <ActionIcon
+                                component={Link}
+                                to="/signin"
+                                variant="filled"
+                                color="blue.7"
+                                radius="xl"
+                                size="lg"
+                                hiddenFrom="xs"
+                            >
+                                <IconUserPlus size={18} />
+                            </ActionIcon> */}
                         </Group>
                     </Group>
                 </Container>
             </AppShell.Header>
+
+            {/* --- MOBILE DRAWER --- */}
+            <Drawer
+                opened={opened}
+                onClose={close}
+                size="75%"
+                padding="md"
+                title={
+                    <Image
+                        w={120}
+                        src={
+                            computedColorScheme === "dark"
+                                ? "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/exer0f4xop5yo13nj4c8.png"
+                                : "https://res.cloudinary.com/degzbxlnx/image/upload/v1705283295/y1rm0hmh9kjhotng6nfh.png"
+                        }
+                    />
+                }
+                hiddenFrom="sm" // Pastikan tertutup otomatis jika layar di-resize ke desktop
+            >
+                <Stack gap="sm" mt="xl">
+                    <NavLink
+                        label="Beranda"
+                        leftSection={<IconHome size={20} />}
+                        component={Link}
+                        to="/"
+                        onClick={close}
+                        radius="md"
+                    />
+                    {/* <NavLink
+                        label="Persyaratan"
+                        leftSection={<IconFileCheck size={20} />}
+                        component={Link}
+                        to="/persyaratan"
+                        onClick={close}
+                        radius="md"
+                    />
+                    <NavLink
+                        label="Panduan"
+                        leftSection={<IconInfoCircle size={20} />}
+                        component={Link}
+                        to="/panduan"
+                        onClick={close}
+                        radius="md"
+                    /> */}
+
+                    <Divider my="md" label="Akun" labelPosition="center" />
+
+                    <Button
+                        component={Link}
+                        to="/signin"
+                        fullWidth
+                        radius="md"
+                        color="blue.7"
+                        leftSection={<IconUserPlus size={18} />}
+                    >
+                        Masuk / Daftar
+                    </Button>
+
+                    <Text ta="center" size="xs" style={{ opacity: 0.6 }}>
+                        © 2026. HIBAHKU. Diskominfo Prov Jambi.
+                    </Text>
+                    <Text ta="center" size="xs" style={{ opacity: 0.6 }}>
+                        <Code fw={500}>v1.1.0</Code>
+                    </Text>
+                </Stack>
+            </Drawer>
 
             <AppShell.Main
                 bg={computedColorScheme === "dark" ? "dark.8" : "gray.0"}

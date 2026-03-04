@@ -85,7 +85,7 @@ root.render(
     <MantineProvider
         theme={theme}
         colorSchemeManager={colorSchemeManager}
-        defaultColorScheme="dark"
+        defaultColorScheme="auto"
     >
         <Provider store={store}>
             <ModalsProvider>
