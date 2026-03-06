@@ -18,7 +18,6 @@ import {
     SimpleGrid,
     Stack,
     Text,
-    TextInput,
     ThemeIcon,
     Title,
     rem,
@@ -32,7 +31,6 @@ import {
     IconCloudUpload,
     IconFileCheck,
     IconHome,
-    IconInfoCircle,
     IconLockAccess,
     IconMoon,
     IconSchool,
@@ -40,7 +38,6 @@ import {
     IconShieldCheck,
     IconSun,
     IconUserPlus,
-    IconX,
 } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -56,7 +53,6 @@ export default function LandingPage() {
     const dispatch = useDispatch();
     const rumahIbadah = useSelector((state) => state?.rumahIbadah);
     const { loading, cekStatus, appError } = rumahIbadah;
-    // Logic untuk buka/tutup Drawer
     const [opened, { open, close }] = useDisclosure(false);
 
     const { setColorScheme } = useMantineColorScheme();
@@ -410,7 +406,7 @@ export default function LandingPage() {
 
                             <Title
                                 order={1}
-                                size="52px"
+                                size="45px"
                                 fw={900}
                                 style={{ lineHeight: 1.1 }}
                             >

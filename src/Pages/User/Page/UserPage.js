@@ -1,31 +1,13 @@
 import {
     Alert,
     Avatar,
-    Badge,
-    Box,
-    Button,
     Center,
     Container,
     Divider,
-    Group,
     Paper,
-    Progress,
-    SimpleGrid,
-    Skeleton,
-    Stack,
     Text,
-    ThemeIcon,
-    Title,
 } from "@mantine/core";
-import {
-    IconChartLine,
-    IconCheck,
-    IconChevronRight,
-    IconClock,
-    IconFileText,
-    IconInfoCircle,
-    IconX,
-} from "@tabler/icons-react";
+import { IconCheck, IconInfoCircle } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
