@@ -63,12 +63,12 @@ const RumahIbadahCreate = () => {
         validate: {
             id: hasLength(
                 { min: 12, max: 15 },
-                "Nomor ID SIMAS Rumah Ibadah/ No. NSPP/ No. NSM berupa angka yang terdiri dari 15-16 Karakter"
+                "Nomor ID SIMAS Rumah Ibadah/ No. NSPP/ No. NSM berupa angka yang terdiri dari 15-16 Karakter",
             ),
             nama: hasLength({ min: 3, max: 50 }, "Nama minimal 3 karakter"),
             alamat: hasLength(
                 { min: 5, max: 100 },
-                "Alamat minimal 5 karakter"
+                "Alamat minimal 5 karakter",
             ),
             wilayah: isNotEmpty("Pilih Kabupaten/Kota"),
             kategoriid: isNotEmpty("Pilih Kategori"),
@@ -179,7 +179,7 @@ const RumahIbadahCreate = () => {
 
     const [valueWilayah, setValueWilayah] = useState(null);
     const selectedOptionWilayah = wilayah.find(
-        (item) => item.description === valueWilayah
+        (item) => item.description === valueWilayah,
     );
 
     const optionsWilayah = wilayah.map((item) => (
@@ -280,7 +280,7 @@ const RumahIbadahCreate = () => {
 
             <Text ta="center">
                 Selanjutnya, silahkan kembali ke beranda dan silahkan input
-                kembali ID SIMAS/NSPP yang telah terdaftar untuk cek status.
+                kembali ID SIMAS/NSM/NSPP yang telah terdaftar untuk cek status.
             </Text>
 
             <Space h="xl" />
@@ -344,7 +344,7 @@ const RumahIbadahCreate = () => {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "id",
-                                                    event.currentTarget.value
+                                                    event.currentTarget.value,
                                                 )
                                             }
                                             error={
@@ -364,7 +364,7 @@ const RumahIbadahCreate = () => {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "id",
-                                                    event.currentTarget.value
+                                                    event.currentTarget.value,
                                                 )
                                             }
                                             error={
@@ -384,7 +384,7 @@ const RumahIbadahCreate = () => {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "nama",
-                                                    event.currentTarget.value
+                                                    event.currentTarget.value,
                                                 )
                                             }
                                             error={
@@ -404,7 +404,7 @@ const RumahIbadahCreate = () => {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "nama",
-                                                    event.currentTarget.value
+                                                    event.currentTarget.value,
                                                 )
                                             }
                                             error={
@@ -424,7 +424,7 @@ const RumahIbadahCreate = () => {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "alamat",
-                                                    event.currentTarget.value
+                                                    event.currentTarget.value,
                                                 )
                                             }
                                             error={
@@ -444,7 +444,7 @@ const RumahIbadahCreate = () => {
                                             onChange={(event) =>
                                                 form.setFieldValue(
                                                     "alamat",
-                                                    event.currentTarget.value
+                                                    event.currentTarget.value,
                                                 )
                                             }
                                             error={
@@ -463,7 +463,7 @@ const RumahIbadahCreate = () => {
                                             setValueWilayah(value);
                                             form.setFieldValue(
                                                 "wilayah",
-                                                value
+                                                value,
                                             );
                                             comboboxWilayah.closeDropdown();
                                         }}
@@ -491,13 +491,13 @@ const RumahIbadahCreate = () => {
                                                         <CloseButton
                                                             size="sm"
                                                             onMouseDown={(
-                                                                event
+                                                                event,
                                                             ) =>
                                                                 event.preventDefault()
                                                             }
                                                             onClick={() =>
                                                                 setValueWilayah(
-                                                                    null
+                                                                    null,
                                                                 )
                                                             }
                                                             aria-label="Clear value"
@@ -545,7 +545,7 @@ const RumahIbadahCreate = () => {
                                             setValue(value);
                                             form.setFieldValue(
                                                 "kategoriid",
-                                                value
+                                                value,
                                             );
                                             combobox.closeDropdown();
                                         }}
@@ -570,7 +570,7 @@ const RumahIbadahCreate = () => {
                                                         <CloseButton
                                                             size="sm"
                                                             onMouseDown={(
-                                                                event
+                                                                event,
                                                             ) =>
                                                                 event.preventDefault()
                                                             }

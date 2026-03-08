@@ -82,14 +82,14 @@ const theme = createTheme({
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <MantineProvider
-        theme={theme}
-        colorSchemeManager={colorSchemeManager}
-        defaultColorScheme="auto"
-    >
-        <Provider store={store}>
-            <ModalsProvider>
-                <BrowserRouter>
+    <BrowserRouter>
+        <MantineProvider
+            theme={theme}
+            colorSchemeManager={colorSchemeManager}
+            defaultColorScheme="auto"
+        >
+            <Provider store={store}>
+                <ModalsProvider>
                     <DatesProvider
                         settings={{
                             locale: "id",
@@ -99,8 +99,9 @@ root.render(
                         <NavigationProgress />
                         <App />
                     </DatesProvider>
-                </BrowserRouter>
-            </ModalsProvider>
-        </Provider>
-    </MantineProvider>,
+                </ModalsProvider>
+            </Provider>
+        </MantineProvider>
+        ,
+    </BrowserRouter>,
 );

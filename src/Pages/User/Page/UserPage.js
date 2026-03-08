@@ -1,23 +1,42 @@
 import {
+    ActionIcon,
     Alert,
+    Anchor,
     Avatar,
+    Button,
     Center,
     Container,
     Divider,
+    Group,
+    Image,
     Paper,
+    Stack,
     Text,
+    TextInput,
+    Title,
+    useComputedColorScheme,
 } from "@mantine/core";
-import { IconCheck, IconInfoCircle } from "@tabler/icons-react";
+import { IconCheck, IconInfoCircle, IconX } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
+import { cekStatusRumahIbadahAction } from "../../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { getAllPersetujuanAction } from "../../../redux/slices/persetujuan/persetujuanSlices";
 import { getPeriode } from "../../../redux/slices/periode/periodeSlices";
+import { modals } from "@mantine/modals";
 import { nprogress } from "@mantine/nprogress";
+import { useDisclosure } from "@mantine/hooks";
 import { useEffect } from "react";
+import { useForm } from "@mantine/form";
 
 export default function UserPage() {
     const dispatch = useDispatch();
+    const rumahIbadah = useSelector((state) => state?.rumahIbadah);
+    const { loading: loadRumahIbadah, cekStatus, appError } = rumahIbadah;
+    const [opened, { open, close }] = useDisclosure(false);
+    const computedColorScheme = useComputedColorScheme("light", {
+        getInitialValueInEffect: true,
+    });
 
     useEffect(() => {
         dispatch(getAllPersetujuanAction());
@@ -56,7 +75,7 @@ export default function UserPage() {
                 radius="md"
                 shadow="sm"
                 p="xl"
-                my="xl"
+                mt="xl"
                 style={{
                     maxWidth: 1000,
                     margin: "0 auto",
@@ -86,150 +105,238 @@ export default function UserPage() {
         );
     };
 
+    const exceptThisSymbols = ["e", "E", "+", "-", ".", ","];
+
+    const form = useForm({
+        validateInputOnChange: true,
+        initialValues: {
+            id: "",
+        },
+    });
+
+    const formOnSubmit = form.onSubmit((values) => {
+        dispatch(cekStatusRumahIbadahAction(values));
+        form.clearErrors();
+    });
+
+    // --- CLEAN CODE: MODAL CONTENT HELPERS ---
+    const ModalHeader = () => (
+        <Stack align="center" gap="xs">
+            <Image
+                src="https://res.cloudinary.com/degzbxlnx/image/upload/v1703043173/Coat_of_arms_of_Jambi.svg_iultjk.png"
+                w={100}
+                // w="auto"
+                fit="contain"
+            />
+            <Title ta="center" order={4}>
+                BIRO KESRA SETDA PROVINSI JAMBI
+            </Title>
+        </Stack>
+    );
+
+    // useEffect(() => {
+    //     loadRumahIbadah ? nprogress.start() : nprogress.complete();
+    //     return () => nprogress.reset();
+    // }, [loadRumahIbadah]);
+
+    useEffect(() => {
+        if (loadRumahIbadah || (!cekStatus && !appError)) return;
+
+        const modalConfig = {
+            centered: true,
+            withCloseButton: false,
+            closeOnClickOutside: false,
+            closeOnEscape: false,
+            radius: "md",
+            overlayProps: { backgroundOpacity: 0.55, blur: 3 },
+        };
+
+        if (appError || form.values.id.toUpperCase() === "123") {
+            modals.open({
+                ...modalConfig,
+                children: (
+                    <Stack gap="md" py="md">
+                        <ModalHeader />
+                        <Text ta="center" c="red" fw={700}>
+                            MAAF
+                        </Text>
+                        <Text size="sm" ta="center">
+                            ID SIMAS/NSM/NSPP telah terdaftar di database
+                            HIBAHKU, namun telah menerima bantuan serupa
+                            sebelumnya.
+                        </Text>
+                        {appError && (
+                            <Text size="xs" c="red" ta="center" fs="italic">
+                                {appError}
+                            </Text>
+                        )}
+                        <Button
+                            fullWidth
+                            onClick={() => modals.closeAll()}
+                            color="red"
+                        >
+                            Saya Mengerti
+                        </Button>
+                    </Stack>
+                ),
+            });
+        } else if (cekStatus) {
+            if (cekStatus.isUpload) {
+                modals.open({
+                    ...modalConfig,
+                    size: "md",
+                    children: (
+                        <Stack gap="md" py="md">
+                            <ModalHeader />
+                            <Text ta="center" c="green" fw={700}>
+                                SELAMAT
+                            </Text>
+                            <Text ta="center" size="sm">
+                                ID SIMAS/NSM/NSPP anda telah terdaftar di
+                                database HIBAHKU. Permohonan Hibah Anda{" "}
+                                <b>DAPAT DILANJUTKAN</b>.
+                            </Text>
+                            <Text ta="center" size="sm">
+                                Silahkan Klik link dibawah untuk melanjutkan
+                                permohonan.
+                            </Text>
+                            <Anchor
+                                href="/dashboard/user/dokumen"
+                                underline="never"
+                                ta="center"
+                            >
+                                KLIK DISINI
+                            </Anchor>
+                            <Button fullWidth onClick={() => modals.closeAll()}>
+                                Selesai
+                            </Button>
+                        </Stack>
+                    ),
+                });
+            } else {
+                modals.open({
+                    ...modalConfig,
+                    children: (
+                        <Stack gap="md" py="md" ta="center">
+                            <ModalHeader />
+                            <Text c="red" fw={700}>
+                                DATA TIDAK DITEMUKAN!
+                            </Text>
+                            <Text size="sm">
+                                Pastikan ID SIMAS/NSPP/NSM benar atau sudah
+                                terdaftar di sistem.
+                            </Text>
+                            <Text size="sm">
+                                Silahkan klik link dibawah untuk mendaftarkan
+                                Rumah Ibadah/Lembaga Pendidikan Keagamaan ke
+                                dalam sistem database HIBAHKU.
+                            </Text>
+                            <Anchor
+                                href="/dashboard/rumah-ibadah/user/create"
+                                underline="never"
+                                ta="center"
+                            >
+                                KLIK DISINI
+                            </Anchor>
+                            <Button
+                                fullWidth
+                                onClick={() => modals.closeAll()}
+                                color="gray"
+                            >
+                                Tutup
+                            </Button>
+                        </Stack>
+                    ),
+                });
+            }
+        }
+    }, [cekStatus, appError, loading]);
+
     return (
         <>
             <Container size="md">
                 <UserInfo />
-                {persetujuanId ? (
-                    // <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
-                    //     {/* Card 1: Status Utama (Live dari API) */}
-                    //     <Paper withBorder p="xl" radius="md" shadow="sm">
-                    //         <Stack gap="xs">
-                    //             <Group justify="space-between">
-                    //                 <Text size="xs" c="dimmed" fw={700}>
-                    //                     STATUS PENGAJUAN
-                    //                 </Text>
-                    //                 <ThemeIcon
-                    //                     variant="light"
-                    //                     color="blue"
-                    //                     radius="xl"
-                    //                 >
-                    //                     <IconChartLine size={18} />
-                    //                 </ThemeIcon>
-                    //             </Group>
 
-                    //             <Skeleton visible={loading}>
-                    //                 <Title order={2}>
-                    //                     {persetujuanList?.status || "Draft"}
-                    //                 </Title>
-                    //             </Skeleton>
+                {/* --- Check Status Section --- */}
+                <Container size="md" py="xl">
+                    <Paper
+                        p="xl"
+                        radius="lg"
+                        withBorder
+                        bg={
+                            computedColorScheme === "dark" ? "dark.7" : "blue.0"
+                        }
+                        style={{
+                            boxShadow:
+                                computedColorScheme === "dark"
+                                    ? "none"
+                                    : "0 10px 30px rgba(0,0,0,0.05)",
+                            border: `2px solid ${computedColorScheme === "dark" ? "#373A40" : "#d0ebff"}`,
+                        }}
+                    >
+                        <form onSubmit={formOnSubmit}>
+                            <Stack align="center" gap="md">
+                                <Title order={4} ta="center">
+                                    Cek Database Rumah Ibadah/Lembaga Keagamaan
+                                </Title>
+                                <Text size="xs" c="dimmed" ta="center">
+                                    Silahkan isi ID SIMAS/NSPP/NSM yang akan
+                                    menerima bantuan sistem HIBAHKU. <br />
+                                    Contoh:
+                                    011051001000000(SIMAS)/500015020000(NSM/NSPP)
+                                </Text>
 
-                    //             <Badge
-                    //                 color="blue.1"
-                    //                 c="blue.7"
-                    //                 variant="filled"
-                    //                 radius="sm"
-                    //                 fullWidth
-                    //             >
-                    //                 Menunggu Verifikasi Internal
-                    //             </Badge>
-                    //         </Stack>
-                    //     </Paper>
-
-                    //     {/* Card 2: Progres Dokumen (Visual) */}
-                    //     <Paper withBorder p="xl" radius="md" shadow="sm">
-                    //         <Stack gap="xs">
-                    //             <Text size="xs" c="dimmed" fw={700}>
-                    //                 KELENGKAPAN BERKAS
-                    //             </Text>
-                    //             <Skeleton visible={loading}>
-                    //                 <Group justify="space-between" mb={5}>
-                    //                     <Text fw={700} size="xl">
-                    //                         {persetujuanList?.percentComplete ||
-                    //                             "65"}
-                    //                         %
-                    //                     </Text>
-                    //                     <Text size="xs" c="dimmed">
-                    //                         12 dari 18 File
-                    //                     </Text>
-                    //                 </Group>
-                    //                 <Progress
-                    //                     value={
-                    //                         persetujuanList?.percentComplete ||
-                    //                         65
-                    //                     }
-                    //                     size="lg"
-                    //                     radius="xl"
-                    //                     striped
-                    //                     animated
-                    //                 />
-                    //             </Skeleton>
-                    //             <Text size="xs" c="dimmed" mt="xs">
-                    //                 Silahkan lengkapi dokumen yang kurang.
-                    //             </Text>
-                    //         </Stack>
-                    //     </Paper>
-
-                    //     {/* Card 3: Timeline Terakhir */}
-                    //     <Paper withBorder p="xl" radius="md" shadow="sm">
-                    //         <Stack gap="xs">
-                    //             <Text size="xs" c="dimmed" fw={700}>
-                    //                 UPDATE TERAKHIR
-                    //             </Text>
-                    //             <Skeleton visible={loading}>
-                    //                 <Stack gap={5}>
-                    //                     <Text fw={700} size="sm" lineClamp={1}>
-                    //                         {persetujuanList?.lastUpdateTitle ||
-                    //                             "Verifikasi Lapangan"}
-                    //                     </Text>
-                    //                     <Group gap={5}>
-                    //                         <IconClock size={12} color="gray" />
-                    //                         <Text size="xs" c="dimmed">
-                    //                             {persetujuanList?.lastUpdateDate ||
-                    //                                 "2 jam yang lalu"}
-                    //                         </Text>
-                    //                     </Group>
-                    //                 </Stack>
-                    //             </Skeleton>
-                    //             <Button
-                    //                 variant="light"
-                    //                 size="compact-xs"
-                    //                 mt="sm"
-                    //                 rightSection={
-                    //                     <IconChevronRight size={14} />
-                    //                 }
-                    //             >
-                    //                 Lihat Log Aktivitas
-                    //             </Button>
-                    //         </Stack>
-                    //     </Paper>
-                    // </SimpleGrid>
-                    <Center>
-                        <Alert
-                            variant="light"
-                            color="blue"
-                            title="INFO"
-                            icon={<IconCheck />}
-                        >
-                            PERMOHONAN ANDA TELAH BERHASIL DIAJUKAN. SILAHKAN
-                            MENUJU TAB PROGRESS UNTUK MELIHAT PERKEMBANGAN
-                            PROSES PERMOHONAN ANDA.
-                            <Divider my="sm" />
-                            <Text
-                                component={Link}
-                                to={`/dashboard/user/progres/${persetujuanId}`}
-                            >
-                                KLIK DISINI
-                            </Text>
-                        </Alert>
-                    </Center>
-                ) : (
-                    <Center>
-                        <Alert
-                            variant="light"
-                            color="red"
-                            title="MOHON MAAF"
-                            icon={<IconInfoCircle />}
-                        >
-                            ANDA BELUM PERNAH MENGAJUKAN PERMOHONAN. SILAHKAN
-                            AJUKAN PERMOHONAN MELALUI TAB PERMOHONAN.
-                            <Divider my="sm" />
-                            <Text component={Link} to="/dashboard/user/dokumen">
-                                KLIK DISINI
-                            </Text>
-                        </Alert>
-                    </Center>
-                )}
+                                <Group w="100%" mt="sm">
+                                    <TextInput
+                                        type="number"
+                                        required
+                                        placeholder="Hanya angka tanpa titik"
+                                        size="md"
+                                        radius="md"
+                                        flex={1}
+                                        {...form.getInputProps("id")}
+                                        onKeyDown={(e) =>
+                                            exceptThisSymbols.includes(e.key) &&
+                                            e.preventDefault()
+                                        }
+                                        rightSection={
+                                            form.values.id && (
+                                                <ActionIcon
+                                                    variant="subtle"
+                                                    color="gray"
+                                                    onClick={() =>
+                                                        form.setFieldValue(
+                                                            "id",
+                                                            "",
+                                                        )
+                                                    }
+                                                >
+                                                    <IconX size={16} />
+                                                </ActionIcon>
+                                            )
+                                        }
+                                    />
+                                    <Button
+                                        type="submit"
+                                        size="md"
+                                        radius="md"
+                                        color="blue.6"
+                                        loading={loadRumahIbadah}
+                                    >
+                                        Cek
+                                    </Button>
+                                </Group>
+                                <Text size="xs" c="dimmed" ta="center">
+                                    Apabila ID SIMAS/NSPP/NSM tidak ditemukan
+                                    pada sistem HIBAHKU, silahkan hubungi Biro
+                                    Kesra Setda Provinsi Jambi untuk
+                                    mendaftarkan ID SIMAS/NSPP/NSM ke sistem
+                                    HIBAHKU.
+                                </Text>
+                            </Stack>
+                        </form>
+                    </Paper>
+                </Container>
             </Container>
         </>
     );

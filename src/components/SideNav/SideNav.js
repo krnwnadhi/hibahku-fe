@@ -87,11 +87,11 @@ export default function SideNav() {
             label: "Dashboard",
             icon: IconHome2,
         },
-        {
-            link: "/dashboard/user/dokumen",
-            label: "Permohonan",
-            icon: IconFileAnalytics,
-        },
+        // {
+        //     link: "/dashboard/user/dokumen",
+        //     label: "Permohonan",
+        //     icon: IconFileAnalytics,
+        // },
         {
             link: `/dashboard/user/progres/${persetujuanId}`,
             label: "Progress",
@@ -105,11 +105,11 @@ export default function SideNav() {
             label: "Dashboard",
             icon: IconHome2,
         },
-        {
-            link: "/dashboard/user/dokumen",
-            label: "Permohonan",
-            icon: IconFileAnalytics,
-        },
+        // {
+        //     link: "/dashboard/user/dokumen",
+        //     label: "Permohonan",
+        //     icon: IconFileAnalytics,
+        // },
     ];
 
     const linksUser = persetujuanId
