@@ -96,7 +96,7 @@ export default function UserPermohonan() {
             file_suratpernyataankeabsahan: isNotEmpty("Tidak Boleh Kosong"),
             file_suratpernyataantidakhibah: isNotEmpty("Tidak Boleh Kosong"),
             file_suratrekomkemenag: isNotEmpty("Tidak Boleh Kosong"),
-            file_asetrekom: isNotEmpty("Tidak Boleh Kosong"),
+            // file_asetrekom: isNotEmpty("Tidak Boleh Kosong"),
             file_norekening: isNotEmpty("Tidak Boleh Kosong"),
         },
     });
@@ -145,12 +145,16 @@ export default function UserPermohonan() {
             <Text ta="center" c="green" inherit>
                 SELAMAT
             </Text>
-            <Text ta="center">Permohonan Anda DITERIMA</Text>
-            <Text ta="center">({today})</Text>
+            <Text ta="center" size="sm">
+                Permohonan Anda DITERIMA
+            </Text>
+            <Text ta="center" size="sm">
+                ({today})
+            </Text>
 
             <Space h="md" />
 
-            <Text ta="center">
+            <Text ta="center" size="sm">
                 Selanjutnya, untuk mengetahui perkembangan permohonan anda,
                 silahkan klik fitur
                 <Anchor href={`/dashboard/user/beranda`}>
@@ -162,7 +166,9 @@ export default function UserPermohonan() {
 
             <Space h="xl" />
 
-            <Text ta="center">Terima Kasih</Text>
+            <Text ta="center" size="sm">
+                Terima Kasih
+            </Text>
         </>
     );
 

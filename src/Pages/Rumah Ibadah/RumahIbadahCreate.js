@@ -83,7 +83,7 @@ const RumahIbadahCreate = () => {
         },
         {
             value: 2,
-            description: "Rumah Ibadah",
+            description: "Rumah Ibadah (Masjid/Musholla)",
         },
     ];
 
@@ -278,9 +278,10 @@ const RumahIbadahCreate = () => {
 
             <Space h="md" />
 
-            <Text ta="center">
+            <Text ta="center" size="sm">
                 Selanjutnya, silahkan kembali ke beranda dan silahkan input
-                kembali ID SIMAS/NSM/NSPP yang telah terdaftar untuk cek status.
+                kembali ID SIMAS/NSM/NSPP yang telah terdaftar untuk cek status
+                dan melanjutkan permohonan.
             </Text>
 
             <Space h="xl" />
@@ -315,7 +316,7 @@ const RumahIbadahCreate = () => {
                     <Paper radius="md" p="md" bg="var(--mantine-color-body)">
                         <form onSubmit={formOnSubmit}>
                             <Fieldset
-                                legend="Tambah Informasi"
+                                legend="Tambah Data"
                                 radius="md"
                                 p="xl"
                                 disabled={loading}
@@ -378,7 +379,7 @@ const RumahIbadahCreate = () => {
                                     {type === "masjid" && (
                                         <TextInput
                                             label="Nama"
-                                            description="Nama Rumah Ibadah"
+                                            description="Nama Rumah Ibadah (Masjid/Musholla)"
                                             placeholder="Min. 3 Karakter"
                                             value={form.values.nama}
                                             onChange={(event) =>
@@ -418,8 +419,8 @@ const RumahIbadahCreate = () => {
                                     {type === "masjid" && (
                                         <TextInput
                                             label="Alamat Lengkap"
-                                            description="Alamat Lengkap Rumah Ibadah"
-                                            placeholder="Jalan, RT, RW, Kel, Kec"
+                                            description="Alamat Lengkap Rumah Ibadah (Masjid/Musholla)"
+                                            placeholder="Jalan.. No.. RT.. RW.. Kel.. Kec.."
                                             value={form.values.alamat}
                                             onChange={(event) =>
                                                 form.setFieldValue(

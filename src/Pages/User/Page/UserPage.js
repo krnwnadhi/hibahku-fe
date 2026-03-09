@@ -191,14 +191,14 @@ export default function UserPage() {
                             <Text ta="center" c="green" fw={700}>
                                 SELAMAT
                             </Text>
-                            <Text ta="center" size="sm">
+                            <Text ta="center" size="xs">
                                 ID SIMAS/NSM/NSPP anda telah terdaftar di
                                 database HIBAHKU. Permohonan Hibah Anda{" "}
                                 <b>DAPAT DILANJUTKAN</b>.
                             </Text>
-                            <Text ta="center" size="sm">
+                            <Text ta="center" size="xs">
                                 Silahkan Klik link dibawah untuk melanjutkan
-                                permohonan.
+                                permohonan/Upload Berkas.
                             </Text>
                             <Anchor
                                 href="/dashboard/user/dokumen"
@@ -222,11 +222,11 @@ export default function UserPage() {
                             <Text c="red" fw={700}>
                                 DATA TIDAK DITEMUKAN!
                             </Text>
-                            <Text size="sm">
+                            <Text size="xs">
                                 Pastikan ID SIMAS/NSPP/NSM benar atau sudah
                                 terdaftar di sistem.
                             </Text>
-                            <Text size="sm">
+                            <Text size="xs">
                                 Silahkan klik link dibawah untuk mendaftarkan
                                 Rumah Ibadah/Lembaga Pendidikan Keagamaan ke
                                 dalam sistem database HIBAHKU.
