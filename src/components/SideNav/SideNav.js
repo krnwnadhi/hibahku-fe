@@ -88,7 +88,7 @@ export default function SideNav() {
             icon: IconHome2,
         },
         // {
-        //     link: "/dashboard/user/dokumen",
+        //     link: "/dashboard/user/data",
         //     label: "Permohonan",
         //     icon: IconFileAnalytics,
         // },
@@ -106,10 +106,15 @@ export default function SideNav() {
             icon: IconHome2,
         },
         // {
-        //     link: "/dashboard/user/dokumen",
+        //     link: "/dashboard/user/data",
         //     label: "Permohonan",
         //     icon: IconFileAnalytics,
         // },
+        {
+            link: `/dashboard/user/progres/${persetujuanId}`,
+            label: "Progress",
+            icon: IconTimeline,
+        },
     ];
 
     const linksUser = persetujuanId

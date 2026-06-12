@@ -149,11 +149,11 @@ export default function Register(props) {
                                     fallbackSrc="https://placehold.co/500x100/FFFFFF/000000/png?text=HIBAHKU+LOGO"
                                 />
                             </Anchor>
-                            <Image
+                            {/* <Image
                                 w={{ base: 100, xs: 115, sm: 135 }}
                                 fit="contain"
                                 src="https://res.cloudinary.com/degzbxlnx/image/upload/v1757907964/jm_4_rhrxaa.png"
-                            />
+                            /> */}
                         </Group>
                     </Center>
 
@@ -269,7 +269,7 @@ export default function Register(props) {
 
                     <Space h="md" />
 
-                    <Text size="sm" align="center">
+                    {/* <Text size="sm" align="center">
                         Copyright © 2024{" "}
                         <Anchor
                             component={Link}
@@ -294,7 +294,7 @@ export default function Register(props) {
                         >
                             Diskominfo Provinsi Jambi
                         </Anchor>{" "}
-                    </Text>
+                    </Text> */}
                 </Container>
             </BackgroundImage>
         </>

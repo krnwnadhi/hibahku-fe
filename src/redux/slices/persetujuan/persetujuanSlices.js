@@ -39,7 +39,7 @@ export const getAllPersetujuanAction = createAsyncThunk(
         } catch (error) {
             throw error;
         }
-    }
+    },
 );
 
 //get detail admin persetujuan
@@ -58,7 +58,7 @@ export const getDetailAdminPersetujuanAction = createAsyncThunk(
         try {
             const { data } = await axios.get(
                 `${basePersetujuanURL}/detail/${id}`,
-                config
+                config,
             );
             return data;
         } catch (error) {
@@ -67,7 +67,7 @@ export const getDetailAdminPersetujuanAction = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
 //get detail User persetujuan
@@ -88,7 +88,7 @@ export const getDetailUserPersetujuanAction = createAsyncThunk(
         try {
             const { data } = await axios.get(
                 `${basePersetujuanURL}/detail/user/${userId}`,
-                config
+                config,
             );
             return data;
         } catch (error) {
@@ -97,10 +97,10 @@ export const getDetailUserPersetujuanAction = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
-//get detail User persetujuan
+//Change status User persetujuan
 export const changeStatusPersetujuanAction = createAsyncThunk(
     "persetujuan/changeStatus",
     async (id, { rejectWithValue, getState, dispatch }) => {
@@ -119,7 +119,7 @@ export const changeStatusPersetujuanAction = createAsyncThunk(
             const { data } = await axios.post(
                 `${basePersetujuanURL}/${id}`,
                 id,
-                config
+                config,
             );
             return data;
         } catch (error) {
@@ -128,10 +128,10 @@ export const changeStatusPersetujuanAction = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
-//get detail User persetujuan
+//download
 export const downloadFileAction = createAsyncThunk(
     "persetujuan/download",
     async (filename, { rejectWithValue, getState, dispatch }) => {
@@ -147,7 +147,7 @@ export const downloadFileAction = createAsyncThunk(
         try {
             const { data } = await axios.get(
                 `${basePersetujuanURL}/download/${filename}`,
-                config
+                config,
             );
             return data;
         } catch (error) {
@@ -156,7 +156,7 @@ export const downloadFileAction = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
 //Hapus persetujuan
@@ -177,7 +177,7 @@ export const deleteFileAction = createAsyncThunk(
         try {
             const { data } = await axios.delete(
                 `${basePersetujuanURL}/${id}`,
-                config
+                config,
             );
 
             dispatch(resetFileDeleteAction());
@@ -189,7 +189,7 @@ export const deleteFileAction = createAsyncThunk(
             }
             return rejectWithValue(error?.response?.data);
         }
-    }
+    },
 );
 
 //slices
@@ -218,7 +218,7 @@ const persetujuan = createSlice({
             getDetailAdminPersetujuanAction.pending,
             (state, action) => {
                 state.loading = true;
-            }
+            },
         );
         builder.addCase(
             getDetailAdminPersetujuanAction.fulfilled,
@@ -227,7 +227,7 @@ const persetujuan = createSlice({
                 state.loading = false;
                 state.appError = undefined;
                 state.serverError = undefined;
-            }
+            },
         );
         builder.addCase(
             getDetailAdminPersetujuanAction.rejected,
@@ -235,7 +235,7 @@ const persetujuan = createSlice({
                 state.loading = false;
                 state.appError = action?.payload?.message;
                 state.serverError = action?.error?.message;
-            }
+            },
         );
 
         //get detail user persetujuan
@@ -243,7 +243,7 @@ const persetujuan = createSlice({
             getDetailUserPersetujuanAction.pending,
             (state, action) => {
                 state.loading = true;
-            }
+            },
         );
         builder.addCase(
             getDetailUserPersetujuanAction.fulfilled,
@@ -252,7 +252,7 @@ const persetujuan = createSlice({
                 state.loading = false;
                 state.appError = undefined;
                 state.serverError = undefined;
-            }
+            },
         );
         builder.addCase(
             getDetailUserPersetujuanAction.rejected,
@@ -260,7 +260,7 @@ const persetujuan = createSlice({
                 state.loading = false;
                 state.appError = action?.payload?.message;
                 state.serverError = action?.error?.message;
-            }
+            },
         );
 
         //change status persetujuan
@@ -268,7 +268,7 @@ const persetujuan = createSlice({
             changeStatusPersetujuanAction.pending,
             (state, action) => {
                 state.loading = true;
-            }
+            },
         );
         builder.addCase(
             changeStatusPersetujuanAction.fulfilled,
@@ -277,7 +277,7 @@ const persetujuan = createSlice({
                 state.loading = false;
                 state.appError = undefined;
                 state.serverError = undefined;
-            }
+            },
         );
         builder.addCase(
             changeStatusPersetujuanAction.rejected,
@@ -285,7 +285,7 @@ const persetujuan = createSlice({
                 state.loading = false;
                 state.appError = action?.payload?.message;
                 state.serverError = action?.error?.message;
-            }
+            },
         );
 
         //download file

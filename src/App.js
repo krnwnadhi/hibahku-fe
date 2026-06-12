@@ -23,6 +23,7 @@ import SignIn from "./Pages/Auth/SignIn/SignIn";
 import Unauthorized from "./Pages/Error/Unauthorized/Unauthorized";
 import UserPage from "./Pages/User/Page/UserPage";
 import UserPermohonan from "./Pages/User/Page/UserPermohonan";
+import UserPermohonanData from "./Pages/User/Page/UserPermohonanData.js";
 import UserStatus from "./Pages/User/Page/UserStatus";
 import { logoutUserAction } from "./redux/slices/auth/authSlices";
 import { useCallback } from "react";
@@ -83,6 +84,10 @@ function App() {
                     <Route
                         path="/dashboard/user/dokumen"
                         element={<UserPermohonan />}
+                    />
+                    <Route
+                        path="/dashboard/user/progres/:id/edit"
+                        element={<UserPermohonanData />}
                     />
                     <Route
                         path="/dashboard/user/progres/:id"

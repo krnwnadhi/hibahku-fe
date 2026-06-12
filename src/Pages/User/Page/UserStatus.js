@@ -1,5 +1,6 @@
 import {
     ActionIcon,
+    Anchor,
     Badge,
     Button,
     Center,
@@ -26,6 +27,7 @@ import {
     IconBuildingMosque,
     IconChecks,
     IconCoins,
+    IconPencil,
     IconQuestionMark,
     IconUser,
 } from "@tabler/icons-react";
@@ -100,9 +102,20 @@ export default function UserStatus() {
                 </Text>
             </Table.Td>
             <Table.Td ta="center">
-                <Button size="xs" variant="light" onClick={open}>
-                    Detail
-                </Button>
+                <Group justify="center">
+                    <Button size="compact-xs" variant="light" onClick={open}>
+                        Detail
+                    </Button>
+                    <Button
+                        size="compact-xs"
+                        variant="light"
+                        color="red"
+                        component="a"
+                        href={`/dashboard/user/progres/${persetujuanId}/edit`}
+                    >
+                        Edit
+                    </Button>
+                </Group>
                 <Modal
                     opened={opened}
                     onClose={close}
