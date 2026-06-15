@@ -146,7 +146,7 @@ export default function UserPermohonan() {
                 SELAMAT
             </Text>
             <Text ta="center" size="sm">
-                Permohonan Anda DITERIMA
+                Permohonan Anda Berhasil Di Unggah!
             </Text>
             <Text ta="center" size="sm">
                 ({today})
@@ -674,9 +674,11 @@ export default function UserPermohonan() {
 
                     {appError ? (
                         <Text ta="center" inherit>
-                            <div>Terjadi Kesalahan!</div> Silahkan refresh
-                            halaman & harap untuk mengulang upload file
-                            permohonan anda.
+                            <div>
+                                Terjadi Kesalahan! File Melebihi batas ukuran!
+                            </div>{" "}
+                            Silahkan refresh halaman & harap untuk mengulang
+                            upload file permohonan anda.
                             <Text ta="center" c="red" inherit>
                                 <Text>
                                     <div>Pesan: </div>
@@ -689,7 +691,7 @@ export default function UserPermohonan() {
                                     window.location.reload();
                                 }}
                             >
-                                Refresh
+                                Muat Ulang
                             </Button>
                         </Text>
                     ) : null}

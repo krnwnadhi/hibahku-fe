@@ -446,7 +446,7 @@ const UserPermohonanData = () => {
             // 2. Jika sukses, ubah Toast Loading menjadi Sukses dengan jeda visual (timeout)
             setTimeout(() => {
                 toast.update(toastId, {
-                    render: "Berhasil! Seluruh dokumen baru sukses diperbarui. 👌",
+                    render: "Berhasil! File sukses diperbarui.",
                     type: "success",
                     isLoading: false,
                     autoClose: 2000,

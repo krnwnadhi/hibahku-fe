@@ -110,11 +110,11 @@ export default function SideNav() {
         //     label: "Permohonan",
         //     icon: IconFileAnalytics,
         // },
-        {
-            link: `/dashboard/user/progres/${persetujuanId}`,
-            label: "Progress",
-            icon: IconTimeline,
-        },
+        // {
+        //     link: `/dashboard/user/progres/${persetujuanId}`,
+        //     label: "Progress",
+        //     icon: IconTimeline,
+        // },
     ];
 
     const linksUser = persetujuanId
