@@ -21,6 +21,7 @@ export const createPermohonan = createAsyncThunk(
 
         try {
             const formData = new FormData();
+            formData.append("tahun_pengajuan", permohonan?.tahun_pengajuan);
             formData.append("keagamaanid", permohonan?.keagamaanid);
             formData.append("tujuan", permohonan?.tujuan);
             formData.append("pengajuandana", permohonan?.pengajuandana);

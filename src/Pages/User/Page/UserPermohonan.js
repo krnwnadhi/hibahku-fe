@@ -13,6 +13,7 @@ import {
     Paper,
     Pill,
     ScrollArea,
+    Select,
     Space,
     Stack,
     Text,
@@ -53,6 +54,7 @@ export default function UserPermohonan() {
     const form = useForm({
         validateInputOnChange: true,
         initialValues: {
+            tahun_pengajuan: "2026",
             keagamaanid: "",
             tujuan: "",
             pengajuandana: "",
@@ -257,9 +259,19 @@ export default function UserPermohonan() {
                                                 : "MASJID"}
                                         </Button>
 
+                                        <Select
+                                            label="Tahun Pengajuan Hibah"
+                                            description="Pilih Tahun Pengajuan/Tahun Usulan"
+                                            data={["2025", "2026"]}
+                                            allowDeselect={false}
+                                            {...form.getInputProps(
+                                                "tahun_pengajuan",
+                                            )}
+                                        />
+
                                         {type === "masjid" && (
                                             <TextInput
-                                                mt={15}
+                                                // mt={15}
                                                 type="number"
                                                 label="ID Rumah Ibadah"
                                                 description="ID SIMAS Min. 15 angka & Tanpa TITIK"
@@ -288,7 +300,7 @@ export default function UserPermohonan() {
 
                                         {type === "lembaga" && (
                                             <TextInput
-                                                mt={15}
+                                                // mt={15}
                                                 type="number"
                                                 label="No. NSPP/NSM"
                                                 description="No. NSPP/NSM Min. 12 angka "

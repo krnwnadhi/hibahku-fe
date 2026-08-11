@@ -1713,7 +1713,7 @@ const FileCard = ({ label, fileName, icon: Icon = IconFileDescription }) => (
                             fw={500}
                             style={{ maxWidth: "100%" }}
                         >
-                            {fileName || "Tidak Ada"}{" "}
+                            {"Lihat Dokumen" || "Tidak Ada"}{" "}
                             <IconExternalLink
                                 size={10}
                                 style={{ marginLeft: 4 }}
