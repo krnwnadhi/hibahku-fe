@@ -13,6 +13,7 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
 import DarkButton from "../DarkButton/DarkButton";
 import Footer from "../Footer/Footer";
+import HibahkuVersion from "../../utils/HibahkuVersion";
 import MenuMantine from "../Menu/MenuMantine";
 import SideNav from "../SideNav/SideNav";
 import { useSelector } from "react-redux";
@@ -93,7 +94,7 @@ export default function RootLayout() {
                             />
                         </Anchor>
                     )}
-                    <Code fw={500}>v1.2.3</Code>
+                    <HibahkuVersion />
                 </Group>
 
                 <AppShell.Section component={ScrollArea} grow>

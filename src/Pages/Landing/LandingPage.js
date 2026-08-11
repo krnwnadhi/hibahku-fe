@@ -41,6 +41,7 @@ import {
 } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 
+import HibahkuVersion from "../../utils/HibahkuVersion";
 import { Link } from "react-router-dom";
 import { cekStatusRumahIbadahAction } from "../../redux/slices/rumahIbadah/rumahIbadahSlices";
 import { modals } from "@mantine/modals";
@@ -348,7 +349,7 @@ export default function LandingPage() {
                         by Diskominfo Provinsi Jambi
                     </Text>
                     <Text ta="center" size="xs" style={{ opacity: 0.6 }}>
-                        <Code fw={500}>v1.2.3</Code>
+                        <HibahkuVersion />
                     </Text>
                 </Stack>
             </Drawer>
