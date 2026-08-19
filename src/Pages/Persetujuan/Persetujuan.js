@@ -237,6 +237,14 @@ const Persetujuan = () => {
                 ),
             },
             {
+                accessorKey: "tahun_pengajuan",
+                header: "Tahun Pengajuan",
+                enableClickToCopy: true,
+                minSize: 250,
+                maxSize: 300,
+                size: 175,
+            },
+            {
                 accessorKey: "keagamaanid",
                 header: "No. SIMAS/NSPP/NSM",
                 enableClickToCopy: true,
@@ -244,6 +252,7 @@ const Persetujuan = () => {
                 maxSize: 300,
                 size: 275,
             },
+
             {
                 accessorKey: "Keagamaan.nama",
                 header: "Nama Tempat",

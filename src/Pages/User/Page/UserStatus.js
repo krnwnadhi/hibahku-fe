@@ -1,6 +1,4 @@
 import {
-    ActionIcon,
-    Anchor,
     Badge,
     Button,
     Center,
@@ -12,7 +10,6 @@ import {
     Modal,
     NumberFormatter,
     Paper,
-    Popover,
     ScrollArea,
     Stack,
     Table,
@@ -20,14 +17,12 @@ import {
     ThemeIcon,
     Title,
     rem,
-    useComputedColorScheme,
 } from "@mantine/core";
 import {
     IconBuildingBank,
     IconBuildingMosque,
     IconChecks,
     IconCoins,
-    IconPencil,
     IconQuestionMark,
     IconUser,
 } from "@tabler/icons-react";
@@ -282,6 +277,13 @@ export default function UserStatus() {
                     {item?.Proses?.keterangan}
                 </Text>
             </Table.Td>
+
+            <Table.Td ta="center">
+                <Text size="xs" ta="center">
+                    {item?.tahun_pengajuan}
+                </Text>
+            </Table.Td>
+
             <Table.Td ta="center">
                 <Text size="xs">
                     {dayjs(item?.updatedAt)
@@ -549,6 +551,9 @@ export default function UserStatus() {
                                             </Table.Th>
                                             <Table.Th ta="center">
                                                 Keterangan
+                                            </Table.Th>
+                                            <Table.Th ta="center">
+                                                Tahun Pengajuan
                                             </Table.Th>
                                             <Table.Th ta="center">
                                                 Update
